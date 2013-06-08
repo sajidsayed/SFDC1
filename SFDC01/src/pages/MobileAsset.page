@@ -1,0 +1,327 @@
+<apex:page Controller="mobileAssetExtension"  showHeader="false" sidebar="false" standardStylesheets="false">  
+ 
+<head>   
+          
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
+<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+
+    
+ <apex:include pageName="EMC_Header" />
+
+<style>
+#popupPanel-popup {
+    left: 0 !important;
+    left: auto !important;
+}
+#popupPanel {
+    width: 200px;
+    border: 1px solid #000;
+    border-right: none;
+    background: rgba(0,0,0,.5);
+    margin: -1px 0;
+}
+#popupPanel .ui-btn {
+    margin: 2em 15px;
+}
+
+
+
+
+$( "#popupPanel" ).on({
+    popupbeforeposition: function() {
+        var h = $( window ).height();
+
+        $( "#popupPanel" ).css( "height", h );
+    }
+});
+</style>
+
+<style>
+
+
+    .ui-content {
+                min-height: 775px;
+            } 
+            
+    .list li{
+                background:#blue;
+            }
+
+    .ui-li {
+                border-top: 0;
+            }
+           .ui-grid-a { margin-top: 1em;
+padding-top: .8em; margin-top: 1.4em; border-top: 1px solid
+rgba(0,0,0,.1); }
+            
+</style>                      
+ <style type='text/css'>
+    table {
+    //color: black;
+    //background: #fff;
+    //border: 1px solid #b4b4b4;
+    //font: bold 17px helvetica;
+    //padding: 0;
+    //margin-top:10px;
+    width: 100%;
+    //-webkit-border-radius: 8px;
+}
+     
+table tr td {
+    color: #666;
+    //border-bottom: 1px solid #b4b4b4;
+    //border-right: 1px solid #b4b4b4;
+    padding: 10px 10px 10px 10px;
+    //background-image: -webkit-linear-gradient(top, #fdfdfd, #eee);
+}
+         
+table tr td:last-child {
+    border-right: none;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+  </style>
+   <script type="text/javascript"> 
+   
+   
+  $(document).ready(function () {
+  $('#divID1').hide(); 
+  $('#savedTable').hide();
+  
+
+});
+   
+      //Here you need to use vclick instead of click event
+      // var selectedString ;
+        //$('ul[id="MylistView"] a').live("vclick", function (evt) {  
+          //       alert('list click');  
+            //      alert(this.innerText); 
+                  
+                  //$("#abc").text(this.innerText);
+                  // $.mobile.listview.prototype.options.filterPlaceholder =  "this.innerText"; 
+              //    $("div.ui-input-search").find("input").val(this.innerText);
+                //       $("div.ui-input-search").find("input").keyup(); 
+                       //$('#MylistView').empty();   
+                       //$("#MylistView").listview("refresh"); 
+                       //$('#myBody').hide();      
+                  //});     
+
+ 
+ 
+ //  
+        
+ $(document).ready(function () {
+   //                 $("#MylistView").delegate("a", "click", function () {
+     //                   $("div.ui-input-search").find("input").val($(this).text());
+       //                 $("div.ui-input-search").find("input").keyup();
+                           $("#lookupUpHolder").text('Account Name');
+                    });
+//});
+
+
+                    $("#lookupUpHolder").live("vclick", function (evt){
+                        //alert("Hello");
+                        $('#divID1').show();
+                        $('#myTable').hide();
+                      //  $("div.ui-input-search").find("input").keyup();
+                      //     $("#lookupUpHolder").text('Account Name');
+                    });
+                    
+                    $("#listValueSelected").live("vclick", function (evt){
+                       // alert("Value selected is "+this.innerText);
+                        $('#divID1').hide();
+                        $('#myTable').show();
+                      //  $("div.ui-input-search").find("input").keyup();
+                          $("#lookupUpHolder").text(this.innerText);
+                    });
+                    
+
+function doSomethingnow(){
+alert("Hide");
+}
+function hideTable(){
+//alert("Hide");
+$('#divID1').hide();
+$('#myTable').hide();
+$('#saveButton').hide();
+$('#savedTable').show();
+}
+
+
+</script>  
+<style>
+ .listStyle 
+{
+    
+    background-color:#ffffff;
+    border:none;
+    border-bottom: none;
+    //background-image:url('ANYNONEXISTINGIMAGE');
+    
+    //border:none;
+    //background:grey;
+}
+</style>      
+   
+  <title></title>
+  
+  <div  data-theme="b" data-role="header">
+    <a href="#leftPanel" data-icon="grid">Menu</a>
+    <H1> Enter Asset Details</H1>
+    <a href="#rightPanel" data-icon="grid">Action</a>
+  </div>
+
+ </head>
+   
+ <body id ="myBody">  
+ 
+ 
+     
+<div data-role="content">
+
+
+    
+            
+<div data-role="panel" data-position="left" id="leftPanel" data-display="overlay" >
+  	<a href="MobileAssetSearch" rel="external" >  <button data-theme="b" data-icon="search" data-mini="true">Asset</button></a>
+    <button data-theme="b" data-icon="search" data-mini="true">Account</button>
+    <button data-theme="b" data-icon="search" data-mini="true">Opportunity </button>
+</div>
+    
+<div data-role="panel" data-position="right" id="rightPanel" data-display="overlay" >
+
+    <a href="MobileAsset" rel="external" ><button data-theme="b" data-icon="back" data-mini="true" >Create New Asset</button></a>
+    <button data-theme="b" data-icon="grid" data-mini="true">Menu</button>
+    <button data-theme="b" data-icon="search" data-mini="true">Search Asset </button>
+     
+</div>    
+    
+    
+    <apex:form >
+      
+        
+    <apex:variable var="count" value="{!1}"/>    
+   <apex:repeat var="a" value="{!ListOFMobject}" id="listofNa">
+
+            
+            hi<input id="text_{!count }" name="AssetName" value="{!a.name}" type="hidden" data-clear-btn="true"/>
+      
+      	 <script>
+       //alert("hi");
+           var table = document.createElement('table');
+           var sajid=document.getElementById("text_{!count}").value;
+           alert("text_{!count} =" +sajid);
+       
+       	     if (sajid='ID')
+               {
+                   //string ss="<TD><label>Customer Asset Name</label><input id="text-3" name="AssetName" value="" type="text" data-clear-btn="true"/></TD>";
+                   //table.innerHTML = "";   
+                   // document.getElementById("addtable").appendChild(table);    
+               }
+          </script>
+ 		<apex:variable var="count" value="{!count + 1}"/>
+  		</apex:repeat>
+        
+        <script>
+        //alert("hi");
+        // document.getElementById("text-311");
+        // var sajid=document.getElementById("text-311").value;
+        // alert(sajid);
+          </script>
+    <div id="addtable">hello</div>
+        
+  <table   id ="myTable" align = "center" class="smallTable" border="0" cellspacing="50" style="margin: 0; padding: 0" >
+
+
+<TR>
+<td>
+  <a  id="lookupUpHolder" value="Account Name" data-role="button" data-icon="arrow-r" data-iconpos="right" data-theme="b" onclick="doSomething();" rel="external"></a>
+</td>
+</TR>
+        
+        
+        <TR  width ="100%">
+    <TD >Name
+        <label for="basic">Customer Asset Name</label>
+        <input id="text-3" name="AssetName" value="" type="text" data-clear-btn="true"/>                
+    </TD>
+    <TD >
+        <label class="select" for="select-choice-1">Disposition Status</label><select id="dispStat" name="dispStat">    <option value="Installed">Installed</option>    <option value="Pipeline">Pipeline</option>    <option value="Upside">Upside</option>    <option value="Comit">Comit</option></select>
+    </TD>
+</TR>
+
+<TR>
+<TD><label for="textarea-a">Configuration Details</label><textarea name="configDetails" data-mini="true" id="textarea-a"></textarea></TD>
+<TD><label class="select" for="select-choice-1">Lease Purchased</label><select id="select-choice-1" name="select-choice-1">    <option value="standard">None</option>    <option value="rush">Lease</option>    <option value="express">Purchased</option> </select></TD>
+
+</TR>
+<TR>
+<TD><label class="select" for="select-choice-1">Vendor</label><select id="vendor" name="vendor">    <option value="standard">NetApp</option>    <option value="rush">Dell</option>    <option value="express">Hitachi</option> </select></TD>
+<TD><label for="basic">Serial Number</label><input type="text" data-mini="true" name="serialNum" id="serialNum" value="" /></TD>
+</TR>
+<TR>
+    <TD><label class="select" for="select-choice-1">Product Family</label><select id="prodFamily" name="prodFamily">    <option value="standard">FAS6000</option>    <option value="rush">FAS2000</option>    <option value="express">FAS300</option> </select></TD>
+    <TD><label for="datetime-1">Order Date</label>    <input id="orderDate" name="orderDate" value="" type="datetime" data-clear-btn="false"/></TD>
+</TR>
+<TR>
+    <TD><label class="select" for="select-choice-1">Model</label><select id="model" name="model">    <option value="standard">FAS6030</option>    <option value="rush">FAS6040</option>    <option value="express">FAS6080</option> </select></TD>
+    <TD><label for="datetime-1">Install Date</label> <input id="installDate" name="installDate" value="" type="datetime" data-clear-btn="false"/></TD>
+</TR>
+
+        </table>  
+ <div id="saveButton">
+ <apex:commandButton action="{!saveData}" value="Save" onclick="hideTable(); "  rerender="pnlHeader,pnlHeader2,pnlHeader3,pnlHeader4,pnlHeader5,pnlHeader6" />
+</div>    
+
+        </apex:form> 
+        
+          
+       <div  id="divID1" data-role="content" data-type="vertical" data-theme="b" style="display: hiden" > 
+        
+         <ul  id="MylistView"  data-role="listview"  data-filter="true" data-inset="true" data-scroll="true" style="border=0;height:1000px; width =100px; overflow-y:auto;position: static;">
+
+           <apex:repeat var="a" value="{!ListOFAccounts}" id="list">
+
+            <li class="listStyle" data-icon="false" id="abc" > <A id="listValueSelected"> <apex:outputField id="listAccount" value="{!a.Name}"/></A></li>
+
+          </apex:repeat>
+
+       </ul>
+        
+     </div>  
+     
+     <div id="pnlHeader1">
+       <BR></BR>
+       
+          <BR></BR>
+           <BR></BR>
+           <BR></BR>     
+           <BR></BR>
+           <BR></BR>
+           <BR></BR>
+           <BR></BR>
+     </div>
+        <div data-role="content" id ="savedTable">    
+       <table border="2" align = "left">
+           <tr><td border ="2" bgcolor="#FFFFE0" >Name </td><td><apex:outputText id="pnlHeader2" value=" {!newAssetCreated.Name}"></apex:outputText></td></tr>
+           <tr><td border ="2" bgcolor="#FFFFE0">Disposition Status</td><td><apex:outputText id="pnlHeader3" value="{!newAssetCreated.Disposition_Status__c}"></apex:outputText></td></tr>
+           <tr><td border ="2" bgcolor="#FFFFE0">Configuration Details</td><td><apex:outputText id="pnlHeader4" value="{!newAssetCreated.Configuration_Details__c}"></apex:outputText></td></tr>
+           <tr><td border ="2" bgcolor="#FFFFE0">Vendor</td><td><apex:outputText id="pnlHeader5" value="{!newAssetCreated.Name}"></apex:outputText></td></tr>
+           <tr><td border ="2" bgcolor="#FFFFE0">Product Family</td><td><apex:outputText id="pnlHeader6" value="{!newAssetCreated.Product_Family__c}"></apex:outputText></td></tr>
+           <tr><td border ="2" bgcolor="#FFFFE0">Model</td><td><apex:outputText id="pnlHeader7" value="{!newAssetCreated.Model__c}"></apex:outputText></td></tr>
+           <tr><td border ="2" bgcolor="#FFFFE0">Serial Number</td><td><apex:outputText id="pnlHeader8" value="{!newAssetCreated.Serial_Number__c }"></apex:outputText></td></tr>
+           <tr><td border ="2" bgcolor="#FFFFE0">Product Family</td><td><apex:outputText id="pnlHeader9" value="{!newAssetCreated.Customer_Name__c}"></apex:outputText></td></tr>
+       </table>
+       </div>  
+       </div>   
+       <apex:outputText id="pnlHeader" value=" errorMessage:{!errorMessage}{!newAssetCreated.Name}"></apex:outputText>  <BR></BR>
+       
+       
+       
+     </body>  
+ 
+<apex:include pageName="EMC_Footer" rendered="{!isGuest}"/>
+</apex:page>
