@@ -1,0 +1,149 @@
+<apex:page id="presalespage" standardController="Case" extensions="Presales_Case_Page_Controller" showHeader="false" sidebar="false" standardStylesheets="true" action="{!createInstance}">
+ 
+<html>
+    <apex:include pageName="EMC_Header"/><br/>
+    
+        <script type="text/javascript">
+            function closeMe(){         
+                window.close(); 
+            }
+
+            function DisplayCompetitor()
+            {
+              var compField = document.getElementById('presalespage:myform:myBlock:blockSection:competitors');
+              var caseType = document.getElementById('presalespage:myform:myBlock:blockSection:recordType');
+              compField.value = '';
+              compField.disabled = true;
+              if(caseType.value == 'Competitive Intelligence')
+              { 
+                 compField.disabled = false;
+              }
+                          
+            }
+
+        </script>
+
+
+<apex:form id="myform">  
+    <apex:pageBlock title="Case Creation Application" tabStyle="Case" id="myBlock">
+   <apex:messages styleClass="errorMsg"/>
+        <apex:pageBlockButtons location="bottom">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton action="{!save}" value="SUBMIT"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection columns="1" collapsible="true" id="blockSection">
+        <apex:inputField value="{!Case.Theater_Site_Page__c}" required="true" id="theater" onchange="retrieveServiceType()"/>
+        <apex:inputField value="{!Case.Country__c}" required="true"/>
+        <apex:inputField value="{!Case.Record_Type_Hidden__c}" required="true" id="recordType" onchange="DisplayCompetitor();"/>
+        <apex:inputField value="{!Case.Competitors__c}"  id="competitors" />
+        
+        <apex:outputText id="declaration" value="Description of services listed below" style="display:none;color:red;"></apex:outputText>
+        
+        <apex:repeat value="{!$ObjectType.Case.FieldSets.Case_Information}" var="c">
+        <apex:inputField value="{!Case[c]}"/>
+        </apex:repeat>
+        <apex:inputField value="{!Case.Contact_Email1__c}" required="true"/>
+        </apex:pageBlockSection>
+        
+        <apex:pageBlockSection title="Case Details" columns="1" collapsible="true">
+        <apex:inputField value="{!Case.Subject}" style="width: 360px; height: 15px" required="true"/>
+        <apex:inputField value="{!Case.Description}" style="width: 360px; height: 110px" required="true"/>       
+        </apex:pageBlockSection>
+      
+       <!--  <apex:pageBlockSection title="Attachments" columns="1">
+        <apex:inputFile value="{!Attach1}"></apex:inputFile>
+        <apex:inputFile value="{!Attach2}"></apex:inputFile>
+        
+        </apex:pageBlockSection>-->
+        </apex:pageBlock>      
+        <apex:pageBlock title="Upload Attachments" >    
+            <apex:repeat value="{!newAttachments}" var="newAtt" >
+                <apex:pageBlockSection columns="3">                   
+                   <apex:pageBlockSectionItem >
+                       <apex:outputLabel value="File"/>                                                                                                   
+                       <apex:inputFile value="{!newAtt.body}" filename="{!newAtt.name}"/> 
+                          
+                    </apex:pageBlockSectionItem> 
+                           
+                    <apex:pageBlockSectionItem >                     
+                       <apex:outputLabel value="Description"/>                      
+                       <apex:inputText value="{!newAtt.Description}"/>
+                    </apex:pageBlockSectionItem>                   
+                </apex:pageBlockSection>
+            </apex:repeat>
+            <apex:commandButton value="Add More" action="{!addMore}"/>
+           <!--  <apex:commandButton value="Save" action="{!save}"/>  -->                       
+       </apex:pageBlock> 
+      
+<apex:outputPanel id="panel">
+<label id="lableid" ></label> 
+</apex:outputPanel>
+<script type="text/javascript">
+ var recordType;
+ function retrieveServiceType(){
+     var divIdName;     
+     var selectedTheater= document.getElementById('{!$Component.presalespage.myform.myBlock.blockSection.theater}').value;
+     if(selectedTheater.length>0){     
+     document.getElementById('{!$Component.presalespage.myform.myBlock.blockSection.declaration}').style.display='block';
+     Presales_Case_Page_Controller.getDescription(selectedTheater, function(result,event){
+         if(event.status){
+            recordType = result;            
+            var nameDescription= [];
+            nameDescription=recordType.split(';');            
+            var desc1=[];  
+            var j =0;
+            var x=0; 
+            var divTag = document.getElementById('{!$Component.presalespage.myform.panel}');
+            divTag.style.display='block';
+            divIdName = '<Table width="100%" border="1" style="color:red">';
+            divIdName =divIdName+ '<tr>';
+            divIdName =divIdName+ '<td><b>Service Name</b></td>';
+            divIdName =divIdName+ '<td><b>Service Description</b></td>';
+            divIdName=divIdName + '</tr>';             
+            for(var i=0;i< nameDescription.length;i++){
+                var desc = [];
+                var p=null;
+                var q=null;
+                desc = nameDescription[i].split('@');
+                p=desc[0];
+                q=desc[1];
+                desc1[x] = p;
+                x++;
+                desc1[x] = q;
+                x++;
+
+                divIdName =divIdName+ '<td>' + desc1[j] + '</td>';
+                j++;
+                divIdName =divIdName+ '<td>' + desc1[j] + '</td>';
+                j++;
+               
+                divIdName=divIdName + '</tr>';                     
+            }  
+            divIdName = divIdName + '</Table>';
+            document.getElementById('lableid').innerHTML=divIdName;                        
+         }
+    },{escape:true});
+    }
+    else if(selectedTheater.length==0){
+        divIdName='';
+        document.getElementById('{!$Component.presalespage.myform.panel}').style.display='none'; 
+        document.getElementById('{!$Component.presalespage.myform.myBlock.blockSection.declaration}').style.display='none';  
+    }
+}
+    window.onload = new function() { 
+            
+            var compField = document.getElementById('presalespage:myform:myBlock:blockSection:competitors');
+            
+            compField.disabled = true;
+            
+            };
+
+
+</script>
+<!-- <c:Presales_MultiAttachments />  --> 
+</apex:form>
+<apex:include pageName="EMC_Footer"/>
+</html>
+</apex:page>

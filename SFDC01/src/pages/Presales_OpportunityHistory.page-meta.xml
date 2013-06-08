@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>26.0</apiVersion>
+    <description>This page will be used to display opportunity history section in case detail page.</description>
+    <label>Presales_OpportunityHistory</label>
+</ApexPage>

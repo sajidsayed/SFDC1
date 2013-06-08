@@ -1,0 +1,3 @@
+<apex:page showHeader="true" sidebar="false" standardStylesheets="true" >
+    <apex:iframe scrolling="true" id="iframe" src="{!$Page.PartnerDetails}" width="100%" />
+</apex:page>

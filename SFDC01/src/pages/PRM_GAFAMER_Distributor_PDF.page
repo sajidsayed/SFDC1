@@ -1,0 +1,534 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+    28/3/12         Arif                        GAF Americas Distributor PDF 
+    25 Sep 2012  Arif                               UnCommented code for PAN GAF                                 
+    ========================================================================================================================-->
+    
+<apex:page standardController="GAF__c" extensions="PRM_GAF_VF_Controller" renderAS="PDF">
+<html>
+    <head>
+        <style>         
+            body { 
+                font-family: Arial Unicode MS; 
+                font-size: 8.0pt;
+                color: windowtext;                  
+            }
+            @page { 
+                margin-left: 2cm;
+                margin-right: 2cm;
+                margin-top: 2cm;
+                margin-bottom: 2cm;
+                
+                size:portrait;                                                       
+                @bottom-right { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                    content: "Page " counter(page) " of " counter(pages);                    
+                }
+                @bottom-left { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                                 
+                } 
+                                                   
+            }
+           div { page-break-after: auto; }
+           h5{
+                counter-increment: chapter;
+                counter-increment: section;
+           }
+           ul.b {list-style-type:solid circle;font-size: 12.0pt;font-weight:bold; }
+           ul.c {list-style-type:none;font-size: 12.0pt;font-weight:bold; }
+           ol.digitListCls {list-style-type:decimal;}
+           
+           p.padding {padding-left:0.8cm;} 
+           p.paddingSecornd {padding-left:1.2cm;} 
+           
+           
+        </style>
+    </head>
+    <body>  
+        <div>
+            <hr width="100%"/>
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="50%" align="left" ><apex:image id="theImage" value="{!$Resource.EMCLogo}" width="148px" height="56px" /></td>
+                </tr>
+            </table>            
+            <hr width="100%"/>
+            <h3>EMC Velocity Program Goal Acknowledgment Form</h3>
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Partner Name</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Partner_Name__r.Name}"/></td>
+                    <td width="20%" align="right"><u>Partner Theater</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Partner_Theater__c}"/></td>
+                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Partner Type</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Partner_Type__c}"/></td>
+                    <td width="20%" align="right"><u>GAF Start Date</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Start_Date__c}"/></td> 
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right" ><u>Velocity Tier</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Velocty_Srvce_Providr_Tier__c}"/></td>
+                    <td width="20%" align="right"><u>GAF End Date</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_End_Date__c}"/></td>
+                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Partner GAF Approver</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Partner_GAF_Approver__r.Name}"/></td>
+                    <td width="20%" align="right"><u>GAF Submission Date</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Submission_Date__c}"/></td> 
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right" ><u>GAF Submitted By</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.GAF_Submitted_By__r.Name}"/></td>
+                    <td width="20%" align="right"><u>GAF Approval Date</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Approval_Date__c}"/></td>
+                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>GAF Contact Name</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Contact_Name__c}"/></td>
+                    <td width="20%" align="right"><u>Year</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Year__c}"/></td> 
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right" ><u>GAF Contact Email</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.GAF_Contact_Email__c}"/></td>
+                    <td width="20%" align="right"><u>GAF Status</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Status__c}"/></td>
+                    
+                </tr>
+  
+            </table>
+            <hr width="100%"/>
+            <h3>Rebate Amounts</h3>         
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Q1 Total Rebate</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Q1_Total_Rebate_BRS_Consdt_Grwth_All_Ptn__c}"/></td>
+                    <td width="20%" align="right"><u>Q3 Total Rebate</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Q3_Total_Rebate_BRS_Consdt_Grwth_All_Ptn__c}"/></td>
+                </tr>
+                <tr valign="top">
+            <td width="20%" align="right"  ><u>Q2 Total Rebate</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Q2_Total_Rebate_BRS_Consdt_Grwth_All_Ptn__c}"/></td>
+            <td width="20%" align="right"><u>Q4 Total Rebate</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Q4_Tot_Rebt_BRS_Cnsld_Grwt_All_Ptr__c}"/></td>                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Total Rebate</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Tot_Rebt_BRS_Cnsld_Grwt_All_Ptr__c}"/></td>                    
+                </tr>
+           </table>
+       <hr width="100%"/>
+           <h3>Your Velocity Performance Goals are displayed below:</h3>
+       <table class="list" rules="all" columns="12" border ="1" width="100%">            
+                <tr class="headerRow">
+                    <th>                        
+                        <td align="center" colspan="2">Q1</td>
+                        <td align="center" colspan="2">Q2</td>
+                        <td align="center" colspan="2">Q3</td>
+                        <td align="center" colspan="2">Q4</td>
+                        <td align="center" colspan="2">Total</td>  
+                    </th>                    
+                </tr>
+                <tr class="headerRow">                                   
+                </tr>
+                <tr>
+                    <td>
+                        <span>All Partners</span>
+                    </td>                    
+                    <td>Revenue</td>
+                    <td>Units</td>                    
+                    <td>Revenue</td>
+                    <td>Units</td>
+                    <td>Revenue</td>
+                    <td>Units</td>
+                    <td>Revenue</td>
+                    <td>Units</td>
+                    <td>Revenue</td>
+                    <td>Units</td>                                              
+                </tr>
+                <tr>
+                    <td>BRS/Consolidate</td>
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Q1__c}"/></td>                    
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Tot__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Tot__c}"/></td>                       
+            </tr>
+        </table>
+            <table columns="12" > 
+            <tr><td>&nbsp;</td></tr>
+            </table>
+           <table class="list" rules="all" columns="12" border = "1" width="100%">  
+           <tr class="headerRow">
+                    <th>
+                        
+                    <td align="center" colspan="2">Q1</td>
+                    <td align="center" colspan="2">Q2</td>
+                    <td align="center" colspan="2">Q3</td>
+                    <td align="center" colspan="2">Q4</td>
+                    <td align="center" colspan="2">Total</td> 
+                        
+                    </th>                    
+                </tr>
+            <tr class="headerRow">                 
+                                                  
+               </tr>
+               <tr>
+                    <td>
+                    <span>Growth Partners</span>
+                    </td>                    
+                    <td>Revenue</td>
+                    <td>Units</td>                    
+                    <td>Revenue</td>
+                    <td>Units</td>
+                    <td>Revenue</td>
+                    <td>Units</td>
+                    <td>Revenue</td>
+                    <td>Units</td>
+                    <td>Revenue</td>
+                    <td>Units</td>
+                                              
+            </tr>
+            <tr>
+                <td>BRS/Consolidate</td>
+                 <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q1__c}"/></td>                    
+                    <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Tot__c}"/></td>
+                   <td><apex:outputField value="{!GAF.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Tot__c}"/></td>   
+            </tr>            
+        </table>  
+        <br></br>
+        <hr width="100%"/>
+        <h3>Goal Tracking</h3>
+        <table width = "100%" class="list" rules="all" columns="9" border = "1">
+            <tr><td align="center" colspan="9"><b>All Partners</b></td></tr>                         
+                    <tr class="headerRow">
+                        <th>                        
+                        <td align="center" colspan="9">BRS/Consolidate</td>               
+                        </th>                    
+                    </tr>
+                <tr class="headerRow">                                       
+                   </tr>
+                   <tr>
+                        <td>
+                        <span>Quarter</span>
+                        </td>                    
+                        <td >Goal Rev.</td>
+                        <td >Actual Rev.</td>                    
+                        <td>% Goal</td>
+                        <td>Revenue Rebate</td>
+                        <td>Goal Units</td>
+                        <td>Actual Units</td>
+                        <td>% Units</td>
+                        <td>Units Rebate</td>                                  
+                </tr>
+                <tr>
+                     <td>Q1</td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Goal_Q1__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Actl_Q1__c}"/></td>                    
+                     <td><apex:outputField value="{!GAF__c.BRS_Consolidate_All_Partners_Goal_Q1__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Rebt_Q1__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Goal_Q1__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Actl_Q1__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Consldate_All_Ptnrs_P_Unit_Goal_Q1__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Rebt_Q1__c}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Q2</td>
+                   
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Goal_Q2__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Actl_Q2__c}"/></td>                
+                     <td><apex:outputField value="{!GAF__c.BRS_Consolidate_All_Partners_Goal_Q2__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Rebt_Q2__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Goal_Q2__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Actl_Q2__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Consldate_All_Ptnrs_P_Unit_Goal_Q2__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Rebt_Q2__c}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Q3</td>                
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Goal_Q3__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Actl_Q3__c}"/></td>                    
+                     <td><apex:outputField value="{!GAF__c.BRS_Consolidate_All_Partners_Goal_Q3__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Rebt_Q3__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Goal_Q3__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Actl_Q3__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Consldate_All_Ptnrs_P_Unit_Goal_Q3__c}"/></td>
+                     <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Rebt_Q3__c}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Q4</td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Actl_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Consolidate_All_Partners_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Rebt_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Actl_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Consldate_All_Ptnrs_P_Unit_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Rebt_Q4__c}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Goal_Tot__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Actl_Tot__c}"/></td>                
+                    <td><apex:outputField value="{!GAF__c.BRS_Consolidate_All_Partners_Goal_Tota__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Rev_Rebt_Tot__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Goal_Tot__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Actl_Tot__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Consldate_All_Ptnrs_P_Unit_Goal_Tot__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Cnsld_All_Ptr_Unit_Rebt_Tot__c}"/></td>                   
+                </tr>
+        </table>
+        <table columns="9" > 
+               <tr><td>&nbsp;</td></tr>
+               <tr><td>&nbsp;</td></tr>
+               <tr><td>&nbsp;</td></tr>
+        </table> 
+        <br></br>
+        <br></br>          
+        <table width="100%" class="list" rules="all" columns="9" border ="1">
+                <tr><td align="center" colspan="9"><b>Growth Partners</b></td></tr>            
+                    <tr class="headerRow">
+                        <th>                        
+                        <td align="center" colspan="9">BRS/Consolidate</td>                      
+                        </th>                    
+                    </tr>
+                <tr class="headerRow">                                                 
+               </tr>
+               <tr>
+                    <td>
+                    <span>Quarter</span>
+                    </td>                    
+                    <td >Goal Rev.</td>
+                    <td >Actual Rev.</td>                    
+                    <td>% Goal</td>
+                    <td>Revenue Rebate</td>
+                    <td>Goal Units</td>
+                    <td>Actual Units</td>
+                    <td>% Units</td>
+                    <td>Units Rebate</td>                                
+            </tr>
+            <tr>
+                <td>Q1</td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q1__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Actl_Q1__c}"/></td>                
+                <td><apex:outputField value="{!GAF__c.BRS_Consolidate_Growth_Ptnrs_Goal_Q1__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Q1__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q1__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Actl_Q1__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Consldate_Grwth_Ptnrs_P_Unit_Goal_Q1__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Q1__c}"/></td>                    
+            </tr>
+            <tr>
+                <td>Q2</td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Actl_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Consolidate_Growth_Ptnrs_Goal_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Actl_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Consldate_Grwth_Ptnrs_P_Unit_Goal_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Q2__c}"/></td>                    
+            </tr>
+            <tr>
+                <td>Q3</td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Actl_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Consolidate_Growth_Ptnrs_Goal_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Actl_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Consldate_Grwth_Ptnrs_P_Unit_Goal_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Q3__c}"/></td>                    
+            </tr>
+            <tr>
+                <td>Q4</td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Actl_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Consolidate_Growth_Ptnrs_Goal_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Actl_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Consldate_Grwth_Ptnrs_P_Unit_Goal_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Q4__c}"/></td>                    
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Tot__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Actl_Tot__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Consolidate_All_Partners_Goal_Tota__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Tot__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Tot__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Actl_Tot__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Consldate_Grwth_Ptnr_P_Unit_Goal_Tot__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Tot__c}"/></td>                    
+            </tr>                
+            </table>
+
+        <hr width="100%"/>
+        <h3>Velocity Performance Goals</h3>     
+            <table width="100%" border="0" cellpadding="1px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Partners Rev Goal Q1</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Q1__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consolidate Growth Ptnrs Rev Goal Q1</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q1__c}"/></td>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Prtnrs Units Goal Q1</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Q1__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consoldate Growth Ptnrs Unit Goal Q1</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q1__c}"/></td>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Partners Rev Goal Q2</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Q2__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consolidate Growth Ptnrs Rev Goal Q2</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q2__c}"/></td>
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Prtnrs Units Goal Q2</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Q2__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consoldate Growth Ptnrs Unit Goal Q2</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q2__c}"/></td>
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Partners Rev Goal Q3</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Q3__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consolidate Growth Ptnrs Rev Goal Q3</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q3__c}"/></td>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Prtnrs Units Goal Q3</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Q3__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consoldate Growth Ptnrs Unit Goal Q3</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q3__c}"/></td>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Partners Rev Goal Q4</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Q4__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consolidate Growth Ptnrs Rev Goal Q4</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Q4__c}"/></td>
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Prtnrs Units Goal Q4</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Q4__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consoldate Growth Ptnrs Unit Goal Q4</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Q4__c}"/></td>
+                </tr>
+         <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Partnrs Rev Goal Tot</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Goal_Tot__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consoldate Growth Ptnrs Rev Goal Tot</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Goal_Tot__c}"/></td>
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consolidate All Ptnrs Units Goal Tot</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Goal_Tot__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consoldate Growth Ptnr Unit Goal Tot</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Goal_Tot__c}"/></td>
+                </tr>
+            </table>
+        <hr width="100%"/>
+        <h3>Rebates</h3>     
+            <table width="100%" border="0" cellpadding="1px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Cnsldate All Ptnrs Revenue Rebate Q1</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Rebt_Q1__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consldate Grwth Ptnrs Rev Rebate Q1</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Q1__c}"/></td>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Cnsldate All Ptnrs Revenue Rebate Q2</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Rebt_Q2__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consldate Grwth Ptnrs Rev Rebate Q2</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Q2__c}"/></td>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Cnsldate All Ptnrs Revenue Rebate Q3</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Rebt_Q3__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consldate Grwth Ptnrs Rev Rebate Q3</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Q3__c}"/></td>
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Cnsldate All Ptnrs Revenue Rebate Q4</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Rebt_Q4__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consldate Grwth Ptnrs Rev Rebate Q4</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Q4__c}"/></td>
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Cnsldate All Ptnrs Rev Rebate Total</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Rev_Rebt_Tot__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Consldate Grwth Ptnrs Rev Rebate Tot</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Rev_Rebt_Tot__c}"/></td>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consoldate All Ptnrs Units Rebate Q1</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Rebt_Q1__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Cnsldate Grwth Ptnrs Units Rebate Q1</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Q1__c}"/></td>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consoldate All Ptnrs Units Rebate Q2</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Rebt_Q2__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Cnsldate Grwth Ptnrs Units Rebate Q2</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Q2__c}"/></td>
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consoldate All Ptnrs Units Rebate Q3</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Rebt_Q3__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Cnsldate Grwth Ptnrs Units Rebate Q3</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Q3__c}"/></td>
+                </tr>
+         <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consoldate All Ptnrs Units Rebate Q4</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Rebt_Q4__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Cnsldate Grwth Ptnrs Units Rebate Q4</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Q4__c}"/></td>
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right"><u>BRS/Consldate All Ptnrs Units Rebate Tot</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.BRS_Cnsld_All_Ptr_Unit_Rebt_Tot__c}"/></td>
+                    <td width="20%" align="right"><u>BRS/Cnsldate Grwth Ptnr Units Rebate Tot</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.BRS_Cnsld_Grwt_Ptr_Unit_Rebt_Tot__c}"/></td>
+                </tr>
+            </table>
+        <hr width="100%"/>
+        <h3>Partner GAF Disclaimer</h3>     
+            <table width="100%" border="0" cellpadding="1px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right"></td>
+                    <li>
+                    <td width="80%"><apex:outputField value="{!gaf.GAF_Disclaimer__c}"/></td></li>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"></td>
+                    <li>
+                    <td width="80%"><apex:outputField value="{!gaf.GAF_Disclaimer_Details__c}"/></td></li>
+                </tr>
+    </table>
+    </div>            
+    </body>
+</html> 
+</apex:page>

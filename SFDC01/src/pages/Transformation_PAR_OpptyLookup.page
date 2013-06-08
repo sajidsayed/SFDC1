@@ -1,0 +1,124 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req      DESCRIPTION 
+ |  2/11/2013       Medhavi D.                     This Page will allow to search oppty by number
+ 
+ ======================================================================================================================== -->
+
+<apex:page id="myPage" standardController="Opportunity" extensions="Transformation_opptySearch" sidebar="false" showHeader="false" pageStyle="width=400,height=200"  >
+  <style>
+    .searchMessage { color: #204EA9; font-weight: bold;}
+  </style>
+  
+ <apex:form id="myForm">
+   <apex:pageBlock rendered="true" title="{!$Label.Oppty_Search}" id="inputblock">
+    <apex:message />
+
+       <apex:outputText style="font-weight:bold" value="{!$Label.Search_Account}:" /> 
+       <br></br>        <br></br>
+     <apex:pageBlockSection columns="2" id="inputsection"> 
+
+        
+     </apex:pageBlockSection>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <apex:outputText style="font-weight:bold" value="Opportunity Name "  />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <apex:inputtext value="{!inputOpptyName}" title="Opportunity Name" id="inputOpptyName"/><br/>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <apex:outputText style="font-weight:bold" value="Opportunity Number " /> &nbsp; 
+         <apex:inputtext value="{!inputOpptyNumber}" title="Opportunity Number" id="inputOpptyNumber"/>
+     <br/><br/>
+     
+     
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <apex:commandButton action="{!Search}" value="Search"/>
+     <apex:commandButton value="Cancel" action="{!cancelLink}"/><br></br><br/>
+   
+     <apex:commandLink action="{!clearresults}" value="{!$Label.Clear_Search_Results}" id="clearlink" style="font-weight:bold"/>
+   </apex:pageBlock>
+   
+  <apex:pageBlock title="{!$Label.Search_Results}" tabStyle="Opportunity" id="Block">
+    <apex:pageMessages />
+   <apex:outputText value="No records were found on your criteria" rendered="{!(noResult) && NOT(noCriteria)}" />
+    <apex:pageBlockTable value="{!OpptyDetails}" var="oneRow" title="Search Results" id="searchResults" rendered="{!NOT(noResult)}">
+                   
+                      <apex:column headerValue="Opportunity Name">                        
+                        <apex:outputLink value="#"  onclick="GoBackToParent('{!oneRow.Id}','{!oneRow.Name}');">{!oneRow.Name}</apex:outputLink>                             
+                    </apex:column>
+                        <apex:column headerValue="Opportunity Number">
+                       <apex:outputField value="{!oneRow.Opportunity_Number__c}"/>
+                    </apex:column> 
+                   <apex:column headerValue="Account Name">
+                        <apex:outputField value="{!oneRow.Account.name}"/>   
+                    </apex:column> 
+                   
+                    <apex:column headerValue="Forecast status">
+                        <apex:outputField value="{!oneRow.StageName}"/>            
+                    </apex:column>
+
+                     <apex:column headerValue="Close date">
+                        <apex:outputField value="{!oneRow.Opportunity_Closed_Date__c}" />                    
+                    </apex:column>                  
+                    
+                    <apex:column headerValue="Forecast amount">
+                        <apex:outputField value="{!oneRow.BRS_Total_Forecast_Amount__c}" />                    
+                    </apex:column>   
+                    
+                    <apex:column headerValue="Quote amount">
+                        <apex:outputField value="{!oneRow.Quote_Amount__c}" />                    
+                    </apex:column>  
+
+                   
+                    
+                </apex:pageBlockTable>
+ 
+  </apex:pageBlock>
+ <apex:outputPanel id="successPanel">
+       <apex:inputHidden id="lkfm" value="{!frmId}"  />
+<apex:inputHidden id="lknm" value="{!cntId}" />
+<apex:inputHidden id="lksrch" value="{!lksrch}" />
+<apex:inputHidden id="lktp" value="{!lktp}" />
+
+       <apex:inputHidden id="sortAscending1" value="{!sortAscending1}" />
+       <apex:inputHidden id="srt" value="{!sortField1}" /> 
+       <apex:actionStatus id="sortStatus" startText="Loading....">
+       </apex:actionStatus>
+    </apex:outputPanel>
+  
+   <!-- <apex:actionFunction name="populateAction"  action="{!populateValues}"/>  -->
+  </apex:form>
+  
+<script>
+            function GoBackToParent(recId, recName)
+            {
+                
+                try{
+                     //top.window.opener.lookupPick('editPage','CF00N70000002sgdS_lkid','CF00N70000002sgdS','',recId,recName,'','');
+                    //window.open('https://cs12.salesforce.com/a3P/e?retURL=%2Fa3P%2Fo&CF00N70000002sgdS='+recName );
+                    var oid= '{!strOpp}';
+                  
+                    if(oid != ''){
+//                   window.parent.location.href  ='https://emccorp--sfdc03.cs12.my.salesforce.com/'+oid+'/e?retURL=%2F'+oid+'&CF00N70000002sgdS='+recName+'&CF00N70000002sgdS_lkid='+recId;
+                  window.parent.location.href  ='/'+oid+'/e?retURL=%2F'+oid+'&CF00N70000002sgdS='+recName+'&CF00N70000002sgdS_lkid='+recId;
+                                     
+                   }
+                   else{
+                    window.parent.location.href  ='/a3P/e?retURL=%2Fa3P%2Fo&CF00N70000002sgdS='+recName;
+                   }
+                     
+            }
+            catch(e){
+               
+            }
+            //   window.top.close() ;              
+            }
+            function ClearList()
+            {
+              alert('hii');
+            }
+        </script>
+</apex:page>

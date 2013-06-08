@@ -1,0 +1,94 @@
+<!--/*===========================================================================+
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE            DEVELOPER       WR/DEFECT       DESCRIPTION                               
+ |  ====            =========       =========       =========== 
+ | 03.10.2012      Avinash Kaltari     211984          Initial Creation.  MOJO Related Opportunities related list on opp detail page.
+ +========================================================================================================================*/-->
+<apex:page standardController="Asset__c" extensions="SFA_MOJO_RelatedOpportunitiesController" showHeader="false" sidebar="false">
+    <apex:form >
+        
+        <apex:pageMessages />
+        
+        <!-- <apex:pageblock id="CustomList" >
+
+            <apex:outputPanel layout="block" rendered="{!lstRelatedOpportunities.size == 0}" style="border: 1px solid #D4DADC; padding: 5px 2px 4px 5px;">
+
+                <span>No records to display</span>
+            </apex:outputPanel>
+                
+                <apex:actionStatus id="statusProduct">
+                    <apex:facet name="start"><apex:image url="{!$Resource.AjaxLoader}" /></apex:facet>
+                </apex:actionStatus>
+                
+                <apex:pageBlockTable value="{!lstRelatedOpportunities}" var="opp" id="oppblock" rendered="{!lstRelatedOpportunities.size != 0}"  >
+
+                    <apex:column >
+                        <apex:facet name="header"> Related Opportunity </apex:facet>
+                        <apex:outputLink target="_blank" value="/{!opp.Id}"> {!opp.Name}  </apex:outputLink>
+                    </apex:column>
+
+                    <apex:column value="{!opp.Opportunity_Number__c}"/>
+
+                    <apex:column value="{!opp.StageName}"/>
+
+                    <apex:column value="{!opp.SO_Number__c}"/>
+
+                    <apex:column >
+                        <apex:facet name="header"> Customer Number </apex:facet>
+                        <apex:outputText value="{!opp.Account.Party_ID__c}"/>
+                    </apex:column>
+
+                </apex:pageBlockTable>
+
+            <apex:outputPanel id="pagingPanel" rendered="{!(NOT(lstRelatedOpportunities.size == 0))}">
+            
+            <c:paginator reRenderComponent="oppblock,  pagingPanel" pageManager="{!objPageManager}" statusComponent="statusProduct" id="bottom_paginator"/>                                                 
+            
+            </apex:outputPanel>
+        </apex:pageblock> -->
+
+
+        <apex:pageblock id="CustomList" >
+        
+        <!-- <apex:pageBlockButtons location="Top"  >
+           <apex:commandButton title="Link" value="Link"  disabled="{!OpportunityClosed}" action="{!linkToOpportunity}" />
+           <apex:commandButton title="UnLink" value="UnLink" disabled="{!astWrapper.size == 0}"  action="{!delinkopp}"/>
+           </apex:pageBlockButtons> -->
+
+            <apex:outputPanel layout="block"
+            rendered="{!lstRelatedOpportunities.size == 0}"
+            style="border: 1px solid #D4DADC; padding: 5px 2px 4px 5px;">
+
+            <span>No records to display</span>
+            </apex:outputPanel>
+             <apex:actionStatus id="statusProduct">
+                        <apex:facet name="start"><apex:image url="{!$Resource.AjaxLoader}" /></apex:facet>
+                    </apex:actionStatus>
+            <apex:pageBlockTable value="{!oppsDetails}" var="opp" id="oppblock" rendered="{!oppsDetails.size != 0}"  >
+                
+                <apex:column >
+                    <apex:facet name="header"> Related Opportunity </apex:facet>
+                    <apex:outputLink target="_blank" value="/{!opp.Id}"> {!opp.Name}  </apex:outputLink>
+                </apex:column>
+
+                <apex:column value="{!opp.Opportunity_Number__c}"/>
+
+                <apex:column value="{!opp.StageName}"/>
+
+                <apex:column value="{!opp.SO_Number__c}"/>
+
+                <apex:column >
+                    <apex:facet name="header"> Customer Number </apex:facet>
+                    <apex:outputText value="{!opp.Account.Party_ID__c}"/>
+                </apex:column>
+
+           </apex:pageBlockTable>
+              <apex:outputPanel id="pagingPanel" rendered="{!(NOT(oppsDetails.size == 0))}">
+                         <c:paginator reRenderComponent="oppblock,  pagingPanel" pageManager="{!objPageManager}" statusComponent="statusProduct" id="bottom_paginator"/>                                                 
+              </apex:outputPanel>
+         </apex:pageblock>
+
+
+    </apex:form>
+</apex:page>

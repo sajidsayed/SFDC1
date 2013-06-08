@@ -1,0 +1,59 @@
+<!-- =======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  11-10-2010      Anand Sharma    #1185       This page will be used to select new owner for the lead.
+ 
+    =====================================================================================================================-->
+
+<apex:page id="massLeadOwnerChange" standardController="Lead" extensions="PRM_MassLeadOwnerChange" recordSetVar="Lead" tabStyle="Lead" 
+	action="{!FetchLeadRecords}" >
+	<script type="text/javascript">
+		function RedirectToPage(){	
+			var strValue = document.getElementById('{!$Component.massLeadOwnerChange.changeOwnerForm.isSuccess}').value;			
+			var listViewId = "{!strLeadViewId}";					
+			if(strValue == 'true'){
+				alert("{! $Label.PRM_Lead_Owner_Change_Success_Message}");				
+				if(listViewId==''){
+					window.location= '/00Q';
+				}else{
+					window.location= '/00Q?fcf='+  listViewId;
+				}
+			}			
+		}
+	</script>
+	<apex:form id="changeOwnerForm">
+		<apex:outputPanel id="errorMessage" rendered="{!NOT(isSuccess)}">
+			<apex:pageMessages />										      	            	            	
+           	<apex:outputPanel id="backPanel" styleClass="align-text:center">        	
+        		<center>
+        			<apex:commandButton action="{!Cancel}" value="{! $Label.PRM_Lead_Owner_Change_Back}" 
+        			style="text-align:center"/>
+       			</center> 
+        	</apex:outputPanel>        	
+        </apex:outputPanel>
+        <apex:outputPanel id="pnlSearch" rendered="{!isSuccess}">        	 
+        	<apex:inputHidden id="isSuccess" value="{!isSuccess}"/>               
+			<apex:sectionHeader title="{! $Label.PRM_Lead_Owner_Change_Title_PB}"/>
+			<apex:outputPanel id="detailMessage">
+				<span>{! $Label.PRM_Lead_Owner_Change_Detail_Description_1}</span> 
+				<ul><li class="event">{! $Label.PRM_Lead_Owner_Change_Detail_Description_2}</li></ul>
+				<ul><li>{! $Label.PRM_Lead_Owner_Change_Detail_Description_3}</li></ul>
+				{! $Label.PRM_Lead_Owner_Change_Detail_Description_4}
+			</apex:outputPanel>
+			<br/><br/><br/>	
+	 
+			<apex:outputPanel id="pnlcomponent"> 
+				<apex:PageBlock >
+					<apex:pageBlockButtons >			
+						<apex:commandButton action="{!ChangeOwner}" value="{! $Label.PRM_Lead_Owner_Change_Button_Save}" onComplete="RedirectToPage();"
+							rendered="{!objSearchUserQueueCon.selectedOwnerId !=null}" reRender="errorMessage, pnlSearch, changeOwnerForm"/>
+						<apex:commandButton action="{!Cancel}" value="{! $Label.PRM_Lead_Owner_Change_Button_Cancel}" 
+							reRender="errorMessage"/>
+					</apex:pageBlockButtons>
+					<c:SearchUserQueue id="comUserDetails" objSearchUserQueueCon="{!objSearchUserQueueCon}" 
+						reRenderComponent="pnlcomponent"/>
+				</apex:PageBlock>			
+			</apex:outputPanel>	
+		</apex:outputPanel>		
+	</apex:form>
+</apex:page>

@@ -1,0 +1,544 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  23-11-2010      Anand Sharma    #1187       This page will be used to display PDF documentation of Channel Plan 
+                                                And Respective Objective, Open Activity, Activity History .
+ |	10-01-2011		Anand Sharma				Removed Activity History from PDF for CAP                                                   
+    ========================================================================================================================-->
+
+<apex:page standardController="SFDC_Channel_Account_Plan__c" extensions="PRM_ChannelAccountPlanExtension" renderAS="PDF">
+<html>
+    <head>
+        <style>         
+            body { 
+                font-family: Arial Unicode MS; 
+                font-size: 8.0pt;
+                color: windowtext;                  
+            }
+            @page { 
+                margin-left: 2cm;
+                margin-right: 2cm;
+                margin-top: 2cm;
+                margin-bottom: 2cm;
+                
+                size:landscape;                                                       
+                @bottom-right { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                    content: "Page " counter(page) " of " counter(pages);                    
+                }
+                @bottom-left { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                    content: "Channel Plan : {!SFDC_Channel_Account_Plan__c.Name}";                 
+                } 
+                                                   
+            }
+           div { page-break-after: always; }
+
+        </style>
+    </head>
+    <body>  
+        <div>
+            <table width="100%" border="0" cellpadding="5px" cellspacing="0">
+                <tr valign="top">
+                    <td width="50%" align="left" ><apex:image id="theImage" value="{!$Resource.EMCLogo}" width="148px" height="56px" /></td>
+                    <td width="50%" align="right"><h1>{!SFDC_Channel_Account_Plan__c.Name}</h1></td>                    
+                </tr>
+            </table>            
+            <hr width="100%"/>          
+            <h3>Channel Account Plans Detail</h3>
+            <table width="100%" border="0" cellpadding="5px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Channel Plan Name </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Name}"/></td>
+                    <td width="20%" align="right"><u>Active</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Active__c}"/></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Partner </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Partner_Account__c}"/></td>
+                    <td width="20%" align="right"><u>CAP Status</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Status__c}"/></td> 
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"  ><u>Current Velocity Tier </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Current_Velocity_Tier__c}"/></td>
+                    <td width="20%" align="right" ><u>Plan Period</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Period__c}"/></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Plan Start</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Plan_Start__c}"/></td>
+                    <td width="20%" align="right"><u>Plan End</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Plan_End__c}"/></td>
+                </tr>               
+                <tr valign="top">
+                    <td width="20%" align="right"  ><u>Total # Employees </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Total_Employees__c}"/></td>
+                    <td width="20%" align="right"><u>GAF Velocity Revenue</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.GAF_Velocity_Revenue__c}"/></td>                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Total # Employees with EMC Focus </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Employess_with_EMC_Focus__c}"/></td>
+                    <td width="20%" align="right"><u>EMC Channel Manager (CAM)</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.EMC_CAM__c}"/></td>                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Duration of EMC Partnership</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Duration_of_EMC_Partnership__c}"/></td>
+                    <td width="20%" align="right"><u>EMC Sales Mgt. Approver </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.EMC_Sales_Mgt_Approver__c}"/></td>                  
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Go To Market Strategy </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Go_to_Market__c}"/></td>
+                    <td width="20%" align="right" ><u>Partner Approver</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Partner_Approver__c}"/></td>                                        
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Business Challenges </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Business_Challenges__c}"/></td>
+                    <td width="20%" align="right"><u>Partner Rejection Reason</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Partner_Rejection_Reason__c}"/></td> 
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Value Proposition  </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Value_Proposition__c}"/></td>
+                    <td width="20%" align="right"><u>Lock CAP </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Lock_CAP__c}"/></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Vertical Market Expertise</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Vertical_Market_Expertise__c}"/></td>
+                    <td width="20%" align="right"></td>
+                    <td width="25%"></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Relevance Factor</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Relevance_Factor__c}"/></td>
+                    <td width="20%" align="right"></td>
+                    <td width="25%"></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Notes </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Notes__c}"/></td>
+                    <td width="20%" align="right"></td>
+                    <td width="25%"></td>
+                </tr>
+            </table>
+            <h3>Partner Financials</h3>     
+            <table width="100%" border="0" cellpadding="5px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right"  ><u>Total Revenue </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Total_Revenue__c}"/></td>
+                    <td width="20%" align="right"><u>Total Revenue (with EMC)</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.EMC_Revenue_with_Partner__c}"/></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"  ><u>Previous Year Revenue </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Previous_Year_Revenue__c}"/></td>
+                    <td width="20%" align="right"><u>Previous Year Revenue (with EMC)</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Previous_Year_Rev_with_EMC__c}"/></td> 
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"  ><u>Co-Op Dollars Accrued </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Co_Op_Dollars_Accrued__c}"/></td>
+                    <td width="20%" align="right"></td>
+                    <td width="25%"></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Co-Op Dollars Spent </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Co_Op_Dollars_Spent__c}"/></td>
+                    <td width="20%" align="right"></td>
+                    <td width="25%"></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Co-Op Dollars Expired</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Co_Op_Dollars_Expired__c}"/></td>
+                    <td width="20%" align="right"></td>
+                    <td width="25%"></td>
+                </tr>               
+            </table>
+            <h3>Velocity Program / Specialties</h3> 
+            <table width="100%" border="0" cellpadding="5px" cellspacing="0"> 
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Specialty - Consolidate</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Specialty_Consolidate__c}"/></td> 
+                    <td width="20%" align="right"></td>
+                    <td width="25%"></td>
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"><u>Specialty - Advanced Consolidate</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Specialty_Advanced_Consolidate__c}"/></td> 
+                    <td width="20%" align="right"><u></u></td>
+                    <td width="25%"></td>
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"><u>Specialty - Backup And Recovery</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Specialty_Backup_Recovery__c}"/></td> 
+                    <td width="20%" align="right"><u></u></td>
+                    <td width="25%"></td>
+                </tr>	
+				<tr valign="top">
+                    <td width="20%" align="right"><u>Specialty - Governance And Archive</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Specialty_Governance_Archive__c}"/></td> 
+                    <td width="20%" align="right"><u></u></td>
+                    <td width="25%"></td>
+                </tr>									
+            </table>
+             
+            <h3>System Information</h3>     
+            <table width="100%" border="0" cellpadding="5px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Created By </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.CreatedById}"/></td>
+                    <td width="20%" align="right"><u>Last Modified By</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.LastModifiedByID}"/></td>
+                </tr>
+            </table>
+            <br/> 
+            <h2>Activity History ( No of records: {!lstActivityHistories.size} )</h2>
+            <apex:repeat var="activityHistoryRecord" value="{!lstActivityHistories}">
+                <apex:outputField value="{!activityHistoryRecord.Subject}"/>
+                <hr width="100%"/>
+                <table width="100%" border="0" cellpadding="5px" cellspacing="0">
+                    <tr valign="top">
+                        <td width="20%" align="right"  ><u>Assigned To </u></td>
+                        <td width="35%"><apex:outputField value="{!activityHistoryRecord.OwnerId}"/></td>
+                        <td width="20%" align="right"><u>Related To</u></td>
+                        <td width="25%"><apex:outputField value="{!activityHistoryRecord.WhatId}"/></td>
+                        
+                    </tr> 
+                    <tr valign="top">
+                        <td width="20%" align="right" ><u>Subject </u></td>
+                        <td width="35%"><apex:outputField value="{!activityHistoryRecord.Subject}"/></td>
+                        <td width="20%" align="right"><u>Name </u></td>
+                        <td width="25%"><apex:outputField value="{!activityHistoryRecord.WhoId}"/></td>                     
+                    </tr>   
+                    <tr valign="top">
+                        <td width="20%" align="right" ><u>Type</u></td>
+                        <td width="25%"><apex:outputField value="{!activityHistoryRecord.Activity_Type__c}"/></td>
+                        <td width="20%" align="right"></td>
+                        <td width="25%"></td>
+                    </tr> 
+                    <tr valign="top">
+                        <td width="20%" align="right" ><u>Type Details </u></td>
+                        <td width="35%"><apex:outputField value="{!activityHistoryRecord.Type_Details__c}"/></td>
+                        <td width="20%" align="right"><u>Due Date </u></td>
+                        <td width="25%"><apex:outputField value="{!activityHistoryRecord.ActivityDate}"/></td>                      
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%" align="right" ><u>CMA Type Details </u></td>
+                        <td width="35%"><apex:outputField value="{!activityHistoryRecord.CMA_Type_Details__c}"/></td>
+                        <td width="20%" align="right" ><u>Status </u></td>
+                        <td width="25%"><apex:outputField value="{!activityHistoryRecord.Status}"/></td>                        
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%" align="right" ><u>Outcome </u></td>
+                        <td width="35%"><apex:outputField value="{!activityHistoryRecord.Outcome__c}"/></td>
+                        <td width="20%" align="right"><u>Priority</u></td>
+                        <td width="25%"><apex:outputField value="{!activityHistoryRecord.Priority}"/></td>
+                    </tr>   
+                    <tr valign="top">
+                        <td width="20%" align="right" ><u>Marketing Campaign </u></td>
+                        <td width="35%"><apex:outputField value="{!activityHistoryRecord.Marketing_Campaign__c}"/></td>
+                        <td width="20%" align="right"></td>
+                        <td width="25%"></td>
+                    </tr>   
+                    <tr valign="top">
+                        <td width="20%" align="right" ><u>Comments</u></td>
+                        <td width="35%"><apex:outputField value="{!activityHistoryRecord.Description}"/></td>
+                        <td width="20%" align="right"></td>
+                        <td width="25%"></td>
+                    </tr> 
+                    <tr valign="top">
+                        <td width="20%" align="right" ><u>Notification Help</u></td>
+                        <td width="35%"><apex:outputField value="{!activityHistoryRecord.Notification_Help__c}"/></td>
+                        <td width="20%" align="right"></td>
+                        <td width="25%"></td>
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%" align="right" ><u>Created By </u></td>
+                        <td width="35%"><apex:outputField value="{!activityHistoryRecord.CreatedById}"/></td>
+                        <td width="20%" align="right"><u>Last Modified By</u></td>
+                        <td width="25%"><apex:outputField value="{!activityHistoryRecord.LastModifiedByID}"/></td>
+                    </tr>                                  
+                </table>
+                <br/>
+            </apex:repeat>
+                     
+        </div>
+        <div>
+            <h2>Objectives (No of records:  {!lstObjective.size} )</h2>         
+            <apex:repeat var="objectiveRecord" value="{!lstObjective}">
+                <div>               
+                    <h3>{!objectiveRecord.Name}</h3>
+                    <hr width="100%"/>
+                    <h3>Objective Detail</h3>
+                    <table width="100%" border="0" cellpadding="2px" cellspacing="0">     
+                        <tr valign="top">
+                            <td width="20%" align="right" ><u>Objective Name </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Name}"/></td>
+                            <td width="20%" align="right"><u></u></td>
+                            <td width="25%"></td>
+                        </tr> 
+						<tr valign="top">
+                            <td width="20%" align="right" ><u>Parent Objective Type </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Objective_Type__c}"/></td>
+                            <td width="20%" align="right"><u></u></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="20%" align="right" ><u>Industry Focus </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Industry_Focus__c}"/></td>
+                            <td width="20%" align="right"><u>Solution Focus</u></td>
+                            <td width="25%"><apex:outputField value="{!objectiveRecord.Solution_Focus__c}"/></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="20%" align="right" ><u>Priority </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Priority__c}"/></td>
+                            <td width="20%" align="right"><u>Funding Type</u></td>
+                            <td width="25%"><apex:outputField value="{!objectiveRecord.Funding_Type__c}"/></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="20%" align="right" ><u>Start Date </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Start_Date__c}"/></td>
+                            <td width="20%" align="right"><u>End Date</u></td>
+                            <td width="25%"><apex:outputField value="{!objectiveRecord.End_Date__c}"/></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="20%" align="right"><u>Objective Strategy </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Objective_Strategy__c}"/></td>
+                            <td width="20%" align="right"></td>
+                            <td width="25%"></td>
+                        </tr>
+                    </table>
+                    <h3>Objective Tracking</h3>
+                    <table width="100%" border="0" cellpadding="2px" cellspacing="0">       
+                        <tr valign="top">
+                            <td width="20%" align="right"><u>Status </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Status__c}"/></td>
+                            <td width="20%" align="right"><u>Metric Goal</u></td>
+                            <td width="25%"><apex:outputField value="{!objectiveRecord.Metric_Goal__c}"/></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="20%" align="right" ><u>Days Left/ (Over)</u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Days_Left_Over__c}"/></td>
+                            <td width="20%" align="right"><u>Metric Result</u></td>
+                            <td width="25%"><apex:outputField value="{!objectiveRecord.Metric_Result__c}"/></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="20%" align="right" ><u>Stage </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Stage__c}"/></td>
+                            <td width="20%" align="right"><u>% Goal Attained</u></td>
+                            <td width="25%"><apex:outputField value="{!objectiveRecord.Goal_Attained__c}"/></td>
+                        </tr>   
+                        <tr valign="top">
+                            <td width="20%" align="right" ><u>Tracking Comments </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.Tracking_Comments__c}"/></td>
+                            <td width="20%" align="right"><u>Objective Owner</u></td>
+                            <td width="25%"><apex:outputField value="{!objectiveRecord.Objective_Owner__c}"/></td>
+                        </tr>
+                    </table>
+                    <h3>System Information</h3>
+                    <table width="100%" border="0" cellpadding="2px" cellspacing="0">           
+                        <tr valign="top">
+                            <td width="20%" align="right" ><u>Created By </u></td>
+                            <td width="35%"><apex:outputField value="{!objectiveRecord.CreatedById}"/></td>
+                            <td width="20%" align="right"><u>Last Modified By</u></td>
+                            <td width="25%"><apex:outputField value="{!objectiveRecord.LastModifiedByID}"/></td>
+                        </tr>               
+                    </table>
+                    <br/>
+                    <h2>Open Activities ( No of records: {!objectiveRecord.OpenActivities.size} )</h2>
+                    <apex:repeat var="openActivityRecord" value="{!objectiveRecord.OpenActivities}">
+                        <apex:outputField value="{!openActivityRecord.Subject}"/>
+                        <hr width="100%"/>
+                        <table width="100%" border="0" cellpadding="5px" cellspacing="0">
+                            <tr valign="top">
+                                <td width="20%" align="right"  ><u>Assigned To </u></td>
+                                <td width="35%"><apex:outputField value="{!openActivityRecord.OwnerId}"/></td>
+                                <td width="20%" align="right"><u>Related To</u></td>
+                                <td width="25%"><apex:outputField value="{!openActivityRecord.WhatId}"/></td>
+                                
+                            </tr> 
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Subject </u></td>
+                                <td width="35%"><apex:outputField value="{!openActivityRecord.Subject}"/></td>
+                                <td width="20%" align="right"><u>Name </u></td>
+                                <td width="25%"><apex:outputField value="{!openActivityRecord.WhoId}"/></td>                        
+                            </tr>   
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Type</u></td>
+                                <td width="25%"><apex:outputField value="{!openActivityRecord.Activity_Type__c}"/></td>
+                                <td width="20%" align="right"></td>
+                                <td width="25%"></td>
+                            </tr> 
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Type Details </u></td>
+                                <td width="35%"><apex:outputField value="{!openActivityRecord.Type_Details__c}"/></td>
+                                <td width="20%" align="right"><u>Due Date </u></td>
+                                <td width="25%"><apex:outputField value="{!openActivityRecord.ActivityDate}"/></td>                     
+                            </tr>
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>CMA Type Details </u></td>
+                                <td width="35%"><apex:outputField value="{!openActivityRecord.CMA_Type_Details__c}"/></td>
+                                <td width="20%" align="right" ><u>Status </u></td>
+                                <td width="25%"><apex:outputField value="{!openActivityRecord.Status}"/></td>                       
+                            </tr>
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Outcome </u></td>
+                                <td width="35%"><apex:outputField value="{!openActivityRecord.Outcome__c}"/></td>
+                                <td width="20%" align="right"><u>Priority</u></td>
+                                <td width="25%"><apex:outputField value="{!openActivityRecord.Priority}"/></td>
+                            </tr>   
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Marketing Campaign </u></td>
+                                <td width="35%"><apex:outputField value="{!openActivityRecord.Marketing_Campaign__c}"/></td>
+                                <td width="20%" align="right"></td>
+                                <td width="25%"></td>
+                            </tr>   
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Comments</u></td>
+                                <td width="35%"><apex:outputField value="{!openActivityRecord.Description}"/></td>
+                                <td width="20%" align="right"></td>
+                                <td width="25%"></td>
+                            </tr> 
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Notification Help</u></td>
+                                <td width="35%"><apex:outputField value="{!openActivityRecord.Notification_Help__c}"/></td>
+                                <td width="20%" align="right"></td>
+                                <td width="25%"></td>
+                            </tr>
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Created By </u></td>
+                                <td width="35%"><apex:outputField value="{!openActivityRecord.CreatedById}"/></td>
+                                <td width="20%" align="right"><u>Last Modified By</u></td>
+                                <td width="25%"><apex:outputField value="{!openActivityRecord.LastModifiedByID}"/></td>
+                            </tr>                                  
+                        </table>
+                        <br/>
+                    </apex:repeat>  
+                    <h2>Activity History ( No of records: {!objectiveRecord.ActivityHistories.size} )</h2>
+                    <apex:repeat var="activityHistoryRecord" value="{!objectiveRecord.ActivityHistories}">
+                        <apex:outputField value="{!activityHistoryRecord.Subject}"/>
+                        <hr width="100%"/>
+                        <table width="100%" border="0" cellpadding="5px" cellspacing="0">
+                            <tr valign="top">
+                                <td width="20%" align="right"  ><u>Assigned To </u></td>
+                                <td width="35%"><apex:outputField value="{!activityHistoryRecord.OwnerId}"/></td>
+                                <td width="20%" align="right"><u>Related To</u></td>
+                                <td width="25%"><apex:outputField value="{!activityHistoryRecord.WhatId}"/></td>
+                                
+                            </tr> 
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Subject </u></td>
+                                <td width="35%"><apex:outputField value="{!activityHistoryRecord.Subject}"/></td>
+                                <td width="20%" align="right"><u>Name </u></td>
+                                <td width="25%"><apex:outputField value="{!activityHistoryRecord.WhoId}"/></td>                     
+                            </tr>   
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Type</u></td>
+                                <td width="25%"><apex:outputField value="{!activityHistoryRecord.Activity_Type__c}"/></td>
+                                <td width="20%" align="right"></td>
+                                <td width="25%"></td>
+                            </tr> 
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Type Details </u></td>
+                                <td width="35%"><apex:outputField value="{!activityHistoryRecord.Type_Details__c}"/></td>
+                                <td width="20%" align="right"><u>Due Date </u></td>
+                                <td width="25%"><apex:outputField value="{!activityHistoryRecord.ActivityDate}"/></td>                      
+                            </tr>
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>CMA Type Details </u></td>
+                                <td width="35%"><apex:outputField value="{!activityHistoryRecord.CMA_Type_Details__c}"/></td>
+                                <td width="20%" align="right" ><u>Status </u></td>
+                                <td width="25%"><apex:outputField value="{!activityHistoryRecord.Status}"/></td>                        
+                            </tr>
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Outcome </u></td>
+                                <td width="35%"><apex:outputField value="{!activityHistoryRecord.Outcome__c}"/></td>
+                                <td width="20%" align="right"><u>Priority</u></td>
+                                <td width="25%"><apex:outputField value="{!activityHistoryRecord.Priority}"/></td>
+                            </tr>   
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Marketing Campaign </u></td>
+                                <td width="35%"><apex:outputField value="{!activityHistoryRecord.Marketing_Campaign__c}"/></td>
+                                <td width="20%" align="right"></td>
+                                <td width="25%"></td>
+                            </tr>   
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Comments</u></td>
+                                <td width="35%"><apex:outputField value="{!activityHistoryRecord.Description}"/></td>
+                                <td width="20%" align="right"></td>
+                                <td width="25%"></td>
+                            </tr> 
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Notification Help</u></td>
+                                <td width="35%"><apex:outputField value="{!activityHistoryRecord.Notification_Help__c}"/></td>
+                                <td width="20%" align="right"></td>
+                                <td width="25%"></td>
+                            </tr>
+                            <tr valign="top">
+                                <td width="20%" align="right" ><u>Created By </u></td>
+                                <td width="35%"><apex:outputField value="{!activityHistoryRecord.CreatedById}"/></td>
+                                <td width="20%" align="right"><u>Last Modified By</u></td>
+                                <td width="25%"><apex:outputField value="{!activityHistoryRecord.LastModifiedByID}"/></td>
+                            </tr>                                  
+                        </table>
+                        <br/>
+                    </apex:repeat>
+                    <br/>
+                </div>
+            </apex:repeat>        
+        </div>
+        <h3>Comments:</h3><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>   
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
+        <br/><br/><br/><br/>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td width="20%"><b>Partner Approver (Print): </b></td>
+                <td width="30%"><hr/></td>
+                <td width="10%"><hr/></td>
+                <td width="40%"><hr/></td>                  
+            </tr> 
+            <tr valign="top">
+                <td width="20%" height="20px"></td>
+                <td width="30%"></td>  
+                <td width="10%"></td>
+                <td width="40%"></td>                                  
+            </tr> 
+            <tr valign="top">
+                <td width="20%"><b>Signature: </b></td>
+                <td width="30%"><hr/></td>  
+                <td width="10%" align="center"><b>Date: </b></td>
+                <td width="40%"><hr/></td>                                  
+            </tr>
+        </table>
+        <br/><br/>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">                 
+            <tr valign="top">
+                <td width="20%"><b>EMC Channel Manager (Print): </b></td>
+                <td width="30%"><hr/></td>
+                <td width="10%"><hr/></td>
+                <td width="40%"><hr/></td>                  
+            </tr> 
+            <tr valign="top">
+                <td width="20%" height="20px"></td>
+                <td width="30%"></td>  
+                <td width="10%"></td>
+                <td width="40%"></td>                                  
+            </tr>   
+            <tr valign="top">
+                <td width="20%"><b>Signature: </b></td>
+                <td width="30%"><hr/></td>  
+                <td width="10%" align="center"><b>Date: </b></td>
+                <td width="40%"><hr/></td>                                  
+            </tr>           
+        </table>
+        
+    </body>
+</html> 
+</apex:page>

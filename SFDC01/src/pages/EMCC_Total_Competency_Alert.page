@@ -1,0 +1,5 @@
+<apex:page standardController="Detailed_Product__c" extensions="EMCC_Total_Competency_Alert_Controller" rendered="{!showCompetencyAlert }">
+ <script type="text/javascript">
+  alert('{!$Label.EMCC_Alert}'); 
+ </script>
+</apex:page>

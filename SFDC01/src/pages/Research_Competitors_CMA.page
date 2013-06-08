@@ -1,0 +1,263 @@
+<apex:page sidebar="false"  showHeader="false">
+
+<link href="/dCSS/Theme2/default/common.css" type="text/css" 
+
+media="handheld,print,projection,screen,tty,tv" rel="stylesheet"> 
+
+<link href="/dCSS/Theme2/default/custom.css" type="text/css" 
+
+media="handheld,print,projection,screen,tty,tv" rel="stylesheet"> 
+
+<apex:form > 
+
+<html> 
+
+<head>
+
+<style>
+
+table { 
+
+border-collapse: collapse; 
+
+border-spacing: 0; 
+
+} 
+
+
+
+td { 
+
+border: 1px solid #9096A1; 
+
+padding: 5px 5px 5px 4px; 
+
+text-align: left 
+
+}
+
+td.lineview { 
+
+border: 1px solid #FFFFFF; 
+
+background: #F1F1F1; 
+
+} 
+
+td.blanklineview { 
+
+border: 1px solid #FFFFFF; 
+
+} 
+
+
+
+
+
+TH { 
+
+border: 1px solid #9096A1; 
+
+padding: 5px 5px 5px 5px;
+
+text-align: left  
+
+}
+
+</style> 
+
+<Script Language="JavaScript"> 
+
+function load(resultURL) {
+
+var load = window.open(resultURL,'','scrollbars=yes,top=50 ,menubar=no,height=620,width=1050,resizable=yes,toolbar=no,location=no,status=no');
+
+}
+
+</Script> 
+
+</head> 
+
+<body> 
+
+<table width="100%" height="52" border="0" cellpadding="0"> 
+
+<tr> 
+
+<td width="100%" height="26" class="lineview"><img 
+
+<img src="/servlet/servlet.ImageServer?id=01570000000qvxv&amp;oid=00D70000000JrBz&amp;lastMod=1206541114000" alt="Powered by salesforce.com" onload="javascript:scaleImage(this, 55,300);" 
+title="Powered by salesforce.com" />
+</td> 
+
+</tr> 
+
+<tr> 
+
+<td width="100%" height="26" class="blanklineview"></td> 
+
+</tr> 
+
+</table>
+
+
+
+<table  width="40%" height="10" border="0" cellpadding="0"> 
+
+<tr> 
+
+<td height="10" align="left" class="blanklineview"><h3 class="recordTypesHeading"><font color="9096A1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Research Competitors</font></h3></td> 
+
+</tr> 
+
+<tr> 
+
+<td width="100%" height="10" class="blanklineview"></td> 
+
+</tr> 
+
+</table> 
+
+
+
+ <center>
+
+<table  width="95%" height="50%" class="infoTable" border="0" cellpadding="4" cellspacing="1"> 
+
+<tr class="headerRow"> 
+
+<TH  class="normal" scope="col">Link</TH> 
+
+<TH class="normal" scope="col"><span class="programlisting">Description 
+
+<div></TH> 
+
+</tr> 
+
+<tr> 
+
+<TH class="recordTypeName" width="8%"><a 
+
+href="http://smeroom02.corp.emc.com/eRoom/Sales/CompetitiveIntelligence/0_5b3c0" 
+
+target="_blank" class="menu">
+
+<font color="blue">CMA Competitive Information Library</font></a></TH> 
+
+<td class="recordTypeDescription" width="10%" style="word-wrap:break-word" padding-left:10px width="1%">Filter and sort by competitor, document type, product or solution area.</td>
+
+</tr> 
+
+<tr> 
+
+<TH class="recordTypeName" width="8%"><a 
+
+href="mailto:documentumcompetitivehelp@emc.com" 
+
+target="_blank" class="menu"><font color="blue">DocumentumCompetitiveHelp@emc.com</font></a></TH> 
+
+<td class="recordTypeDescription" padding-left:10px width="10%">Connect directly with others who have interest and expertise on CMA competitors.</td> 
+
+</tr> 
+
+<tr> 
+
+<TH class="recordTypeName" scope="row" width="8%"><a 
+
+href="mailto:bura@emc.com" 
+
+target="_blank"><font color="blue">BURA@emc.com</font></a></TH> 
+
+<td class="recordTypeDescription" width="10%" >Connect with the extended EMC community on a range of backup and archiving topics including SourceOne competition.</td> 
+
+</tr> 
+
+
+
+<tr> 
+
+<TH class="recordTypeName" scope="row" width="8%"><a 
+
+href="http://one.emc.com/clearspace/community/active/cma/cmacompetitive" 
+
+target="_blank"><font color="blue">EMC|ONE – CMA Competition</font></a></TH> 
+
+<td class="recordTypeDescription" width="10%">CMA employee discussion, commentary and insight on competitive topics.</td> 
+
+</tr> 
+
+
+
+<tr> 
+
+<TH class="recordTypeName" scope="row" width="8%"><a 
+
+href="http://powerlink.emc.com/km/appmanager/km/secureDesktop?internalId=0b01406680317a43" 
+
+target="_blank"><font color="blue">CMA Competitor Pod Casts</font></a></TH> 
+
+<td class="recordTypeDescription" width="10%">Listen to 5-10 minute audio clips covering major competitors, technology and solution competitive landscapes.</td> 
+
+</tr> 
+
+
+
+<tr> 
+
+<TH class="recordTypeName" scope="row" width="8%"><a 
+
+href="http://powerlink.emc.com/km/appmanager/km/secureDesktop?internalId=0b0140668002449f" target="_blank"><font color="blue">PowerLink – Competitive</font></a></TH> 
+
+<td class="recordTypeDescription" width="10%" >Central EMC repository of field and customer-ready competitive content including CMA competitors.</td> 
+
+</tr> 
+
+
+
+
+
+<tr> 
+
+<TH class="recordTypeName" scope="row" width="8%"><a href="javascript:load('/00O70000002ZqNx')"><font color="blue"> 
+
+Search Past Competitive Inquiries from the Field</font></a></TH> 
+
+<td class="recordTypeDescription" width="10%">Find colleagues who have competed against the same vendors and contact them for more details, tips, and suggestions. Custom report example: Step 1) Summarize Information by: “Competitor”; Step 2) [Run Report]; Step 3) Click “Division” to sort by Division.</td> 
+
+</tr> 
+
+
+
+<tr> 
+
+<TH class="recordTypeName" scope="row" width="8%"><a href="http://competitivehelp" target="_blank"><font color="blue">Strategize about 
+
+your Account </font></a><span style="font-weight: normal; font-family: cambria"><i></br> 
+
+Or call </i></span><span style="font-weight: bold">1-508-435-1000 x54777</span></TH> 
+
+<td  width="10%">Contact the CMA Competitive Team to develop a plan to take-out the competition, seed content into a 
+
+customer RFP, or get comparison pricing. Leverage the links above for 
+
+basic competitive questions.  </td> 
+
+</tr> 
+
+
+
+</table> 
+
+</center>
+
+</body> 
+
+
+
+</html>
+
+
+
+</apex:form>
+
+</apex:page>

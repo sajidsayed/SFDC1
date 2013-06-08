@@ -1,0 +1,373 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  23-11-2010      Anand Sharma    #1187       This page will be used to display PDF documentation of Channel Plan 
+                                                And Respective Objective, Open Activity, Activity History .
+                                                
+ |  10-01-2011      Anand Sharma                Removed Activity History from PDF for CAP    
+ |  27-09-2011      Anand Sharma                Update Task formate to reduce size of page 
+ |  05-12-2011      Anand Sharma				Updated according to new layout 
+ |  09-01-2012		Anand Sharma				Update Business_Challenges__c field in place of Potential_Success_Inhibitors__c                                          
+    ========================================================================================================================-->
+    
+<apex:page standardController="SFDC_Channel_Account_Plan__c" extensions="PRM_ChannelAccountPlanExtension" renderAS="PDF">
+<html>
+    <head>
+        <style>         
+            body { 
+                font-family: Arial Unicode MS; 
+                font-size: 8.0pt;
+                color: windowtext;                  
+            }
+            @page { 
+                margin-left: 2cm;
+                margin-right: 2cm;
+                margin-top: 2cm;
+                margin-bottom: 2cm;
+                
+                size:portrait;                                                       
+                @bottom-right { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                    content: "Page " counter(page) " of " counter(pages);                    
+                }
+                @bottom-left { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                    content: "Channel Plan : {!SFDC_Channel_Account_Plan__c.Name}";                 
+                } 
+                                                   
+            }
+           div { page-break-after: always; }
+           h5{
+                counter-increment: chapter;
+                counter-increment: section;
+           }
+           ul.b {list-style-type:solid circle;font-size: 12.0pt;font-weight:bold; }
+           ul.c {list-style-type:none;font-size: 12.0pt;font-weight:bold; }
+           ol.digitListCls {list-style-type:decimal;}
+           
+           p.padding {padding-left:0.8cm;} 
+           p.paddingSecornd {padding-left:1.2cm;} 
+           
+           
+        </style>
+    </head>
+    <body>  
+        <div>
+        	<hr width="100%"/>
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="50%" align="left" ><apex:image id="theImage" value="{!$Resource.EMCLogo}" width="148px" height="56px" /></td>
+                    <td width="50%" align="right"><h1><b>{!SFDC_Channel_Account_Plan__c.Name}</b></h1></td>                    
+                </tr>
+            </table>            
+            <hr width="100%"/>
+            <h3>Plan Goal</h3>
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Overall Plan Goal </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Overall_Plan_Goal__c}"/></td>
+                    <td width="20%" align="right"><u>Partner</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Partner_Account__r.Name}"/></td>
+                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Goal Target</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Goal_Target__c}"/></td>
+                    <td width="20%" align="right"><u>Goal Actual</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Goal_Actual__c}"/></td> 
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"></td>
+                    <td width="25%"></td>
+                    <td width="20%" align="right"><u>Lock CAP </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Lock_CAP__c}"/></td> 
+                </tr>
+			</table>
+            <hr width="100%"/>
+			<h3>Channel Account Plans Detail</h3>			
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Channel Plan Name </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Name}"/></td>
+                    <td width="20%" align="right"><u>Plan Start</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Plan_Start__c}"/></td>
+                </tr>
+                <tr valign="top">
+					<td width="20%" align="right"  ><u>Total # Employees </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Total_Employees__c}"/></td>
+					<td width="20%" align="right"><u>Plan End</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Plan_End__c}"/></td>                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Total # Employees with EMC Focus </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Employess_with_EMC_Focus__c}"/></td>					
+                    <td width="20%" align="right" ><u>Plan Period</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Period__c}"/></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Duration of EMC Partnership</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Duration_of_EMC_Partnership__c}"/></td>
+                    <td width="20%" align="right"><u>Active</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Active__c}"/></td>
+                </tr>               
+                <tr valign="top">
+                    <td width="20%" align="right"  ><u>Objective for this Partnership</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Objective_for_this_Partnership__c}"/></td>
+                    <td width="20%" align="right"><u>CAP Status</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Status__c}"/></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Go To Market Strategy </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Go_to_Market__c}"/></td>
+                    <td width="20%" align="right"><u>Partner Rejection Reason</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Partner_Rejection_Reason__c}"/></td>                                      
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"><u>Potential Business Opportunities </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Business_Opportunity__c}"/></td>
+                    <td width="20%" align="right"><u>Current Velocity Tier </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Current_Velocity_Tier2__c}"/></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Potential Success Inhibitors </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Business_Challenges__c}"/></td>
+                    <td width="20%" align="right" ><u>Current Specialties </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Current_Specialties2__c}"/></td> 
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Value Proposition </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Value_Proposition__c}"/></td>
+					<td width="20%" align="right"><u>Notes </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Notes__c}"/></td>
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Vertical Market Expertise</u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Vertical_Market_Expertise__c}"/></td>
+                    <td width="20%" align="right"><u>Business Case Attached?</u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Business_Case_Attached__c}"/></td>
+                </tr>
+			</table>
+			<hr width="100%"/>
+			<h3>Quarterly Details</h3>     
+            <table width="100%" border="0" cellpadding="1px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right"  ><u>Q1 QBR Date </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Q1_QBR_Date__c}"/></td>
+                    <td width="20%" align="right"><u>Q1 Pipeline </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Q1_Pipeline__c}"/></td>
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"  ><u>Q2 QBR Date </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Q2_QBR_Date__c}"/></td>
+                    <td width="20%" align="right"><u>Q2 Pipeline </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Q2_Pipeline__c}"/></td>
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"  ><u>Q3 QBR Date </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Q3_QBR_Date__c}"/></td>
+                    <td width="20%" align="right"><u>Q3 Pipeline </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Q3_Pipeline__c}"/></td>
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"  ><u>Q4 QBR Date </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Q4_QBR_Date__c}"/></td>
+                    <td width="20%" align="right"><u>Q4 Pipeline </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Q4_Pipeline__c}"/></td>
+                </tr>				                            
+            </table>
+			<hr width="100%"/>
+			<h3>Account Plan Team</h3>     
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right"  ><u>EMC Channel Account Manager (CAM) </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.EMC_CAM__c}"/></td>
+                    <td width="20%" align="right"><u>Partner Approver </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Partner_Approver__c}"/></td>
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"  ><u>EMC Sales Mgt. Approver </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.EMC_Sales_Mgt_Approver__c}"/></td>
+                    <td width="20%" align="right"><u>Partner Sales Manager </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Partner_Team_Member_1__c}"/></td>
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"  ><u>EMC Presales Engineer </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.EMC_Presales_Engineer__c}"/></td>
+                    <td width="20%" align="right"><u>Partner Business Development </u></td>
+                    <td width="25%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.Partner_Team_Member_2__c}"/></td>
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"  ><u>EMC Postsales Engineer </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.EMC_Postsales_Engineer__c}"/></td>
+                    <td width="20%" align="right"><u> </u></td>
+                    <td width="25%"></td>
+                </tr>
+				<tr valign="top">
+                    <td width="20%" align="right"  ><u>EMC Marketing </u></td>
+                    <td width="35%"><apex:outputField value="{!SFDC_Channel_Account_Plan__c.EMC_Marketing__c}"/></td>
+                    <td width="20%" align="right"><u> </u></td>
+                    <td width="25%"></td>
+                </tr>
+            </table>        
+		</div>
+   		<div>
+            <apex:repeat value="{!Results}" var="parent">            
+			<div>
+			<h1><u>Objective #{!parent.intStrategyIndex}: {!parent.objStrategy.Name}</u> </h1>                
+					<table width="100%" border="0" cellpadding="4px" cellspacing="0">
+						<tr valign="top">
+							<td width="20%" align="right"><u>Objective Description  </u></td>
+							<td width="35%"><apex:outputField value="{!parent.objStrategy.Additional_Information__c}"/></td>
+							<td width="20%" align="right"><u>Geography </u></td>
+							<td width="25%"><apex:outputField value="{!parent.objStrategy.Geography__c}"/></td>
+						</tr>
+						<tr valign="top">
+							<td width="20%" align="right"><u>Objective Period </u></td>
+							<td width="35%"><apex:outputField value="{!parent.objStrategy.Objective_Period__c}"/></td>
+							<td width="20%" align="right"><u>Region </u></td>
+							<td width="25%"><apex:outputField value="{!parent.objStrategy.Region__c}"/></td>
+						</tr>
+					</table>
+					<apex:repeat var="child" value="{!parent.lstObjectives}">                             
+                        <ul class="b"><li>Strategy {!child.intObjectiveIndex}: {!child.objObjective.Name}</li></ul>
+							<table width="100%" border="0" cellpadding="4px" cellspacing="0">	
+								<tr valign="top">
+									<td width="10%"></td>
+									<td width="20%" align="right"><u><b>Strategy Description </b></u></td>
+									<td width="70%"><b><apex:outputField value="{!child.objObjective.Objective_Strategy__c}"/></b></td>
+								</tr>
+								<tr valign="top">
+									<td width="10%"></td>
+									<td width="20%" align="right"><u><b>Strategy Type </b></u></td>
+									<td width="70%"><b><apex:outputField value="{!child.objObjective.Parent_Objective_Type__c}"/></b></td>
+								</tr>
+								<tr valign="top">
+									<td width="10%"></td>
+									<td width="20%" align="right"><u><b>Strategy Type Detail </b></u></td>
+									<td width="70%" ><b><apex:outputField value="{!child.objObjective.Objective_Type__c}"/></b></td>
+								</tr>
+								<tr valign="top">
+									<td width="10%"></td>
+									<td width="20%" align="right"><u><b>Success Requirements </b></u></td>
+									<td width="70%"><b><apex:outputField value="{!child.objObjective.Success_Requirements__c}"/></b></td>
+								</tr>
+                            </table>
+							<br/>
+							<table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                                <tr valign="top">
+                                    <td width="10%"><b> </b></td>
+                                    <td width="15%" style='border: thin solid black; background: #103F7A; color: White;'><b>Status </b></td>
+                                    <td width="15%" style='border: thin solid black; background: #103F7A; color: White;'><b>Stage</b></td>
+                                    <td width="15%" style='border: thin solid black; background: #103F7A; color: White;'><b>Start Date </b></td>
+                                    <td width="15%" style='border: thin solid black; background: #103F7A; color: White;'><b>End Date</b></td>
+                                    <td width="15%" style='border: thin solid black; background: #103F7A; color: White;'><b>Metric Goal</b></td>
+                                    <td width="15%" style='border: thin solid black; background: #103F7A; color: White;'><b>% Goal Attained</b></td>
+                                </tr>
+                                <tr>
+                                    <td width="10%"><b></b></td>
+                                    <td width="15%" style='border: thin solid black;'>{!child.objObjective.Status__c}</td>
+                                    <td width="15%" style='border: thin solid black;'>{!child.objObjective.Stage__c}</td>
+                                    <td width="15%" style='border: thin solid black;'> <apex:outputField value="{!child.objObjective.Start_Date__c}"/> </td>
+                                    <td width="15%" style='border: thin solid black;'> <apex:outputField value="{!child.objObjective.End_Date__c}"/> </td>
+                                    <td width="15%" style='border: thin solid black;'>{!child.objObjective.Metric_Goal__c}</td>
+                                    <td width="15%" style='border: thin solid black;'>{!child.objObjective.Goal_Attained__c}</td>
+                                </tr> 
+							</table>                            
+						<ul class="c"><li>Activities</li></ul>
+						<ol class="digitListCls">                            
+								<table width="100%" border="0" cellpadding="4px" cellspacing="0">
+									<tr valign="top">
+										<td width="10%"><b> </b></td>
+										<td width="10%" style='border: thin solid black; background: #103F7A; color: White;'><b>Activity </b></td>
+										<td width="10%" style='border: thin solid black; background: #103F7A; color: White;'><b>Subject</b></td>
+										<td width="10%" style='border: thin solid black; background: #103F7A; color: White;'><b>Type</b></td>
+										<td width="15%" style='border: thin solid black; background: #103F7A; color: White;'><b>Type Details</b></td>
+										<td width="10%" style='border: thin solid black; background: #103F7A; color: White;'><b>Due Date</b></td>
+										<td width="15%" style='border: thin solid black; background: #103F7A; color: White;'><b>Comments</b></td>
+										<td width="10%" style='border: thin solid black; background: #103F7A; color: White;'><b>Assigned</b></td>
+										<td width="10%" style='border: thin solid black; background: #103F7A; color: White;'><b>Status</b></td>
+									</tr>
+									<apex:repeat value="{!child.objObjective.OpenActivities}" var="gOpenchildren">
+									<tr>
+										<td width="10%"><b> </b></td>
+										<td width="10%" style='border: thin solid black;'>Task </td>
+										<td width="10%" style='border: thin solid black;'>{!gOpenchildren.Subject}</td>
+										<td width="10%" style='border: thin solid black;'>{!gOpenchildren.Activity_Type__c}</td>
+										<td width="15%" style='border: thin solid black; '>{!gOpenchildren.Type_Details__c}</td>
+										<td width="10%" style='border: thin solid black;'><apex:outputField value="{!gOpenchildren.ActivityDate}"/></td>
+										<td width="15%" style='border: thin solid black;'>{!gOpenchildren.Description}</td>
+										<td width="10%" style='border: thin solid black;'>{!gOpenchildren.Owner.Name}</td>
+										<td width="10%" style='border: thin solid black;'>{!gOpenchildren.Status}</td>
+									</tr> 
+									</apex:repeat> 
+									<apex:repeat value="{!child.objObjective.ActivityHistories}" var="gchildren"> 
+									<tr>
+										<td width="10%"><b> </b></td>
+										<td width="10%" style='border: thin solid black;'>Task </td>
+										<td width="10%" style='border: thin solid black;'>{!gchildren.Subject}</td>
+										<td width="10%" style='border: thin solid black;'>{!gchildren.Activity_Type__c}</td>
+										<td width="15%" style='border: thin solid black; '>{!gchildren.Type_Details__c}</td>
+										<td width="10%" style='border: thin solid black;'><apex:outputField value="{!gchildren.ActivityDate}"/></td>
+										<td width="15%" style='border: thin solid black;'>{!gchildren.Description}</td>
+										<td width="10%" style='border: thin solid black;'>{!gchildren.Owner.Name}</td>
+										<td width="10%" style='border: thin solid black;'>{!gchildren.Status}</td>
+									</tr> 
+									</apex:repeat>
+								</table>
+                        </ol>     
+                    </apex:repeat>          
+            </div>
+			</apex:repeat>
+        </div>
+        <h3>Comments:</h3><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>   
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
+        <br/><br/><br/><br/>
+        <table width="100%" border="0" cellpadding="0px" cellspacing="0">
+            <tr valign="top">
+                <td width="20%"><b>Partner Approver (Print): </b></td>
+                <td width="30%"><hr/></td>
+                <td width="10%"><hr/></td>
+                <td width="40%"><hr/></td>                  
+            </tr> 
+            <tr valign="top">
+                <td width="20%" height="20px"></td>
+                <td width="30%"></td>  
+                <td width="10%"></td>
+                <td width="40%"></td>                                  
+            </tr> 
+            <tr valign="top">
+                <td width="20%"><b>Signature: </b></td>
+                <td width="30%"><hr/></td>  
+                <td width="10%" align="center"><b>Date: </b></td>
+                <td width="40%"><hr/></td>                                  
+            </tr>
+        </table> 
+        <br/><br/>
+        <table width="100%" border="0" cellpadding="0px" cellspacing="0">                 
+            <tr valign="top">
+                <td width="20%"><b>EMC Channel Manager (Print): </b></td>
+                <td width="30%"><hr/></td>
+                <td width="10%"><hr/></td>
+                <td width="40%"><hr/></td>                  
+            </tr> 
+            <tr valign="top">
+                <td width="20%" height="20px"></td>
+                <td width="30%"></td>  
+                <td width="10%"></td>
+                <td width="40%"></td>                                  
+            </tr>   
+            <tr valign="top">
+                <td width="20%"><b>Signature: </b></td>
+                <td width="30%"><hr/></td>  
+                <td width="10%" align="center"><b>Date: </b></td>
+                <td width="40%"><hr/></td>                                  
+            </tr>           
+        </table>
+        
+              
+                
+    </body>
+</html> 
+</apex:page>

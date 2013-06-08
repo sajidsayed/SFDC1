@@ -1,0 +1,30 @@
+<!--
+    25-May-10  Srinivas      Changed version to 21 for mass reassignment pagination WR-163052
+    8-Nov-11    Hemavathi    Changed font color of header for SFDC new skin    
+-->
+<apex:page Controller="MassSalesTeamOperation" action="{!checkAccess}"  wizard="true" showHeader="true" standardStylesheets="false" sidebar="true">
+   <style >
+    .tertiaryPalette{
+      color:black !important;
+     }
+   </style>
+   <apex:form >
+   
+     <apex:pageMessages />
+       <center>  <apex:commandButton value="{!$Label.OK}" onClick="window.parent.close();" rendered="{!showOkButton}"/>
+      </center>  
+        <apex:pageBlock title="{!$Label.Mass_Opportunity}" rendered="{! not (showOkButton)}"  >
+            <apex:pageBlockSection title="{!$Label.Step_1_Choose}" collapsible="false"  showHeader="true"    />
+                <apex:selectRadio value="{!operations}" layout="pageDirection"><br/>
+                    <apex:selectOptions value="{!items}"/><br/>
+                </apex:selectRadio><br/>
+            <apex:pageBlockButtons dir="RTL">
+                    <apex:commandButton onclick="window.parent.close();" value="{!$Label.cancel}"/>
+                    <apex:commandButton action="{!nextStep1}" value="{!$Label.Next}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        <apex:pageBlock title="{!$Label.Mass_History_Link}" rendered="{! not (showOkButton)}">
+             <apex:commandLink action="{!massReassignmentHistory}" value="{!$Label.Mass_Reassignment_History}"/>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

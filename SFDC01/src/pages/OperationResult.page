@@ -1,0 +1,70 @@
+<!--/*===========================================================================+
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER   WR/DEFECT    DESCRIPTION                               
+ |  ====       =========   =========    =========== 
+ |    
+   12-Aug-10   Shipra       WR#139403
+   08-Aug-11   Srinivas     WR#170870 
+ +===========================================================================*/-->
+<apex:page showHeader="true" controller="MassSalesTeamOperation" id="operationResult" wizard="true">
+    <apex:form >
+        <apex:pageBlock title="{!$Label.Mass_Opportunity}">
+          <apex:pageBlockSection title="{!$Label.Result}" collapsible="false"/>
+           <apex:pageblockTable value="{!oppWraplist}" var="Oppt" border="0" width="100%">
+            
+            <apex:column headerValue="{!$Label.Opportunity_Number}" width="9%">
+                <apex:outputField value="{!Oppt.opp.Opportunity_Number__c}"/>
+            </apex:column>
+            
+            <apex:column headerValue="{!$Label.Oppt_Name}" width="9%">
+                <apex:outputLink value="{!'/'+Oppt.opp.Id}" target="_new">
+                    <apex:outputText value="{!Oppt.opp.Name}"/>
+                </apex:outputLink>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Account_Name}" width="9%">
+                <apex:outputLink value="{!'/'+Oppt.opp.account.Id}" target="_new">
+                    <apex:outputText value="{!Oppt.opp.account.name}"/>
+                </apex:outputLink>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Amount}" width="9%">
+                <!--<apex:outputText value="{!Oppt.opp.Amount}"/>  -->
+                <!--  <apex:outputText value="{!Oppt.opp.CurrencyIsoCode}{0, number, #,###.##}">
+                  <apex:param value="{!Oppt.opp.Amount}"/>-->
+                <apex:outputField value="{!Oppt.opp.Amount}"/>
+            
+            </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Close}" width="9%">
+                <apex:outputField value="{!Oppt.opp.closedate}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Stage}" width="9%">
+                <apex:outputText value="{!Oppt.opp.StageName}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Owner_Alias}" width="9%">
+                 <apex:outputText value="{!Oppt.opp.owner.Name}"/>
+            </apex:column>
+             <apex:column headerValue="{!$Label.Opportunity_Salesforce}" width="9%">
+            <apex:outputText value="{!Oppt.opp.Sales_Force__c}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Source}" width="9%">
+                <apex:outputText value="{!Oppt.opp.LeadSource}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Account_Country}" width="9%">
+                <apex:outputText value="{!Oppt.opp.Account.BillingCountry}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Account_State}" width="9%">
+                <apex:outputText value="{!Oppt.opp.Account.BillingState}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Result}" width="9%">
+                <apex:outputText value="{!Oppt.result}"/>
+            </apex:column>
+            </apex:pageblockTable>
+            <apex:pageBlockButtons dir="RTL">
+                <apex:commandButton value="Exit Reassignment" onclick="window.close();" />
+                <apex:commandButton value="New Reassignment" onclick="window.reload();" action="{!cancel}"/>
+                <apex:commandButton value="Continue Reassignment" onclick="window.reload();" action="{!ContinueReassign}"/>
+                                
+            </apex:pageBlockButtons>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

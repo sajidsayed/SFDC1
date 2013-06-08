@@ -1,0 +1,17 @@
+<!-- /*========================================================================================================================+
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE            DEVELOPER       WR          DESCRIPTION                               
+ |  ====            =========       ==          =========== 
+ |  12.10.2012      Smitha       MOJO        Initial Creation.Register with GFS button on Opty. Creates/update GFS record, Validates opty tied to asset or not.
++========================================================================================================================*/ -->
+<apex:page standardController="Opportunity" sidebar="false" extensions="SFA_MOJO_RegisterWithGFSController" action="{!RegisterGFS}">
+	<apex:form >
+		<apex:pageBlock >
+			<apex:pageBlockButtons location="Top">
+	              <apex:commandButton action="{!cancel}" value="Back"/>	              
+	        </apex:pageBlockButtons>	
+        </apex:pageBlock>	
+		<apex:pagemessages /> 
+	</apex:form>              	
+</apex:page>

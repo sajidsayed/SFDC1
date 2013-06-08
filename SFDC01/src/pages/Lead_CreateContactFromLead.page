@@ -1,0 +1,31 @@
+<apex:page standardController="Lead" extensions="Lead_Ctlr_CreateContactFromLead" action="{!autoRun}">
+  <apex:sectionHeader title="{!$Label.LEAD_ContactFromLead_Header}"/>
+  <apex:pageMessages />
+  <apex:form >
+  <apex:pageBlock title="{!$Label.LEAD_LeadDetail_Header}">
+	<apex:pageBlockButtons >
+		<apex:commandButton action="/{!lead.Id}" value="{!$Label.LEAD_BackToLead}"/>
+	</apex:pageBlockButtons>
+    <apex:pageBlockTable value="{!lead}" var="lead">
+    <apex:column headerValue="{!$Label.LEAD_LeadName}"  width="25%">
+        <apex:outputLink value="/{!lead.Id}">{!lead.Name}</apex:outputLink>
+    </apex:column>
+		<apex:column value="{!lead.Related_Account__c}" width="20%"/>
+		<apex:column value="{!lead.email}" width="25%"/>
+		<apex:column value="{!lead.phone}" width="15%"/>
+		<apex:column value="{!lead.title}"/>
+	</apex:pageBlockTable>
+  </apex:pageBlock>
+  </apex:form>
+  <apex:pageBlock title="{!$Label.LEAD_DupContact_Header}" rendered="{!duplicateContactsExist}" >
+	<apex:pageBlockTable value="{!duplicateContacts}" var="cont" >
+		<apex:column headerValue="{!$ObjectType.contact.fields.name.label}"  width="25%">
+			<apex:outputLink value="/{!cont.Id}">{!cont.Name}</apex:outputLink>
+		</apex:column>
+		<apex:column value="{!cont.accountId}"  width="20%"/>
+		<apex:column value="{!cont.email}"  width="25%"/>
+		<apex:column value="{!cont.phone}"  width="15%"/>
+		<apex:column value="{!cont.title}"/>
+	</apex:pageBlockTable>
+  </apex:pageBlock>
+</apex:page>

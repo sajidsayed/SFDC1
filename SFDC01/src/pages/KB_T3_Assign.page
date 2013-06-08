@@ -1,0 +1,162 @@
+<apex:page controller="KB_AssignT3Controller3">
+    <style type="text/css">
+        body .bPageBlock, body #bodyCell .bResource .secondaryPalette, 
+        body .secondaryPalette.bPageBlock, body .individualPalette .secondaryPalette.bPageBlock, 
+        body .bodyDiv .genericTable, body .genericPageBlockTable, body .bodyDiv .bSubBlock, 
+        body .bComponentBlock .bPageBlock, body .bMyDashboard .bPageBlock, body.rlHoverFrame .bPageBlock, 
+        body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.bPageBlock, 
+        body.popupTab .secondaryPalette.bPageBlock, body.UserTagStatsPage .secondaryPalette.bPageBlock {
+            overflow: auto;
+            height: 400px;
+        }
+        #MyArts{display:none;}
+        #All{background:lightblue;}
+        #All:hover{cursor:pointer;}
+        #My:hover{cursor:pointer;}
+    </style>
+    <script type="text/javascript">
+       
+
+        if(document.addEventListener){
+                 document.addEventListener('load', initialize(),false);
+        }
+        else if(document.attachEvent){
+            document.attachEvent('onload', initialize());
+        }
+        
+        function initialize(){
+
+            if(document.addEventListener){
+                  document.addEventListener('click' , function(e){clicks(e);});
+        }
+        else if(document.attachEvent){
+              document.attachEvent('onclick' , function(e){clicks(e);});
+        }
+           
+        }
+
+        
+        
+        function clicks(e){
+            var obj = e.srcElement ? e.srcElement : e.target;
+            
+            switch (obj.id){
+                
+                case 'My' : 
+                    obj.style.background="lightblue";
+                    document.getElementById('All').style.background='none';
+                    document.getElementById('AllArts').style.display='none';
+                    document.getElementById('MyArts').style.display='block';
+                    break;
+                case 'All' : 
+                    obj.style.background="lightblue";
+                    document.getElementById('My').style.background='none';
+                    document.getElementById('AllArts').style.display='block';
+                    document.getElementById('MyArts').style.display='none';
+                    break;
+            }
+        }
+    </script>
+    <div style="font-size:22px; font-weight:bold; padding:10px 0px;">Metadata Assignment Page</div>
+    
+        
+        
+        <button id="My" type="button" style="height:25px">Show My Articles</button>
+        <button id="All" type="button" style="height:25px">Show All Articles</button>
+
+
+        <script type="text/javascript">
+            window.onload = function(){
+            
+            document.getElementById('My').click();
+        }
+        </script>
+  
+    <br/>
+    <apex:form >
+    
+    <div id="MyArts">
+    
+    <apex:pageblock title="My Draft Articles" id="MyBlock">    
+    <apex:outputPanel id="myarticleTable">
+            <span style="font-weight:bold;">Find in view</span><br/>
+            <apex:inputText value="{!myartSearch}"/>
+            <apex:commandButton value="Search" action="{!mysearchArt}" rerender="myarticleTable"/>
+            <apex:commandButton value="Clear Search" action="{!myclearSearch}" rerender="myarticleTable"/>       
+                <apex:pageBlockTable value="{!myProcessWrapperList}" var="a">
+                <apex:column >
+                    <apex:facet name="header">Action</apex:facet>
+                    <a href="/apex/KB_T3PickerScreen?aId={!a.procKav.Id}&aType={!a.procaType}">Tag</a>
+                </apex:column>
+                     <apex:column >
+                    <apex:facet name="header">Type</apex:facet>
+                    <apex:outputText value="{!a.procatype}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Article Title</apex:facet>
+                    <apex:outputfield value="{!a.procKav.Title}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Article Number</apex:facet>
+                    <apex:outputfield value="{!a.procKav.ArticleNumber}"/>
+                </apex:column>
+                 <apex:column >
+                    <apex:facet name="header">Last Modified Date</apex:facet>
+                    <apex:outputfield value="{!a.procKav.LastModifiedDate}"/>
+                </apex:column>
+         
+         
+              
+            </apex:pageBlockTable>
+
+            
+            </apex:outputPanel> 
+                            
+    
+        </apex:pageBlock>
+
+
+       </div>
+        
+
+       <div id="AllArts">
+    <apex:pageBlock title="All Draft Articles" id="theTable">
+        <apex:commandLink rendered="{!NOT(pageNumber == 0)}" action="{!previous}" rerender="theTable">Prev</apex:commandLink>     |      <apex:commandLink rendered="{!NOT(pageNumber == noOfPages -1)}" action="{!next}" rerender="theTable">Next</apex:commandLink> 
+        <br/>
+        <apex:outputPanel id="articleTable">
+            <span style="font-weight:bold;">Find in view</span><br/>
+            <apex:inputText value="{!artSearch}"/>
+            <apex:commandButton value="Search" action="{!searchArt}" rerender="articleTable"/>
+            <apex:commandButton value="Clear Search" action="{!clearSearch}" rerender="articleTable"/>
+            <apex:pageBlockTable value="{!processWrapperList}" var="a">
+                <apex:column >
+                    <apex:facet name="header">Action</apex:facet>
+                    <a href="/apex/KB_T3PickerScreen?aId={!a.procKav.Id}&aType={!a.procaType}">Tag</a>
+                </apex:column>
+                       <apex:column >
+                    <apex:facet name="header">Type</apex:facet>
+                    <apex:outputText value="{!a.procatype}"/>
+                </apex:column>
+       
+                <apex:column >
+                    <apex:facet name="header">Article Title</apex:facet>
+                    <apex:outputfield value="{!a.procKav.Title}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Article Number</apex:facet>
+                    <apex:outputfield value="{!a.procKav.ArticleNumber}"/>
+                </apex:column>
+                  <apex:column >
+                    <apex:facet name="header">Last Modified Date</apex:facet>
+                    <apex:outputfield value="{!a.procKav.LastModifiedDate}"/>
+                </apex:column>
+            
+         
+            </apex:pageBlockTable>
+            </apex:outputPanel>
+    
+
+    </apex:pageBlock>
+    </div>
+    </apex:form>
+</apex:page>

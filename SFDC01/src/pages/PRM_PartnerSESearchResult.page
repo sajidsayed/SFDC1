@@ -1,0 +1,76 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req                        DESCRIPTION 
+ |  16/12/2011      Anand Sharma                                   This Page will allow Partners to search partner SE.
+ ========================================================================================================================-->
+<apex:page controller="PRM_PartnerSESearchController" showHeader="false" tabStyle="Task"  renderAS="PDF">
+<html>
+    <head>
+        <style>         
+            body { 
+                font-family: Arial Unicode MS; 
+                font-size: 8.0pt;
+                color: windowtext;                  
+            }
+            @page { 
+                margin-left: 0.5cm;
+                margin-right: 0.5cm;
+                margin-top: 2cm;
+                margin-bottom: 2cm;
+                
+                size:portrait;                                                       
+                @bottom-right { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                    content: "Page " counter(page) " of " counter(pages);                    
+                }
+                @bottom-left { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                    content: "Partner SE Details";                 
+                } 
+                                                    
+            }
+           
+           h5{
+                counter-increment: chapter;
+                counter-increment: section;
+           }
+           ul.b {list-style-type:solid circle;font-size: 12.0pt;font-weight:bold; }
+           ul.c {list-style-type:none;font-size: 12.0pt;font-weight:bold; }
+           ol.digitListCls {list-style-type:decimal;}
+           
+           p.padding {padding-left:0.8cm;} 
+           p.paddingSecornd {padding-left:1.2cm;} 
+           
+           
+        </style>
+    </head>
+	<div>
+		<table width="100%" border="0" cellpadding="4px" cellspacing="0">
+			<tr valign="top">
+				<td width="15%" style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Partner_Account} </b></td>
+				<td width="10%" style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.of_SE_s_for_Partner}</b></td>
+				<td width="12.5%" style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Partner_SE}</b></td>
+				<td width="12.5%" style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Area}</b></td>
+				<td width="12.5%" style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.District}</b></td>
+				<td width="12.5%" style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Phone}</b></td>
+				<td width="12.5%" style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Email}</b></td>
+				<td width="12.5%" style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Office_Location}</b></td>
+			</tr>
+			<apex:repeat value="{!lstPartnerSearchresult}" var="partnerData">
+			<tr>				
+				<td width="15%"  style='border: thin solid black;'><apex:outputText value="{!partnerData.AccountName}"/> </td>
+				<td width="10%" style='border: thin solid black;' ><apex:outputText value="{!partnerData.NumberOfContacts}"/></td>
+				<td width="12.5%" style='border: thin solid black;' ><apex:outputText value="{!partnerData.ContactName}"/></td>
+				<td width="12.5%" style='border: thin solid black;'><apex:outputText value="{!partnerData.Area}"/></td>
+				<td width="12.5%" style='border: thin solid black;' ><apex:outputText value="{!partnerData.DistrictName}"/></td>
+				<td width="12.5%" style='border: thin solid black;' ><apex:outputField value="{!partnerData.PartnerSE.Phone}"/></td>
+				<td width="12.5%" style='border: thin solid black;' ><apex:outputField value="{!partnerData.PartnerSE.Email}"/></td>
+				<td width="12.5%" style='border: thin solid black;' ><apex:outputField value="{!partnerData.PartnerSE.Office_Location__c}"/></td>
+			</tr> 
+			</apex:repeat> 
+		</table>
+	</div>
+</html>
+</apex:page>

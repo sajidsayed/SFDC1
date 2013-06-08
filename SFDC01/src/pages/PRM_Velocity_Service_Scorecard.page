@@ -1,0 +1,59 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  06-03-2012      Suman B                     This page will be used to display Service Scorecard for account.
+ |  20-Jul-2012     Anand Sharma                     Distributor profile ID, the Revenue fields will be displayed as blank to that user profile
+ |  08-FEB-2012     Shaik Altaf		235810       Updating status deployed or Not deployed automatically.  
+========================================================================================================================-->
+<apex:page controller="PRM_Velocity_ServiceScorecardController" id="VelocityScorecardPage" action="{!updateProfileAccount}">
+<apex:stylesheet value="{!URLFOR($Resource.mystyle4, 'mystyle4/mystyle2/css/PRM_VPP_Scorecard_CSS.css')}"/> 
+<apex:pageMessages /> 
+    
+    <apex:form id="frmVelocities" title="{!$Label.Velocity_ServiceScorecard}">
+        <apex:outputPanel id="pnlVelocityError" Rendered="{!NOT(isRenderSpeciality)}">
+        <br></br>
+            <center><apex:commandButton value="{!$Label.cancel}" action="{!cancelUpdates}"/></center>
+        </apex:outputPanel>         
+        <apex:outputPanel id="OutputResult" Rendered="{!isRenderSpeciality}">
+            <table width="100%"  >
+                <tr>
+                    <td width="100%"  class="cellBucketStyleTopReqs"><apex:outputText value="{!$Label.Velocity_ServiceScorecard}" /></td>
+                    
+                </tr>
+            </table> 
+            <apex:panelBar width="100%" headerClass="header">         
+                <apex:repeat value="{!lstDisplayData}" var="obj">  
+                         
+                    <apex:panelBarItem label="{!obj.ServiceName}" headerClass="cellBucketStyle">
+                        <c:PRM_VelocityServiceComponent SpecialityList="{!obj.lstVelocityRuleResult}" 
+                        RevenueVisibility="{!isRevenueVisible}" rendered="{!NOT(ISBLANK(obj.lstVelocityRuleResult))}"
+                                                        ServiceResourceLabel="{!obj.ServiceResourceLabel}"/>
+                        <br/>     
+                    </apex:panelBarItem>  
+                </apex:repeat>
+            </apex:panelBar>
+
+          <div align="right">                
+          <table border="0">
+              <tr>
+                  <td><apex:commandButton id="save" value="{!$Label.Save}" rerender="OutputResult" onclick="isSave();" Rendered="{!isShowBotton}"/></td>                 
+                  <td><apex:commandButton value="{!$Label.cancel}" rerender="OutputResult" action="{!cancelUpdates}" Rendered="{!isShowBotton}"/></td>
+              </tr>                                   
+          </table>
+         </div>    
+
+          <apex:outputText value="{!$Label.PRM_ServiceScorecard_HelpText}" escape="false"></apex:outputText>            
+        </apex:outputPanel>  
+          
+        <apex:actionFunction name="updateAction" action="{!updateProfileAccount}"/>     
+     </apex:form>
+     <script type="text/javascript">
+        function isSave()
+        {
+            var x=confirm('{!$Label.Save_Action}');
+            if(x){              
+                updateAction();
+            }
+        }
+    </script>   
+</apex:page>

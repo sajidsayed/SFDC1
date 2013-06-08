@@ -1,0 +1,150 @@
+<!-- 
+
+15-July-2011    Srinivas Nallapati      WR-166750   Removed the "CMA Gap Analysis" from the page. Deleted all the fields on the tab from system
+30-Aug-2012     Rajeev Sataapthy         WR-207264  Added new fields under the Profile Details Section
+ -->
+<apex:page standardController="ProfileCustom__c" showHeader="true" tabStyle="ProfileCustom__c" renderas="pdf" >
+
+<apex:sectionHeader subtitle="{!$Label.Account_Profile}: {!ProfileCustom__c.Account_del__r.name}" description="Date Printed: {!Now()}"/>
+<apex:pageBlock title="General" mode="detail" >  
+    <apex:pageBlockSection title="{!$Label.Profile_Details}" columns="2">
+        <apex:outputField value="{!ProfileCustom__c.Name}"/>
+        <apex:outputField value="{!ProfileCustom__c.CreatedById}"/>
+        <apex:outputField value="{!ProfileCustom__c.Profile_Description__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.CreatedDate}"/>
+        <apex:outputField value="{!ProfileCustom__c.Account_del__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.LastModifiedById}"/>
+        <apex:outputField value="{!ProfileCustom__c.Prospect__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.LastModifiedDate}"/>
+        </apex:pageBlockSection>
+    <apex:pageBlockSection title="{!$Label.Account_Demographics}" columns="2">
+        <apex:outputField value="{!ProfileCustom__c.Annual_WW_Revenue_USD__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_WW_Employees__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Annual_WW_Addressable_Market_Oppty_USD__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Sales_Designated_Vertical__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Annual_WW_IT_CapEx_Budget_USD__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Fiscal_Year_End__c}"/>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection title="{!$Label.Account_Description}" columns="1">
+        <apex:outputField value="{!ProfileCustom__c.Description__c}"/>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection title="{!$Label.Account_Details}" columns="2">
+        <apex:outputField value="{!ProfileCustom__c.EMC_Customer_New__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Preferred_Partner__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Purchase_or_Lease__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Parent_Group__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.If_Both_Please_Explain__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Site_Information__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Lease_with_EMC__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Distance_to_Second_Site_KMs__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Company_Initiatives_Projects__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Description_of_Competitive_Landscape__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Industry_Trends__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Competitive_Details__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Master_agreement_or_Detail__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Customer_payment_terms_conditions__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Required_quote_format__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Customer_billing_terms__c}"/>
+        </apex:pageBlockSection>
+    <apex:pageBlockSection title="{!$Label.Account_Business_Process}" columns="2">
+        <apex:outputField value="{!ProfileCustom__c.Budget_Process_Cycle__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Current_DR_Business_Continuity__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Decision_Process__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Backup_Strategy_Process__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Purchasing_Process__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Archive_Backup_or_Single_Process__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Current_Approach_to_Security__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Archive_Retention_Req_s_Process__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Renewal_Cycle__c}"/>
+        <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+        <apex:outputField value="{!ProfileCustom__c.Archive_Data_Location_in_Infrastructure__c}"/>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection title="{!$Label.Profile_Status}" columns="1">
+        <apex:outputField value="{!ProfileCustom__c.Profile_Priority__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Profile_Status__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Profile_Close_Reason__c}"/>
+    </apex:pageBlockSection>   
+    <apex:pageBlockSection title="{!$Label.Notes}" columns="1" >
+        <apex:outputField value="{!ProfileCustom__c.Notes__c}"/>
+    </apex:pageBlockSection>
+   </apex:pageBlock>
+    <div style="page-break-before: always"></div>
+
+<apex:pageBlock title="{!$Label.IT_Environment}">  
+<apex:pageBlockSection title="{!$Label.Competitor_and_EMC_Install}" columns="2">
+        <apex:outputField value="{!ProfileCustom__c.SAN_Vendor__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_SAN_Vendor__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.NAS_Vendor__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_NAS_Vendor__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.CAS_Vendor__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_CAS_Vendor__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Storage_Network__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_Storage_Network__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Backup_Applications__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_Backup_Application__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Backup_to_Disk_Vendors__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_Backup_to_Disk_Vendor__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Data_Protection_Management_Applications__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_Data_Protection_Mgmt_App__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Tape_Vendors__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_Tape_Vendor__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Content_Management_Applications__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_Content_Mgmt_Application__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Virtualization_Applications__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_Virtualization_App__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Security_Applications__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Comments_Other_Security_Application__c}"/>
+</apex:pageBlockSection>
+<apex:pageBlockSection title="{!$Label.IT_Applications_Servers}" columns="2">
+       <apex:outputField value="{!ProfileCustom__c.Database__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Comments_Other_Database__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Operating_System__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Comments_Other_Operating_System__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Server_Manufacturer__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Comments_Other_Server_Manufacturer__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Email_Applications__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Comments_Other_Email_Application__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Enterprise_Applications__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Comments_Other_Enterprise_Application__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.BI_Applications__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Comments_Other_BI_Application__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Remote_Management_Applications__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Comments_Other_Remote_Mgmt_Application__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Other_Application_Vendors_Solutions__c}"/>
+       <apex:outputField value="{!ProfileCustom__c.Comments_Other_App_Vendor_Solution__c}"/>
+</apex:pageBlockSection>
+<apex:pageBlockSection title="{!$Label.IT_Size}" columns="2">
+        <apex:outputField value="{!ProfileCustom__c.Count_Per_Servers__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Total_Storage_Capacity_Raw__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_Virtual_Servers__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.EMC_Capacity_TB__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_Database_Servers__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Competitor_Capacity_TB__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_Application_Servers__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_ROBO_Remote_Offices__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_File_Servers__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.ROBO_per_Remote_TB__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_Message_Servers__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.VMWare_ELA__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_ESX_Servers__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.FC_SAN__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_PCs__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.ISCSI_SAN__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_Mailboxes__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.DAS__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_IT_Employees__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.VPN__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_IT_Users__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Wireless__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_Total_Users__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.VOIP__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_Email_Users__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Network__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_Remote_Users__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Daily_Backup_Method__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_CMA_Users__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Daily_Backup_Duration_HRs__c}"/>
+        <apex:outputField value="{!ProfileCustom__c.Number_of_Legal_Users__c}"/>
+</apex:pageBlockSection>
+</apex:pageBlock>
+</apex:page>

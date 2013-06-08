@@ -1,0 +1,19 @@
+<apex:page standardController="Account" extensions="AH_Ext_Account_DuplicateDUNSCount"> 
+
+    <apex:form >
+
+        <apex:pageBlock title="{!$Label.AH_Duplicate_DUNS_Count}" mode="detail">
+
+            <apex:outputText value="{!TotalMatchCount}" escape="false"/>
+
+            <apex:outputLink value="{!MatchViewURL}" id="theLink" target="_top">
+
+                <apex:outputText value="{!MyMatchCount}" escape="false" />
+
+            </apex:outputLink>
+
+        </apex:pageBlock>
+
+    </apex:form>
+
+</apex:page>

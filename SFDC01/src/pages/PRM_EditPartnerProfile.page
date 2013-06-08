@@ -1,0 +1,168 @@
+<!--
+DATE          DEVELOPER                WR       DESCRIPTION                               
+
+====          =========                ==       =========== 
+27/7/2010    Karthik Shivprakash     141590    Contact page which maps with user fields and updates.
+
+07/08/2010   Rajeev Choudhary        CR        Changed all inputFields to inputText fields.
+
+04/01/2011   Karthik Shivprakash     CR        Added "Cert Tracker Id" under Partner Information
+                                               section.
+07/08/2012   Anirudh Singh           196335    Updated Code in order to delete Original Functional Area Field.
+02/05/2013       Nimai Meher		 256428    Commented EMC_Appointed_Membership__c field as part of WR - 256428 (Contact simplification) for June Release.                                               
+-->
+
+
+<apex:page controller="PRM_PartnerContactProfile">
+
+<Style>
+.requiredBlk {
+background-color:#CC0000;bottom:1px;left:-4px;position:absolute;top:1px;width:3px;height:18px;
+}
+
+</Style>
+  <apex:pageMessages />
+    <apex:form >
+        <apex:pageBlock mode="edit">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!saveAndReturnToHome}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="{!$Label.Contact_Information}" columns="2">
+               <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.FirstName.Label}" />
+                 <apex:inputText value="{!FirstName}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >
+                 <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Phone.Label}" />
+                 <apex:inputText value="{!Phone}"/>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.LastName.Label}" />
+                <apex:OutPutPanel Styleclass="requiredInput" >  
+                      <div class="requiredBlk"  />
+                      <apex:inputText required="true" value="{!LastName}"/>
+                  </apex:outPutPanel>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.MobilePhone.Label}" />
+                 <apex:inputText value="{!MobilePhone}"/>
+                 </apex:pageBlockSectionItem>
+                 <!--   <apex:pageBlockSectionItem >
+              <apex:outPutLabel value="{!$ObjectType.Contact.Fields.AccountId.Label}" />
+                 <apex:inputText value="{!AccountId}" required="true"/> -->
+                 <apex:inputField value="{!Contact.AccountId}" />
+                <!-- </apex:pageBlockSectionItem > -->
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.OtherPhone.Label}" />
+                 <apex:inputText value="{!OtherPhone}"/>
+                 </apex:pageBlockSectionItem>
+                <!--    <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.ReportsToId.Label}" />
+                 <apex:inputText value="{!ReportsToId}"/> -->
+                 <apex:inputField value="{!Contact.ReportsToId}"/>
+                <!-- </apex:pageBlockSectionItem > -->
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Email.Label}" />
+                  <apex:OutPutPanel Styleclass="requiredInput" >    
+                      <div class="requiredBlk"  />
+                 <apex:inputText value="{!Email}" required="true"/>
+                  </apex:OutPutPanel>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Preferred_Contact_Method__c.Label}" />
+                 <apex:SelectList size="1" value="{!Preferred_Contact_Method}"  >
+                   <apex:selectOptions value="{!Preferred_Contact_MethodList}" />
+                 </apex:selectList>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Fax.Label}" />
+                 <apex:inputText value="{!Fax}"/>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.AssistantName.Label}" />
+                 <apex:inputText value="{!AssistantName}"/>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.AssistantPhone.Label}" />
+                 <apex:inputText value="{!AssistantPhone}"/>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Asst_Email__c.Label}" />
+                 <apex:inputText value="{!Asst_Email}"/>
+                 </apex:pageBlockSectionItem>
+                 
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="{!$Label.Partner_Information}" columns="2" dir="LTR">
+             <apex:pageBlockSectionItem >
+                         
+                 <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Primary_Program_Contact_for__c.Label}" />           
+                     <apex:SelectList size="4" multiselect="true" value="{!Primary_Program_Contact_for}"  >
+                       <apex:selectOptions value="{!Primary_Program_Contact_for_List}" />
+                     </apex:selectList>
+                 
+                 </apex:pageBlockSectionItem> 
+
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Functional_Area1__c.Label}" />
+                <apex:SelectList size="1" value="{!Functional_Area}"  >
+                   <apex:selectOptions value="{!Functional_AreaList}" />
+                 </apex:selectList>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Partner_Opt_Out_Notification__c.Label}" />
+                 <apex:inputCheckBox value="{!Partner_Opt_Out_Notification}"/>
+                 </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                  <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Language_Preference__c.Label}"  />
+                  <apex:OutPutPanel Styleclass="requiredInput" >    
+                      <div class="requiredBlk"  />  
+                 <apex:selectList size="1"  value="{!Language_Preference}"  required="true">
+                   <apex:selectOptions value="{!language_PreferenceList}" />
+                 </apex:selectlist>
+                  </apex:OutPutPanel>
+                 </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="{!$ObjectType.Contact.Fields.Cert_Tracker_Contact_ID__c.Label}"/>
+                     <apex:inputText value="{!CertTrackerId}"/>
+                 </apex:pageBlockSectionItem>
+                  <!-- <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.Partner_Contact2__c.Label}" />
+                 <apex:inputCheckBox value="{!Partner_Contact2}"/>
+                 </apex:pageBlockSectionItem> -->
+              
+                  <!-- <apex:pageBlockSectionItem >
+               //Commented as part of WR - 256428 (Contact simplification) for June Release.    
+              // <apex:outPutLabel value="{!$ObjectType.Contact.Fields.EMC_Appointed_Membership__c.Label}" />
+                 <apex:SelectList size="1"  value="{!EMC_Appointed_Membership}"  >
+                   <apex:selectOptions value="{!EMC_Appointed_MembershipList}" />
+                 </apex:selectList>
+                 </apex:pageBlockSectionItem>  -->
+                 
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="{!$Label.Address_Information}" columns="1">
+              <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.MailingStreet.Label}" />
+                 <apex:inputText value="{!MailingStreet}"/>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.MailingCity.Label}" />
+                 <apex:inputText value="{!MailingCity}"/>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.MailingState.Label}" />
+                 <apex:inputText value="{!MailingState}"/>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.MailingPostalCode.Label}" />
+                 <apex:inputText value="{!MailingPostalCode}"/>
+                 </apex:pageBlockSectionItem>
+                   <apex:pageBlockSectionItem >
+               <apex:outPutLabel value="{!$ObjectType.Contact.Fields.MailingCountry.Label}" />
+                 <apex:inputText value="{!MailingCountry}"/>
+                   </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

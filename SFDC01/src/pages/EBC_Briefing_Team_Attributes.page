@@ -1,0 +1,379 @@
+<!-- 
+Author:     Sunil Bansal
+Created on: 25-Nov-2009
+Description: This page allows to enter custom attributes on the Contact(Invitee) for an Briefing Event.
+Modified by: Devi Prasad Bal
+Modified on: 05-April-2010
+Reason: Modified based on further inputs from the business
+-->
+
+
+<apex:page controller="EBC_Update_Briefing_Team_Attributes" showHeader="true"
+    tabStyle="Contact" title="Update Briefing Team Attributes" action="{!retrieveInvitees}">
+
+<script language="javascript">
+
+    var C_REQUESTOR = 'Requestor';
+    var C_SCHEDULER = 'Scheduler';
+    var C_ACCOUNT_TEAM_MEMBER = 'Account Team Member';
+    var C_BRIEFING_ADVISOR = 'Briefing Advisor';
+    var C_CUSTOMER = 'Customer';
+    var C_EMC_EMPLOYEE = 'EMC Employee';
+    var C_OTHER_INVITEE = 'Other Invitee';
+    var C_PARTNER = 'Partner';
+    var C_PRESNETER_EMC_EMPLOYEE = 'Presenter (EMC Employee)';
+    var C_PRESENTER_NON_EMC_EMPLOYEE = 'Presenter (Non EMC Employee)';
+    var C_LOGISTIC_ADVISOR = 'Logistic Advisor';
+
+    
+    String.prototype.trim = function() 
+    { 
+        return this.replace(/^\s*|\s*$/g, "") 
+    } 
+
+    function removeOptions(roleControl)
+    {
+        var fldRoleOptLength = roleControl.options.length;
+        for(var k=0; k < fldRoleOptLength; k++)
+        {
+            if(roleControl.options[k].value == C_PRESNETER_EMC_EMPLOYEE || roleControl.options[k].value == C_PRESENTER_NON_EMC_EMPLOYEE)
+            {
+                roleControl.remove(k);
+                fldRoleOptLength--;
+                k--;
+            }
+        }
+    }
+    
+    function setFields(fldAttending, blAttending, fldEBCTitle, blEBCTitle, fldAttitude, blAttitude, fldNotes, blNotes, fldPosition, blPosition, fldSendCBP, blSendCBP, fldSendFeedback, blSendFeedback, fldSendImpact, blSendImpact, fldSendFBP, blSendFBP, fldFeedbackOutput, blFeedbackOutput)
+    {
+        fldAttending.disabled = blAttending;
+        //fldEBCName.disabled = blEBCName;
+        fldEBCTitle.disabled = blEBCTitle;
+        fldAttitude.disabled = blAttitude;
+        fldNotes.disabled = blNotes;
+        fldPosition.disabled = blPosition;
+        fldSendCBP.disabled = blSendCBP;
+        fldSendFeedback.disabled = blSendFeedback;
+        fldSendImpact.disabled = blSendImpact;
+        fldSendFBP.disabled = blSendFBP;
+        fldFeedbackOutput.disabled = blFeedbackOutput;
+    }
+
+
+    function fieldAccessFirstDownload(fldRole, fldAttending, fldEBCTitle, fldAttitude, fldNotes, fldPosition, fldSendCBP, fldSendFeedback, fldSendImpact, fldSendFBP, fldFeedbackOutput)
+    {
+               
+        var fldAttendingCtrl = document.getElementById(fldAttending);
+        //var fldEBCNameCtrl = document.getElementById(fldEBCName);
+        var fldEBCTitleCtrl = document.getElementById(fldEBCTitle);
+        var fldAttitudeCtrl = document.getElementById(fldAttitude);
+        var fldNotesCtrl = document.getElementById(fldNotes);
+        var fldPositionCtrl = document.getElementById(fldPosition);
+        var fldSendCBPCtrl = document.getElementById(fldSendCBP);
+        var fldSendFeedbackCtrl = document.getElementById(fldSendFeedback);
+        var fldSendImpactCtrl = document.getElementById(fldSendImpact);
+        var fldSendFBPCtrl = document.getElementById(fldSendFBP);
+        var fldFeedbackOutputCtrl = document.getElementById(fldFeedbackOutput);
+
+        var fldRoleCtrl = document.getElementById(fldRole);
+        var roleValue = fldRoleCtrl.value;
+        roleValue = roleValue.trim();
+
+        if(roleValue == C_CUSTOMER)
+        {
+            removeOptions(fldRoleCtrl);
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, false, fldNotesCtrl, false, fldPositionCtrl, false, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+        }
+     
+        else if(roleValue == C_PARTNER)
+        {
+            removeOptions(fldRoleCtrl);
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, true, fldNotesCtrl, false, fldPositionCtrl, true, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+        }
+        
+        else if(roleValue == C_EMC_EMPLOYEE)
+        {
+            removeOptions(fldRoleCtrl);
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+        }
+        
+        else if(roleValue == C_OTHER_INVITEE)
+        {
+            removeOptions(fldRoleCtrl);
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, false, fldNotesCtrl, false, fldPositionCtrl, false, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+        }
+        
+        else if(roleValue == C_REQUESTOR)
+        {
+            removeOptions(fldRoleCtrl);
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, false, fldSendFeedbackCtrl, false, fldSendImpactCtrl, false, fldSendFBPCtrl, false, fldFeedbackOutputCtrl, true);
+        }
+        
+        else if(roleValue == C_ACCOUNT_TEAM_MEMBER)
+        {
+            removeOptions(fldRoleCtrl);
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, false, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, false, fldFeedbackOutputCtrl, true);
+        }
+        
+        else if(roleValue == C_BRIEFING_ADVISOR || roleValue == C_LOGISTIC_ADVISOR)
+        {
+            removeOptions(fldRoleCtrl);
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, true, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, false, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, false, fldFeedbackOutputCtrl, true);
+        }
+        else if(roleValue == C_SCHEDULER)
+        {
+            removeOptions(fldRoleCtrl);
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, true, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, false, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+        }
+        
+        else if(roleValue == C_PRESNETER_EMC_EMPLOYEE)
+        {
+            fldRoleCtrl.disabled = true;
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, true, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, false, fldFeedbackOutputCtrl, false);
+        }
+        
+        else if(roleValue == C_PRESENTER_NON_EMC_EMPLOYEE)
+        {
+            fldRoleCtrl.disabled = true;
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, true, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, false);
+        }
+    }
+
+    function fieldAccess(fldRole, fldAttending, fldEBCTitle, fldEmail, fldAttitude, fldNotes, fldPosition, fldSendCBP, fldSendFeedback, fldSendImpact, fldSendFBP, fldFeedbackOutput)
+    {
+        var fldAttendingCtrl = document.getElementById(fldAttending);
+        //var fldEBCNameCtrl = document.getElementById(fldEBCName);
+        var fldEBCTitleCtrl = document.getElementById(fldEBCTitle);
+        var fldEmailCtrl = document.getElementById(fldEmail);
+        var fldAttitudeCtrl = document.getElementById(fldAttitude);
+        var fldNotesCtrl = document.getElementById(fldNotes);
+        var fldPositionCtrl = document.getElementById(fldPosition);
+        var fldSendCBPCtrl = document.getElementById(fldSendCBP);
+        var fldSendFeedbackCtrl = document.getElementById(fldSendFeedback);
+        var fldSendImpactCtrl = document.getElementById(fldSendImpact);
+        var fldSendFBPCtrl = document.getElementById(fldSendFBP);
+        var fldFeedbackOutputCtrl = document.getElementById(fldFeedbackOutput);
+
+        var roleValue = document.getElementById(fldRole).value;
+        roleValue = roleValue.trim();
+
+        if(roleValue == C_CUSTOMER)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, false, fldNotesCtrl, false, fldPositionCtrl, false, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+        
+            fldAttendingCtrl.checked = true;
+            fldSendCBPCtrl.checked = false;
+            fldSendFeedbackCtrl.checked = false;
+            fldSendImpactCtrl.checked = false;
+            fldSendFBPCtrl.checked = false;
+            fldFeedbackOutputCtrl.checked = false;
+        }
+     
+        else if(roleValue == C_PARTNER)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, true, fldNotesCtrl, false, fldPositionCtrl, true, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+            
+            fldAttendingCtrl.checked = true;
+            fldSendCBPCtrl.checked = false;
+            fldSendFeedbackCtrl.checked = false;
+            fldSendImpactCtrl.checked = false;
+            fldSendFBPCtrl.checked = false;       
+            fldFeedbackOutputCtrl.checked = false;    
+        }
+        
+        else if(roleValue == C_EMC_EMPLOYEE)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+            
+            fldAttendingCtrl.checked = true;
+            fldSendCBPCtrl.checked = false;
+            fldSendFeedbackCtrl.checked = false;
+            fldSendImpactCtrl.checked = false;
+            fldSendFBPCtrl.checked = false; 
+            fldFeedbackOutputCtrl.checked = false;
+        }
+        
+        else if(roleValue == C_OTHER_INVITEE)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, false, fldNotesCtrl, false, fldPositionCtrl, false, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+            
+            fldAttendingCtrl.checked = true;
+            fldSendCBPCtrl.checked = false;
+            fldSendFeedbackCtrl.checked = false;
+            fldSendImpactCtrl.checked = false;
+            fldSendFBPCtrl.checked = false; 
+            fldFeedbackOutputCtrl.checked = false;
+        }
+        
+        else if(roleValue == C_REQUESTOR)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, false, fldSendFeedbackCtrl, false, fldSendImpactCtrl, false, fldSendFBPCtrl, false, fldFeedbackOutputCtrl, true);
+            
+            fldAttendingCtrl.checked = true;
+            fldSendCBPCtrl.checked = true;
+            fldSendFeedbackCtrl.checked = true;
+            fldSendImpactCtrl.checked = true;
+            fldSendFBPCtrl.checked = true; 
+            fldFeedbackOutputCtrl.checked = false;
+        }
+        
+        else if(roleValue == C_ACCOUNT_TEAM_MEMBER)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, false, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, false, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, false, fldFeedbackOutputCtrl, true);
+            
+            fldAttendingCtrl.checked = false;
+            fldSendCBPCtrl.checked = false;
+            fldSendFeedbackCtrl.checked = false;
+            fldSendImpactCtrl.checked = false;
+            fldSendFBPCtrl.checked = true;
+            fldFeedbackOutputCtrl.checked = false;
+        }
+        
+        else if(roleValue == C_BRIEFING_ADVISOR || roleValue == C_LOGISTIC_ADVISOR)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, true, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, false, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, false, fldFeedbackOutputCtrl, true);
+            
+            fldAttendingCtrl.checked = false;
+            fldSendCBPCtrl.checked = false;
+            fldSendFeedbackCtrl.checked = false;
+            fldSendImpactCtrl.checked = false;
+            fldSendFBPCtrl.checked = true; 
+            fldFeedbackOutputCtrl.checked = false;
+        }
+        else if(roleValue == C_SCHEDULER)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, true, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, false, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, true);
+            
+            fldAttendingCtrl.checked = false;
+            fldSendCBPCtrl.checked = false;
+            fldSendFeedbackCtrl.checked = false;
+            fldSendImpactCtrl.checked = false;
+            fldSendFBPCtrl.checked = false;
+            fldFeedbackOutputCtrl.checked = false; 
+        }
+        
+        else if(roleValue == C_PRESNETER_EMC_EMPLOYEE)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, true, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, false, fldFeedbackOutputCtrl, false);
+            
+            fldAttendingCtrl.checked = false;
+            fldSendCBPCtrl.checked = false;
+            fldSendFeedbackCtrl.checked = false;
+            fldSendImpactCtrl.checked = false;
+            fldSendFBPCtrl.checked = true;
+            fldFeedbackOutputCtrl.checked = true;
+        }
+        
+        else if(roleValue == C_PRESENTER_NON_EMC_EMPLOYEE)
+        {
+            setFields(fldAttendingCtrl, false, fldEBCTitleCtrl, true, fldAttitudeCtrl, true, fldNotesCtrl, true, fldPositionCtrl, true, fldSendCBPCtrl, true, fldSendFeedbackCtrl, true, fldSendImpactCtrl, true, fldSendFBPCtrl, true, fldFeedbackOutputCtrl, false);
+            
+            fldAttendingCtrl.checked = false;
+            fldSendCBPCtrl.checked = false;
+            fldSendFeedbackCtrl.checked = false;
+            fldSendImpactCtrl.checked = false;
+            fldSendFBPCtrl.checked = false;
+            fldFeedbackOutputCtrl.checked = true;
+        }
+    }
+
+</script>
+
+    <apex:form >
+        <apex:pageBlock title="Update Briefing Team Attributes">
+ 
+            <apex:outputPanel id="theMessages">
+                <apex:pageMessages />
+            </apex:outputPanel>
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!updateAttributes}" value="Update" id="btnUpdate" />
+                <apex:commandButton action="{!cancel}" value="Cancel" id="btnCancel"/>
+            </apex:pageBlockButtons>
+            
+            <b>&nbsp;
+            <apex:outputLabel id="lblBriefingEvent" value="Briefing Event: " />
+            <apex:commandLink id="txtBriefingEvent" value="{!briefingEvent.Name}" action="{!cancel}" /></b>
+            <br /><br />
+            
+            <apex:inputhidden id="hidRecCount" value="{!invListCount}"/>
+            <apex:PageBlockTable value="{!inviteeList}" var="item" id="invList" styleClass="list">                
+                <apex:column headerValue="{!$Label.Invitee_Name}" >
+                    <apex:inputText value="{!item.Invitee__c}" />
+                </apex:column>
+                <!--
+                <apex:column headerValue="{!$Label.EBC_Name}" >
+                    <apex:inputField id="EBCName" value="{!item.EBC_Name__c}" />    
+                </apex:column>
+                -->
+                <apex:column headerValue="{!$Label.Attending}">
+                    <apex:inputField id="Attending" value="{!item.Attending__c}" />
+                </apex:column>
+                <apex:column headerValue="{!$Label.Briefing_Team_Role}">
+                    <apex:inputField onchange="fieldAccess('{!$Component.BriefingTeamRole}', '{!$Component.Attending}', '{!$Component.EBCTitle}', '{!$Component.Email}', '{!$Component.Attitude}', '{!$Component.CustomerNotes}', '{!$Component.Position}', '{!$Component.SendCBP}', '{!$Component.SendFeedback}', '{!$Component.SendImpact}', '{!$Component.SendFBP}', '{!$Component.FeedbackOutput}');" 
+                     id="BriefingTeamRole" value="{!item.Briefing_Team_Role__c}" />
+                </apex:column>
+                <apex:column headerValue="Company">
+                    <apex:inputField id="Company" value="{!item.Company__c}" />
+                </apex:column>
+                <apex:column headerValue="{!$Label.EBC_Title}">
+                    <apex:inputField id="EBCTitle" value="{!item.EBC_Title__c}" />
+                </apex:column>
+                <apex:column headerValue="{!$Label.Email}">
+                    <apex:inputField id="Email" value="{!item.Attendee_Email__c}" />
+                </apex:column>
+                <apex:column headerValue="{!$Label.Attitude_Toward_EMC}" id="Attitude_Toward_EMC">
+                    <apex:inputField id="Attitude" value="{!item.Attitude_towards_EMC__c}" />
+                </apex:column>
+                <apex:column headerValue="Position they represent">
+                    <apex:inputField id="Position" value="{!item.Position_they_represent_in_their_Company__c}" />
+                </apex:column>
+                <apex:column width="50%" headerValue="{!$Label.Customer_Notes}"> 
+                    <apex:inputField id="CustomerNotes" value="{!item.Customer_Notes__c}" />    
+                </apex:column>
+                <apex:column headerValue="{!$Label.Send_CBP}">
+                    <apex:inputField id="SendCBP" value="{!item.Send_CBP__c}" />
+                </apex:column>
+                <apex:column headerValue="{!$Label.Send_Feedback}">
+                    <apex:inputField id="SendFeedback" value="{!item.Send_Feedback__c}" />
+                </apex:column>
+                <apex:column headerValue="{!$Label.Send_Impact}">
+                    <apex:inputField id="SendImpact" value="{!item.Send_Impact__c}" />
+                </apex:column> 
+                <apex:column headerValue="{!$Label.Send_FBP}">
+                    <apex:inputField id="SendFBP" value="{!item.Send_FBP__c}" />
+                </apex:column>
+                <apex:column headerValue="{!$Label.Feedback_Output}">
+                    <apex:inputField id="FeedbackOutput" value="{!item.Feedback_Output__c}" />
+                </apex:column>
+            </apex:PageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+<script language="javascript">
+
+
+    function onTeamRole()
+    {
+        var recCount = document.getElementById('j_id0:j_id2:j_id3:hidRecCount').value;
+        for(var i=0; i < recCount ; i++)
+        {
+            var fldRole = 'j_id0:j_id2:j_id3:invList:'+i+':BriefingTeamRole';
+            var fldAttendingCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':Attending';
+            //var fldEBCNameCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':EBCName';
+            var fldEBCTitleCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':EBCTitle';
+            var fldAttitudeCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':Attitude';
+            var fldNotesCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':CustomerNotes';
+            var fldPositionCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':Position';
+            var fldSendCBPCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':SendCBP';
+            var fldSendFeedbackCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':SendFeedback';
+            var fldSendImpactCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':SendImpact';
+            var fldSendFBPCtrl = 'j_id0:j_id2:j_id3:invList:'+i+':SendFBP';
+            var fldFeedbackOutput = 'j_id0:j_id2:j_id3:invList:'+i+':FeedbackOutput'
+            
+            //fieldAccess(fldRole, fldEBCNameCtrl, fldAttendingCtrl, fldEBCTitleCtrl, fldEmailCtrl, fldAttitudeCtrl, fldNotesCtrl, fldPositionCtrl, fldSendCBPCtrl, fldSendFeedbackCtrl, fldSendImpactCtrl, fldSendFBPCtrl);
+            fieldAccessFirstDownload(fldRole, fldAttendingCtrl, fldEBCTitleCtrl, fldAttitudeCtrl, fldNotesCtrl, fldPositionCtrl, fldSendCBPCtrl, fldSendFeedbackCtrl, fldSendImpactCtrl, fldSendFBPCtrl, fldFeedbackOutput);
+        }
+    }
+    setTimeout('onTeamRole()', 300); 
+</script>
+</apex:page>

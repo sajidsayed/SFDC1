@@ -1,0 +1,101 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  24/07/2012      Anirudh Singh   197913      This Page will be used to Reassign the Ownership to Distribution VAR users.                             
+========================================================================================================================-->
+<apex:page id="myPage" controller="PRM_AssignOwnershipToDistributionVAR" >    
+    <body class="lookupTab  LookupSearchFrame" style="margin: 10px;">
+        <apex:sectionHeader title=" Distribution VAR User Lookup" /><br/>
+       <apex:form id="newOwnerForm" >
+       <apex:pagemessages />
+        <apex:outputPanel id="searchLayout" layout="block" rendered="{!isResultPanelRendered }">            
+            <apex:outputPanel id="resultSets" layout="block" >
+                    <apex:inputHidden id="selectedUserId" value="{!userId}" /> 
+                    <apex:Pageblock >
+                     <apex:pageBlockButtons >
+                    <apex:commandButton action="{!reassignOwner}" value="Save" />
+                    <apex:commandButton action="{!cancel}" value="Cancel" />
+                    </apex:pageBlockButtons>
+                        <apex:pageBlockTable value="{!UserDetails}" var="Users" id="Block"> 
+                            <apex:column headerValue="Select">
+                            <input type="radio" name="userRadio" onclick="javascript: getElementById('{!$component.selectedUserId}').value = '{!Users.id}';" />
+                            </apex:column>
+                            <apex:column rendered="true" >
+                                <apex:facet name="header">
+                                  <apex:commandLink title="First Name" value="{!$ObjectType.User.fields.FirstName.label}" action="{!runSortAction}" reRender="Block" onclick="sortColumn('FirstName');">
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField == 'FirstName',sortAscending==true),true,false)}" />
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField == 'FirstName',sortAscending==false),true,false)}"  />                               
+                                       <apex:param assignTo="{!sortField}" name="FirstName" value="FirstName"/>
+                                  </apex:commandLink>    
+                                </apex:facet>
+                             <apex:outputField value="{!Users.FirstName}"/>
+                            </apex:column> 
+                            <apex:column rendered="true" >
+                                <apex:facet name="header">
+                                  <apex:commandLink title="Last Name" value="{!$ObjectType.User.fields.LastName.label}" action="{!runSortAction}" reRender="Block" onclick="sortColumn('LastName');">
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField == 'LastName',sortAscending==true),true,false)}" />
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField == 'LastName',sortAscending==false),true,false)}"  />                               
+                                       <apex:param assignTo="{!sortField}" name="LastName" value="LastName"/>
+                                  </apex:commandLink>    
+                                </apex:facet>
+                             <apex:outputField value="{!Users.LastName}"/>
+                            </apex:column>
+                            <apex:column rendered="true" >
+                                <apex:facet name="header">
+                                  <apex:commandLink title="Email" value="{!$ObjectType.User.fields.Email.label}" action="{!runSortAction}" reRender="Block" onclick="sortColumn('Email');">
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField == 'Email',sortAscending==true),true,false)}" />
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField == 'Email',sortAscending==false),true,false)}"  />                               
+                                       <apex:param assignTo="{!sortField}" name="Email" value="Email"/>
+                                  </apex:commandLink>    
+                                </apex:facet>
+                             <apex:outputField value="{!Users.Email}"/>
+                            </apex:column>
+                            <apex:column rendered="true" >
+                                <apex:facet name="header">
+                                  <apex:commandLink title="Company" value="Company" action="{!runSortAction}" reRender="Block" onclick="sortColumn('Contact.Account.Name');">
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField == 'Contact.Account.Name',sortAscending==true),true,false)}" />
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField == 'Contact.Account.Name',sortAscending==false),true,false)}"  />                               
+                                       <apex:param assignTo="{!sortField}" name="Contact.Account.Name" value="Contact.Account.Name"/>
+                                  </apex:commandLink>    
+                                </apex:facet>
+                             <apex:outputField value="{!Users.Contact.Account.Name}"/>
+                            </apex:column>
+                            <apex:column rendered="true" >
+                                <apex:facet name="header">
+                                  <apex:commandLink title="Phone Number" value="{!$ObjectType.User.fields.Phone.label}" action="{!runSortAction}" reRender="Block" onclick="sortColumn('Phone');">
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField == 'Phone',sortAscending==true),true,false)}" />
+                                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField == 'Phone',sortAscending==false),true,false)}"  />                               
+                                       <apex:param assignTo="{!sortField}" name="Phone" value="Phone"/>
+                                  </apex:commandLink>    
+                                </apex:facet>
+                             <apex:outputField value="{!Users.Phone}"/>
+                            </apex:column>                        
+                        </apex:pageBlockTable> 
+                         <apex:outputPanel id="pagingPanel" rendered="{!(NOT(lstDistributionVARUser.size == 0))}">
+                           <c:paginator reRenderComponent="Block,pagingPanel" pageManager="{!objPageManager}" statusComponent="sortStatus" id="bottom_paginator"/>                                                 
+                         </apex:outputPanel>                       
+                    </apex:Pageblock>
+            </apex:outputPanel>           
+        </apex:outputPanel>
+        <apex:outputPanel id="successPanel">            
+            <apex:inputHidden id="sortAscending" value="{!sortAscending}" />
+            <apex:inputHidden id="sortField" value="{!sortField}" /> 
+            <apex:actionStatus id="sortStatus" startText="Loading....">
+            </apex:actionStatus>
+            </apex:outputPanel>
+       </apex:form>       
+    </body>
+    <script type="text/javascript">
+    function sortColumn(column_name) {       
+       var fieldobj = document.getElementById('{!$Component.myPage.newOwnerForm.sortField}');
+       var orderobj = document.getElementById('{!$Component.myPage.newOwnerForm.sortAscending}');       
+       var new_sort_order = 'true';
+       if(column_name == fieldobj.value) {
+         // if previously same column sorted, reverse the sort order
+         new_sort_order = (orderobj.value=='false'?'true':'false');
+        }
+       fieldobj.value = column_name;
+       orderobj.value = new_sort_order;        
+     } 
+    </script>
+</apex:page>

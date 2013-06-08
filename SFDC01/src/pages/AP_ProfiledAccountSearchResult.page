@@ -1,0 +1,111 @@
+<apex:page id="myPage" standardController="Account" extensions="AP_ProfiledAccountSearch" sidebar="true"  showHeader="true" >
+  <style>
+    .searchMessageFont { color: #204EA9; font-weight: bold;}
+  </style>
+  <script>
+  function onChangeValue(ev)  {
+  //alert("OnChange Value");
+  //alert(ev.which);
+        var ele=document.getElementById('myPage:myForm:inputblock:search');
+      //  alert(ele);
+        ele.click();
+        return false;
+      }
+   //Used for Enter key
+   function noenter(ev)  {
+       if(window.event){
+            key = window.event.keyCode; //IE
+           // alert(key);
+         } else{
+         key = ev.which; //firefox
+        // alert(key);
+         }
+    if(key == 13 || window.event.keycode == 13) {
+       var ele=document.getElementById('myPage:myForm:inputblock:search');
+       // alert(ele);
+        ele.click();
+        return false;
+     } else{
+        return true;
+     }
+  }
+
+</script>
+
+   
+ <apex:form id="myForm">
+ <!--START : Account Search Filter -->
+   <apex:pageBlock rendered="true" title="{!$Label.AP_Account_Search}" id="inputblock">
+     <apex:outputText value="{!$Label.AP_CustomAccountSearch_Message}" escape="false" styleClass="searchMessageFont"/>   
+        <br></br><br></br>  
+       <apex:outputText style="font-weight:bold" value="{!$Label.AP_Search_Criteria}" />&nbsp;&nbsp;
+        <apex:selectList value="{!accountDropDown}" size="1" id="searchItem" onChange="return onChangeValue(event)">
+          <apex:selectOptions value="{!item}"/>
+        </apex:selectList>
+        <apex:inputText id="searchAccount"  style="width:125px;" title="Account Search" value="{!inputAccountName}" onkeypress="return noenter(event)"/>
+        <apex:commandButton action="{!filterAccountSearch}" value="{!$Label.AP_SearchButton}" id="search" />
+        <br></br><br></br>
+       <apex:commandLink action="{!clearresults}" value="{!$Label.AP_Clear_Search_Results}" id="clearlink" style="font-weight:bold"/>
+   </apex:pageBlock>
+ <!--END : Account Search Filter -->
+   
+ <!--START : Account Search Result -->
+  <apex:pageBlock title="{!$Label.AP_Search_Result}" tabStyle="Account" id="Block">
+    <apex:pageMessages />
+     <apex:outputText value="{!$Label.AP_RecordNotFound}" rendered="{!noResult}" />
+     <apex:pageBlockTable value="{!ProfileAccountDetails}" var="accountVar" rendered="{!NOT(noResult) && Not(minChar)}">
+     
+    <apex:column rendered="true"> 
+       <apex:facet name="header">
+           <apex:outputText value="{!$Label.AP_Account_Name}" title="Account Name"  ></apex:outputText>
+       </apex:facet>
+        <apex:outputField value="{!accountVar.Account_District__c}"/>
+    </apex:column> 
+ 
+    <apex:column rendered="true" >
+        <apex:facet name="header">
+         <apex:outputText value="{!$Label.AP_Customer_Profiled_Account}" title="Customer Profiled Account"  ></apex:outputText>
+       </apex:facet>
+        <apex:commandLink value="{!accountVar.name}" action="{!populateselectedrecord}"  target="_parent"  rerender="Block, successPanel">  
+        <apex:param assignTo="{!paramValue}" name="selectedName" value="{!accountVar.Id}" id="paramName"/>
+       </apex:commandLink>
+     <!--<apex:outputField value="{!accountVar.Customer_Profiled_Account__c}"/>-->
+    </apex:column>
+    
+   <apex:column rendered="true" >
+        <apex:facet name="header">
+          <apex:outputText title="Core Quote Rep" value="{!$Label.AP_Core_Quota_Rep}" >       
+          </apex:outputText>    
+        </apex:facet>
+        <apex:commandLink value="{!accountVar.Core_Quota_Rep__r.Name}" action="{!populateselectedrecord}" target="_parent"  rerender="Block, successPanel">  
+        <apex:param assignTo="{!paramValue}" name="CQR" value="{!accountVar.Core_Quota_Rep__c}" id="paramCQP"/>
+       </apex:commandLink>
+    
+    </apex:column> 
+   
+    <apex:column rendered="true" >
+        <apex:facet name="header">
+          <apex:outputText title="Account City" value="{!$Label.AP_City}">
+          </apex:outputText>    
+        </apex:facet>
+     <apex:outputField value="{!accountVar.BillingCity}"/>
+    </apex:column>    
+    
+    <apex:column rendered="true" >
+        <apex:facet name="header">
+            <apex:outputText title="Country" value="{!$Label.AP_Country}">
+            </apex:outputText>    
+        </apex:facet>    
+     <apex:outputText value="{!accountVar.BillingCountry }" escape="false"/>
+    </apex:column>
+   </apex:pageBlockTable>
+  <!--END : Account Search Results-->
+ 
+  <!--  TO Navigate to Account and User -->
+   <apex:outputPanel id="successPanel">
+       <apex:inputHidden id="successFlag" value="{!hiddenAccId}"/>
+   </apex:outputPanel>
+   
+  </apex:pageBlock>
+  </apex:form>
+    </apex:page>

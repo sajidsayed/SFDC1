@@ -1,0 +1,62 @@
+<!--
+/*=======================================================================================+
+
+|  HISTORY  |                                                                           
+
+| DATE          DEVELOPER         WR          DESCRIPTION                               
+
+| ====          =========         ==          =========== 
+
+| 8/7/2010      Ashwini Gowda     ReqtID 043  Initial Creation.
+| 11/10/2010    Ashwini Gowda     1060        Add confirmation message once "Deal Registration" 
+|                                             is selected from the Disposition Lead Page Validation
+|                                             could be a pop up screen. 
+| 25/05/2011    Anand Sharma                  Deal Registration implementation, removed alert message.
+| 31/05/2012    Anirudh Singh     194959      Updated Page to render Non Deal Registration button as per the
+|                                             theater of logged in User.                                                                         
++=======================================================================================*/
+-->
+<apex:page standardController="Lead" extensions="PRM_ConvertLeadController" action="{!updateDealReg}"> 
+    <apex:form >
+    <apex:panelGrid columns="1">
+        <apex:pageBlock title="{!$Label.Disposition_Lead}" rendered="{!NOT(showErrorMessage)}" >
+            <apex:pageBlockButtons location="top"> 
+                <apex:commandButton action="{!Cancel}" value="{!$Label.EMC_Cancel}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="{!$Label.Opportunity_Exists}" >                
+                <!-- 
+                <apex:commandButton action="{!dealRegistration}" value="{!$Label.Deal_Registration}"
+                 onclick="return isCloseLead()"/>
+               -->
+               <apex:commandButton action="{!dealRegistration}" value="{!$Label.Deal_Registration}"/>
+               
+                {!$Label.Eligible_for_DR}
+                
+                    <apex:commandButton action="{!nonDealRegistration}" value="{!$Label.Non_Deal_Registration}" rendered="{!showNonDealRegButton}"/>
+                    <apex:outputText value="{!$Label.NotQualifryforDR}" rendered="{!showNonDealRegButton}"></apex:outputText>
+                
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.No_Opportunity_Exists}">
+                <apex:commandButton action="{!closeLead}" value="{!$Label.Close_Lead}"/>
+                {!$Label.Appropriate_close_reason}
+               <apex:selectList size="1" value="{!Lead.Closed_Reason__c}" rendered="{!showClosedReason}" >
+                 <apex:selectOptions value="{!ClosedList}" />
+               </apex:selectList>
+                <apex:commandButton action="{!ok}" value="{!$Label.OK}" rendered="{!showOkButton}"/>                
+            </apex:pageBlockSection> 
+        </apex:pageBlock>                    
+    </apex:panelGrid>           
+        <apex:pageBlock title="{!$Label.Disposition_Lead}" rendered="{!showErrorMessage}">
+            <apex:pageMessages /> 
+            <Center><apex:commandButton action="{!Cancel}" style="position:middle;" value="{!$Label.OK}" rendered="{!showCancelButton}" /></Center>
+        </apex:pageBlock>
+    </apex:form>
+    <!--JavaScript for confirmation Message-->      
+    <script type="text/javascript">
+    function isCloseLead()
+    {
+        var x=confirm("{!$Label.Pending_Deal_Reg}");
+        return x;
+    }
+    </script>
+</apex:page>

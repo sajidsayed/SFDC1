@@ -1,0 +1,287 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  03-01-2011      Anand Sharma                This page will be used to display Scorecard for account.
+ |  23-March-11     Prasad K                    Taken out the script call to merge cell. Doing through Apex. 
+ |  02/08/2011      Anand Sharma                Code was overridden in May Release. Again change old code only.
+ |  02/08/2011      Anirudh Singh               Re Updated page to display Note for the Velocity Scorecard.  
+    08/11/2011      Leonard V                   Added Width Style in Form tag for New SFDC skin
+    13/01/2012      Jen Romano                  Hard coded width pixels in Form tag for New Skin [temporary fix]
+ |  02/16/2012      D Quinn                     WR-188298 fix display issues caused by new UI and Spring 12 release.
+                                                   removed temporary hard coded pixel width.
+ |  13-mar-2012     Anand Sharma                Added custom label to display more notes 
+ |  20-Jul-2012     Anand Sharma                Distributor profile ID, the Revenue fields will be displayed as blank to that user profile                                                
+========================================================================================================================-->
+<apex:page controller="PRM_VPP_VelocityScorecardController" id="VelocityScorecardPage">
+    <apex:stylesheet value="{!URLFOR($Resource.mystyle4, 'mystyle4/mystyle2/css/PRM_VPP_Scorecard_CSS.css')}"/>     
+    <apex:pageMessages />
+    
+    <apex:form id="frmScorecard" title="{!$Label.Velocity_Scorecard}">
+        <!--<apex:pageBlockSection columns="1" Rendered="Not(IsBlank(!User.Contact.Account.Velocity_Solution_Provider_Tier__c))">                -->
+        <apex:actionFunction name="updateAction" action="{!populateData}" rerender="pnlScorecard, pnlComplianceStatus" oncomplete="hightlightTier();"/>
+        <apex:outputPanel id="pnlScorecardError" Rendered="{!NOT(isRenderScorecard)}">
+            <center><apex:commandButton value="{!$Label.cancel}" action="{!cancelUpdates}"/></center>
+        </apex:outputPanel>
+        
+        <apex:outputPanel id="pnlScorecard" Rendered="{!isRenderScorecard}"> 
+            <table cellspacing="0px" height="10%" width="100%" style="margin-bottom:5px">
+                <tr >
+                    <td  class="cellBucketStyleTopReqs" ><apex:outputText value="{!$Label.Velocity_Scorecard}"  /></td>
+               </tr>
+            </table>            
+            <apex:dataTable value="{!TierScoreCardSingle}" var="abc" width="100%" styleClass="rt6Style" >
+                <apex:column >
+                    <table cellspacing="0" width="100%" class="rt7Style">
+                        <apex:repeat value="{!abc.lstVelocityBucketNameValueData}" var="val1">              
+                             <tr>
+                                    <td width="35%" class="cellBlueStyle" style="border-bottom:1px solid  #4E79A6" > &nbsp;</td>                                                          
+                                    <td  width="{!(65 / (val1.lstVelocityTierNameValueData.size )) * (val1.lstVelocityTierNameValueData.size -1 )}%" class="cellBucketStyleTopReqs">
+                                        {!$Label.Requirements}
+                                    </td>                                
+                                <td width="{!(65 / (val1.lstVelocityTierNameValueData.size))}%"  class="cellBlueStyle" style="border-bottom:1px solid  #4E79A6"  >&nbsp;</td>
+                             </tr> 
+                        </apex:repeat> 
+                    </table>                        
+                </apex:column>
+            </apex:dataTable>
+            <apex:dataTable value="{!TierScoreCardSingle}" var="abc" styleClass="rt6Style" width="100%">
+                <apex:column >
+                    <table cellspacing="0"  width="100%" id="{!abc.BucketName}" class="rt6Style">
+                        <apex:repeat value="{!abc.lstVelocityBucketNameValueData}" var="val1">              
+                             <tr>
+                                <td width="35%" class="cellBlueStyle" border="0" id="{!abc.BucketName}"> <apex:outputText value="{!abc.BucketName}"/ ></td>
+                                <apex:repeat value="{!val1.lstVelocityTierNameValueData}" var="valTier">                            
+                                    <td border="0" width="{!(65 / (val1.lstVelocityTierNameValueData.size )) }%" class="{!IF(valTier.TierName=='Actual', 'cellBlueStyle','cellTierStyle')}" Id="{!valTier.TierName}">
+                                        <apex:variable var="Label" value="{!$Label.Signature_SSCP}"/>
+                                        <apex:outputText value="{!IF(AND(valTier.TierName == 'Signature', CONTAINS(AccountRecord.Cluster__c,'EMEA')),Label, valTier.TierDisplayName)}"/>                                        
+                                    </td>
+                                </apex:repeat>
+                             </tr> 
+                        </apex:repeat> 
+                    </table>   
+                </apex:column> 
+            </apex:dataTable>
+            <apex:dataTable value="{!lstBucketNameData}" var="abc" styleclass="rt6Style" width="100%"> 
+                <apex:column >
+                    <table cellspacing="0"  class="rt6Style" width="100%" id="{!abc.BucketName}">
+                        <tr>                         
+                            <td colspan="{!lstCustomTierValues.size+2}" class="cellBucketStyle" Id="Fix+ {!abc.BucketName}">{!IF(abc.BucketName=='Velocity Program','Specialties',abc.BucketName)}</td>                                           
+                          <!--  <apex:repeat value="{!lstCustomTierValues}" var="valTierList">
+                                <td width="{!(75 / (lstCustomTierValues.size + 1 ))}%" class="cellBucketStyle"></td>
+                            </apex:repeat>                      
+                            <td width="{!(75 / (lstCustomTierValues.size + 1 ))}%" class="cellBucketStyle"><apex:outputText value=""/></td>  -->                   
+                        </tr>
+                        <apex:variable value="{!lstCustomTierValues.size+1}" var="columnCount"/>     
+                        <apex:repeat value="{!abc.lstVelocityBucketNameValueData}" var="val1">              
+                             <tr>
+                                <td width="35%" id="{!val1.DisplayName}" class="rt4Style"> <apex:outputText value="{!val1.DisplayName}"  /></td>
+                                <apex:repeat value="{!val1.lstVelocityTierNameValueData}" var="valTier">                            
+                                    <td rowspan="{!IF(valTier.isTotalRevenue==true,'4','1')}" width="{!(65 /columnCount)}%"  Id="{!valTier.TierName}" class="{!IF( AND(OR( valTier.TierRuleResult.RequiredCount__c=='n/a',valTier.TierRuleResult.RequiredCount__c=='Optional' ,valTier.TierRuleResult.RequiredCount__c=='set by GAF'), valTier.TierRuleResult.Required_Value_Type__c == 'Text' ),'rt3Style',IF(valTier.TierName=='Actual', 'rt5Style',IF(valTier.TierAchieved =='Achieved','rt1Style', IF(valTier.TierName == ProcessingTierName, 'rt2Style','rt3Style')))) }">                                                                              
+                                           <apex:outputText value="{!IF(AND(valTier.TierName=='Actual', IF(FIND('$',valTier.TierValue) > 0, true, false),NOT(isRevenueVisible)),'',IF(AND(valTier.TierName=='Actual', valTier.TierValue != 'No', valTier.TierValue != 'Yes', IF(FIND('.',valTier.TierValue) > 0, true, false)) ,LEFT(valTier.TierValue,FIND('.',valTier.TierValue)-1), valTier.TierValue))}" rendered="{!IF(valTier.TierRuleResult.Required_Value_Type__c == 'USD', false, true)}"/>
+                                           <apex:outputText value="{0,number, $#,###,###}" rendered="{!IF(AND(valTier.TierRuleResult.Required_Value_Type__c == 'USD',isRevenueVisible), true,false)}">
+                                              <apex:param value="{!value(valTier.TierValue)}"  />
+                                           </apex:outputText>                         
+                                    </td>
+                                </apex:repeat>                                    
+                             </tr>           
+                        </apex:repeat> 
+                    </table>   
+                </apex:column> 
+            </apex:dataTable>   
+            <br/><br/>  
+              <hr/>
+        <br />          
+            <apex:panelGrid columns="5" id="TierValues">
+                <apex:outputText value="{!$Label.Current_Velocity_Tier}" style="font-weight: bold; font-family:Arial; font-size:14px"/>                
+                <apex:selectList id="myTierOption" value="{!TiersName}" multiselect="false" size="1" onchange="updateActualAction();" disabled="{!NOT(isShowBotton)}">
+                    <apex:selectOptions value="{!items}"/>
+                </apex:selectList>              
+                <apex:outputText value="{!$Label.Compliance_Period_Requirements_Met}" style="font-weight: bold; font-family:Arial; font-size:14px"/>
+                <apex:outputPanel id="pnlComplianceStatus">
+                    <apex:outputText value="   {!ComplianceRequirementStatus}"/>
+                </apex:outputPanel>
+            </apex:panelGrid>            
+            
+        <div align="right">                
+          <table cellspacing="0"  border="0">
+              <tr>
+                  <td><apex:commandButton id="save" value="{!$Label.Save}" rerender="OutputResult" onclick="isSave();" Rendered="{!isShowBotton}"/></td>                 
+                  <td><apex:commandButton value="{!$Label.cancel}" rerender="OutputResult" action="{!cancelUpdates}" Rendered="{!isShowBotton}"/></td>
+              </tr>                                  
+          </table>
+        </div>    
+         <hr/>
+        <br />
+        <apex:actionFunction name="updateProfileAccountAction" action="{!updateProfileAccount}"/>        
+        <apex:outputText value="{!$Label.PRM_Scorecard_HelpText}" escape="false"></apex:outputText> 
+        <apex:outputText value="{!$Label.PRM_ScoreCard_Help_Text1}" escape="false"></apex:outputText> 
+        <apex:outputText value="{!$Label.PRM_ScoreCard_Help_Text2}" escape="false"></apex:outputText>
+        </apex:outputPanel>            
+        <br/><br/><br/>
+
+        <!--</apex:pageBlockSection>
+        
+                <h1><apex:outputText value="Insufficient Privileges"/></h1>
+        -->
+        
+    </apex:form>
+    <script language="JavaScript"> 
+        var previousTierValue=''; 
+        
+        function isSave()
+        {
+            var x=confirm('{!$Label.Save_Action}');
+            if(x){              
+                updateProfileAccountAction();
+            }
+        }        
+        var previousOnload = window.onload;
+        window.onload=function hightlightTieronLoad(){          
+            if (previousOnload) { previousOnload(); }
+            hightlightTier() ;
+            //mergeColumn();                           
+        }       
+        function hightlightTier(){
+            var dropDownList;
+             var findTable ;
+           
+            if(document.getElementById('VelocityScorecardPage:frmScorecard:myTierOption')){
+            dropDownList = document.getElementById('VelocityScorecardPage:frmScorecard:myTierOption'); 
+            findTable = dropDownList.options[dropDownList.selectedIndex].value;
+            }
+            
+            if( findTable=='Signature Solution Center'){
+                findTable ='Signature';
+            } 
+            if( findTable=='Distributor'){
+                findTable ='Signature';
+            } 
+            
+            if(document.getElementById(findTable)){
+            var table = document.getElementById(findTable);
+            table.style.backgroundColor='#4E79A6';
+            table.style.backgroundImage= 'none';             
+            }
+
+            
+            previousTierValue = findTable;  
+             //23-March-11   PRasad K                  2585    Moved the mergeColumn logic from script to controller 
+            //mergeColumn();                            
+        }       
+        function updateActualAction(){
+            updateAction();         
+        }
+        
+        //23-March-11   PRasad K                  2585    Moved the mergeColumn logic from script to controller 
+   
+        function mergeColumn(){
+            var myTable = document.getElementById('Revenue');
+            //alert('my marge table ' + myTable);   
+            var rows = myTable.getElementsByTagName('tr');
+            //alert('rows ' + rows.length);     
+            var numRows = rows.length;     
+            var numRowSpan=1;
+            for (var j = 1; j < (numRows - 1); j++) {
+                //alert(j);       
+                if (numRowSpan <= 1) {
+                    
+                    var currentRow = myTable.getElementsByTagName('tr')[j]; 
+                    var currentCell= currentRow.getElementsByTagName('td')[1];  // the 1st column           
+                    var currentCellData = currentCell.childNodes[0].data;
+                    currentCell.style.verticalAlign = 'bottom';
+                    currentCell.style.verticalAlign = 'text-bottom';
+                    
+                    //alert(currentRow);
+                }
+                if (j < numRows - 1) {
+                    if (myTable.getElementsByTagName('tr')[j + 1]) {
+                        var nextRow = myTable.getElementsByTagName('tr')[j + 1];
+                        var nextCell = nextRow.getElementsByTagName('td')[1];
+                        var nextCellData = nextCell.childNodes[0].data;
+                        // compare the current cell and the next cell             
+                     
+                         numRowSpan += 1;
+                         currentCell.rowSpan = numRowSpan;
+                         nextCell.style.display = 'none';   //disappear the next cell 
+                         nextCell.style.verticalAlign = 'bottom';
+                         nextCell.style.verticalAlign = 'text-bottom'; 
+                         nextCell.childNodes[0].data ='100';                                   
+                        
+                    }
+                }
+            
+            }
+            
+            numRowSpan=1;
+            for (var j = 1; j < (numRows - 1); j++) {
+                //alert('bbbb' + j);       
+                if (numRowSpan <= 1) {
+                    var currentCellData = 0;
+                    var currentRow = myTable.getElementsByTagName('tr')[j]; 
+                    //alert('bbbb currentRow ' + currentRow );
+                    var currentCell= currentRow.getElementsByTagName('td')[2];  // the 1st column
+                    //alert('bbbb currentCell' + currentCell); 
+                    //alert('bbbb currentCell.childNodes[0]' + currentCell.childNodes[0]);
+                    if(currentCell.childNodes[0] !='undefined'){          
+                        var currentCellData = currentCell.childNodes[0].data;
+                    }
+                    //alert('bbbb row' + currentCellData );
+                }
+                if (j < numRows - 1) {
+                    if (myTable.getElementsByTagName('tr')[j + 1]) {
+                        var nextRow = myTable.getElementsByTagName('tr')[j + 1];
+                        var nextCell = nextRow.getElementsByTagName('td')[2];
+                        var nextCellData = nextCell.childNodes[0].data;
+                        // compare the current cell and the next cell             
+                        //if (currentCellData == nextCellData) {
+                        if (currentCellData == currentCellData) {
+                            numRowSpan += 1;
+                            currentCell.rowSpan = numRowSpan;
+                            nextCell.style.display = 'none';   //disappear the next cell             
+                        } else {
+                            numRowSpan = 1;
+                        }
+                    }
+                }            
+            }
+            var dropDownListActual = document.getElementById('VelocityScorecardPage:frmScorecard:myTierOption');
+            var findTableActual = dropDownListActual.options[dropDownListActual.selectedIndex].value;
+            if( findTableActual=='Affiliate' || findTableActual=='Affiliate Elite'){
+                
+                numRowSpan=1;
+                for (var j = 1; j < (numRows - 1); j++) {
+                    //alert('bbbb' + j);       
+                    if (numRowSpan <= 1) {
+                        var currentCellData = 0;
+                        var currentRow = myTable.getElementsByTagName('tr')[j]; 
+                       // alert('bbbb currentRow ' + currentRow );
+                        var currentCell= currentRow.getElementsByTagName('td')[5];  // the 1st column
+                        //alert('bbbb currentCell' + currentCell); 
+                       // alert('bbbb currentCell.childNodes[0]' + currentCell.childNodes[0]);
+                        if(currentCell.childNodes[0] !='undefined'){          
+                            var currentCellData = currentCell.childNodes[0].data;
+                        }
+                        //alert('bbbb row' + currentCellData );
+                    }
+                    if (j < numRows - 1) {
+                        if (myTable.getElementsByTagName('tr')[j + 1]) { 
+                            var nextRow = myTable.getElementsByTagName('tr')[j + 1];
+                            var nextCell = nextRow.getElementsByTagName('td')[5];
+                            var nextCellData = nextCell.childNodes[0].data;
+                            // compare the current cell and the next cell             
+                            //if (currentCellData == nextCellData) {
+                            if (currentCellData == currentCellData) {
+                                numRowSpan += 1;
+                                currentCell.rowSpan = numRowSpan;
+                                nextCell.style.display = 'none';   //disappear the next cell             
+                            } else {
+                                numRowSpan = 1;
+                            }
+                        }
+                    }            
+                }
+                
+            }
+        }
+    </script>
+</apex:page>

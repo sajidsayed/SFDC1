@@ -1,0 +1,10 @@
+<apex:page standardController="Partner_Information__c">
+  <script>
+
+
+
+window.top.location.href = '/{!$Request.id}/e?retURL={!$Request.retURL}&user_profile={!$Profile.Name}&nooverride=0'; 
+
+</script>
+
+</apex:page>

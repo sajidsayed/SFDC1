@@ -1,0 +1,25 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  05-05-2013      Karunakar M     255400      This Page will be used to display Link to Terms & Conditions Document 
+ |                                                 
+                                              
+========================================================================================================================-->
+
+<apex:page standardController="Partner_Information__c">
+ <apex:form >
+    <apex:pageBlock >
+    <table align="center" columns ="10">                 
+                    <td colspan="8">
+                    <center>                       
+                        <apex:outputText value="{!$Label.VSPX_Accept_Doc}" escape="false" style="font-weight:bold;"></apex:outputText>                       
+                        <br/><br/>
+                        <apex:outputLabel value="I Accept" ></apex:outputLabel> &nbsp;&nbsp;
+                        <apex:inputField value="{!Partner_Information__c.I_Accept__c}" />                   
+                     </center>
+                     </td>                     
+            </table>    
+    <apex:detail subject="{!Partner_Information__c.ownerId}" relatedList="false" title="false"/> 
+    </apex:pageBlock> 
+    </apex:form>
+</apex:page>

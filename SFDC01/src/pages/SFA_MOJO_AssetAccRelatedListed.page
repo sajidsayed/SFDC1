@@ -1,0 +1,43 @@
+<apex:page standardController="Account" extensions="SFA_MOJO_MassUpdateAssetController">
+    <apex:includeScript value="{!$Resource.UtilJS}" />
+    <apex:form >
+        <apex:outputPanel id="OutputResult" Rendered="{!NOT(FlagResult)}" >
+        <apex:pageBlock > 
+            <apex:pageBlockButtons location="Top">              
+                  <apex:commandButton value="New Asset" onClick="window.open('{!newAssetUrl}');"/>              
+                  <apex:commandButton action="{!processSelected}" value="Mass Update" /> 
+            </apex:pageBlockButtons>
+              <apex:outputPanel layout="block" rendered="{!AssetsDetails.size == 0}" style="border: 1px solid #D4DADC; padding: 5px 2px 4px 5px;">
+                    <span>No records to display</span>
+              </apex:outputPanel>
+                 <apex:actionStatus id="statusProduct">
+                <apex:facet name="start"><apex:image url="{!$Resource.AjaxLoader}" /></apex:facet>
+              </apex:actionStatus>    
+            <apex:pageBlockTable id="assetblock" value="{!AssetsDetails}" var="a"  rendered="{!AssetsDetails.size != 0}" >
+                <apex:column >
+                    <apex:inputCheckbox value="{!a.selected}"/>
+                </apex:column>
+                <apex:column ><apex:facet name="header">Asset Name</apex:facet>
+                <apex:outputLink value="/{!a.ass.Id}" target="_blank"> {!a.ass.Name}  </apex:outputLink></apex:column>
+                <apex:column value="{!a.ass.Custom_Asset_Name__c}"/>
+                <apex:column value="{!a.ass.RecordTypeId}"/>
+                <apex:column value="{!a.ass.Product_Name_Vendor__c}"/>
+                <apex:column value="{!a.ass.Product_Family__c}"/>
+                <apex:column value="{!a.ass.Disposition_Status__c}"/>
+                <apex:column value="{!a.ass.Serial_Number__c}"/>
+            </apex:pageBlockTable>     
+        <!---    <apex:outputPanel layout="block" rendered="{!AssetsDetails.size == 0}" style="border: 1px solid #D4DADC; padding: 5px 2px 4px 5px;">
+                <span>No records to display</span>
+            </apex:outputPanel> --->
+            
+            <apex:outputPanel id="pagingPanel" rendered="{!AssetsDetails.size != 0}">
+               <c:paginator reRenderComponent="assetblock, pagingPanel"  pageManager="{!objPageManager}" statusComponent="statusProduct" id="bottom_paginator"/>                                                 
+           </apex:outputPanel>
+        </apex:pageBlock> 
+        </apex:outputPanel>
+                                                   
+    </apex:form>
+    <apex:outputPanel id="OutputResultComp" Rendered="{!FlagResult}" >  
+        <c:SFA_MOJO_AssetMassUpdateComponent lstAssetRecords="{!selectedAssets}" returnURL="{!returnURL}"/>
+    </apex:outputPanel> 
+</apex:page>

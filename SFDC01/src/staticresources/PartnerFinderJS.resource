@@ -1,0 +1,205 @@
+
+jQuery.noConflict();
+
+var PartnerLocationMapController = Class.create({
+    initialize: function(mapDivFieldID,locationJSONDataFieldID){
+        this.locationJSONDataFieldID = locationJSONDataFieldID;
+        this.mapDivFieldID=mapDivFieldID;
+        this.map=null;
+        this.initializeMap();
+    },
+    initializeMap: function(){
+        if(this.map==null &&  $('map_canvas')!=null ){
+            try{
+             this.map = new GMap2($('map_canvas'));
+             this.updateMap();
+            }catch(err){
+                alert('Failed to load Google Maps.  If you\'re using Internet Explorer, please ensure the permission \'Display mixed content\' is set to \'Enable\'.');
+            }
+        }
+    },
+    updateMap: function(){
+        this.map.clearOverlays();
+        this.pointLookup = new Hash();
+        this.locationLookup = new Hash();
+        var locations = $F(this.locationJSONDataFieldID).evalJSON().locations;
+        var bounds = new GLatLngBounds();
+        var points = [];
+        var point;
+        locations.each(function(location){
+            if(location.name!=null){
+                point = new GLatLng(location.latitude, location.longitude);
+                point.id = location.id;
+                point.recordNumber = location.recordNumber;
+                point.name = location.name;
+                point.city = location.city;
+                point.street = location.street;
+                point.state = location.state;
+                point.country = location.country;
+                point.postalCode = location.postalCode;
+                points.push(point);
+                bounds.extend(point);
+                
+                var marker = new GMarker(point);
+                marker.title=point.name;
+                GEvent.addListener(marker,"click", function(point) {
+                    this.openInfoWindowHtml('<b>'+ point.recordNumber  + '-</b> '+ 
+                                            '<b> ' + point.name + '</b><br/>' + 
+                                            (Object.isUndefined(point.street) || (point.street==null) || point.street.blank() ?'': point.street + ', ') + 
+                                            (Object.isUndefined(point.city) || (point.city==null) || point.city.blank() ?'': point.city + ', ') + 
+                                            (Object.isUndefined(point.state) || (point.state==null) || point.state.blank() ?' ': point.state + '  ') + 
+                                            (Object.isUndefined(point.postalCode) || (point.postalCode==null) || point.postalCode.blank() ?'': point.postalCode ) + 
+                                            '<br/>' + 
+                                            point.country);
+                     
+                    });
+                this.pointLookup.set(point.id,marker);
+                this.map.addOverlay(marker);
+                this.locationLookup.set(location.id,location);
+            }
+            
+        }.bind(this));
+        var address = $('thePage:theForm:txtLocation');
+        var searchPointMarker = null;
+        if(address && !address.value.blank()){
+            //location specified so add point to represent search location
+            // Create our "tiny" marker icon
+            var blueIcon = new GIcon(G_DEFAULT_ICON);
+            blueIcon.image = "/PartnerFinder/resource/1292778380000/blue_dot_png";
+            blueIcon.iconSize = new GSize(32,32);
+            var searchPoint = new GLatLng(    $F('thePage:theForm:GeocodeLatitude'), 
+                               $F('thePage:theForm:GeocodeLongitude'));
+            searchPointMarker = new GMarker(searchPoint,{ icon:blueIcon });
+            bounds.extend(searchPoint);
+            searchPointMarker.title=address.value;
+            GEvent.addListener(searchPointMarker,"click", function(point) {
+                this.openInfoWindowHtml('<b>' + address.value  + '</b>');});
+            this.map.addOverlay(searchPointMarker);
+        }
+        this.map.setCenter(bounds.getCenter());
+        var zoomLevel = this.map.getBoundsZoomLevel(bounds)-1;
+        if(zoomLevel > 12){
+            zoomLevel = 12;
+        }
+        this.map.setZoom(zoomLevel);
+        this.map.addControl(new GLargeMapControl());
+    }, 
+    showLocation: function(id){
+        var location = this.locationLookup.get(id);
+        this.pointLookup.get(id).openInfoWindowHtml('<b>'+ location.recordNumber + '-</b> '+ '<b>' + location.name + '</b><br/>' 
+            + (Object.isUndefined(location.street)?'': location.street + ', ') + location.city + ', ' + location.state + '  ' + location.postalCode + '<br/>' + location.country);
+    }
+});
+
+var controller;
+function updateMap(){
+    if(!Object.isUndefined(controller)){
+        controller.map=null;
+        controller.initializeMap();
+        controller.updateMap();
+    }   
+}
+
+
+function showLocation(locationId){
+    if(!Object.isUndefined(controller)){
+        controller.showLocation(locationId);
+    }   
+} 
+
+function searchButtonClicked(){
+    var address = $F('thePage:theForm:txtLocation');
+    if(!address.blank()){
+        showAddress(address);
+    } else {
+        triggerSearch();
+    }
+}
+
+function keypressed(event){
+        //alert('keypressed!');
+    if(window.event){ // IE
+        keynum = event.keyCode;
+    }
+    else if(event.which){ // Netscape/Firefox/Opera
+    
+        keynum = event.which;
+    }
+    if(keynum=='13'){
+        showBusyDialog('Searching...', 'Please wait...'); 
+        searchButtonClicked();
+    }
+}
+
+function showAddress(address) {
+    var geocoder = null;
+    if (GBrowserIsCompatible()) {
+        geocoder = new GClientGeocoder();
+        if($('thePage:theForm:countryCode')){
+            var countryCodeParam = $F('thePage:theForm:countryCode');
+            if(countryCodeParam && !countryCodeParam.blank()){
+                geocoder.setBaseCountryCode(countryCodeParam);
+            }
+        }
+    }
+    if (geocoder) {
+        geocoder.getLatLng(
+            address,
+            function(point) {
+                if (!point) {
+                    alert(address + " not found");
+                    hideBusyDialog();
+                } else {
+                    $('thePage:theForm:GeocodeLatitude').value=point.lat();
+                    $('thePage:theForm:GeocodeLongitude').value=point.lng();
+                    triggerSearch();
+                }
+            }
+        );
+    } else {
+        alert('geocoder null');
+    }
+}
+
+
+function showBusyDialog(title,body){
+    document.getElementById("dialog").style.visibility = "visible"; 	
+    jQuery('#dialog').dialog('open');
+}
+
+function hideBusyDialog(){
+    jQuery('#dialog').dialog("close"); 
+}
+
+document.observe('dom:loaded', function() {
+    controller = new PartnerLocationMapController('map_canvas','thePage:theForm:LocationData');
+    new Ajax.Autocompleter(
+        'thePage:theForm:txtSearchFor', 
+        'keywordChoices', 
+        '/PartnerFinder/PartnerSearchAutoComplete' ,
+        {   minChars: 2,
+            frequency: 0.1,
+            tokens: ','
+        });
+    new Ajax.Autocompleter('thePage:theForm:txtLocation', 
+        'addressChoices', 
+        '/PartnerFinder/PartnerSearchAutoComplete' ,
+        {   minChars: 2,
+            frequency: 0.1,
+            tokens: ','
+        });
+    jQuery('#dialog').dialog({
+        autoOpen: false,
+        bgiframe: true,
+        closeOnEscape: false,
+        dialogClass: 'dialog_style',
+        draggable: false,
+        height: 100,
+        minHeight: 100,
+        modal: true,
+        open: function(event, ui) { jQuery(".ui-dialog-titlebar-close").hide(); },
+        position: 'top',
+        resizable: false
+    });
+}, false);
+ 

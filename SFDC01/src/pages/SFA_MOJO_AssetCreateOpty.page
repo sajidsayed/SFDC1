@@ -1,0 +1,25 @@
+<!--/*===========================================================================+
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER   WR/DEFECT    DESCRIPTION                               
+ |  ====       =========   =========    =========== 
+ | 26-Sep-12   Smitha       WR#205803   Initial Creation. 
+ |
+ +================================================================================*/-->
+<apex:page standardController="Asset__c" sidebar="false" recordSetVar="unused" extensions="SFA_MOJO_CreateOpptyController" action="{!CreateOpty}" >
+    <apex:form >
+        <br/>
+    
+        <apex:outputLink style="font-size:14px" value="{!$CurrentPage.parameters.retURL}" >
+            Back to Assets List
+        </apex:outputLink>
+        
+        <br/><br/>    
+        
+        <apex:pageBlock title="Create Opportunity Results" >        
+        
+        <apex:pagemessages />                   
+                
+        </apex:pageBlock>
+    </apex:form>  
+</apex:page>

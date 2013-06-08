@@ -1,0 +1,197 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req                        DESCRIPTION 
+ |  16/12/2011      Anand Sharma                                   This Page will allow Partners to search partner SE.
+ |  05/01/2012      Anand Sharma                                   Updated Tab selection
+ ========================================================================================================================-->
+<apex:page id="pageSE" controller="PRM_PartnerSESearchController" showHeader="true" sidebar="true" >
+    <script>
+    
+        function checkAll(){           
+            var num = 0;             
+           
+            while(document.getElementById('pageSE:formDetails:pbDetails:repeatSE:' + num + ':results:product_ChkBoxAll')  != null)
+            {
+            
+                var numInt = 0;        
+                var chkInput = document.getElementById('pageSE:formDetails:pbDetails:repeatSE:' + num + ':results:product_ChkBoxAll');
+                while(document.getElementById('pageSE:formDetails:pbDetails:repeatSE:' + num + ':results:dtSE' + ':' +  numInt + ':product_ChkBox') != null)
+                {
+                    var inputElem = document.getElementById('pageSE:formDetails:pbDetails:repeatSE:' + num + ':results:dtSE' + ':' +  numInt + ':product_ChkBox');
+                    if(chkInput.checked){
+                        inputElem.checked = true;
+                    }else{              
+                        inputElem.checked = false; 
+                    }
+                    numInt++;                   
+                }
+                num++;
+            }
+        }
+        
+        
+    
+    </script>
+    <apex:form id="formDetails" >
+        <apex:sectionHeader title="{!$Label.Partner_Leverage_and_Competency_Search_Functionality}"/>
+        <apex:outputPanel id="errorMessage">            
+            <apex:pageMessages ></apex:pageMessages>
+        </apex:outputPanel>
+        <apex:outputPanel id="pnlSearchDetails" rendered="{! bDisplaySearchBlock}">
+            
+            <apex:pageblock id="pbDetails" > 
+                <!-- no matches message -->
+                <apex:pageBlockButtons >
+                    <apex:commandButton value="{!$Label.Search}" action="{!seachPartnerSE}" rerender="formDetails"/>
+                    <apex:commandButton value="{!$Label.clear}" action="{!clearFilter}" rerender="formDetails"/>                
+                </apex:pageBlockButtons>
+                <apex:pageBlockSection title="{!$Label.Demographic_Info}" id="resultDemographic1" columns="1" >
+                    <apex:DataTable width="70%" value="{!objDistrictPartner}" var="partnerCompetancy" columns="3">              
+                        <apex:column width="10%" style="align-text:right">                                                
+                        </apex:column>
+                        <apex:column width="14%">
+                            <apex:outputLabel value="{!$Label.Theater}" for="Theater" styleClass="labelCol"/>
+                        </apex:column>                       
+                        <apex:column width="76%" >                        
+                            <apex:inputField value="{!objDistrict.Theater__c}"></apex:inputField>
+                        </apex:column>                                  
+                    </apex:DataTable>
+                    <apex:DataTable width="70%" value="{!objDistrictPartner}" var="partnerCompetancy" columns="3">              
+                        <apex:column width="10%" style="align-text:right">                                                
+                        </apex:column>
+                        <apex:column width="14%">
+                            <apex:outputLabel value="{!$Label.Country}" title="{!$Label.You_can_select_multiple_countries_by_pressing_the_Ctrl_key}" for="Country" styleClass="labelCol"/>
+                         </apex:column>                       
+                        <apex:column width="76%" >                                                
+                            <apex:selectList value="{!strCountryValue}" id="idCountry" size="3"  multiselect="true" title="{!$Label.You_can_select_multiple_countries_by_pressing_the_Ctrl_key}" > 
+                                <apex:selectOptions value="{!countryList}" />                                               
+                            </apex:selectList>
+                            
+                        </apex:column>  
+                    </apex:DataTable>
+                    <apex:DataTable width="70%" value="{!objDistrictPartner}" var="partnerCompetancy" columns="3">              
+                        <apex:column width="10%" style="align-text:right">                                                
+                        </apex:column>
+                        <apex:column width="14%">
+                            <apex:outputLabel value="{!$Label.Area}" title="{!$Label.You_can_select_multiple_areas_by_pressing_the_Ctrl_key}" for="Area" styleClass="labelCol"/>
+                        </apex:column>                       
+                        <apex:column width="76%" >                        
+                            <apex:selectList value="{!strAreaValue}" id="idArea" size="3"  multiselect="true" title="{!$Label.You_can_select_multiple_areas_by_pressing_the_Ctrl_key}" > 
+                                <apex:selectOptions value="{!areaList}" />                                               
+                            </apex:selectList>
+                        </apex:column>  
+                    </apex:DataTable>
+                    <apex:DataTable width="70%" value="{!objDistrictPartner}" var="partnerCompetancy" columns="3">              
+                        <apex:column width="10%" style="align-text:right">                                                
+                        </apex:column>
+                        <apex:column width="14%">
+                            <apex:outputLabel value="{!$Label.District}" for="District" styleClass="labelCol"/>
+                        </apex:column>                       
+                        <apex:column width="76%" >                        
+                            <apex:inputField value="{!objDistrictPartner.District__c}"></apex:inputField>
+                        </apex:column>  
+                    </apex:DataTable> 
+                    <apex:DataTable width="70%" value="{!objDistrictPartner}" var="partnerCompetancy" columns="3">              
+                        <apex:column width="10%" style="align-text:right">                                                
+                        </apex:column>
+                        <apex:column width="14%">
+                            <apex:outputLabel value="{!$Label.District_Manager}" for="DistrictManager" styleClass="labelCol"/>
+                        </apex:column>                       
+                        <apex:column width="76%" >                        
+                            <apex:inputField value="{!objDistrict.District_Manager__c}"></apex:inputField>
+                        </apex:column>  
+                    </apex:DataTable>                 
+                </apex:pageBlockSection>                
+                <apex:repeat id="repeatSE" value="{!lstPartnerSearchContainer}" var="lstpartnerCompetancy">                        
+                    <!-- list of leads --> 
+                    <apex:pageBlockSection title="{!lstpartnerCompetancy.CompetencyName}" id="results" columns="2" >
+                        <apex:facet name="header">
+                            <apex:outputPanel id="nameLkUpGrp" >  
+                                <apex:inputCheckbox value="{!isSelected}" id="product_ChkBoxAll" onclick="checkAll()" />
+                                <apex:outputLabel value="{!lstpartnerCompetancy.CompetencyName}"/>                       
+                            </apex:outputPanel>
+                        </apex:facet>
+                        <apex:DataTable id="dtSE" width="100%" value="{!lstpartnerCompetancy.lstDataContainer}" var="partnerCompetancy" rendered="{!lstpartnerCompetancy.lstDataContainer.size > 0}">
+                            <apex:column width="18%" style="align-text:right">                          
+                            </apex:column>
+                            <apex:column width="25%" style="align-text:right">
+                                <apex:inputCheckbox value="{!partnerCompetancy.isSelected}" id="product_ChkBox"  style="align-text:right" />
+                            </apex:column>                       
+                            <apex:column width="57%" style="align-text:right">                        
+                                <apex:outputText value="{!partnerCompetancy.objCustomSettingPartnerSESeach.DisplayName__c}"></apex:outputText>
+                            </apex:column>                   
+                        </apex:DataTable> 
+                    </apex:pageBlockSection>    
+                </apex:repeat>   
+            </apex:pageblock>  
+        </apex:outputPanel>
+        <apex:outputPanel id="pnlResultsDetails" rendered="{! NOT(bDisplaySearchBlock)}" > 
+            <apex:DataTable width="100%" value="{!objDistrictPartner}" var="objpartnerData" columns="2">
+                    <apex:column width="80%" style="align-text:left;padding-left:20px;">
+                        <apex:commandLink action="{!displayFilter}" value="{!$Label.Back}" reRender="formDetails"></apex:commandLink>  
+                    </apex:column>
+                    <apex:column width="20%" style="align-text:right;padding-right:20px;">                      
+                        <apex:commandLink action="{!DisplayExportResults}" value="{!$Label.Export_To_Excel}" target="_blank" rendered="{!lstPartnerSearchresult.size > 0}" ></apex:commandLink>&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandLink action="{!DisplayPrintableResults}" value="{!$Label.Printable_View}" target="_blank" rendered="{!lstPartnerSearchresult.size > 0}" ></apex:commandLink>
+                    </apex:column>
+                </apex:DataTable>
+                <br/>
+            <apex:pageblock id="pbResultsDetails"> 
+                 
+                <!-- 
+                <apex:pageBlockButtons >
+                    <apex:commandButton value="Back" action="{!displayFilter}" rerender="formDetails"/>
+                    <apex:commandButton value="Export" action="{!seachPartnerSE}" rerender="formDetails"/>
+                    <apex:commandButton value="Printable View" action="{!DisplayResults}" onClick="window.open('/apex/PRM_PartnerSESearchResult');" rerender="formDetails"/>                
+                </apex:pageBlockButtons>
+                 -->
+                <!-- no matches message -->
+                <apex:pageBlockSection rendered="{!lstPartnerSearchresult.size == 0}">
+                    <apex:outputtext styleClass="importantWarning">                         
+                        {! $Label.Partner_SE_No_Filter_Selected}
+                    </apex:outputtext>
+                </apex:pageBlockSection> 
+                <apex:DataTable width="100%" value="{!lstPartnerSearchresult}" var="partnerData" columns="8" rendered="{!lstPartnerSearchresult.size > 0}">   
+                    <!-- 
+                    <apex:column width="12.5%">
+                        <apex:facet name="header">Export to excel</apex:facet>
+                        <apex:CommandLink action="{!DisplayResults}" value="{!partnerData.AccountId}" target="_top">&nbsp;</apex:CommandLink>  
+                    </apex:column>
+                     -->            
+                    <apex:column width="15%">
+                        <apex:facet name="header">{!$Label.Partner_Account}</apex:facet>
+                        <apex:outputLink value="/{!partnerData.AccountId}"><apex:outputText value="{!partnerData.AccountName}"></apex:outputText></apex:outputLink>  
+                    </apex:column>  
+                    <apex:column width="10%">
+                        <apex:facet name="header">{!$Label.of_SE_s_for_Partner}</apex:facet>
+                        <apex:outputText value="{!partnerData.NumberOfContacts}" style="align-text:right; padding-left:40px;"></apex:outputText>  
+                    </apex:column>
+                    <apex:column width="12.5%">
+                        <apex:facet name="header">{!$Label.Partner_SE}</apex:facet>
+                        <apex:outputLink target="_parent" value="/{!partnerData.ContactId }">{!partnerData.ContactName }</apex:outputLink>  
+                    </apex:column>
+                    <apex:column width="12.5%">
+                        <apex:facet name="header">{!$Label.Area}</apex:facet>
+                        <apex:outputText value="{!partnerData.Area}" ></apex:outputText>
+                    </apex:column>
+                    <apex:column width="12.5%">
+                        <apex:facet name="header">{!$Label.District}</apex:facet>
+                        <apex:outputText value="{!partnerData.DistrictName}"></apex:outputText>  
+                    </apex:column>
+                    <apex:column width="12.5%">
+                        <apex:facet name="header">{!$Label.Phone}</apex:facet>
+                        <apex:outputField value="{!partnerData.PartnerSE.Phone}"></apex:outputField>  
+                    </apex:column>
+                    <apex:column width="12.5%">
+                        <apex:facet name="header">{!$Label.Email}</apex:facet>
+                        <apex:outputField value="{!partnerData.PartnerSE.Email}"></apex:outputField>  
+                    </apex:column>
+                    <apex:column width="12.5%">
+                        <apex:facet name="header">{!$Label.Office_Location}</apex:facet>
+                        <apex:outputField value="{!partnerData.PartnerSE.Office_Location__c}"></apex:outputField>  
+                    </apex:column>
+                </apex:DataTable>               
+            </apex:pageblock>
+        </apex:outputPanel>                                          
+    </apex:form>
+</apex:page>

@@ -1,0 +1,12 @@
+<apex:page controller="EDServices_Controller" showHeader="false" sidebar="false" standardStylesheets="true">
+
+    <apex:include pageName="EMC_Header"/><br/>
+        <html>
+        <center>
+        <b>{!$Label.EDServices}</b><br/>
+        <b>{!$Label.Presales_Case_Number}</b>
+        <b><apex:outputLabel value="{!ApplicationID}"></apex:outputLabel></b>
+        </center><br/>
+        </html>
+    <apex:include pageName="EMC_Footer"/><br/>    
+</apex:page>

@@ -1,0 +1,275 @@
+<!-- =======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER           WR/Req      DESCRIPTION 
+ |  07/12/2012      Anand Sharma                    Initial Creation.
+    =====================================================================================================================-->
+
+<apex:component controller="PRM_PAN_VPP_SpecialtyComponentController">
+    <apex:stylesheet value="{!URLFOR($Resource.mystyle4, 'mystyle4/mystyle2/css/PRM_VPP_Scorecard_CSS.css')}"/> 
+    <style> 
+    
+       .rtStyle{
+            background-color: none;
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:normal;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+        }
+        
+        .rtStyleSub{
+            color:white;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:bold;            
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;  
+            background-color:#676767; 
+              
+        }
+        .rtTextRedStyle{            
+            background-color: none;
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:normal;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            color:red;        
+        }
+        .rtTextGreenStyle{            
+            background-color: none;
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:normal;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            color:Green;        
+        }
+       .rtGreenStyle{
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            color:white;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:normal;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            background-color : #088A08;
+            
+       }
+       
+       .rtHeaderGreenStyle{
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            color:white;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:bold;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            background-color : #088A08;
+            
+       }
+       
+       .rtHeaderCurrentTierStyle{
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            color:white;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:bold;
+            padding:2px;
+            border-bottom: 2px solid #0d3856;
+            border-right: 2px solid #0d3856;
+            border-top: 2px solid #0d3856;
+            border-left: 2px solid #0d3856;
+            background-color : #8B8C8E;
+            border-color:red;
+            
+       }
+       
+       .rtHeaderTierStyle{
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            color:white;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:bold;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            background-color : #8B8C8E;         
+       }
+       
+       .rtHeaderCurrentBlockStyle{
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            color:white;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:bold;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-Top: 1px solid #0d3856;
+            border-Left: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            background-color : #0066CC;
+            border-style:solid;
+            
+       }
+       .rtHeaderStyle{
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            color:white;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:bold;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            background-color : #0066CC;
+            
+       }
+       .rtCurrentLogicalStyle{
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            color:white;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:bold;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            background-color : #00008B;
+            
+       }
+       .rtYellowStyle{
+            text-align:center;
+            vertical-align:middle;
+            vertical-align:text-middle;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:normal;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            background-color : #F4FA58;
+            
+       }
+       
+       .rtWhiteStyle{
+            text-align:center;
+            vertical-align:center;
+            vertical-align:text-middle; 
+            font-family: Arial;
+            font-size: 13px;
+            font-weight:normal;
+            padding:2px;
+            border-bottom: 1px solid #0d3856;
+            border-right: 1px solid #0d3856;
+            background-color : #FBFBEF;
+            
+       }
+       
+                      
+           
+   </style>
+    <apex:attribute name="objPanLogicalContainer" description="" 
+    type="PRM_PAN_VPP_PanLogicalDataHelper[]" required="false" assignTo="{!objPanLogicalContainer}"/>
+    
+    <apex:attribute name="objPanLogicalContainerSingle" description="" 
+    type="PRM_PAN_VPP_PanLogicalDataHelper" required="false" assignTo="{!objPanLogicalContainerSingle}"/>
+    
+    <apex:attribute name="BlockSize" description="" 
+    type="Integer" required="false" assignTo="{!intBlockSize}"/>
+        
+    <apex:dataTable id="dtMain" value="{!PanLogicalContainerSingle}" var="s" width="100%"  Style="table-layout:fixed;background-color:#F1F1F1;height:100%;" rendered="true"> 
+        <apex:column id="colMain1" width="200px" styleClass="rtHeaderStyle" style="height:100%;" >
+            <apex:outputText value="{!$Label.Speciality}" style="height:100%;"/>
+        </apex:column>      
+        <apex:column id="colMain2" Style="text-align :center; height:100%;">
+            <apex:dataTable id="dtMainSub" value="{!s.lstRequirementResults}" var="ss" width="100%" style="table-layout:fixed;height:100%;"> 
+                <apex:column id="colMainSub1" width="300px" styleClass="rtHeaderStyle" style="height:100%;">
+                     <apex:outputText value="{!$Label.Pan_Requirements}" style="height:100%;"/>
+                </apex:column>
+                <apex:repeat value="{!ss.BlockResult}" var="sss">
+                    <apex:column id="colMainSub2" width="300px" Style="text-align:center" > 
+                        <table id="tdMain" cellspacing="0" width="100%" style="height:100%;" Style="text-align:center">                                                     
+                            <apex:repeat value="{!sss.Result}" var="ssss">                              
+                                <tr>
+                                    <td colspan="2" style="text-align :center; height:100%;" class="{!IF(s.CurrentLogicalBlock == sss.BlockName ,'rtCurrentLogicalStyle','rtHeaderStyle')}" Style="text-align:center"><apex:outputText value="{!sss.BlockName}" style="height:100%;"/></td>
+                                </tr>
+                                <tr>                                    
+                                    <td style="text-align :center;height:100%;" width="50%" class="rtHeaderStyle" Style="text-align:center"><apex:outputText value="Required" style="height:100%;"/></td>
+                                    <td style="text-align :center;height:100%;" width="50%" class="rtHeaderStyle" Style="text-align:center"><apex:outputText value="Actual" style="height:100%;"/></td>
+                                </tr>                               
+                            </apex:repeat>
+                        </table>
+                    </apex:column> 
+                </apex:repeat>     
+            </apex:dataTable>
+       </apex:column>      
+    </apex:dataTable>
+                
+    <apex:dataTable value="{!objPanLogicalContainer}" var="s" width="100%"  Style="table-layout:fixed;background-color:#F1F1F1;height:100%;"  rendered="true"> 
+        <apex:column width="200px" Style="vertical-align:middle;height:100%" styleClass="rtStyle" >
+            <apex:outputText value="{!s.Level}"/>
+        </apex:column>     
+        <apex:column Style="text-align :center" >
+            <apex:dataTable value="{!s.lstRequirementResults}" var="ss" width="100%" style="table-layout:fixed;height:100%;" > 
+                <apex:column width="300px" Style="text-align :left;height:100%;background-color:#A9A9A9;" styleClass="rtStyle" Rendered="{!OR(CONTAINS(ss.RequirementName,'Status'), ss.RequirementName='Reqs Met?')}">
+                    <apex:outputText value="{!ss.RequirementName}" Style="height:100%;"/>
+                </apex:column>
+                <apex:column width="{!IF(ss.IsHeader, 300, 300)}px" Style="text-align :left;height:100%;" colspan="{!IF(ss.IsHeader,  1, 1)}" styleClass="{!IF(ss.isHeader,'rtStyleSub', 'rtStyle')}" Rendered="{!NOT(OR(CONTAINS(ss.RequirementName,'Status'), ss.RequirementName='Reqs Met?'))}">
+                    <apex:outputText value="{!ss.RequirementName & IF(ss.IsHeader,' Track','')}" Style="height:100%;"></apex:outputText>
+                </apex:column>                                 
+                <apex:repeat value="{!ss.BlockResult}" var="sss" >
+                    <apex:column width="300px" Style="text-align :center;height:100%;" Rendered="{!sss.isVelocityResult}">
+                        <table cellspacing="0" width="100%" style="height:100%; ">                                                      
+                            <apex:repeat value="{!sss.Result}" var="ssss">
+                                <tr>                                    
+                                    <td width="50%" class="rt3Style" style="height:100%;" ><apex:outputText value="{!ssss.RequiredCount__c}" style="height:100%;"/></td>
+                                    <td width="50%" class="{!IF(ssss.Status__c =='Achieved','rtGreenStyle', 'rtYellowStyle')}" style="height:100%; "><apex:outputText value="{!ssss.Current__c}" style="height:100%;"/> </td>
+                                </tr>
+                            </apex:repeat>
+                        </table>                        
+                    </apex:column> 
+                    <apex:column width="300px" Style="text-align :center;height:100%;" Rendered="{!NOT(sss.isVelocityResult)}">
+                        <table cellspacing="0" width="100%" style="height:100%;background-color:#A9A9A9;">                                                      
+                            <tr>
+                                <td width="100%" class="{!IF(OR(sss.Status=='Not Deployed', sss.Status=='No', sss.Status=='Not Achieved'),'rtTextRedStyle', IF(OR(sss.Status=='Deployed', sss.Status=='Yes', sss.Status=='Achieved'), 'rtTextGreenStyle', IF(ss.isHeader,'rtStyleSub', 'rtStyle')))}" style="height:100%; "><apex:outputText value="{!sss.Status}" style="height:100%;"/> </td>
+                            </tr>
+                                              
+                        </table>                        
+                    </apex:column> 
+                </apex:repeat>    
+            </apex:dataTable>
+            
+       </apex:column>      
+    </apex:dataTable>   
+</apex:component>

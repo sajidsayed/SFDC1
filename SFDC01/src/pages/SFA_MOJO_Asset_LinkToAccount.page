@@ -1,0 +1,47 @@
+<!--/*===========================================================================+
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE            DEVELOPER       WR/DEFECT       DESCRIPTION                               
+ |  ====            =========       =========       =========== 
+ | 03.10.2012      Shipra Misra     205804          Initial Creation.  MOJO Link/Unlink Functionality.
+ +========================================================================================================================*/-->
+ <apex:page standardController="Opportunity" extensions="SFA_MOJO_OptyLinkDelinkController" showHeader="true" sidebar="true">
+    
+    <apex:form >
+    
+    <apex:pageblock id="CustomList" >
+     <apex:pageMessages id="pageErrors"></apex:pageMessages>
+    <apex:pageBlockButtons location="Top"  >
+       <apex:commandButton title="DoSave" value=" Save" action="{!doSave}"  rendered="{!(NOT(AssetstoBeLinkedDetails.size == 0))}" /> 
+       <apex:commandButton title="Cancel" value="Cancel" action="{!docancel}" />
+    </apex:pageBlockButtons>
+    <apex:outputPanel layout="block"
+        rendered="{!astlinkWrapper.size == 0}"
+        style="border: 1px solid #D4DADC; padding: 5px 2px 4px 5px;">
+        <span>No records to display</span>
+    </apex:outputPanel>
+    <apex:pageBlockTable value="{!AssetstoBeLinkedDetails}" var="o" id="assetblock" rendered="{!AssetstoBeLinkedDetails.size != 0}"  >
+       <apex:column >
+        <apex:facet name="header">{!$Label.Select}</apex:facet>
+        <apex:inputCheckbox value="{!o.selected}" /> </apex:column>
+         <apex:column ><apex:facet name="header">{!$Label.Asset_Name}</apex:facet>
+        <apex:outputLink value="/{!o.asset.Id}" target="_blank"> {!o.asset.Name}  </apex:outputLink></apex:column>
+        <apex:column value="{!o.asset.Serial_Number__c}"/>
+        <apex:column value="{!o.asset.RecordTypeId}"/>
+        <apex:column value="{!o.asset.Customer_Name__c}"></apex:column>
+        <apex:column value="{!o.asset.Product_Name_Vendor__c}"/>
+           <apex:column value="{!o.asset.Product_Family__c}"/>
+        <apex:column value="{!o.asset.Install_Date__c}"/>
+        <apex:column >
+                     <div style="color:{!IF((o.dmlError)==$Label.Inline_Edit_Result_Success,'Green', 'Red')};">{!IF((o.dmlError)=='',(o.dmlError),  (o.dmlError))}</div>
+                </apex:column>
+        <!---RecordTypeId,Asset_Expiry_Date__c,,,,,Customer_Name__c--->
+       
+        </apex:pageBlockTable>
+       <apex:outputPanel id="pagingPanel" rendered="{!(NOT(AssetstoBeLinkedDetails.size == 0))}">
+               <c:paginator reRenderComponent="assetblock,  pagingPanel" pageManager="{!objPageManager}" statusComponent="statusProduct" id="bottom_paginator"/>                                                 
+           </apex:outputPanel>
+               
+        </apex:pageblock>
+        </apex:form>
+</apex:page>

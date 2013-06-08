@@ -1,0 +1,42 @@
+<!-- 
+Author:     Devi Prasad Bal
+Created on: 12-Apr-2010
+Description: This is the email page to send Final Briefing Package information to the selected invitees and other email ids entered in the 'Additional To' field.
+Modified by: 
+Modified on: 
+Reason: 
+-->
+
+<apex:page controller="EBC_Send_FBP" showHeader="false" sidebar="false" title="Send Final Briefing Package">
+
+    <apex:form >
+        <apex:pageBlock title="{!briefingEvent.Name}">
+         
+        <apex:outputPanel id="theMessages">
+            <apex:pageMessages />
+        </apex:outputPanel> 
+         
+            <apex:pageBlockButtons >
+    <!--This button calls the sendMail method of the controller which sends the mail -->
+                    <apex:commandButton action="{!sendMail}" value="Send Email" rendered="{!BA_Present}" />
+                    <apex:commandButton value="Cancel" onclick="window.parent.close();"/>
+            </apex:pageBlockButtons>
+    <!--These are the merge fields to be displayed -->
+                <b>From  :</b> {!briefingEvent.Briefing_Advisor__r.Email} <p/>
+                <b>To :</b> {!toAddresses}<p/>
+                <b>Additional To:</b> <apex:inputTextarea value="{!additionalEmailIds}" title="AdditionalEmailIds" cols="90" rows="1"/><p/>    
+                You may add a comma separated list of Email ids in the 'Additional To' field <p/>
+                <b>Subject :</b> {!subject}<p/>
+                <b>Body :</b><apex:inputTextarea value="{!body}"  title="Body" cols="120" rows="33"  /><p/>
+            </apex:pageBlock>
+    </apex:form>
+    
+    <!--Script written to close the page on Completion of Send Mail -->
+    <script type="text/javascript">
+            if({!mailSend}){
+                 alert("The Mail Has Been Sent");
+                 window.parent.close();
+            }
+    </script>
+    
+</apex:page>

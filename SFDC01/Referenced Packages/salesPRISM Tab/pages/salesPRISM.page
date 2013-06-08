@@ -1,0 +1,84 @@
+<apex:page name="salesPRISM" id="salesPRISM" Controller="salesprism.PrismVFTabPageExtension" tabStyle="salesPRISM__tab" setup="false" showHeader="true" sidebar="false">
+
+<script language="javascript" runat="server" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<div id="dsessionid" style="display:none">{!$Api.Session_ID}</div>
+<div id="dserverurl" style="display:none">{!$Api.Partner_Server_URL_170}</div>
+<div id="duserid" style="display:none">{!userId}</div>
+<div id="dprismaccountid" style="display:none">{!prismAccountId}</div>
+<div id="dlinkedinreturn" style="display:none">{!linkedInReturn}</div>
+<div id="dsalesprismurl" style="display:none">{!prismUrl}</div>
+
+<script language="javascript" runat="server">
+
+$(document).ready(function(){
+
+    var url = document.getElementById('dsalesprismurl').innerHTML;
+    url += '?'+ 'sessionid=' + jSessionId() + '&serverurl=' + jServerUrl() + '&userlink=' + jUserLink() + '&Directory=salesforce';
+
+    var accountLink = jPrismAccountId();
+    if(accountLink != null)
+    {
+        if(accountLink.length != 0)
+        {
+            url += '&Account=' + accountLink;
+        }
+    }
+    
+    var fromLinkedIn = jLinkedInReturn();
+    if(fromLinkedIn != null)
+    {
+        if(fromLinkedIn.length != 0)
+        {
+            url += '&LinkedInReturn=' + fromLinkedIn;
+        }
+    }
+
+    var salesPrismIframe = document.createElement("iframe");
+    salesPrismIframe.setAttribute('id', 'salesPrismIframe');
+    salesPrismIframe.setAttribute('width', '100%');
+    salesPrismIframe.setAttribute('height', '550');
+    salesPrismIframe.setAttribute('src', url);
+    salesPrismIframe.setAttribute('frameborder', '0');
+    $(salesPrismIframe).insertAfter("#dsalesprismurl");
+
+});
+  
+function jLinkedInReturn()
+{
+    return document.getElementById('dlinkedinreturn').innerHTML;
+}
+
+function jGetInstanceUrl()
+{
+  var url = jServerUrl();
+  var index = url.indexOf('//');
+  index = url.indexOf('/',index+2);
+  var instanceurl = url.substring(0, index);
+  return instanceurl;
+}
+
+function jSessionId()
+{
+    return document.getElementById('dsessionid').innerHTML;
+}
+function jServerUrl()
+{
+    return document.getElementById('dserverurl').innerHTML;
+}
+function jUserId()
+{
+    return document.getElementById('duserid').innerHTML;
+}
+function jUserLink()
+{
+    return jGetInstanceUrl() + '/' + jUserId();
+    //return document.getElementById('duserid').innerHTML;
+}
+function jPrismAccountId()
+{
+    return document.getElementById('dprismaccountid').innerHTML;
+}
+
+</script>
+</apex:page>

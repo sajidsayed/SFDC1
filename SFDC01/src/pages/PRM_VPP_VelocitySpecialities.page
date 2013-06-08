@@ -1,0 +1,92 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER      WR/Req      DESCRIPTION 
+ |  07/12/2010      Karthik S      #1187       Initial Creation.
+    22/01/2011      AShwini Gowda              This page will display the velocity specialities.
+    25/01/2011      Anil Sure      #2513       Added a Cancel Button     
+ |  20-Jul-2012     Anand Sharma               Distributor profile ID, the Revenue fields will be displayed as blank to that user profile 
+ |  14-May-2013		Krishna Pydavula 262214    Added Custom Label for Verbiage.	                                             
+ ========================================================================================================================-->
+<apex:page controller="PRM_VPP_VelocitySpecialities">
+<apex:stylesheet value="{!URLFOR($Resource.mystyle4, 'mystyle4/mystyle2/css/PRM_VPP_Scorecard_CSS.css')}"/> 
+<apex:pageMessages /> 
+    
+    <apex:form id="frmVelocities" title="{!$Label.Velocity_Specialties}">
+        <apex:outputPanel id="pnlVelocityError" Rendered="{!NOT(isRenderSpeciality)}">
+        <br></br>
+            <center><apex:commandButton value="{!$Label.cancel}" action="{!cancelUpdates}"/></center>
+        </apex:outputPanel>         
+        <apex:outputPanel id="OutputResult" Rendered="{!isRenderSpeciality}">
+            <table width="100%"  >
+                <tr>
+                    <td width="100%"  class="cellBucketStyleTopReqs"><apex:outputText value="{!$Label.Velocity_Specialties}" /></td>
+                    
+                </tr>
+            </table> 
+            <apex:panelBar width="100%" headerClass="header">         
+                <apex:repeat value="{!lstDisplayData}" var="obj">           
+                    <apex:panelBarItem label="{!obj.SpecialityName}" headerClass="cellBucketStyle">
+                        <br/>
+                        <c:PRM_VPP_VelocityComponent SpecialityList="{!obj.lstVelocityRuleResult}" SpecialityStatus="{!obj.emcSpecialityStatus}"
+                        rendered="{!NOT(ISBLANK(obj.lstVelocityRuleResult))}"/>
+                        <apex:repeat value="{!obj.lstSpecialitySubContainer}" var="objSub" 
+                        rendered="{!obj.lstSpecialitySubContainer != null}">
+                            <b><apex:outputText value="{!objSub.subCategoryName}"/> {!$Label.Track}</b>
+                                <c:PRM_VPP_VelocityComponent SpecialityList="{!objSub.lstSubVelocityRuleResult}" SpecialityStatus="{!obj.emcSpecialityStatus}"
+                                RevenueVisibility="{!isRevenueVisible}"
+                                rendered="{!objSub.lstSubVelocityRuleResult != null}"/>
+                                <br/>
+                                <div align="right">                
+                                    <table width="40%" cellPadding="3" styleClass="rt7Style">
+                                        <tr>
+                                            <td width="50%"><b>{!objSub.subCategoryName} {!$Label.Status}</b></td>
+                                            <td width="50%" style="text-align :center">{!objSub.subSpecialityStatus}</td>
+                                        </tr>                                  
+                                    </table>
+                                </div>                      
+                            <br/>
+                        </apex:repeat>  
+                        <br/>     
+                        <div align="right">                
+                            <table width="50%" Class="rt8Style">
+                                <tr> 
+                                    <td width="60%" styleClass="rt3Style"><b>{!$Label.Speciality_Complaince_Status}</b></td>
+                                    <td width="40%" styleClass="rt3Style" style="background-color: gray;text-align :center;font-weight: bold">{!obj.specialityComplianceStatus}</td>
+                                </tr>
+                                <tr>
+                                    <td width="60%" styleClass="rt3Style" ><b>{!$Label.EMC_Speciality_Status}</b></td>
+                                    <td width="40%" styleClass="rt3Style" style="background-color:gray">
+                                        <apex:selectList id="speciality" value="{!obj.emcSpecialityStatus}" 
+                                            multiselect="false" size="1" style="width:100%;font-weight:bold;text-align :center" disabled="{!NOT(isShowBotton)}">
+                                            <apex:selectOptions value="{!EMCSpecialityStatusItems}"/>
+                                        </apex:selectList>
+                                    </td>   
+                                </tr>                                   
+                            </table>
+                        </div>   
+                    </apex:panelBarItem>  
+                </apex:repeat>
+            </apex:panelBar>
+          <div align="right">                
+          <table border="0">
+              <tr>
+                  <td><apex:commandButton id="save" value="{!$Label.Save}" rerender="OutputResult" onclick="isSave();" Rendered="{!isShowBotton}"/></td>                 
+                  <td><apex:commandButton value="{!$Label.cancel}" rerender="OutputResult" action="{!cancelUpdates}" Rendered="{!isShowBotton}"/></td>
+              </tr>                                   
+          </table>
+         </div>    
+         <apex:outputText value="{!$Label.PRM_Specialities_HelpText}" escape="false"></apex:outputText> 
+        </apex:outputPanel>    
+        <apex:actionFunction name="updateAction" action="{!updateProfileAccount}"/>     
+        <br/><br/><br/>
+     </apex:form>
+     <script type="text/javascript">
+        function isSave()
+        {
+            var x=confirm('{!$Label.Save_Action}');
+            if(x){              
+                updateAction();
+            }
+        }
+    </script>
+</apex:page>

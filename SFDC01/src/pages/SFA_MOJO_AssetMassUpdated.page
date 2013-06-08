@@ -1,0 +1,25 @@
+<apex:page standardController="Asset__c" recordSetvar="unused" extensions="SFA_MOJO_MassUpdateAssetController">
+	<apex:form id="wizard">
+		<apex:outputPanel id="OutputResult" Rendered="false" >
+			<apex:pageBlock id="step1" mode="edit" rendered="{!step='1'}">
+		        <apex:pagemessages escape="false"></apex:pagemessages>
+		        <apex:pageBlockSection >
+		            <apex:pageBlockTable var="a" value="{!selected}" >
+		                <apex:column value="{!a.Name}"/>
+		                <apex:column value="{!a.Customer_Name__c}"/>                
+		                <apex:column value="{!a.Product_Name_Vendor__c}"/>
+		                <apex:column value="{!a.Product_Family__c}"/>
+		            </apex:pageBlockTable>
+		            </apex:pageBlockSection>
+		            <apex:panelGrid columns="2">
+		            </apex:panelGrid>
+		          <apex:pageBlockButtons >
+		              <apex:commandButton action="{!cancel}" value="Previous" rendered="{!previousFlag}"/>
+		              <apex:commandButton action="{!step2}" value="Next" rendered="{!cancelFlag}"/>
+		              <apex:commandButton action="{!showOk}" value="{!$Label.OK}" rendered="{!okFlag}"/>
+		          </apex:pageBlockButtons>
+		      </apex:pageBlock>
+		</apex:outputPanel>       
+      </apex:form>
+	<c:SFA_MOJO_AssetMassUpdateComponent lstAssetRecords="{!selectedAssets}" returnURL="{!returnURL}"/>
+</apex:page>

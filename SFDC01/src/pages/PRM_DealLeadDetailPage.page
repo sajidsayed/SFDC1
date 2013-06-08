@@ -1,0 +1,123 @@
+<!-- ================================================================================================+
+
+|  HISTORY  |                                                                           
+
+|  DATE          DEVELOPER                WR        DESCRIPTION                               
+
+|  ====          =========                ==        =========== 
+
+| 12/09/2011     Anil Sure               #3656      This Page is used to display Lead Custom Search Results 
+| 05/09/2011     Anand Sharma                       Fixed Web Page Expired issue.
+| 07/09/2011	 Anil Sure							Removed Campaign/Event Name and Owner Alias Fields
+   
+======================================================================================================-->
+<apex:page id="myPage" standardcontroller="Lead" extensions="PRM_DealLeadSearchController"  sidebar="true" cache="true" action="{!ComponentSearch}">
+  <apex:form id="myForm">
+            <div align="left">      
+      <apex:commandButton action="{!BackPage}" value="{!$Label.Back_to_Search}"/>
+      </div>
+      <br></br>
+       <apex:pageBlock title="{!$Label.Search_Results}" tabStyle="Lead" id="Block">
+         <apex:pageBlockTable id="leadObjcts" value="{!LeadDetails}" var="Obj" width="100%" columnsWidth="100px,100px">
+             <apex:column headerValue="{!$Label.Name}">
+                <apex:facet name="header">
+                  <apex:commandLink title="Name" value="{!$Label.Name}" action="{!runSortAction1}" reRender="Block,pagingpanel" onclick="sortColumn1('Name');">
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Name',sortAscending1==true),true,false)}" />
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Name',sortAscending1==false),true,false)}"  />                               
+                       <apex:param assignTo="{!sortField1}" name="Name" value="Name"/>
+                  </apex:commandLink>
+             </apex:facet>
+             <apex:commandLink action="{!openLink}">
+                <apex:outputText value="{!Obj.Name}"/>
+                <apex:param name="Lid" value="{!Obj.Id}"/>  
+            </apex:commandLink>
+            </apex:column>
+             <apex:column headerValue="{!$Label.Title}">
+             <apex:facet name="header">
+                  <apex:commandLink title="Title" value="{!$Label.Title}" action="{!runSortAction1}" reRender="Block,pagingpanel" onclick="sortColumn1('Title');">
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Title',sortAscending1==true),true,false)}" />
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Title',sortAscending1==false),true,false)}"  />                               
+                       <apex:param assignTo="{!sortField1}" name="Title" value="Title"/>
+                  </apex:commandLink>
+             </apex:facet>
+             <apex:outputText value="{!Obj.Title}"/>
+           </apex:column>
+           <apex:column headerValue="{!$Label.Phone}">
+              <apex:facet name="header">
+                  <apex:commandLink title="Phone" value="{!$Label.Phone}" action="{!runSortAction1}" reRender="Block,pagingpanel" onclick="sortColumn1('Phone');">
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Phone',sortAscending1==true),true,false)}" />
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Phone',sortAscending1==false),true,false)}"  />                               
+                       <apex:param assignTo="{!sortField1}" name="Phone" value="Phone"/>
+                  </apex:commandLink>
+             </apex:facet>
+            <apex:outputText value="{!Obj.Phone}"/>
+           </apex:column>
+             <apex:column headerValue="{!$Label.Company}">
+              <apex:facet name="header">
+                  <apex:commandLink title="Company" value="{!$Label.Company}" action="{!runSortAction1}" reRender="Block,pagingpanel" onclick="sortColumn1('Company');">
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Company',sortAscending1==true),true,false)}" />
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Company',sortAscending1==false),true,false)}"  />                               
+                       <apex:param assignTo="{!sortField1}" name="Company" value="Company"/>
+                  </apex:commandLink>
+             </apex:facet>
+             <apex:commandLink action="{!openLink}">
+                <apex:outputText value="{!Obj.Company}"/>
+                <apex:param name="Lid" value="{!Obj.Id}"/>
+            </apex:commandLink>
+             
+           </apex:column>
+           <apex:column headerValue="{!$Label.Lead_Status}">
+                <apex:facet name="header">
+                  <apex:commandLink title="Lead Status" value="{!$Label.Lead_Status}" action="{!runSortAction1}" reRender="Block,pagingpanel" onclick="sortColumn1('Status');">
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Status',sortAscending1==true),true,false)}" />
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Status',sortAscending1==false),true,false)}"  />                               
+                       <apex:param assignTo="{!sortField1}" name="Status" value="Status"/>
+                  </apex:commandLink>
+             </apex:facet>
+             <apex:outputText value="{!Obj.Status}"/>
+           </apex:column>
+           <apex:column headerValue="{!$Label.Lead_Number}">
+             <apex:facet name="header">
+                  <apex:commandLink title="Lead Number" value="{!$Label.Lead_Number}" action="{!runSortAction1}" reRender="Block,pagingpanel" onclick="sortColumn1('Lead_Number__c');">
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Lead_Number__c',sortAscending1==true),true,false)}" />
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Lead_Number__c',sortAscending1==false),true,false)}"  />                               
+                       <apex:param assignTo="{!sortField1}" name="Lead Number" value="Lead_Number__c"/>
+                  </apex:commandLink>
+             </apex:facet>
+             <apex:outputText value="{!Obj.Lead_Number__c}"/>
+           </apex:column>
+           <apex:column headerValue="{!$Label.Deal_Registration_Status}">
+           <apex:facet name="header">
+                  <apex:commandLink title="Deal registration Status" value="{!$Label.Deal_Registration_Status}" action="{!runSortAction1}" reRender="Block,pagingpanel" onclick="sortColumn1('DealReg_Deal_Registration_Status__c');">
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'DealReg_Deal_Registration_Status__c',sortAscending1==true),true,false)}" />
+                       <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'DealReg_Deal_Registration_Status__c',sortAscending1==false),true,false)}"  />                               
+                       <apex:param assignTo="{!sortField1}" name="Deal registration Status" value="DealReg_Deal_Registration_Status__c"/>
+                  </apex:commandLink>
+             </apex:facet>
+             <apex:outputText value="{!Obj.DealReg_Deal_Registration_Status__c}"/>
+           </apex:column>             
+        </apex:pageBlockTable>
+        <apex:pagemessages />
+          <apex:outputPanel id="pagingPanel" rendered="{!(NOT(LeadList.size == 0))}">
+               <c:paginator reRenderComponent="Block,pagingPanel" pageManager="{!objPageManager}" statusComponent="sortStatus" id="bottom_paginator"/>                                                 
+           </apex:outputPanel>     
+    </apex:pageBlock>
+       <apex:inputHidden id="sortField1" value="{!sortField1}" /> 
+        <apex:inputHidden id="sortAscending1" value="{!sortAscending1}" />
+       <apex:actionStatus id="sortStatus" startText="Loading....">
+       </apex:actionStatus>
+     </apex:form>
+    <script type="text/javascript">
+       function sortColumn1(column_name) {
+           var fieldobj = document.getElementById('{!$Component.myPage.myForm.sortField1}');
+           var orderobj = document.getElementById('{!$Component.myPage.myForm.sortAscending1}');
+           var new_sort_order = 'true';
+           if(column_name == fieldobj.value) {
+                 // if previously same column sorted, reverse the sort order
+                 new_sort_order = (orderobj.value=='false'?'true':'false');
+            }
+           fieldobj.value = column_name;
+           orderobj.value = new_sort_order;
+     }   
+    </script>     
+</apex:page>

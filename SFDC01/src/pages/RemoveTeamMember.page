@@ -1,0 +1,25 @@
+<!--
+    25-May-10  Srinivas      Changed version to 21 for mass reassignment pagination WR-163052   
+-->
+<apex:page controller="MassSalesTeamOperation" wizard="true">
+ <apex:form >
+ <apex:pagemessages />
+  <apex:pageBlock title="{!$Label.Remove_Existing}"><br/>
+      <apex:outputText value="{!$Label.Specify_Team}"/><br/><br/>
+       <apex:outputLabel value="{!$Label.Existing_Team}" for="search" dir="RTL"/>&nbsp;&nbsp;
+       <apex:inputText maxlength="25" value="{!RemoveUser}"/>
+        <apex:commandButton action="{!removeUserSearch}" value="{!$Label.Search}">
+          </apex:commandButton><br/><br/>
+            <apex:pageBlockButtons dir="RTL">
+               <apex:commandButton action="{!cancel}" value="{!$Label.cancel}"/>
+               <apex:commandButton action="{!remove}" value="{!$Label.Remove}"/>
+               <apex:commandButton action="{!previousStep4}" value="{!$Label.previous}"/>
+           </apex:pageBlockButtons>
+            <apex:actionStatus startText=" Processing the stuff " id="counterStatus">
+                 <apex:facet name="start" >Processing....
+                    <img src="/apexpages/devmode/img/saveStatus.gif" />
+                 </apex:facet>
+            </apex:actionStatus>         
+   </apex:pageBlock>
+  </apex:form>
+</apex:page>

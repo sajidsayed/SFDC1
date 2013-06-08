@@ -1,0 +1,31 @@
+<!-- 
+03-Mar-2011     Srinivas Nallapati      WR-161482 Commented the inputfield Update Forecast Amount from Quote
+-->
+<apex:page standardController="Opportunity" sidebar="false" showHeader="false" extensions="Opp_CreateQuote" title="Create Quote" action="{!validate}">
+
+<apex:form >
+
+ <apex:pageBlock Title="{!$Label.Create_Quote}">
+  <apex:pageMessage summary="{!$Label.Opportunity_Check_User_Profile_Create_Quote_Access}" severity="Error" strength="3" id="UserAccessMsg"  rendered="{!showUserAccess}" />
+  <apex:pageMessage summary="{!$Label.Opportunity_Check_Create_Quote_Access}" severity="Error" strength="3" id="AccessMsg"  rendered="{!showAccess}" />
+  <apex:pageMessage summary="{!$Label.Opportunity_Check_Synergy_No_Present}" severity="Error" strength="3" id="SynergyNum"  rendered="{!showOpportunityNumError}" />
+  <apex:pageMessage summary="{!$Label.Opportunity_Check_Integration_Error_Message} " severity="Error" strength="3" id="integrationError" rendered="{!showIntegrationError}" />
+  <apex:pageMessage summary="{!$Label.Opportunity_Create_Quote_Already_Triggered} " severity="Error" strength="3" id="quoteTriggered" rendered="{!showQuoteAlreadyTriggered}" />
+  <apex:pageMessage summary="{!$Label.Opportunity_Create_Quote_Triggered_Successfully} " severity="info" strength="3" id="save" rendered="{!showSave}" />
+  <apex:pageMessages />         
+ 
+  <apex:pageBlockButtons > 
+   <apex:commandButton action="{!createQuotesave}" value="{!$Label.Save}" id="savebutton" rendered="{!showCreateQuote}"  />
+   <apex:commandButton action="{!Cancel}" value="{!$Label.cancel}" id="cancelbutton" onclick="window.top.close()" rendered="{!showCreateQuote}" />
+   <apex:commandButton action="{!Ok}" style="position:middle;" value="{!$Label.OK}"  onclick="window.top.close()" rendered="{!showOkButton}" />
+ </apex:pageBlockButtons>   
+   <apex:pageBlockSection rendered="{!showCreateQuote}" columns="1">
+     <apex:inputField value="{!objOppy.Quote_Operating_Unit__c}" required="true" />
+     <apex:inputField value="{!objOppy.Sell_Relationship__c}" required="true" />
+     <!--Commented for WR-161482 <apex:inputField value="{!objOppy.Update_Forecast_Amount_from_Quote__c}"  /> -->
+     
+   </apex:pageBlockSection>
+  </apex:pageBlock>
+
+</apex:form>
+</apex:page>

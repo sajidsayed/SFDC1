@@ -1,0 +1,32 @@
+<apex:page standardController="Case" extensions="Presales_FlaggedAttachmentController">
+<apex:form >
+<apex:pageBlock id="FlaggedAttachList" title="RPQ Wiki Attachments">
+    <apex:messages />
+<!-- In our table we are displaying the cContact records -->
+<apex:pageBlockTable value="{!attachments}" var="a" id="table">
+    <apex:column headerValue="Select" rendered="{!(chkFlag)}" >
+<!-- This is our selected Boolean property in our wrapper class -->
+        <apex:inputCheckbox value="{!a.selected}"  disabled="{!a.selected}"/>
+    </apex:column>
+<!-- This is how we access the contact values within our cContact container/wrapper -->
+    <apex:column value="{!a.att.Id}" />
+     <apex:column headerValue="Processed" rendered="{!(chkFlag)}" >
+        <apex:inputCheckbox value="{!a.Is_Processed}"  disabled="true"/>
+      </apex:column>
+
+    <apex:column value="{!a.att.Name}" />
+    <apex:column value="{!a.att.ParentId}" />
+    <apex:column value="{!a.att.Description}" />
+    <apex:column value="{!a.att.ContentType}" />
+</apex:pageBlockTable>
+<apex:outputLabel value="No records to display" rendered="{!NOT(chkFlag)}" styleClass="noRowsHeader" />
+
+<apex:pageBlockButtons location="bottom" >
+    <apex:commandButton value="Process Selected" action="{!processSelected}" rendered="{!(chkFlag==true)}"/>
+ <apex:commandButton value="Cancel" action="{!cancelCase}" />
+
+</apex:pageBlockButtons>
+
+</apex:pageBlock>
+</apex:form>
+</apex:page>

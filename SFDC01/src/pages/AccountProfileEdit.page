@@ -1,0 +1,236 @@
+<!-- 
+
+15-July-2011    Srinivas Nallapati      WR-166750   Removed the "CMA Gap Analysis" tab from the page. Deleted all the fields on the tab from system
+16-Nov-2011     Shalabh Sharma                      Added null check on line 20 
+20-Nov-2012     Hemavathi N M                       Commented General tab and moved Profile detail to IT Environment block
+ -->
+
+<apex:page standardController="ProfileCustom__c" standardStylesheets="true" extensions="ProfileActionExtender" showHeader="true" tabStyle="ProfileCustom__c" >
+<style>
+.activeTab {background-color:#747E96; color:white;
+background-image:none; font-size: 12px}
+.inactiveTab { background-color: lightgrey; color:black;
+background-image:none; font-size: 12px}
+.labelCol {font-size: 13px;color: #333333;}
+.dataCol{font-size:13px;}
+.data2Col{font-size:13px;}
+label {font-size: 11px;color: #333333;}
+</style>
+<script>
+function setTab(inputText){    
+    if(document.getElementById('j_id0:ProfileForm:selectedTab')){
+    document.getElementById('j_id0:ProfileForm:selectedTab').value=inputText;
+    }
+}
+</script>
+<apex:form id="ProfileForm"  style="width:30%">
+<apex:sectionHeader subtitle="{!ProfileCustom__c.Name}" title="{!$Label.Profile_Edit}"/>
+<apex:tabPanel switchType="server" tabClass="activeTab" inactiveTabClass="inactiveTab" value="{!selectedTab}" id="AccountProfileTabPanel" >
+<!--
+<apex:tab label="{!$Label.Account_Profile_General_Tab}" name="GeneralAccountProfile">
+<apex:pageBlock title="{!$Label.Account_Profile_General_Tab}" mode="edit" >
+<Strong><div class="errorMsg" Style="font-size: 12px;text-align: center"><apex:messages /></div></Strong>
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="{!$Label.Save}" onclick="setTab('GeneralAccountProfile');"/>
+                <apex:commandButton action="{!Cancel}" value="{!$Label.cancel}" onclick="setTab('GeneralAccountProfile');"/>
+            </apex:pageBlockButtons> 
+    <apex:pageBlockSection title=" {!$Label.Profile_Details}" columns="1" dir="LTR">
+        <apex:inputField value="{!ProfileCustom__c.Name}"/>
+        <apex:inputField value="{!ProfileCustom__c.Profile_Description__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Account_del__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Prospect__c}"/>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection title=" {!$Label.Account_Demographics}" columns="2">
+        <apex:inputField value="{!ProfileCustom__c.Annual_WW_Revenue_USD__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_WW_Employees__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Annual_WW_Addressable_Market_Oppty_USD__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Sales_Designated_Vertical__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Annual_WW_IT_CapEx_Budget_USD__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Fiscal_Year_End__c}"/>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection title=" {!$Label.Account_Description}" columns="1">
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.description}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Description__c}" rows="4" cols="100"/>
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection title=" {!$Label.Account_Details}" columns="2">
+        <apex:inputField value="{!ProfileCustom__c.EMC_Customer_New__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Preferred_Partner__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Purchase_or_Lease__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Parent_Group__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.If_Both_Please_Explain__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Site_Information__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Lease_with_EMC__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Distance_to_Second_Site_KMs__c}"/> 
+        <apex:inputField value="{!ProfileCustom__c.EMC_Three_Year_Spend__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.EMC_Consulting_Services__c}"/>
+               
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Company_Initiatives_Projects}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Company_Initiatives_Projects__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Description_of_Competitive_Landscape}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Description_of_Competitive_Landscape__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Industry_Trends}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Industry_Trends__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Competitive_Details}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Competitive_Details__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+    
+    <apex:pageBlockSection title="{!$Label.Account_Business_Process}" columns="2">
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Budget_Process_Cycle}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Budget_Process_Cycle__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Current_DR_Business_Continuity}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Current_DR_Business_Continuity__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Decision_Process}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Decision_Process__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Backup_Strategy_Process}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Backup_Strategy_Process__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Purchasing_Process}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Purchasing_Process__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Archive_Backup_or_Single_Process}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Archive_Backup_or_Single_Process__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Current_Approach_to_Security}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Current_Approach_to_Security__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Archive_Retention_Req_s_Process}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Archive_Retention_Req_s_Process__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+        <apex:inputHidden value="{!selectedTab}" id="selectedTab"/>
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Archive_Data_Location_in_Infrastructure}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Archive_Data_Location_in_Infrastructure__c}"rows="4" cols="30" />
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection title=" {!$Label.Profile_Status}" columns="1">
+        <apex:inputField value="{!ProfileCustom__c.Profile_Priority__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Profile_Status__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Profile_Close_Reason__c}"/>
+    </apex:pageBlockSection>   
+    <apex:pageBlockSection title=" {!$Label.Notes}" columns="1">
+        <apex:pageBlockSectionItem >
+        <label>{!$Label.Notes}</label>
+        <apex:inputTextarea value="{!ProfileCustom__c.Notes__c}" rows="4" cols="100"/>
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+   </apex:pageBlock>
+</apex:tab>
+-->
+<apex:tab label="{!$Label.Account_Profile_IT_Environment_Tab}" name="ITEnvironmentAccountProfile">
+<apex:pageBlock title="{!$Label.IT_Environment}" mode="edit">
+<Strong><div class="errorMsg" Style="font-size: 12px;text-align: center"><apex:messages /></div></Strong>
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="{!$Label.Save}" onClick="setTab('ITEnvironmentAccountProfile');"/>
+                <apex:commandButton action="{!Cancel}" value="{!$Label.cancel}" onClick="setTab('ITEnvironmentAccountProfile');"/>
+            </apex:pageBlockButtons> 
+    <apex:pageBlockSection title=" {!$Label.Profile_Details}" columns="1" dir="LTR">
+        <apex:inputField value="{!ProfileCustom__c.Name}"/>
+        <apex:inputField value="{!ProfileCustom__c.Profile_Description__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Account_del__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Prospect__c}"/>
+    </apex:pageBlockSection>
+<apex:pageBlockSection title=" {!$Label.Competitor_and_EMC_Install}" columns="2">
+        <apex:inputField value="{!ProfileCustom__c.SAN_Vendor__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_SAN_Vendor__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.NAS_Vendor__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_NAS_Vendor__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.CAS_Vendor__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_CAS_Vendor__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Storage_Network__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_Storage_Network__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Backup_Applications__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_Backup_Application__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Backup_to_Disk_Vendors__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_Backup_to_Disk_Vendor__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Data_Protection_Management_Applications__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_Data_Protection_Mgmt_App__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Tape_Vendors__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_Tape_Vendor__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Content_Management_Applications__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_Content_Mgmt_Application__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Virtualization_Applications__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_Virtualization_App__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Security_Applications__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_Security_Application__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Flash_Drive_Vendors__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Comments_Other_Flash_Drive_Vendors__c}"/> 
+                
+</apex:pageBlockSection>
+<apex:pageBlockSection title=" {!$Label.IT_Applications_Servers}" columns="2">
+       <apex:inputField value="{!ProfileCustom__c.Database__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Comments_Other_Database__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Operating_System__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Comments_Other_Operating_System__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Server_Manufacturer__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Comments_Other_Server_Manufacturer__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Email_Applications__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Comments_Other_Email_Application__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Enterprise_Applications__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Comments_Other_Enterprise_Application__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.BI_Applications__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Comments_Other_BI_Application__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Remote_Management_Applications__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Comments_Other_Remote_Mgmt_Application__c}"/>     
+       <apex:inputField value="{!ProfileCustom__c.Other_Application_Vendors_Solutions__c}"/>
+       <apex:inputField value="{!ProfileCustom__c.Comments_Other_App_Vendor_Solution__c}"/>
+</apex:pageBlockSection>
+<apex:pageBlockSection title=" {!$Label.IT_Size}" columns="2">
+        <apex:inputField value="{!ProfileCustom__c.Count_Per_Servers__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Total_Storage_Capacity_Raw__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_Virtual_Servers__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.EMC_Capacity_TB__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_Database_Servers__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Competitor_Capacity_TB__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_Application_Servers__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_ROBO_Remote_Offices__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_File_Servers__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.ROBO_per_Remote_TB__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_Message_Servers__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.VMWare_ELA__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_ESX_Servers__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.FC_SAN__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_PCs__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.ISCSI_SAN__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_Mailboxes__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.DAS__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_IT_Employees__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.VPN__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_IT_Users__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Wireless__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_Total_Users__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.VOIP__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_Email_Users__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Network__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_Remote_Users__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Daily_Backup_Method__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_CMA_Users__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Daily_Backup_Duration_HRs__c}"/>
+        <apex:inputField value="{!ProfileCustom__c.Number_of_Legal_Users__c}"/>
+</apex:pageBlockSection>
+</apex:pageBlock>
+</apex:tab>
+
+</apex:tabPanel>
+</apex:form>
+</apex:page>

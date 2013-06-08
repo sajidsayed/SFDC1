@@ -1,0 +1,49 @@
+<apex:page standardController="Asset__c" Id="oAssetId" extensions="Transformation_LinkAssetsController" recordSetVar="opportunities"  >
+  <apex:form Id="oAssetFormId">  
+ <apex:pageBlock Title="Select Opportunity" Id="oAssetBlockId">
+
+<apex:inputText id="hdntxtAsset" value="{!lstSelectedAccount}"  rendered="false"/>
+<apex:inputText id="hdntxtAccId" value="{!lstSelectedAccId}" rendered="false"/>
+
+
+      <apex:messages />
+          <apex:pageBlockSection Id="oAssetPageBlockSectionItemId" >  
+              <apex:inputField value="{!link.Related_Opportunity__c}" required="true" id="opptyId"/>
+          </apex:pageBlockSection>
+          
+          <apex:pageBlockButtons >
+              <apex:commandButton value="Link" action="{!linkAssets}"  disabled="{!NOT(isLinked)}"/>
+              <apex:commandButton value="Cancel" action="{!cancelLink}" immediate="true" /> 
+          </apex:pageBlockButtons>
+      
+        <script>
+window.onload = overrideOpptyLookup;
+function overrideOpptyLookup(){
+ 
+//var custId=document.getElementById('{!$Component.hdntxtAsset}').value;
+
+//var accId=document.getElementById('{!$Component.hdntxtAccId}').value;
+
+ 
+
+var allanchr = document.getElementsByTagName('a');
+    for(var i=0;i<allanchr.length;i++){
+
+        if(allanchr[i].title == 'Related Opportunity Lookup (New Window)'){
+       
+            try{
+                 
+                //  allanchr[i].href = "javascript: openLookup('/apex/Transformation_OpptyLookupVF?selOppty='+getElementByIdCS('{!$Component.oAssetId:oAssetFormId:oAssetBlockId:oAssetPageBlockSectionItemId:opptyId}').value+'&selAcc='+{!lstSelectedAccount}+'&selAcId='+{!lstSelectedAccId}).value,600,500)";
+                  allanchr[i].href = "javascript: openLookup('/apex/Transformation_OpptyLookupVF?selOppty='+getElementByIdCS('{!$Component.oAssetId:oAssetFormId:oAssetBlockId:oAssetPageBlockSectionItemId:opptyId}').value+'&selAcc='+'{!lstSelectedAccount}'+'&selAcId='+'{!lstSelectedAccId}',600,500)";
+             
+                }
+            catch(e){
+                allanchr[i].href = "javascript: openLookup('/apex/Transformation_OpptyLookupVF?selOppty='+getElementByIdCS('{!$Component.oAssetId:oAssetFormId:oAssetBlockId:oAssetPageBlockSectionItemId:opptyId}').value+'&selAcc='+getElementByIdCS('{!$Component.hdntxtAsset}').value+'&selAcId='+getElementByIdCS('{!$Component.hdntxtAccId}').value,600,500)";
+                }
+        }
+    }
+}
+</script>
+</apex:pageBlock>
+  </apex:form>
+</apex:page>

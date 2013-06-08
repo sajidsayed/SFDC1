@@ -1,0 +1,98 @@
+<!-- 
+Author:     Devi Prasad Bal
+Created on: 12-Apr-2010
+Description: This page displays feedback information in read only mode.
+Modified on: 
+Reason: 
+-->
+
+
+<apex:page standardController="EBC_Briefing_Event__c" Extensions="EBC_Feedback" showHeader="false" tabStyle="EBC_Briefing_Event__c">
+   
+    <apex:form > 
+        <apex:pageBlock title="Feedback Form">
+            
+            <apex:outputPanel id="theMessages">
+                <apex:pageMessages />
+            </apex:outputPanel>
+                   
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!cancel}" value="Close" id="btnCancel" rendered="{!notfromSite}"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockSection title="Briefing Event">
+                <apex:outputField value="{!objBEvent.Name}" id="Briefing_Event_Name"/>                                
+                <apex:outputField value="{!objBEvent.Start_Date__c}" id="Start_Date"/>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.EBC_Briefing_Event__c.fields.Requestor_Name__c.label}" />
+                    <apex:outputText value="{!RequestorName}" id="Requestor_Name"/>
+                </apex:pageBlockSectionItem>
+                <apex:outputField value="{!objBEvent.End_Date__c}" id="End_Date"/>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.EBC_Briefing_Event__c.fields.Briefing_Center__c.label}" />
+                    <apex:outputText value="{!BCenterLocation}" id="B_Center_Location"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                	<apex:outputLabel value="{!$ObjectType.EBC_Briefing_Event__c.fields.Briefing_Advisor__c.label}" />
+                	<apex:outputText value="{!objBEvent.Briefing_Advisor__r.name}" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Briefing Objectives">
+            	<apex:outputfield value="{!objBEvent.Customer_Perspective__c}" id="Customer_Perspective" />
+                <apex:outputfield value="{!objBEvent.Sales_Perspective__c}" id="Sales_Perspective" />
+                <apex:outputfield value="{!objBEvent.Relationship_Changing_Impact_Notes__c}" id="Relationship_Changing_Impact_Notes" />		
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Sessions and Discussion Leaders">  
+                <apex:pageBlockTable value="{!SessRecords}" var="s" id="rows" > 
+                    <apex:column >
+                        <apex:facet name="header">Session</apex:facet>
+                        <apex:outputText id="Session" value="{!s.TopicOverride}" />
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Session Rating</apex:facet>
+                        <apex:outputText id="SessionRating" value="{!s.SessionRating}" />
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Session Notes</apex:facet>
+                        <apex:outputText id="SessionRatingNotes" value="{!s.SessionRatingNotes}" />
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Discussion Leader</apex:facet>
+                        <apex:outputText id="DiscussionLeaderEBCName" value="{!s.DiscussionLeaderEBCName}" />
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Discussion Leader Rating</apex:facet>
+                        <apex:outputText id="DiscussionLeaderRating" value="{!s.DiscussionLeaderRating}" />
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Discussion Leader Notes</apex:facet>
+                        <apex:outputText id="DiscussionLeaderRatingNotes" value="{!s.DiscussionLeaderRatingNotes}" />
+                    </apex:column>
+                </apex:pageBlockTable>
+           	</apex:pageBlockSection>
+                        
+            <apex:pageBlockSection title="Briefing Services">
+                <apex:outputfield value="{!objBEvent.Briefing_Registration_Process_Rating__c}" id="Briefing_Registration_Process_Rating" />
+                <apex:outputfield value="{!objBEvent.Briefing_Registration_Process__c}" id="Briefing_Registration_Process" />
+                <apex:outputfield value="{!objBEvent.Agenda_Coordination_Planning_Rating__c}" id="Agenda_Coordination_Planning_Rating" />
+                <apex:outputfield value="{!objBEvent.Agenda_Coordination_Planning_Notes__c}" id="Agenda_Coordination_Planning_Notes" />
+                <apex:outputfield value="{!objBEvent.Briefing_Day_Services_Rating__c}" id="Briefing_Day_Services_Rating" />
+                <apex:outputfield value="{!objBEvent.Briefing_Day_Services_Notes__c}" id="Briefing_Day_Services_Notes" />
+                <apex:outputfield value="{!objBEvent.Briefing_Catering_Services_Rating__c}" id="Briefing_Catering_Services_Rating" />
+                <apex:outputfield value="{!objBEvent.Briefing_Catering_Services_Notes__c}" id="Briefing_Catering_Services_Notes" />
+                <apex:outputfield value="{!objBEvent.Hotel_Rating__c}" id="Hotel_Rating" />
+                <apex:outputfield value="{!objBEvent.Hotel_Notes__c}" id="Hotel_Notes" />
+                <apex:outputfield value="{!objBEvent.Transportation_Rating__c}" id="Transportation_Rating" />
+                <apex:outputfield value="{!objBEvent.Transportation_Notes__c}" id="Transportation_Notes" />
+                <apex:outputfield value="{!objBEvent.Evening_Venue_Rating__c}" id="Evening_Venue_Rating" />
+                <apex:outputfield value="{!objBEvent.Evening_Venue_Notes__c}" id="Evening_Venue_Notes" />
+                <apex:outputfield value="{!objBEvent.Briefing_Program_Website_Rating__c}" id="Briefing_Program_Website_Rating" />
+                <apex:outputfield value="{!objBEvent.Briefing_Program_Website_Notes__c}" id="Briefing_Program_Website_Notes" />
+            </apex:pageBlockSection>
+                        
+        </apex:pageBlock>
+    
+    </apex:form>
+</apex:page>

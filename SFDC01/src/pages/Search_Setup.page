@@ -1,0 +1,176 @@
+<apex:page controller="SetupSearchComponentCls">
+	<Head>
+<link type="text/css" rel="stylesheet"
+	media="handheld,print,projection,screen,tty,tv"
+	href="/sCSS/12.0/1206048296000/Theme2/dStandard.css" />
+	</Head>
+	<script type="text/javascript">
+		window.onload = init;
+
+		function init() {
+			tables = document.getElementsById('{!$Component.chkboxChildren}');
+			alert(tables);
+			for (i = 0; i < tables.length; i++) {
+				table = tables[i];
+				if (table.className == 'makeRows') {
+					makeRows(table, 7);
+				}
+			}
+		}
+
+		function makeRows(table, columnCount) {
+			cells = table.rows[0].cells;
+			cellCount = cells.length;
+			rowCount = Math.ceil(cellCount / columnCount);
+
+			for (i = 0; i < rowCount; i++) {
+				table.insertRow(0);
+			}
+			for (i = 0; i < cellCount; i++) {
+				row = Math.floor(i / columnCount);
+				table.rows[row].appendChild(cells[i].cloneNode(true));
+			}
+			table.deleteRow(rowCount);
+		}
+		function checkAll(cb) {
+			var inputElem = document.getElementsByTagName("input");
+			alert('InputElem:' + inputElem);
+			for ( var i = 0; i < inputElem.length; i++) {
+				if (inputElem[i].id.indexOf("checkedone") != -1)
+					inputElem[i].checked = cb.checked;
+			}
+		}
+	</script>
+	<apex:form id="theForm">
+		<apex:pageMessages />
+		<apex:pageBlock title="Search Setup" id="pgBlockButtons">
+			<apex:pageBlockButtons id="buttonsBlock">
+				<apex:commandButton id="pbSave" action="{!save}" value="Save" />
+				<apex:commandButton id="pbTestBt" action="{!sampleMethod}"
+					value="Test Button" />
+			</apex:pageBlockButtons>
+			<apex:pageBlock id="pgBlockSetup">
+				<!-- Display Profile section -->
+				<apex:actionRegion id="aRegProf">
+					<apex:pageBlockSection title="Select Profile" >
+						<apex:pageBlockSectionItem id="pgBlkSecItmProf">
+							<apex:selectList id="selLstProfile" value="{!selectedProfileId}"
+								multiselect="false" size="1">
+								<apex:selectOptions id="selOptProfiles"
+									value="{!selOptProfiles}" />
+								<apex:actionSupport event="onchange"
+									rerender="pgBlkSecSelectObject, pgBlockSecLookUpObj, pgBlockSecDisplayFields, pgBlockSecSearchFilterFields" />
+							</apex:selectList>
+						</apex:pageBlockSectionItem>
+						<apex:pageBlockSectionItem id="pgBlkSecItmBypassSec">
+							<apex:selectList id="selLstProfile" value="{!bypassSecurity}"
+								multiselect="false" size="1">
+								<apex:selectOptions id="selOptSecurity"
+									value="{!BypassSecurityOptions}" />
+							</apex:selectList>
+						</apex:pageBlockSectionItem>
+					</apex:pageBlockSection>
+				</apex:actionRegion>
+
+				<apex:actionRegion id="aRegLookUpDisplayProf">
+					<apex:pageBlockSection id="pgBlkSecSelectObject" title="Select Object for Search">
+						<apex:selectList id="selLstSObj" value="{!selectedObject}"
+							multiselect="false" size="1">
+							<apex:selectOptions id="selOptSobjects" value="{!objectNames}" />
+							<apex:actionSupport event="onchange" action="{!retrieveChildren}"
+								rerender="pgBlockSecLookUpObj, pgBlockSecDisplayFields" />
+						</apex:selectList>
+					</apex:pageBlockSection>
+				</apex:actionRegion>
+
+
+				<!-- ************LookUp Block *******************-->
+				<apex:pageBlockSection id="pgBlockSecLookUpObj"
+					title="Select Lookup Object" collapsible="true">
+					<apex:pageBlockSectionItem id="pgBlkSecItmLookup">
+						<apex:selectList id="selLookupFields"
+							value="{!selectedLookupFlds}" multiselect="False" size="10">
+							<apex:selectOptions value="{!selLookupFlds}" />
+							<apex:actionSupport event="onchange"
+								rerender="pgBlockSecSearchFilterFields" />
+						</apex:selectList>
+					</apex:pageBlockSectionItem>
+				</apex:pageBlockSection>
+
+				<!-- ***************Search Filter Fields Block******************* -->
+				<apex:actionRegion id="aRegSearchFilter">
+					<apex:pageBlockSection id="pgBlockSecSearchFilterFields"
+						title="Select Search Criteria Fields">
+						<apex:panelGrid columns="3">
+							<apex:selectList id="unselected_SearchFilterFieldlist"
+								required="false" value="{!selectedSearchFilterFields}"
+								multiselect="true" size="20" style="width:250px">
+								<!-- unSelected list -->
+								<apex:selectOptions value="{!unSelectedSearchFilterFieldsOptions}" />
+							</apex:selectList>
+							<apex:panelGroup >
+								<apex:commandButton value=">>"
+									action="{!doAddSearchFilterFields}"
+									rerender="pgBlockSecSearchFilterFields" />
+								<!-- <apex:actionSupport event="onclick"
+                                    rerender="pgBlockSecDisplayFields" />
+                            </apex:commandButton> -->
+								<br />
+								<apex:commandButton value="<<"
+									action="{!doRemoveSearchFilterFields}"
+									rerender="pgBlockSecSearchFilterFields" />
+							</apex:panelGroup>
+							<apex:selectList id="selected_SearchFilterlist" required="false"
+								value="{!unselectedSearchFilterFields}" multiselect="true"
+								size="20" style="width:250px">
+								<!--Selected list -->
+								<apex:selectOptions value="{!SelectedSearchFilterFieldsOptions}" />
+							</apex:selectList>
+						</apex:panelGrid>
+					</apex:pageBlockSection>
+				</apex:actionRegion>
+
+				<!-- Display Fields Block -->
+				<!--                 <apex:pageBlockSection id="pgBlockSecDisplayFields"
+                    title="Select Display Fields" collapsible="true">
+                    <apex:pageBlockSectionItem id="pgBlkSecItmDisplay">
+                        <apex:selectList id="selDisplayFields" value="{!lstDisplayFields}"
+                            multiselect="true" size="10">
+                            <apex:selectOptions value="{!displayResultFields}" />
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection> -->
+
+				<!-- ***************Display Fields Block******************* -->
+				<apex:actionRegion id="aRegDisplay">
+
+					<apex:pageBlockSection id="pgBlockSecDisplayFields"
+						title="Select Display Fields" collapsible="true">
+						<apex:panelGrid columns="3">
+							<apex:selectList id="unselected_DisplayFieldlist"
+								required="false" value="{!selectedDisplayFields}"
+								multiselect="true" size="20" style="width:250px">
+								<apex:selectOptions value="{!unSelectedDisplayFieldsOptions}" />
+							</apex:selectList>
+							<apex:panelGroup >
+								<apex:commandButton value=">>" action="{!doAdd}"
+									rerender="pgBlockSecDisplayFields" />
+								<!-- <apex:actionSupport event="onclick"
+                                    rerender="pgBlockSecDisplayFields" />
+                            </apex:commandButton> -->
+								<br />
+								<apex:commandButton value="<<" action="{!doRemove}"
+									rerender="pgBlockSecDisplayFields" />
+							</apex:panelGroup>
+							<apex:selectList id="selected_list" required="false"
+								value="{!unselectedDisplayFields}" multiselect="true" size="20"
+								style="width:250px">
+								<apex:selectOptions value="{!SelectedDisplayFieldsOptions}" />
+							</apex:selectList>
+						</apex:panelGrid>
+					</apex:pageBlockSection>
+				</apex:actionRegion>
+			</apex:pageBlock>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

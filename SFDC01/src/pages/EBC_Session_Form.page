@@ -1,0 +1,95 @@
+<apex:page standardController="EBC_Session__c" Extensions="EBC_Session">
+<apex:form >
+<apex:pageBlock Title="Session Edit">
+<apex:pageMessages />
+     <apex:pageBlockButtons >
+        <apex:commandButton action="{!saveRecord}" value="Save"/> 
+        <apex:commandButton action="{!SaveAndNew}" value="Save & New"/> 
+        <apex:commandButton action="{!doCancel}" value="Cancel" immediate="true"/> 
+     </apex:pageBlockButtons>
+
+<apex:pageBlockSection title="Briefing Event" columns="1">
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="{!$ObjectType.EBC_Session__c.fields.Briefing_Event__c.label}" />
+		<apex:outputfield value="{!objSession.Briefing_Event__c}" id="Briefing_Event__c" />
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="Briefing Event Start Date" />
+		<apex:outputText value="{!bEventStartDate}" id="bEventStartDate" />
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="Briefing Event End Date" />
+		<apex:outputText value="{!bEventEndDate}" id="bEventEndDate" />
+	</apex:pageBlockSectionItem>
+</apex:pageBlockSection>
+
+<apex:pageBlockSection Title="Information">
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Topic__c.label}" />
+		<apex:inputfield value="{!objSession.Topic__c}" id="Topic__c" required="true"/>
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="{!$ObjectType.EBC_Session__c.fields.Topic_Override__c.label}" />
+		<apex:inputfield value="{!objSession.Topic_Override__c}" id="Topic_Override__c" />
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="{!$ObjectType.EBC_Session__c.fields.Session_Start_Date__c.label}" />
+		<apex:inputfield value="{!objSession.Session_Start_Date__c}" id="Session_Start_Date__c" />
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputText >Session Start Time</apex:outputText>
+		<apex:actionRegion >
+			<apex:selectList id="StartHours" value="{!StartHours}" size="1">
+                            <apex:selectOptions value="{!HourOptions}" />
+            </apex:selectList>
+            <apex:selectList id="StartMinutes" value="{!StartMinutes}" size="1">
+                            <apex:selectOptions value="{!MinuteOptions}" />
+            </apex:selectList>
+        </apex:actionRegion>
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="{!$ObjectType.EBC_Session__c.fields.Session_End_Date__c.label}" />
+		<apex:inputfield value="{!objSession.Session_End_Date__c}" id="Session_End_Date__c" />
+	</apex:pageBlockSectionItem>
+	<apex:pageBlockSectionItem >
+		<apex:outputText >Session End Time</apex:outputText>
+		<apex:actionRegion >
+			<apex:selectList id="EndHours" value="{!EndHours}" size="1">
+	                            <apex:selectOptions value="{!HourOptions}" />
+	        </apex:selectList>
+			<apex:selectList id="EndMinutes" value="{!EndMinutes}" size="1">
+	                            <apex:selectOptions value="{!MinuteOptions}" />
+	        </apex:selectList>
+		</apex:actionRegion>
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="{!$ObjectType.EBC_Session__c.fields.Requester_Notes__c.label}" />
+		<apex:inputfield value="{!objSession.Requester_Notes__c}" id="Requester_Notes__c" />
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="{!$ObjectType.EBC_Session__c.fields.Briefing_Advisor_Notes__c.label}" />
+		<apex:inputfield value="{!objSession.Briefing_Advisor_Notes__c}" id="Briefing_Advisor_Notes__c" />
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="{!$ObjectType.EBC_Session__c.fields.Are_the_Presenters_Secured__c.label}" />
+		<apex:inputfield value="{!objSession.Are_the_Presenters_Secured__c}" id="Are_the_Presenters_Secured__c" />
+	</apex:pageBlockSectionItem>
+	
+	<apex:pageBlockSectionItem >
+		<apex:outputLabel value="{!$ObjectType.EBC_Session__c.fields.Can_this_session_be_changed__c.label}" />
+		<apex:inputfield value="{!objSession.Can_this_session_be_changed__c}" id="Can_this_session_be_changed__c" />
+	</apex:pageBlockSectionItem>
+
+</apex:pageBlockSection>
+</apex:pageBlock> 
+</apex:form>
+</apex:page>

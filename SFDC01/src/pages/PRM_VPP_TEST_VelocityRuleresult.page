@@ -1,0 +1,366 @@
+<apex:page Controller="PRM_VPP_TEST_VelocityRuleResult">
+   <style>
+    .jobMessage { color: #204EA9; font-weight: bold;}
+   </style>
+ 
+    <apex:form >      
+        <apex:pageBlock Title="Velocity Rule Evaluations" >
+        <apex:pageMessage summary="Currently Batch Jobs are Running." severity="info" strength="3"  rendered="{!isJobRunning}"/>
+        <apex:pageMessages />
+        
+        <apex:pageBlockSection title="Evaluation Job for One Account or One Grouping - ONLY VPP JOBS" columns="4" rendered="true" collapsible="true">
+            <apex:pageBlockSectionItem >
+                <apex:selectList value="{!SearchCriteria}" id="SearchCriteria"  size="1" >
+                    <apex:selectOptions value="{!SearchCriteriaList}"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:inputText value="{!inputstr}" />
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:inputHidden /> 
+             </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem dataStyle="text-align:center"  >
+                <apex:commandButton action="{!runSelectedJob}" value="Run" />
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+    <apex:pageBlockSection title="Evaluation Job for One Grouping(PAN/Logical Block) - ONLY PAN/Logical Block JOBS" columns="4" rendered="true" collapsible="true">
+            <apex:pageBlockSectionItem >
+                <apex:selectList value="{!SearchCriteriaPL}" id="SearchCriteria"  size="1" >
+                        <apex:selectOptions value="{!SearchCriteriaForPartnerLevList}"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:inputText value="{!strGroupingId}" />
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:inputHidden /> 
+             </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem dataStyle="text-align:center"  >
+                <apex:commandButton action="{!deleteCreateEvaluateVRRForPAN}" value="Run" />
+            </apex:pageBlockSectionItem>
+     </apex:pageBlockSection>
+    <apex:pageBlockSection title="PAN Theater Evaluation for All Groupings" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!SelectedJob}" id="AllPANTheaterJobs"  size="1" >
+                        <apex:selectOptions value="{!JobPLOperations}"/> 
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem dataStyle="text-align:center">
+                    <apex:commandButton action="{!runJobForALLPANTheater}" value="Run" rendered="{!NOT(isjobRunning)}"/>
+                </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection title="Evaluation Job for All Accounts/Groupings - ONLY VPP JOBS" columns="4" rendered="true">
+        <apex:pageBlockSectionItem >
+            <apex:selectList value="{!SelectedJob}" id="AllJobs"  size="1" >
+                <apex:selectOptions value="{!JobOperations}"/>
+            </apex:selectList>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:inputHidden /> 
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:inputHidden /> 
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem dataStyle="text-align:center">
+            <apex:commandButton action="{!runJobForAll}" value="Run" rendered="{!NOT(isjobRunning)}"/>
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+ <!--   
+   
+    <apex:pageBlockSection title="Evaluation-Theaters wise - Education Matching , VPP JOBS and Partner Lev Factor" columns="4" rendered="true">
+        <apex:pageBlockSectionItem >
+            <apex:selectList value="{!SelectedTheatersForImmidateRun}" id="AllTheaterJobs"  size="4" multiselect="true"  >
+                <apex:selectOptions value="{!TheaterJobOperations}"/>
+            </apex:selectList>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:inputHidden /> 
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:inputHidden /> 
+        </apex:pageBlockSectionItem>
+
+        <apex:pageBlockSectionItem dataStyle="text-align:center">
+            <apex:commandButton action="{!runJobForTheaters}" value="Run" rendered="{!NOT(isjobRunning)}"/>
+            
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+   
+    <apex:pageBlockSection title="Evaluation-Theaters wise - PANTheater/LogicalBlocks" columns="4" rendered="true">
+        <apex:pageBlockSectionItem >
+            <apex:selectList value="{!SelectedTheatersForImmidateRun}" id="AllTheaterJobs"  size="4" multiselect="true"  >
+                <apex:selectOptions value="{!TheaterJobOperations}"/>
+            </apex:selectList>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:inputHidden /> 
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:inputHidden /> 
+        </apex:pageBlockSectionItem>
+
+        <apex:pageBlockSectionItem dataStyle="text-align:center">
+            <apex:commandButton action="{!runPANLogicalJobForTheaters}" value="Run" rendered="{!NOT(isjobRunning)}"/>
+            
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+   
+    
+    <apex:pageBlockSection title="Evaluation All Job for All Accounts/Groupings" columns="3" rendered="false">
+        <apex:outputText >Click Run All Jobs -to delete all the existing temparory data and evalutes all the rules for all groupings.</apex:outputText>
+        <apex:inputHidden />
+        <apex:commandButton action="{!runAllJob}" value="Run All Jobs" />
+    
+    </apex:pageBlockSection>
+
+        
+            <apex:pageBlockSection title="Account Run Job" columns="3" rendered="false">
+                <apex:outputLabel value="Enter Account Id :"/>     
+                <apex:inputText value="{!accountId}"></apex:inputText>
+                <apex:commandButton action="{!runProfiledAccountsJob}" value="Run Account"></apex:commandButton>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Grouping Run Job" columns="3" rendered="false">
+                <apex:outputLabel value="Enter Group Ids :"/>       
+                <apex:inputText value="{!groupId}"></apex:inputText>
+                <apex:commandButton action="{!runProfiledGroupsJob}" value="Run Group"></apex:commandButton>
+            </apex:pageBlockSection>
+        -->                
+        </apex:pageBlock>
+        
+        <apex:pageBlock Title="Scheduled Jobs Details" >
+            <apex:pageBlockSection title="Scheduled Theaters- Education Matching and VPP JOBS" columns="3" >
+                <apex:pageBlockSectionItem dataStyle="text-align:center">
+                        <apex:outputLabel >Selected Theaters</apex:outputLabel>
+                        <apex:outputText > {!SelectedTheatersForScheduledJobs}</apex:outputText>
+                </apex:pageBlockSectionItem>
+                <apex:outputLabel > </apex:outputLabel>
+                <apex:outputLabel > </apex:outputLabel>
+                <apex:selectList value="{!SelectedTheaters}" id="AllTheaterJobs"  size="3" multiselect="true"  >
+                    <apex:selectOptions value="{!TheaterJobOperations}"/>
+                </apex:selectList>
+                 <apex:outputLabel > </apex:outputLabel>
+                <apex:commandButton action="{!setForNextScheduledRun}" value="SetTheaters For Next Scheduled Run" />
+            </apex:pageBlockSection>
+           
+            <apex:pageBlockSection title="Scheduled Jobs" columns="3" >
+                <apex:pageBlockSectionItem dataStyle="text-align:center">
+                        <apex:outputLabel >Selected Jobs</apex:outputLabel>
+                        <apex:outputText > {!SelectedjobstoSchedule}</apex:outputText>
+                </apex:pageBlockSectionItem>
+                <apex:outputLabel > </apex:outputLabel>
+                <apex:outputLabel > </apex:outputLabel>
+                <apex:selectList value="{!SelectedJobs}" id="AllJobs"  size="3" multiselect="true"  >
+                    <apex:selectOptions value="{!jobs}"/>
+                </apex:selectList>
+                 <apex:outputLabel > </apex:outputLabel>
+                <apex:commandButton action="{!setJobsForNextScheduledRun}" value="Set Jobs For Next Scheduled Run" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Delta Processing" columns="3" >
+                <apex:pageBlockSectionItem dataStyle="text-align:center"  >
+                            <apex:outputLabel >Process Delta Only</apex:outputLabel>
+                            <apex:outputText > {!ProcessDeltaOnly}</apex:outputText>
+                </apex:pageBlockSectionItem>
+                 <apex:outputLabel > </apex:outputLabel>
+                 <apex:outputLabel > </apex:outputLabel>  
+                <apex:selectList value="{!processDeltaOnly}" id="delta"  size="1" multiselect="false"  >
+                        <apex:selectOption itemLabel="Yes" itemValue="Yes" />
+                        <apex:selectOption itemLabel="No" itemValue="No" />
+                    </apex:selectList>
+                     <apex:outputLabel > </apex:outputLabel>
+                    <apex:commandButton action="{!setDeltaOption}" value="Set Delta Option For Next Scheduled Run" />
+                           
+            </apex:pageBlockSection>
+             <apex:pageBlockSection title="Immediate Run" columns="2" >
+                 
+                            <apex:outputLabel >Runs the jobs as per Scheduled Job Settings(as above)</apex:outputLabel>
+                            <apex:commandButton action="{!executeJobsNow}" value="Run Jobs Now"  rendered="{!NOT(isjobRunning)}" />
+                
+             </apex:pageBlockSection>
+        </apex:pageBlock>
+
+        
+        <apex:pageBlock Title="Partner Lev Factor Evaluations" >
+            <apex:pageBlockSection title="Evaluation Job for One Contact or One Account" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!SearchCriteriaPL}" id="SearchCriteria"  size="1" >
+                        <apex:selectOptions value="{!SearchCriteriaForPartnerLevList}"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputText value="{!inputPLstr}" /> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                 </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem dataStyle="text-align:center"  >
+                    <apex:commandButton action="{!runPatnerLevJobs}" value="Run" />
+                </apex:pageBlockSectionItem>            
+             </apex:pageBlockSection>
+             <apex:pageBlockSection title="Evaluation Job for All Contacts/Accounts" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!SelectedJob}" id="AllJobs"  size="1" >
+                        <apex:selectOptions value="{!JobPLOperations}"/> 
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem dataStyle="text-align:center">
+                    <apex:commandButton action="{!runJobForALLPL}" value="Run" rendered="{!NOT(isjobRunning)}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>   
+    
+        <apex:pageBlock Title="Revenue Evaluations" >
+            <apex:pageBlockSection title="Evaluation Job for One Account" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!SearchCriteriaRevenue}" id="SearchCriteria"  size="1" >
+                        <apex:selectOptions value="{!SearchCriteriaForRevenueList}"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputText value="{!inputRevenuestr}" /> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                 </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem dataStyle="text-align:center"  >
+                    <apex:commandButton action="{!runRevenueJobs}" value="Run" />
+                </apex:pageBlockSectionItem>            
+             </apex:pageBlockSection>
+             <apex:pageBlockSection title="Evaluation Job for All Accounts" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!SelectedJob}" id="AllJobs"  size="1" >
+                        <apex:selectOptions value="{!JobPLOperations}"/> 
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem dataStyle="text-align:center">
+                    <apex:commandButton action="{!runJobForALLRevenue}" value="Run" rendered="{!NOT(isjobRunning)}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Evaluation Job for One GAF Revenue & Rebate Record(PAN/LB/Custom GAF)" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!searchCriteriaForGAFPAN}" id="SearchCriteriaForGAFPAN"  size="1" >
+                        <apex:selectOptions value="{!SearchCriteriaForPANGAFList}"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputText value="{!strGAFRevenueAndRebateId}" /> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                 </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem dataStyle="text-align:center"  >
+                    <apex:commandButton action="{!runPANGAFJobForGAFRevenueAndRebate}" value="Run" />
+                </apex:pageBlockSectionItem>            
+             </apex:pageBlockSection>
+             <apex:pageBlockSection title="Evaluation Job for All GAF Revenue & Rebate Record(PAN/LB/Custom GAF)" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!searchCriteriaForGAFPAN}" id="AllJobsForGAFPAN"  size="1" >
+                        <apex:selectOptions value="{!SearchCriteriaForPANGAFList}"/> 
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem dataStyle="text-align:center">
+                    <apex:commandButton action="{!runPANGAFJobForALLGAFRevenueAndRebate}" value="Run" rendered="{!NOT(isjobRunning)}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>   
+        
+        <apex:pageBlock Title="Champion Resource Calculation" >
+            <apex:pageBlockSection title="Evaluation Job for One Profiled Account" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!SearchCriteriaCR}" id="resourceCriteria"  size="1" >
+                        <apex:selectOptions value="{!SearchCriteriaForCRList}"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputText value="{!inputProfiledAccountstr}" /> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                 </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem dataStyle="text-align:center"  >
+                    <apex:commandButton action="{!runChampionResourceJob}" value="Run" />
+                </apex:pageBlockSectionItem>            
+             </apex:pageBlockSection>
+             
+             <apex:pageBlockSection title="Evaluation Job for All Accounts" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!SelectedJob}" id="AllJobs"  size="1" >
+                        <apex:selectOptions value="{!JobChampOperations}"/> 
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem dataStyle="text-align:center">
+                    <apex:commandButton action="{!runChampJobForALLAccount}" value="Run" rendered="{!NOT(isjobRunning)}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>   
+         <apex:pageBlock Title="Contact Functional Area Evaluation" >
+            <apex:pageBlockSection title="Functional Area Evaluation Job for One Profiled Account" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!SearchCriteriaFA}" id="FunctionalAreaCriteria"  size="1" >
+                        <apex:selectOptions value="{!SearchCriteriaFAList}"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputText value="{!inputProfiledAccountFAstr}" /> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                 </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem dataStyle="text-align:center"  >
+                    <apex:commandButton action="{!runFunctionalAreaJob}" value="Run" />
+                </apex:pageBlockSectionItem>            
+             </apex:pageBlockSection>
+             
+             <apex:pageBlockSection title="Functional Area Evaluation Job for All Accounts" columns="4" rendered="true">
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!SelectedJob}" id="AllFAJobs"  size="1" >
+                        <apex:selectOptions value="{!FunctionalAreaOperationsList}"/> 
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:inputHidden /> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem dataStyle="text-align:center">
+                    <apex:commandButton action="{!runFunctionalAreaJobForAllAccounts}" value="Run" rendered="{!NOT(isjobRunning)}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock> 
+    </apex:form>    
+</apex:page>

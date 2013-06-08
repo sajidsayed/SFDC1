@@ -1,0 +1,31 @@
+<!--
+DATE          DEVELOPER                WR       DESCRIPTION                               
+
+====          =========                ==       =========== 
+27/7/2010    Karthik Shivprakash     Defect#27  Renamed button "Back" to "Back To Grouping".
+
+-->
+
+
+<apex:page controller="PRM_ExcludeAccountFromGrouping" tabStyle="Account">
+  
+  <apex:form id="theForm">
+   <apex:pageBlock title="{!$Label.Exclude_Result}">
+     <!--apex:outputText value="{!countOfExclude} accounts out of {!totalCountOfExclude} is excluded from the grouping {!GroupingRecord.name}. "/-->
+       <!--apex:outputText value="{!$Label.Except_Acconts}"/-->
+       <apex:pageBlockSection columns="3">
+         <apex:pageblockTable value="{!accountWrapperlist}" var="acct" border="0">
+           <apex:column headerValue="{!$Label.Account_Name1}">
+              <apex:outputText value="{!acct.accountRec.Name}"/>
+             </apex:column>
+             <apex:column headerValue="{!$Label.EMC_Results}">
+               <apex:outputText value="{!acct.result}"/>
+             </apex:column>
+            </apex:pageblockTable><br/>
+          </apex:pageBlockSection>  
+         <center>
+          <apex:commandButton action="{!back}" value="{!$Label.Back_To_Grouping}"></apex:commandbutton>
+        </center>
+     </apex:pageBlock>
+  </apex:form> 
+</apex:page>

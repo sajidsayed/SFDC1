@@ -1,0 +1,19 @@
+<apex:page standardController="User_Assignment__c" extensions="OpportunityAssignController" tabStyle="User_Assignment__c" action="{!addSelfAssignedUser}" showHeader="false" sidebar="false" >
+  <!-- Begin Default Content REMOVE THIS -->
+  <apex:form >
+  <apex:pageBlock >
+  <apex:pageMessages />
+  <apex:pageMessage summary="{!$Label.Assigned_Self_On_UserAssignment}" severity="Info" strength="1" id="AssignmentMessage"  rendered="{!showAssignedMessage}" />
+  <apex:pageMessage summary="{!$Label.Assign_Self_Forecast_Group_Not_Same}" severity="Error" strength="3" id="ForecastErrorMsg"  rendered="{!showForecastGroupError}" />
+  <apex:pageBlockButtons > 
+
+  <apex:commandButton action="{!UserAssignmentPage}" style="position:middle;" value="OK"  rendered="{!showOkButton}" />
+  <apex:commandButton value="{!$Label.OK}" action="{!NextAccountPage}" rendered="{!showNextPageButton}"  />
+  <apex:commandButton value="{!$Label.OK}" action="{!BackToUAPage}" rendered="{!showFinalOkButton}"  />        
+    <apex:commandButton value="{!$Label.OK}" action="{!assignSelfOk}"  />        
+  </apex:pageBlockButtons>  
+  </apex:pageBlock>
+  </apex:form>
+
+
+</apex:page>

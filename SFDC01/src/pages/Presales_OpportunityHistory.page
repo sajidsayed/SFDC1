@@ -1,0 +1,38 @@
+<!-- ================================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  19-12-2012      Ganesh Soma     #215660     This page will be used to display Opportunity History on the Case detail page section.                               
+ =====================================================================================================================================-->
+
+<apex:page standardController="Case" extensions="Presales_OppHistory">
+	<script>
+function redirect(obj)
+{
+   var str = '/'+ obj;  
+   window.parent.location = str; 
+}
+</script>
+
+	<apex:pageBlock title="Opportunity Field History">
+		<apex:outputPanel layout="block" style="overflow:auto;height:150px;">
+			<apex:pageBlockTable value="{!lstOppHistory}" var="item">
+				<apex:column value="{!item.dtCreatedDate}">
+					<apex:facet name="header">Date</apex:facet>
+				</apex:column>
+
+				<apex:column >
+					<apex:facet name="header">User</apex:facet>
+					<a href='/{!Item.userID}' onclick="redirect('{!Item.userID}')"><apex:outputtext value="{!item.strUserName}"></apex:outputtext></a>
+				</apex:column>
+
+				<apex:column >
+					<apex:facet name="header">Action</apex:facet>
+					<apex:outputtext value="{!item.strAction}" escape="false">
+					</apex:outputtext>
+				</apex:column>
+
+			</apex:pageBlockTable>
+		</apex:outputPanel>
+	</apex:pageBlock>
+
+</apex:page>

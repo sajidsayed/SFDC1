@@ -1,0 +1,63 @@
+<apex:page StandardController="Account" tabStyle="Account" extensions="TO_ViewExtAcctTeamController">
+    <!-- css to display alternate rows in different colours  -->
+    <style>
+    .odd { 
+    background-color: LightGrey;}
+    .even
+    {background-color: LightSteelBlue;}
+    </style>
+<script>
+    function setSorting(comp1, fldName)
+    {
+        document.getElementById(comp1).value=fldName;
+        forSorting();
+    }
+</script>
+    <apex:form >
+        <!-- This pageBlock displays values obtained from AccountShares, AccountTeamMembers and Users object
+        which have been retrieved in TO_ViewExtAcctTeamController  -->
+        <apex:pageBlock title="{!$Label.Extended_Account_Team}">
+            <apex:pageBlockButtons >
+                <apex:commandButton Id="Back" value="{!$Label.Back}" action="{!back}"/>
+            </apex:pageBlockButtons> 
+            <apex:actionfunction name="forSorting" action="{!doSorting}" rerender="out" />
+            <apex:outputPanel id="out">
+                <apex:inputhidden id="oldSortField" value="{!oldSortField}"/>
+                <apex:inputhidden id="newSortField" value="{!newSortField}"/>
+                <apex:pageblockTable value="{!WTOList}" var="a" id="rows" width="100%" rowClasses="even,odd">
+                    <apex:column width="11%"  >
+                        <apex:facet name="header"><a onclick="setSorting('{!$Component.newSortField}', 'NAME')"><u>Name</u></a> </apex:facet>
+                        <apex:outputLink value="/{!a.Id}">
+                            <apex:outputText value="{!a.Name}"></apex:outputText>
+                        </apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="{!$Label.Account_Access}" width="11%">
+                        <apex:outputText value="{!a.AccountAccessLevel}"></apex:outputText>
+                    </apex:column>
+                    <apex:column headerValue="{!$Label.Opportunity_Access}" width="11%">
+                        <apex:outputText value="{!a.OpportunityAccessLevel}"></apex:outputText>
+                    </apex:column>
+                    <apex:column headerValue="{!$Label.Case_Access}" width="11%" >
+                        <apex:outputText value="{!a.CaseAccessLevel}"></apex:outputText>
+                    </apex:column>
+                    <apex:column width="20%" >
+                        <apex:facet name="header"><a onclick="setSorting('{!$Component.newSortField}', 'TEAM ROLE')"><u>Team Role</u></a></apex:facet>
+                        <apex:outputText value="{!a.TeamMemberRole}">&nbsp;</apex:outputText>
+                    </apex:column>
+                    <apex:column width="11%" >
+                        <apex:facet name="header"><a onclick="setSorting('{!$Component.newSortField}', 'GROUP NAME')"><u>Group</u></a></apex:facet>
+                        <apex:outputText value="{!a.GroupName}">&nbsp;</apex:outputText>
+                    </apex:column> 
+                    <apex:column width="14%" >
+                        <apex:facet name="header"><a onclick="setSorting('{!$Component.newSortField}', 'BU')"><u>BU Attribute</u></a></apex:facet>
+                        <apex:outputText value="{!a.BUAttribute}">&nbsp;</apex:outputText>
+                    </apex:column>
+                    <apex:column width="11%" >
+                        <apex:facet name="header"><a onclick="setSorting('{!$Component.newSortField}', 'SALES ROLE')"><u>Sales Role</u></a></apex:facet>
+                        <apex:outputText value="{!a.SalesRole}">&nbsp;</apex:outputText>
+                    </apex:column>                                                                                
+                </apex:pageblockTable>  
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>    
+</apex:page>

@@ -1,0 +1,24 @@
+<!--
+/*=======================================================================================================================+
+
+|  HISTORY  |    
+| DATE          DEVELOPER         WR          	DESCRIPTION                               
+
+| ====          =========         ==          	=========== 
+| 20/08/2012      Ganesh        200157  	Page invoked while providing Rejection reason for VSPEX NOminations.
+|
++=======================================================================================================================*/
+-->
+<apex:page standardController="Partner_Information__c" extensions="VSPEX_Nomination_Rejection" Action="{!init}"> 
+    <apex:form >
+        <apex:pageBlock title="Reason For Rejection" >
+        <apex:pageMessages />
+            <apex:pageBlockSection title="Enter Reason" columns="1">
+                 <apex:inputField value="{!Partner_Information__c.Business_Justification_for_Rejection__c}"/>       
+                
+            </apex:pageBlockSection>
+            <Center><apex:commandButton action="{!SaveRejection}" style="position:middle;" value="{!$Label.OK}"/>
+            <apex:commandButton action="{!cancel}" style="position:middle;" value="{!$Label.cancel}"/></Center>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <enableActivities>false</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Assets_viewed__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Assets viewed</label>
+        <required>false</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Spotlight Activities</relationshipLabel>
+        <relationshipName>Spotlight_Activities</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Invitee__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Invitee</label>
+        <length>100</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Spotlight Activities</relationshipLabel>
+        <relationshipName>Spotlight_Activities</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Spotlight_Name__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Spotlight Name</label>
+        <length>200</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Visit_Date__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Visit Date</label>
+        <required>false</required>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Visited__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Visited</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ipsID__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>ipsID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Spotlight Activity</label>
+    <nameField>
+        <displayFormat>{0000}</displayFormat>
+        <label>Spotlight Activity Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Spotlight Activities</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>Find_an_Asset</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Find an Asset</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>false</requireRowSelection>
+        <url>var base = &quot;&quot;;
+var a = window.location.href.toLowerCase().replace(&quot;https://&quot;, &quot;&quot;).split(&quot;.&quot;);
+for (var i = 0; i &lt; a.length; i++) {if(a[i] == &quot;visual&quot; || a[i] == &quot;salesforce&quot;){base=a[i-1];break;}}
+var tabURL = &quot;https://roi.&quot; + base + &quot;.visual.force.com/apex/ReferenceView?page=Asset&quot;;
+var addOpp = &quot;&amp;oid={!Opportunity.Id}&quot;;
+if(addOpp == &quot;&amp;oid=&quot;) addOpp = &quot;&quot;;
+tabURL += addOpp;
+window.parent.location.href = tabURL;</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Send_A_Spotlight</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Send a Spotlight</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>false</requireRowSelection>
+        <url>var base = &quot;&quot;;
+var a = window.location.href.toLowerCase().replace(&quot;https://&quot;, &quot;&quot;).split(&quot;.&quot;);
+for (var i = 0; i &lt; a.length; i++) {if(a[i] == &quot;visual&quot; || a[i] == &quot;salesforce&quot;){base=a[i-1];break;}}
+var tabURL = &quot;https://roi.&quot; + base + &quot;.visual.force.com/apex/ReferenceView?page=SendSpotlight&quot;;
+if (&quot;{!Opportunity.Id}&quot; != &quot;&quot;) tabURL += &quot;&amp;oid={!Opportunity.Id}&quot;;
+if (&quot;{!Contact.Id}&quot; != &quot;&quot;) tabURL += &quot;&amp;cid={!Contact.Id}&quot;;
+window.parent.location.href = tabURL;</url>
+    </webLinks>
+</CustomObject>

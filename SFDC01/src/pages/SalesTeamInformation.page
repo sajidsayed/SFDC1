@@ -1,0 +1,31 @@
+<apex:page standardController="Opportunity" extensions="OpptySalesTeamController">
+    <apex:form >
+    <apex:pageBlock >
+        
+            <apex:pageBlockTable value="{!OpportunitySalesTeam }" var="salesTeam" title="Sales Team">
+                <apex:column headerValue="{!$Label.User}">
+                    <apex:outputLink value="/{!salesTeam.OppTeamMem.UserId}" target="_blank">
+                    {!salesTeam.OppTeamMem.User.Name}
+                    </apex:outputLink>
+                </apex:column>
+                <apex:column value="{!salesTeam.OppTeamMem.TeamMemberRole}"/>
+                <apex:column headerValue="Opportunity Access" value="{!salesTeam.accessLevel}"/>
+                <apex:column headerValue="Split(%)"  value="{!salesTeam.split}" />
+                <apex:column value="{!salesTeam.OppTeamMem.User.Forecast_Group__c}"/>
+                <!--<apex:column headerValue="Split(%)"  value="{!salesTeam.split}" />
+                <!--<apex:column headerValue="Split(%)"  value="{!salesTeam.split}" rendered="If({!salesTeam.split}==0,false,true)"/>
+                <apex:column headerValue="Split(%)"  value="{!blankstring}" rendered="If({!salesTeam.split}==0,true,false)"/>-->
+            </apex:pageBlockTable>
+      <apex:inputHidden id="Pageheight" value="{!Pageheight}"/>
+    </apex:pageBlock>
+ </apex:form>
+ <script>    
+    window.onload=function resize(){
+    var pgheight=document.getElementById('j_id0:j_id1:j_id2:Pageheight').value;
+        if(pgheight<=150){
+            window.resizeTo(950,pgheight);
+        } 
+     }
+ </script>
+
+</apex:page>

@@ -1,0 +1,51 @@
+<apex:page controller="EBC_ShowRoomAssignment" sidebar="false" showHeader="false">
+<script language="JavaScript">
+
+        function setRoomId(RoomId)
+        {
+            document.getElementById('j_id0:form:theHiddenInput').value=RoomId;
+        }
+        
+        function updateParent()
+        {
+           var briefingEve = document.getElementById('j_id0:form:thehiddenBriefingEvent').value;
+           var parentURL = "/"+briefingEve;
+           window.parent.opener.location = parentURL;
+           window.parent.close();
+        }
+ 
+    </script> 
+
+<apex:outputPanel id="theMessages2">
+    <apex:pageMessages />
+</apex:outputPanel>
+
+<apex:form id="form">
+<apex:inputHidden value="{!briefingEventId}" id="thehiddenBriefingEvent"/>
+<apex:inputHidden value="{!roomId}" id="theHiddenInput"/>
+
+<apex:pageBlock title="Room Assigmment" >
+<apex:pageBlockButtons >
+        <apex:commandButton onclick="updateParent();" value="Close"/> 
+     </apex:pageBlockButtons>
+<apex:dataTable value="{!Records}" var="item" id="invList2" styleClass="list" >
+<apex:column >
+                <apex:facet name="header">Room</apex:facet>
+                <apex:commandLink action="{!updateBriefingEvent}" onclick="setRoomId('{!item.RoomId}');" oncomplete="updateParent();" value="{!item.RoomName}" />
+</apex:column>
+<apex:column >
+                <apex:facet name="header">Briefing Event</apex:facet>   
+                 <apex:outputText >{!item.BriefingEvent}</apex:outputText>     
+</apex:column>
+<apex:column >
+                <apex:facet name="header">Start Date</apex:facet>    
+                <apex:outputText >{!item.StartDate}</apex:outputText>
+</apex:column>
+<apex:column >
+                <apex:facet name="header">End Date</apex:facet>    
+                <apex:outputText >{!item.EndDate}</apex:outputText>
+</apex:column>
+</apex:dataTable> 
+</apex:pageBlock>  
+</apex:form> 
+</apex:page>

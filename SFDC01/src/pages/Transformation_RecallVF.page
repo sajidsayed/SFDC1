@@ -1,0 +1,27 @@
+<apex:page controller="Transformation_ProcessInstanceController" tabStyle="Pricing_Requests__c">
+   <apex:form >
+   <apex:sectionHeader title="Recall Approval Request" subtitle="{!objPAR.Name}"/>
+   <apex:pageBlock title="Recall Approval Request">
+       <apex:pageBlockButtons location="both"> 
+           <apex:commandButton value="Recall Approval Request"  action="{!recall}" />
+            <apex:commandButton value="Cancel" action="{!cancel}"/>
+       </apex:pageBlockButtons>   
+       <apex:pageBlockSection columns="1">
+           <apex:pageBlockSectionItem >
+               Related To <apex:outputField value="{!objPAR.Name}"/>
+           </apex:pageBlockSectionItem>
+           <apex:pageBlockSectionItem >
+               Created By <apex:outputField value="{!objPAR.Owner.Name}"/>
+           </apex:pageBlockSectionItem>
+           <apex:pageBlockSectionItem >
+                        
+              Comments <font color="red">(Mandatory while Rejection)</font>
+               <apex:inputTextArea value="{!objPAR.Recall_Comments__c}" rows="5" cols="100" id="txtComments"/>
+           </apex:pageBlockSectionItem>
+       
+       </apex:pageBlockSection>
+   </apex:pageBlock>
+   
+ 
+   </apex:form>
+</apex:page>

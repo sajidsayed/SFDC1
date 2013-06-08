@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <customSettingsVisibility>Protected</customSettingsVisibility>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Enable_Account_Hierarchy_Sharing__c</fullName>
+        <defaultValue>true</defaultValue>
+        <deprecated>false</deprecated>
+        <description>uncheck this field if you want Account Hierarchy disabled for your org.</description>
+        <externalId>false</externalId>
+        <label>Enable Account Hierarchy Sharing</label>
+        <type>Checkbox</type>
+    </fields>
+    <label>Application Settings</label>
+</CustomObject>

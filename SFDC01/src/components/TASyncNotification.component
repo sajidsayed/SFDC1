@@ -1,0 +1,10 @@
+<apex:component controller="TASyncComponentController" access="global">
+The purpose of this email is to alert the recipients when the number of TA synch requests exceeds the limits that have been set. The TA synch log shows the following statistics:
+
+Total Rejected TA Requests = {!TotalRejectCount } . These requests exceeded the limit that can be processed in the period in which they were created
+
+Rejected TA Requests Processed in the next cycle = {!ProcessedInNextCycleCount }. These requests were processed in the next processing period.
+
+Pending Rejected TA Requests = {!FinalRejectCount}. These rejected requests have yet to be processed
+
+</apex:component>

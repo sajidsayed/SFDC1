@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This is the tab for OneSource for Salesforce&apos;s Browser.</description>
+    <frameHeight>800</frameHeight>
+    <hasSidebar>false</hasSidebar>
+    <label>OneSource</label>
+    <mobileReady>false</mobileReady>
+    <motif>Custom31: Car</motif>
+    <splashPageLink>OneSource_Splash_Page</splashPageLink>
+    <url>https://os4crm.onesource.com/AI/AIRouter.aspx?Form=homepage&amp;OrgId={!Organization.Id}&amp;UserId={!User.Id}&amp;ServerURL={!API.Partner_Server_URL_150}&amp;SessionId={!User.Session_ID}&amp;CRM=Salesforce</url>
+    <urlEncodingKey>UTF-8</urlEncodingKey>
+</CustomTab>

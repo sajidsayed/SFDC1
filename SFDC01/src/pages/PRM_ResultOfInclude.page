@@ -1,0 +1,33 @@
+<!--
+DATE          DEVELOPER                WR       DESCRIPTION                               
+
+====          =========                ==       =========== 
+27/7/2010    Karthik Shivprakash     Defect#27  Renamed button "Back" to "Back To Grouping".
+
+-->
+
+<apex:page StandardController="Account" recordSetvar="accounts" extensions="PRM_IncludeAccountGrouping" tabStyle="account">
+  
+  <apex:form id="theForm">
+   <apex:pageBlock title="{!$Label.Result_Of_Include}">
+   <apex:pageBlockSection columns="3">
+   <apex:pageblockTable value="{!accountWrapList}" var="acct" border="0">
+        <apex:column headerValue="{!$Label.Account_Name1}">
+                <apex:outputText value="{!acct.acc.name}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Site_DUNS_Entity}">
+                <apex:outputText value="{!acct.acc.Site_DUNS_Entity__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.EMC_Results}">
+            <apex:outputText value="{!acct.result}"/>
+        </apex:column>
+        </apex:pageblockTable>
+      </apex:pageBlockSection>
+    <apex:pageBlockButtons >
+     <center>
+      <apex:commandButton action="{!back}" value="{!$Label.Back_To_Grouping}"></apex:commandbutton>
+     </center>
+   </apex:pageBlockButtons>
+   </apex:pageBlock>
+ </apex:form> 
+</apex:page>

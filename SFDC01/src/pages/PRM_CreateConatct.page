@@ -1,0 +1,15 @@
+<!--
+DATE          DEVELOPER                WR       DESCRIPTION                               
+
+====          =========                ==       =========== 
+27/7/2010    Anirudh Singh           2515       This page is used in context of manual creation of
+												contacts which are assigned to Fall Out Queue	
+-->
+<apex:page standardController="Education__c" extensions="PRM_ContactCreationController" tabStyle="Education__c" action="{!processEducation}" sidebar="false" showHeader="false"  >
+		<apex:form >
+			<apex:pageBlock title="Contact Creation In Progress">
+				<apex:pageMessages />
+			</apex:pageBlock>
+			<center> <apex:commandButton value="Ok" onclick="window.close();" /> </center>
+		</apex:form>
+</apex:page>

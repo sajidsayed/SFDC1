@@ -1,0 +1,16 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req      DESCRIPTION 
+ |  21/04/2011      Ashwini Gowda     2450        This Page will be displayed to Partners when user clicks on Submit button
+                                                  on Deal Registration Page.
+ |  01/060/2011		Anand Sharma				  Moved code into custom label.                                                
+ ========================================================================================================================-->
+<apex:page standardController="Registration_Product__c" extensions="PRM_DEALREG_NonPortalRegistrationCntrler"  language="{!lang}" showheader="false" sidebar="false">
+    <apex:include pageName="EMC_Header"/><br/>
+    <html>
+        <center>
+        	<apex:outputText value="{!$Label.DealReg_Submission_Message}" escape="false"></apex:outputText>            
+        </center>
+    </html>
+    <apex:include pageName="EMC_Footer"/>
+</apex:page>

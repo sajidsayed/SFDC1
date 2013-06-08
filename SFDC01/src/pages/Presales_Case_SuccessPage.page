@@ -1,0 +1,12 @@
+<apex:page standardController="Case" extensions="Presales_Case_Page_Controller" showHeader="false" sidebar="false" standardStylesheets="true">
+
+    <apex:include pageName="EMC_Header"/><br/>
+        <html>
+        <center>
+        <b>{!$Label.Presales_Page}</b><br/>
+        <b>{!$Label.Presales_CaseNumber}</b>
+        <b><apex:outputLabel value="{!ApplicationID}"></apex:outputLabel></b>
+        </center><br/>
+        </html>
+    <apex:include pageName="EMC_Footer"/><br/>    
+</apex:page>

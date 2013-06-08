@@ -1,0 +1,31 @@
+<apex:page id="page" controller="APPR_MTV.SetupController" setup="true">
+	<apex:form id="form">
+		
+		<apex:pageBlock title="Setup" mode="edit">
+			<apex:pageBlockButtons location="top">
+				<apex:commandButton action="{!onSave}" value="Save"/>
+				<apex:commandButton action="{!onCancel}" value="Cancel"/>
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection title="Application Settings">
+				<apex:inputField value="{!config.orgSetting.APPR_MTV__Enable_Account_Hierarchy_Sharing__c}" />
+			</apex:pageBlockSection>
+			<apex:pageBlockSection title="Record Association Settings">
+			<apex:pageBlockTable value="{!associationSettings}" var="s">
+				<apex:column headerValue="Object Name" >
+					<apex:outputField value="{!s.Name}" />
+				</apex:column>
+				<apex:column headerValue="Access Level" >
+					<apex:selectList value="{!s.APPR_MTV__Access_Level__c}" size="1">
+						<apex:selectOptions value="{!availableAccessLevels}" />
+					</apex:selectList>
+				</apex:column>
+				<apex:column headerValue="Apply To Portal" >
+					<apex:selectList value="{!s.APPR_MTV__Portal_Role__c}" size="1" >
+						<apex:selectOptions value="{!availablePortalRoles}" />
+					</apex:selectList>
+				</apex:column>
+			</apex:pageBlockTable>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

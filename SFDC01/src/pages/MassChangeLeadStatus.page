@@ -1,0 +1,110 @@
+<!--
+  17-10-2011    Srinivas N     WR-172941   Create exemption for certain EMC Classifications for Top Offender
+-->
+<apex:page standardController="Lead" recordSetVar="unused" sidebar="true" extensions="MassChangeLeadStatusChangeController">
+<apex:sectionHeader title="Change Status"/>
+<apex:form >
+<apex:outputPanel rendered="{!!isMassChangeUser}">
+    <apex:outputText >
+                You don't have permission to use Mass Lead Status Change functionality. To go back, click on back button. 
+                </apex:outputText>
+                <apex:outputPanel id="backPanel1" styleClass="align-text:center">            
+                    <center>
+                        <apex:commandButton action="{!Cancel}" value="Back" 
+                        style="text-align:center"/>
+                    </center> 
+      </apex:outputPanel>
+</apex:outputPanel>
+<apex:outputPanel rendered="{!isMassChangeUser}">
+    <apex:outputPanel rendered="{!isNoLeadSelected}"> 
+                <apex:outputText >
+                    Please select at least one row. To go back, click on back button. 
+                </apex:outputText>
+                <apex:outputPanel id="backPanel2" styleClass="align-text:center">            
+                    <center>
+                        <apex:commandButton action="{!Cancel}" value="Back" 
+                        style="text-align:center"/>
+                    </center> 
+                </apex:outputPanel>
+    </apex:outputPanel> 
+    <apex:outputPanel rendered="{!!isNoLeadSelected}">   
+        <apex:pageBlock rendered="{!!ShowResult}">
+          <apex:outputText ><b>Select New Status</b></apex:outputText>
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Save" action="{!customSave}"/>
+            <apex:commandButton value="Cancel" action="{!Cancel}"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection columns="1" id="newid">
+            <apex:pageBlockSectionItem >
+                    New Status
+                    <apex:selectList id="chooseSatus" value="{!newStatus}" size="1">
+                        <apex:selectOption itemValue="New" itemLabel="New"/>
+                        <apex:selectOption itemValue="Working" itemLabel="Working"/>
+                        <apex:selectOption itemValue="Nurture" itemLabel="Nurture"/>
+                        <apex:selectOption itemValue="Appointment" itemLabel="Appointment"/>
+                        <apex:selectOption itemValue="Qualified" itemLabel="Qualified"/>
+                        <apex:selectOption itemValue="Rejected to Marketing" itemLabel="Rejected to Marketing"/>
+                        <apex:selectOption itemValue="Closed" itemLabel="Closed"/>
+                        <apex:actionSupport event="onchange" action="{!checkSelectedStatus}" rerender="newid" status="counterStatus"/>
+                    </apex:selectList>
+                       
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem rendered="{!isClosedSelected }">
+                Closed Reason
+                <apex:selectList id="chooseClosedReason" value="{!ClosedReason}" size="1">
+                    <apex:selectOption itemValue="Request Marketing Nuture" itemLabel="Request Marketing Nuture"/>
+                    <apex:selectOption itemValue="Duplicate" itemLabel="Duplicate"/>
+                    <apex:selectOption itemValue="No Opportunity" itemLabel="No Opportunity"/>
+                    <apex:selectOption itemValue="System Closed" itemLabel="System Closed"/>
+                    <apex:selectOption itemValue="Insufficient Information" itemLabel="Insufficient Information"/>
+                    <apex:selectOption itemValue="Field Engaged" itemLabel="Field Engaged"/>
+                    <apex:selectOption itemValue="Unable to Contact" itemLabel="Unable to Contact"/>
+                    <apex:selectOption itemValue="Invalid - Non Lead – Partner" itemLabel="Invalid - Non Lead – Partner"/>
+                    <apex:selectOption itemValue="Invalid - Non Lead – Competitor" itemLabel="Invalid - Non Lead – Competitor"/>
+                    <apex:selectOption itemValue="Invalid - Non Lead – Other" itemLabel="Invalid - Non Lead – Other"/>                
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>    
+        
+    
+        
+       
+        </apex:pageBlock>
+        <apex:pageBlock rendered="{!ShowResult}">
+                <apex:outputText >{!NoofSuccessrecords} lead(s) were successfully updated.{!NoofFailedrecords} lead(s) were failed.</apex:outputText>
+                <apex:pageBlockTable value="{!lstWrapper}" var="led" id="table" >
+                <apex:column headerValue="Name">
+                        <apex:inputField value="{!led.objlead.name}"/>
+                    </apex:column>
+                    <apex:column headerValue="Company">
+                    <apex:outputField value="{!led.objlead.company}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="State/Province">
+                    <apex:outputField value="{!led.objlead.State}"/>
+                    </apex:column>
+                    <apex:column headerValue="Email">
+                    <apex:outputField value="{!led.objlead.Email}"/>
+                    </apex:column>
+                    <apex:column headerValue="Status">
+                    <apex:outputField value="{!led.objlead.Status}"/>
+                    </apex:column>
+                    <apex:column headerValue="Created Date">
+                    <apex:outputField value="{!led.objlead.CreatedDate}"/>
+                    </apex:column>
+                    <apex:column headerValue="Owner">
+                    <apex:outputField value="{!led.objlead.OwnerId}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Save Result">
+                    <apex:outputtext value="{!led.dmlError}"/>
+                    </apex:column>
+                </apex:pageBlockTable>
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Done" action="{!Cancel}"/>
+        </apex:pageBlockButtons>        
+        </apex:pageBlock>
+    </apex:outputPanel>
+</apex:outputPanel>           
+</apex:form>
+</apex:page>

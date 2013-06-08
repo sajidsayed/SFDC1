@@ -1,0 +1,207 @@
+<!--
+    HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER     DESCRIPTION                               
+ |  ====       =========     =========== 
+ |   
+    22-Apr-10  Karthik       Changes done in the pageBlockSection for the alignment of the titles. 
+    29-Apr-10  Karthik       Added the numbering
+    30-Apr-10  Karthik       Added the new method name in selectOptions tag      
+    14-Jul-10  Shipra        Added a warning message as a label.
+    25-May-10  Srinivas      Changed version to 21 for mass reassignment pagination WR-163052   
+    -->
+    
+<apex:page controller="MassSalesTeamOperation" wizard="true">
+<HEAD>
+
+
+<link href="/sCSS/Theme2/default/ie/elements.css" media="handheld,print,projection,screen,tty,tv" rel="stylesheet" type="text/css" />
+<link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/12.0/1206048296000/Theme2/dStandard.css"/>
+</HEAD>
+
+    <apex:pageMessages />
+    <apex:form >
+        <apex:pageBlock title="{!$Label.Sales_Team_Reassign}" mode="edit" dir="LTR">
+            <apex:pageBlockSection showHeader="true" title="{!$Label.Search_For_Opportunities}" collapsible="false" dir="LTR"/>
+             <br/> 
+         <table bgcolor='#F3F3EC' width="100%" height="100%"> 
+         <tr><td> 
+         <div class="message warningM2" id="ileBanner" > 
+         <table class="messageTable" border="0" cellpadding="0" cellspacing="0" > 
+          <tr> 
+          <td><img src="/s.gif" alt="Information" class="msgIcon" title="Warning"/></td> 
+         <td class="messageCell"> 
+         <div class="messageText">{!$Label.Warning_On_Search}<br /><font face="Arial" style='Regular'>{!$Label.Warning_On_Search_Filter1} <br/>{!$Label.Warning_On_Search_Filter2}</font>
+         </div>
+          </td> 
+         </tr> 
+          </table> 
+         </div> 
+         </td></tr>  
+         </table> 
+                <!-- 
+                <apex:outputText value="{!$Label.Search_Title_One}" rendered="{!title1}" dir="LTR"/>
+                <apex:outputText value="{!$Label.Search_Title_Two}" rendered="{!title2}" dir="LTR"/>
+                <apex:outputText value="{!$Label.Search_Title_Three}" rendered="{!title3}" dir="LTR"/>
+                 <br/> -->
+            <br/>
+            <table width="100%" height="100%" border="0">
+                <tr align="left">
+                    <td align="Left" width="15%">
+                        <apex:outputLabel >Fields of objects to filter on :</apex:outputLabel> 
+                    </td>
+                    <td align="left" width="70%">
+                        <apex:selectList id="selectObjects" value="{!selectedObject}" size="1">
+                            <!-- <apex:actionSupport event="onchange" action="{!settingDataType1}" rerender="thePagecomp1,filterSection" status="status"/>-->
+                            <apex:actionSupport event="onchange" action="{!createFiters}" rerender="filterSection"/>
+                            <apex:selectOption itemValue="Opportunity;Account" itemLabel="1. Opportunity & Account"/>
+                            <apex:selectOption itemValue="Opportunity;OpportunityTeamMember" itemLabel="2. Opportunity & OpportunityTeamMember"/>
+                            <apex:selectOption itemValue="Opportunity;OpportunitySplit" itemLabel="3. Opportunity Split"/>
+                            <apex:selectOption itemValue="Opportunity;Product2" itemLabel="4. Opportunity & Product"/>
+                        </apex:selectList>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <apex:outputPanel id="filterSection">
+                <apex:dataTable value="{!filters}" var="filter">
+                    <apex:column >
+                        {!filter.filterIndex}.
+                        <apex:selectList value="{!filter.filterField}" size="1" >
+                           <apex:selectOptions value="{!FieldTypeOptions}"/>
+                           <apex:actionSupport event="onchange" action="{!filterOperators}" reRender="filters"/>
+                        </apex:selectList>
+                    </apex:column>
+                        
+                    <apex:column >
+                        <apex:outputPanel id="filters">
+                            <apex:selectList value="{!filter.filterOperator}" size="1" >
+                               <apex:selectOptions value="{!filter.validOperators}"/>
+                            </apex:selectList>
+                        </apex:outputPanel>
+                    </apex:column>
+                        
+                    <apex:column >
+                        <apex:inputText value="{!filter.filterFieldValue}"/>
+                        <apex:outputText value="{!filter.filterSuffix}"/>  
+                    </apex:column>
+                </apex:dataTable>
+            
+            
+            <!-- <table width="100%" height="100%" border="0">          
+            <tr>
+                <td>
+                    <apex:outputLabel >1</apex:outputLabel> 
+                </td>
+                <td align="right" width="30%">                
+                    <apex:selectList id="mgr1" value="{!filter1}" size="1" title="" >
+                        <apex:selectOptions value="{!FieldTypeOptions}"></apex:selectOptions>
+                        <apex:actionSupport event="onchange" action="{!settingDataType1}" rerender="thePagecomp1" status="status"/>    
+                    </apex:selectList>
+                </td>
+               
+                <td align="right" width="15%">
+                    <apex:selectList id="thePagecomp1" value="{!Operator1}" size="1" title="">
+                        <apex:selectOptions id="thePagecomp" value="{!fieldType1}"></apex:selectOptions>
+                    </apex:selectList>   
+                </td>
+                <td align="left" width="60%" >
+                    <apex:inputText id="theInputText1" value="{!value1}" ></apex:inputText>
+                     {!$Label.AND} 
+                </td>
+            
+            </tr>
+            <tr>
+                <td>
+                    <apex:outputLabel >2</apex:outputLabel> 
+                </td>
+                <td align="right" width="30%">                
+                    <apex:selectList id="mgr2" value="{!filter2}" size="1" title="">
+                        <apex:selectOptions value="{!FieldTypeOptions}"></apex:selectOptions>
+                        <apex:actionSupport event="onchange" action="{!settingDataType2}" rerender="thePagecomp2" status="status"/> 
+                    </apex:selectList> 
+                </td>
+                <td align="right" width="15%">
+                    <apex:selectList id="thePagecomp2" value="{!Operator2}" size="1" title="">
+                        <apex:selectOptions value="{!fieldType2}"></apex:selectOptions>
+                    </apex:selectList>  
+                </td>
+                <td align="left" width="60%">
+                    <apex:inputText id="theInputText2" value="{!value2}"></apex:inputText>
+                     {!$Label.AND}   
+                </td>
+            </tr>
+            <tr>
+                 <td>
+                    <apex:outputLabel >3</apex:outputLabel> 
+                </td>
+                <td align="right" width="30%">                
+                    <apex:selectList id="mgr3" value="{!filter3}" size="1" title="">
+                        <apex:selectOptions value="{!FieldTypeOptions}"></apex:selectOptions>
+                        <apex:actionSupport event="onchange" action="{!settingDataType3}" rerender="thePagecomp3" status="status"/> 
+                    </apex:selectList>   
+                </td>
+                <td align="right" width="15%">
+                    <apex:selectList id="thePagecomp3" value="{!Operator3}" size="1" title="">
+                        <apex:selectOptions value="{!fieldType3}"></apex:selectOptions>
+                    </apex:selectList>   
+                </td>
+                <td align="left" width="60%">
+                    <apex:inputText id="theInputText3" value="{!value3}"></apex:inputText> {!$Label.AND} 
+                </td>
+            </tr>
+            <tr>
+                 <td>
+                    <apex:outputLabel >4</apex:outputLabel> 
+                </td>
+                <td align="right" width="30%">                
+                    <apex:selectList id="mgr4" value="{!filter4}" size="1" title="">
+                        <apex:selectOptions value="{!FieldTypeOptions}"></apex:selectOptions>
+                        <apex:actionSupport event="onchange" action="{!settingDataType4}" rerender="thePagecomp4" status="status"/> 
+                    </apex:selectList>
+                </td>
+                <td align="right" width="15%">
+                    <apex:selectList id="thePagecomp4" value="{!Operator4}" size="1" title="">
+                        <apex:selectOptions value="{!fieldType4}"></apex:selectOptions>
+                    </apex:selectList>   
+                </td>
+                <td align="left" width="60%">
+                    <apex:inputText id="theInputText4" value="{!value4}"></apex:inputText> {!$Label.AND}                
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <apex:outputLabel >5</apex:outputLabel> 
+                </td>
+                <td align="right" width="30%">                
+                    <apex:selectList id="mgr5" value="{!filter5}" size="1" title="">
+                        <apex:selectOptions value="{!FieldTypeOptions}"></apex:selectOptions>
+                        <apex:actionSupport event="onchange" action="{!settingDataType5}" rerender="thePagecomp5" status="status"/>
+                    </apex:selectList> 
+                </td>
+                <td align="right" width="15%">
+                    <apex:selectList id="thePagecomp5" value="{!Operator5}" size="1" title="">
+                        <apex:selectOptions value="{!fieldType5}"></apex:selectOptions>
+                    </apex:selectList>   
+                </td>
+                <td align="left" width="60%">
+                    <apex:inputText id="theInputText5" value="{!value5}"></apex:inputText> &nbsp;&nbsp;&nbsp;
+                </td>
+            </tr>
+            </table> -->
+            </apex:outputPanel>
+            <apex:outputText value="{!$Label.Filter_By_Additional_Fields}"/><br/>
+            <apex:inputText value="{!AdvanceFilter}" maxlength="25"/>
+            <table>
+                
+                <tr><td>{!$Label.For_date_fields_enter_the_value}</td></tr>
+                
+            </table><br/>
+            <apex:pageBlockButtons dir="RTL">
+               <apex:commandButton action="{!cancel}" value="{!$Label.cancel}"/>
+                <apex:commandButton action="{!nextStep2}" value="{!$Label.Next}"/>
+                <apex:commandButton action="{!previousStep2}" value="{!$Label.previous}"/>
+            </apex:pageBlockButtons>                            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

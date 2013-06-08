@@ -1,0 +1,17 @@
+<apex:page standardController="EBC_Briefing_Event__c" extensions="EBC_ShowProfiles" apiVersion="17.0">
+<apex:form >    
+        <apex:pageBlock id="profiles" >
+            <apex:pageBlockTable value="{!Profiles}" var="a" id="rows" rendered="{!NOT(ISNULL(Profiles)&& ISBLANK(BE.Customer_Name__c))}" >
+
+                <apex:column >
+                    <apex:facet name="header">Profile Name</apex:facet>
+                    <apex:outputLink value="/{!a.Id}" target="_blank">
+                        {!a.Name}
+                    </apex:outputLink> 
+                </apex:column>
+
+            </apex:pageBlockTable>
+            <apex:outputText style="font-size:15" value="{!errMsg}" />
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

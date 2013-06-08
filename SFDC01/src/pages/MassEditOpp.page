@@ -1,0 +1,150 @@
+<!--/*===========================================================================+
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER   WR/DEFECT    DESCRIPTION                               
+ |  ====       =========   =========    =========== 
+ | 16-DEC-10   Shipra       WR#153590    Updated Code to resolve Opportunity Inline editing tool not triggering Integration properly.Added extension MassEditOppty.
+ |
+ | 16-FEB-11   Devi         WR#149408    Make IIG Sales Stage field available for inline editing in all CMA views
+ | 17.05.2011  Shipra Misra WR#163358    Updated the Inline Edit functionality so that it allows the user to commit the saves
+ |                                       on the records that are error free.Also Display the result of update.
+ | 02.06.2011  Shipra Misra WR#166262    Add Alliance fields to the Opportunity Inline Editing
+ | 21.07.2011  Srinivas N      168752    Added two filed 'Competitor_Product__c', 'Competitor_Lost_To__c'
+ | 09.09.2011  Srinivas N      173116    Add UIG Engagement field to in-line editing    
+ | 20.09.2011  Shipra M        172649    Wrap text on Opportunity Inline Editing.
+ | 11.10.2011  Shipra M        173965    November Release.Updated Alliance functionality on the Opportunity. 
+ | 19.01.2012  Shipra M        185136    February Release.SFA - Create a new profile for BTG
+ | 23.05.2012  Shipra M        190301    Prod fix. Updated the Primary Competitor label.
+ | 03.06.2013  Sneha Jain      259802    Added a checkbox to display two Renewal fields on inline editing only if the checkbox is checked.
+ +========================================================================================================================*/-->
+<apex:page standardController="Opportunity" extensions="MassEditOppty" recordSetVar="unused" sidebar="false">
+
+    <apex:form > 
+    <apex:pageBlock >
+    
+    Note: All modifications made on the page will be lost if Return button is clicked without clicking the Save button first.
+    <br></br>
+    <apex:outputPanel >
+    <b><apex:outputText value="View 'IIG Sales Stage' column" rendered="{!($Profile.Name== 'System Administrator' || $Profile.Name== 'Business Admin' || $Profile.Name== 'Business Operations' || $Profile.Name== 'System Administrator - BTG')}" /> </b>      
+    <apex:inputCheckbox value="{!blnSalesStage}" rendered="{!($Profile.Name== 'System Administrator' || $Profile.Name== 'Business Admin' || $Profile.Name== 'Business Operations' || $Profile.Name== 'System Administrator - BTG')}"/> 
+    <apex:actionSupport event="onclick" reRender="table"/>
+    <br/>
+    
+    <b><apex:outputText value="View 'Renewals Close Details' & 'Renewals Closed Reason' column" /> </b>      
+    <apex:inputCheckbox value="{!blnRenewals}" /> 
+    <apex:actionSupport event="onclick" reRender="table"/>
+    
+    </apex:outputPanel>            
+            </apex:pageBlock>
+            <apex:pageBlock id="RecordTable" >
+            <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton value="{!$Label.Save}" action="{!customSave}" rerender="RecordTable" rendered="{!blnRecordPresent}" />
+                <apex:commandButton value="Return" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!lstWrapper}" var="opp" id="table">//WR#163358 Updated the value on page block table and output field as per changes in controller.
+            <apex:column headerValue="{!$Label.Opportunity_Name}">
+                    <apex:inputField value="{!opp.objOppty.name}"/>
+                </apex:column>
+                //Bhumika: As per WR 140576 - Sept 10 Account Name column added
+                <apex:column headerValue="{!$Label.Account_Name1}">
+                <apex:outputField value="{!opp.objOppty.account.Name}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.Forecast_Status}">
+                    <apex:inputField value="{!opp.objOppty.stageName}"/>
+                </apex:column>
+                //WR#149408: Make IIG Sales Stage field available for inline editing in all CMA views
+                <apex:column headerValue="IIG Sales Stage" rendered="{!($Profile.Name== 'CMA Standard User' || $Profile.Name== 'CMA Channels User' || blnSalesStage )}">
+                    <apex:inputField value="{!opp.objOppty.IIG_Sales_Stage__c}"/>
+                </apex:column>
+                
+                //WR#259802: Renewal fields should be visible after IIG field only if both, View 'Renewals Close Details' and 'Renewals Closed Reason' and View 'IIG Sales Stage' are checked.               
+                <apex:column headerValue="{!$Label.Renewals_Close_Details}" rendered="{!(blnRenewals && blnSalesStage)}">
+                    <apex:inputField value="{!opp.objOppty.Renewals_Close_Details__c}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.Renewals_Closed_Reason_Action}" rendered="{!(blnRenewals && blnSalesStage)}">
+                    <apex:inputField value="{!opp.objOppty.Closed_Reason_Action__c}"/>                  
+                </apex:column>              
+                //WR#259802
+                
+                //WR-172649.Added Apex facet.
+                <apex:column >
+                    <apex:facet name="header" >{!$Label.Forecast_Amount}<br/> {!$Label.Amount}</apex:facet> 
+                    <apex:outputField value="{!opp.objOppty.Amount}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.Quote_Amount}">
+                    <apex:inputField value="{!opp.objOppty.Quote_Amount__c}"/>
+                </apex:column>
+                //WR-172649.Added Apex facet.
+                <apex:column >
+                    <apex:facet name="header" >{!$Label.Update_Forecast_Amount_From_Quote}<br/> {!$Label.Amount_From_Quote}</apex:facet> 
+                    <apex:inputField value="{!opp.objOppty.Update_Forecast_Amount_from_Quote__c}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.Close_Date}">
+                    <apex:inputField value="{!opp.objOppty.CloseDate}"/>
+                </apex:column>
+                //WR-172649.Added Apex facet.
+                <apex:column >
+                    <apex:facet name="header" >{!$Label.Closed_Reason}<br/> {!$Label.Reason}</apex:facet> 
+                    <apex:inputField value="{!opp.objOppty.Closed_Reason__c}"/>
+                </apex:column>
+                //WR-168752
+                <apex:column headerValue="{!$Label.Competitor_Lost_To}">
+                    <apex:inputField value="{!opp.objOppty.Competitor_Lost_To__c}"/>
+                </apex:column>
+                //WR-172649.Added Apex facet.
+                <apex:column >
+                    <apex:facet name="header" >{!$Label.Competitor_Product}<br/> {!$Label.Product}</apex:facet>
+                    <apex:inputField value="{!opp.objOppty.Competitor_Product__c}"/>
+                </apex:column>
+                //end of WR-168752
+                <apex:column headerValue="{!$Label.Closed_Comments}">
+                    <apex:inputField value="{!opp.objOppty.Close_Comments__c}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.Next_Steps}">
+                    <apex:inputField value="{!opp.objOppty.Next_Steps__c}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.Primary_Competitor_Inline_Edit}">
+                    <apex:inputField value="{!opp.objOppty.Competitor__c}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.Product_Model}">
+                    <apex:inputField value="{!opp.objOppty.Product_Model__c}"/>
+                </apex:column>
+                //WR-172649.Added Apex facet.
+                 
+                <apex:column >
+                <apex:facet name="header" >{!$Label.Primary}<br/> {!$Label.Alliance_Partner}</apex:facet>
+                    <apex:inputField value="{!opp.objOppty.Primary_Alliance_Partner__c}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header" >{!$Label.Secondary}<br/> {!$Label.Alliance_Partner}</apex:facet>
+                    <apex:inputField value="{!opp.objOppty.Secondary_Alliance_Partner__c}"/>
+                </apex:column>
+                //WR-173116
+                <apex:column headerValue="{!$Label.UIG_Engagement}">
+                    <apex:inputField value="{!opp.objOppty.UIG_Engagement__c}"/>
+                </apex:column>
+                //end of WR-173116
+                //SFDC-RQF - Phase 3 --- WR#230704
+                  <apex:column headerValue="{!$Label.Renewals_Sales_Stage}">
+                    <apex:inputField value="{!opp.objOppty.Renewals_Sales_Stage__c}"/>
+                </apex:column>              
+                //SFDC-RQF - Phase 3 -WR#230704
+               //WR#163358 Added New column to display result.
+               
+                //WR-259802: Renewal fields should be visible in the end of columns only if View 'Renewals Close Details' and 'Renewals Closed Reason' is checked.
+                <apex:column headerValue="{!$Label.Renewals_Close_Details}" rendered="{!(blnRenewals && !blnSalesStage)}">
+                    <apex:inputField value="{!opp.objOppty.Renewals_Close_Details__c}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.Renewals_Closed_Reason_Action}" rendered="{!(blnRenewals && !blnSalesStage)}">
+                    <apex:inputField value="{!opp.objOppty.Closed_Reason_Action__c}"/>                  
+                </apex:column>
+                //End of WR-259802 - Added two new columns to the Inline edit function
+               
+                <apex:column >
+                     <div style="color:{!IF((opp.dmlError)==$Label.Inline_Edit_Result_Success,'Green', 'Red')};">{!IF((opp.dmlError)=='',(opp.dmlError),  (opp.dmlError))}</div>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,61 @@
+<apex:page standardController="EBC_Session_Presenter__c" Extensions="EBC_SessionPresenter" tabStyle="EBC_Session_Presenter__c" showheader="true">
+<apex:form id="formParent">
+ <apex:inputHidden id="topicName"  value="{!topicName}"/>
+ <apex:inputHidden id="topicPresenterid" value="{!topicPresenterId}" />
+
+      
+<apex:pageBlock title="Session Presenter Edit" id="pBlock">
+<apex:pageMessages />
+     <apex:pageBlockButtons >
+        <apex:commandButton action="{!saveRecord}" value="Save"/>
+        <apex:commandButton action="{!doCancel}" value="Cancel" immediate="true"/> 
+     </apex:pageBlockButtons>
+ <apex:pageBlockSection title="Information" id="Information">
+<apex:outputfield value="{!objSPresenter.Session__c}" id="Session" /> 
+<apex:inputfield value="{!objSPresenter.Is_the_Presenter_Confirmed__c}" id="Is_the_Presenter_Confirmed__c" /> 
+
+
+<!-- <apex:pageBlockSection title="Guest Presenter Information" id="Guest_Presenter" rendered="{!Not(result)}" > -->
+<apex:pageBlockSectionItem id="Guest_Presenter" rendered="{!(result)}">
+<apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Presenter_First_Name__c.label}" />
+<apex:inputfield value="{!objSPresenter.Guest_Presenter_First_Name__c}" id="Guest_Presenter_First_Name__c" />
+</apex:pageBlockSectionItem>
+
+<apex:pageBlockSectionItem id="Guest_Presenter2" rendered="{!(result)}"> 
+<apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Presenter_Last_Name__c.label}" />
+<apex:inputfield value="{!objSPresenter.Guest_Presenter_Last_Name__c}" id="Guest_Presenter_Last_Name__c" required="true"/> 
+</apex:pageBlockSectionItem>
+ <apex:pageBlockSectionItem id="Guest_Presenter3" rendered="{!(result)}">
+ <apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Presenter_Email__c.label}" />
+<apex:inputfield value="{!objSPresenter.Guest_Presenter_Email__c}" id="Guest_Presenter_Email__c" required="true"/> 
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem id="Guest_Presenter5" rendered="{!(result)}">
+<apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Presenter_EBC_Title__c.label}" />
+<apex:inputfield value="{!objSPresenter.Guest_Presenter_EBC_Title__c}" id="Guest_Presenter_EBC_Title__c" />
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem id="Guest_Presenter6" rendered="{!(result)}">
+ <apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Company__c.label}" />
+<apex:inputfield value="{!objSPresenter.Guest_Company__c}" id="Guest_Company__c"/> 
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem rendered="{!Not(result)}" id="Topic_Presenter">
+<apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Topic_Presenters__c.label}" />
+<apex:actionRegion > 
+
+ <apex:inputText id="childValues"  value="{!topicPresenterName}"/>
+      
+      <img src="/s.gif" alt="Topic Presenter Lookup (New Window)"  
+           class="lookupIcon" onblur="this.className = 'lookupIcon';" 
+           onclick="javascript: openLookup('/apex/EBC_TopicPresenterLookup?Topic='+document.getElementById('j_id0:formParent:topicName').value,670, 'Search');"  
+          
+           onfocus="this.className = 'lookupIconOn';" 
+           onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" 
+           onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" 
+      title="Topic Presenter Lookup (New Window)"/></apex:actionRegion>
+      </apex:pageBlockSectionItem>
+
+ </apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+
+
+</apex:page>

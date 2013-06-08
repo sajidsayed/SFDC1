@@ -1,0 +1,77 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  15-03-2012      Anirudh Singh   188157      This Page will be used to display Goals for 
+ |												Americas/EMEA Distribution VAR.          
+ | 14 Feb 2013     Krishna Pydavula 209736      To Render the "Governance & Archive" and "Isilon" tables based on old and new record types.                                        
+========================================================================================================================-->
+<apex:page standardController="GAF__c" extensions="PRM_GAF_VF_Controller">
+    <apex:pageBlock >
+        <table class="list" columns="6" Frame="Box" border="2">            
+                <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">
+                    
+                    <td><u>Specialty</u></td>
+                    <td>Q1</td>
+                    <td>Q2</td>
+                    <td>Q3</td>
+                    <td>Q4</td>
+                    <td>Total</td>
+                    
+                </tr>
+            <tr>
+            <td>
+            BRS
+            </td> 
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q1__c}"/></td>
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Total__c}"/></td>          
+            </tr>
+             <tr>
+            <td>
+                Consolidate
+            </td>
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q1__c}"/></td> 
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Tot__c}"/></td>           
+            </tr>
+             <tr>
+            <td >
+                Advanced Consolidate
+            </td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q1__c}"/></td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Tot__c}"/></td>             
+            </tr>
+             <apex:outputPanel rendered="{!IF((GAFrecordtype==GAFAmerDirectAndVAROld || GAFrecordtype==GAFAmerDirectDistiApprovedOld || GAFrecordtype==GAFEMEADirectAndVAROld || GAFrecordtype==GAFEMEADirectVARApprovedOld),true,false)}">
+             <tr>
+            <td>
+                Governance and Archive
+            </td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q1__c}"/></td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Tot__c}"/></td>             
+            </tr>
+           </apex:outputPanel>
+           <apex:outputPanel rendered="{!IF((GAFrecordtype==GAFAmerDirectAndVAR || GAFrecordtype==GAFAmerDirectDistiApproved || GAFrecordtype==GAFEMEADirectAndVAR || GAFrecordtype==GAFEMEADirectVARApproved),true,false)}">
+           <tr> 
+            <td>
+               Isilon
+            </td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q1__c}"/></td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Total__c}"/></td>             
+            </tr>
+           </apex:outputPanel> 
+        </table>    
+    </apex:pageBlock>
+</apex:page>

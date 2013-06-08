@@ -1,0 +1,56 @@
+<!--/*===========================================================================+
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER   WR/DEFECT    DESCRIPTION                               
+ |  ====       =========   =========    =========== 
+ |    
+   02-Aug-10   Shipra       139311	    Checked in this file with new name in harvest "SendEmail.page" with 0th version
+				    		    Previous version of same file was sendEmail.page with version 6 .                        
+ +===========================================================================*/-->
+<apex:page controller="SendEmail" showHeader="false" sidebar="false">
+
+<apex:form id="form" >
+<apex:actionFunction name="FieldSelected"   action="{!init}"    status="counterStatus" reRender="cmptdform"/>
+           
+    <apex:pageBlock title="{!subject}" id="cmptdform">
+     <apex:actionStatus startText=""  id="counterStatus" 
+                onStart="document.body.style.cursor = 'wait';return true;" 
+                 onStop="document.body.style.cursor = 'default';return true;" >  
+      </apex:actionStatus>
+
+     <apex:messages />
+        <apex:pageBlockButtons >
+
+<!--This button calls the sendMail method of the controller which sends the mail -->
+                <apex:commandButton action="{!sendMail}" value="{!$Label.Send_Email}"  />
+                <apex:commandButton value="{!$Label.EMC_Cancel}" onclick="window.parent.close();"/>
+<!--This button calls the addRecepient method of the controller and moves to a AddReciepeints Page -->
+                <apex:commandButton value="{!$Label.Add_Recipients}" action="{!addRecepient}" rendered="{!renderAddRecepient}"  />  
+             &nbsp;<apex:selectList value="{!SelectedLanguage}"  size="1" onchange="javascript : callthis(this)"  rendered="{!showSelectOption}"  >
+                    <apex:outputLabel value="Language" style="font-weight:bold"  />&nbsp;
+                    <apex:selectOptions value="{!languages}"    />
+                </apex:selectList>
+               <script>
+             function callthis(){
+             FieldSelected();
+             return false;
+             }
+            
+           </script>
+      </apex:pageBlockButtons>
+<!--These are the merge fields to be displayed -->
+            <b>To :</b> {!toAddresses}<p/>
+            <b>Bcc :</b> {!bccEmail}<p/>
+            <b>Subject :</b> {!subject}<p/>
+            <b>Body :</b><apex:inputTextarea value="{!body}"  title="Body" cols="120" rows="33"  /><p/>
+        </apex:pageBlock>
+
+</apex:form>
+<!--Script written to close the page on Completion of Send Mail -->
+<script type="text/javascript">
+        if({!mailSend}){
+             alert("{!$Label.The_Mail_Has_Been_Sent}");
+             window.parent.close();
+        }
+</script>        
+</apex:page>

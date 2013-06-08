@@ -1,0 +1,138 @@
+<apex:page id="thepage" standardController="EBC_Briefing_Event__c" extensions="EBC_CopyEvent" tabStyle="EBC_Briefing_Event__c" >
+<apex:form id="theForm" >
+    <script>
+        function setSelected(eventID){
+            document.getElementById('thepage:theForm:copyFrom:SelectedEvent').value=eventID;
+        }
+    </script>
+    <apex:pageBlock mode="edit" id="copyTo">  
+        <apex:pageBlockSection columns="1">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="eventName">Copy To:</apex:outputLabel>
+                <apex:outputText id="eventName" value="{!EBC_Briefing_Event__c.Name}"/>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="eventStart">Start Date:</apex:outputLabel>
+                <apex:outputField id="eventStart" value="{!EBC_Briefing_Event__c.Start_Date__c}"/>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="eventEnd">End Date:</apex:outputLabel>
+                <apex:outputField id="eventEnd" value="{!EBC_Briefing_Event__c.End_Date__c}"/>
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    <apex:pageBlock title="Copy From Existing Event" mode="edit" id="copyFrom">
+        <apex:inputHidden id="SelectedEvent" value="{!SelectedEvent}"/>
+        <apex:pageBlockButtons rendered="true"  id="copyBlockButtons">
+            <apex:commandButton id="copyButton" value="Copy Selected" disabled="{!(ISNULL(results))}" action="{!updateEvent}"/>
+            <apex:commandButton id="cancelButton" value="Cancel" action="{!doCancel}"/>
+        </apex:pageBlockButtons>
+        <script type="text/javascript">
+            function removeSelection(){
+                document.getElementsByClassName('copyHeader')[0].checked=true;
+                document.getElementsByClassName('copySession')[0].checked=false;
+                document.getElementsByClassName('copyDateTime')[0].checked=false;
+            }
+        </script>
+        <apex:pageBlockSection id="copyCkbox" columns="1" >
+            <apex:pageMessages />
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="copyHeader">Copy Customer Info</apex:outputLabel>
+                <apex:inputCheckbox selected="false" id="copyHeader" styleClass="copyHeader" value="{!copyHeader}" />
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="copySession">Copy Session Info</apex:outputLabel>
+                <apex:inputCheckbox selected="true" id="copySession" styleClass="copySession" value="{!copySession}" />
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="copyDateTime">Include Session date/times:</apex:outputLabel>
+                <apex:inputCheckbox selected="true" id="copyDateTime" styleClass="copyDateTime" value="{!copyDateTime}" />
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="copyPresenter">Include Session Presenters:</apex:outputLabel>
+                <apex:inputCheckbox selected="true" id="copyPresenter" value="{!copyPresenter}" />
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+        <apex:pageBlockSection id="searchBlock" columns="1">
+            <apex:pageBlockSectionItem id="searchBlockItem" >
+            <apex:outputLabel for="searchText">Search Text</apex:outputLabel>
+            <apex:panelGroup id="searchPanel" >
+                <apex:inputText id="searchText" value="{!searchText}"/>
+                <apex:commandButton id="goButton" value="Go!" action="{!doSearch}" rerender="copyFrom" status="status"/>
+                <apex:outputLink value="javascript:openPopupFocusEscapePounds('/help/doc/user_ed.jsp?section=help&target=search_operators.htm&loc=help&hash=topic-title'
+                        ,'SearchHints',700, 600,
+                        'width=700,height=600,resizable=yes,toolbar=no,status=no,scrollbars=yes,menubar=no,directories=no,location=no,dependant=no'
+                        , false, false)"
+                    >Search Hints</apex:outputLink>
+            </apex:panelGroup>
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+        <!-- <apex:actionStatus id="status" startText="requesting..."/> -->
+        <apex:actionStatus id="status" stopText="">
+            <apex:facet name="start">
+                <div>
+                    <div class="popupBackground" />
+                    <div class="popupPanel">
+                        <table border="0" width="100%" height="100%">
+                            <tr>
+                                <td align="center"><b>Requesting...</b></td>
+                            </tr>
+                            <tr>
+                                <td align="center"><img src="{!$Resource.LoaderGif}"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+        <apex:pageBlockSection title="Results" id="resultsSection" columns="1">
+            <apex:pageBlockTable id="resultsTable" value="{!results}" var="eventResult" rendered="{!NOT(ISNULL(results))}">
+            <apex:column width="20" >
+                <input type="radio" name="radioButton" id="{!eventResult.id}"  value="{!eventResult.id}" onclick="setSelected('{!eventResult.id}')"/>
+            </apex:column>
+            <apex:column value="{!eventResult.name}"/>
+            <apex:column value="{!eventResult.Briefing_Center__c}"/>
+            <apex:column value="{!eventResult.Start_Date__c}"/>
+            <apex:column value="{!eventResult.End_Date__c}"/>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:form>
+<style>
+    /* This is for the full screen DIV */
+    .popupBackground {
+        /* Background color */
+        background-color:black;
+        opacity: 0.20;
+        filter: alpha(opacity = 20);
+     
+        /* Dimensions */
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 998;
+        position: absolute;
+    }
+ 
+    /* This is for the message DIV */
+    .popupPanel {
+        /* Background color */
+        border: solid 1.5px #ADADAD;
+        background-color: white;
+ 
+        /* Dimensions */
+        left: 50%;
+        width: 200px;
+        margin-left: -100px;
+        top: 50%;
+        height: 70px;
+        margin-top: -20px;
+        z-index: 999;
+        position: fixed;
+         
+        /* Mouse */
+        cursor:pointer;
+    }
+</style>
+</apex:page>

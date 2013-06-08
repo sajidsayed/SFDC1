@@ -1,0 +1,90 @@
+<!--
+/*=======================================================================================+
+
+|  HISTORY  |                                                                           
+
+|  DATE          DEVELOPER                WR            DESCRIPTION                               
+
+|  ====          =========                ==            =========== 
+
+| 29/9/2010      Karthik Shivprakash      1074          This page will be used to 
+                                                        display My Public Profile
+                                                        information of account.
+| 19/10/2010     Anirudh Singh            1313          Updated Fields to Text Area type and
+                                                        size to 5. 
+                                                        All the multiselect picklist fields
+                                                        updated to show 5 values.      
+|11/10/2012     Krishna Pydavula         204075         Added two fields  3rd PartyVirtualization and 3rd PartyNetworking                                                                            
++=======================================================================================*/
+-->
+
+<apex:page Controller="PRM_EditMyPublicProfile" tabStyle="Account" >
+<apex:pageMessages />
+
+<Style>.lable {text-align:right;font-weight:bold; }</Style>
+
+    <apex:form >
+        <apex:pageBlock rendered="{! NOT hasAccess}">
+                <apex:pageBlockSection title="Error"  collapsible="false">
+               <apex:pagemessage rendered="{! Not hasAccess}" 
+                                 severity="error" 
+                                 summary="{!$Label.No_Access_To_Edit_Company_Details}"  /> 
+               </apex:pageBlockSection>
+                
+              <apex:pageBlockButtons >
+                <apex:commandButton value="{!$Label.OK}" action="{!cancel}"/>
+            </apex:pageBlockButtons>  
+        </apex:pageBlock>
+        
+        <apex:pageBlock rendered="{!hasAccess}">
+        
+           <apex:pageBlockSection title="{!$Label.Edit_Details}" columns="4"  >
+           
+                       <apex:outputText value="{!$Label.Partnership_Overview}" />
+                       <apex:inputTextarea value="{!Partnership_Overview}" rows="4" style="width: 300px;" />
+                     
+                        <apex:outputText value="{!$Label.Company_Description}" />
+                        <apex:inputTextarea value="{!Partner_Self_Description_Long}" rows="4" style="width: 300px;" />
+                        
+                        <apex:outputText value="{!$Label.Business_Focus}" />
+                        <apex:selectList size="5"  value="{!Business_Focus}" multiselect="true">
+                            <apex:selectOptions value="{!BusinessFocus}"/>
+                        </apex:selectlist>
+                   
+                        <apex:outputText value="{!$Label.Product_Focus}" />
+                        <apex:selectList size="5"  value="{!Product_Focus}" multiselect="true">
+                            <apex:selectOptions value="{!ProductFocus}"/>
+                        </apex:selectlist>
+                   
+                        <apex:outputText value="{!$Label.Application_Environments}" />
+                        <apex:selectList size="5"  value="{!Application_Environments}" multiselect="true">
+                            <apex:selectOptions value="{!ApplicationEnvironments}"/>
+                        </apex:selectlist>
+                       
+                        <apex:outputText value="{!$Label.Industry_Verticals}" />
+                        <apex:selectList size="5"  value="{!Industry_Verticals}" multiselect="true">
+                            <apex:selectOptions value="{!IndustryVerticals}"/>
+                        </apex:selectlist>
+                        
+                   		<apex:outputText value="{!$Label.Party_Virtualization}" />
+                        <apex:selectList size="5"  value="{!Party_Virtualization}" multiselect="true">
+                            <apex:selectOptions value="{!PartyVirtualization}"/>
+                        </apex:selectlist>
+                        
+                        <apex:outputText value="{!$Label.Party_Networking}" />
+                        <apex:selectList size="5"  value="{!Party_Networking}" multiselect="true">
+                            <apex:selectOptions value="{!PartyNetworking}"/>
+                        </apex:selectlist>
+             
+
+            </apex:pageBlockSection>
+           
+            <apex:pageBlockButtons >
+                <apex:commandButton value="{!$Label.Save}" action="{!saveAccount}"/>
+                <apex:commandButton value="{!$Label.cancel}" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+          
+       
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

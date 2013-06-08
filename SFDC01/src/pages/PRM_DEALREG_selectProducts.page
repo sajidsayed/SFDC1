@@ -1,0 +1,194 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req                        DESCRIPTION 
+ |  11/05/2011      Anand Sharma      FD:PRM - SFDC - 07            This Page will allow Partners to select Products on the external Page.
+                                      (2237, 2226,2225,2762)        
+ |  23/05/2011      Anand Sharma                                    Added custom label for cancel and select    
+ ========================================================================================================================-->
+<apex:page id="myPage" standardController="Registration_Product__c" extensions="PRM_DEALREG_NonPortalRegistrationCntrler" standardStylesheets="true" showheader="{!NOT(isExternalPortalSource)}" sidebar="{! NOT(isExternalPortalSource)}" tabStyle="Lead">
+     <style>                                         
+        .btn{
+            vertical-align:middle;
+            align-text:middle;
+            padding-top: 2px;  
+            padding-bottom: 2px;                                                                       
+        }
+                                           
+    </style> 
+    <script>
+        // determine new sort field and order
+        function sortColumn(column_name) {
+            var fieldobj = document.getElementById('{!$Component.myPage.form.block.sortField}');
+            var orderobj = document.getElementById('{!$Component.myPage.form.block.sortAscending}');
+            var new_sort_order = 'true';
+            if(column_name == fieldobj.value) {
+                // if previously same column sorted, reverse the sort order
+                new_sort_order = (orderobj.value=='false'?'true':'false');
+            }
+            fieldobj.value = column_name;
+            orderobj.value = new_sort_order; 
+        }   
+                
+        function checkAll(cb){           
+            var num = 0;            
+            var chkInput = document.getElementById('{!$Component.form.block.results.pbProducts.product_ChkBox1}');
+            
+            while(document.getElementById('{!$Component.form.block.results.pbProducts}' +':'+num+':product_ChkBox') != null)
+            {
+                var inputElem = document.getElementById('{!$Component.form.block.results.pbProducts}' +':' +num+':product_ChkBox');
+                if( chkInput.checked){
+                    inputElem.checked = true;
+                }else{              
+                    inputElem.checked = false;
+                }
+                num++;
+            }
+        }
+        
+        function checkAllSelected(cb){          
+            var num = 0;
+            var checkFlag = true;           
+            var chkInput = document.getElementById('{!$Component.form.block.results.pbProducts.product_ChkBox1}');
+            //alert('chkInput  ' + chkInput );
+            while(document.getElementById('{!$Component.form.block.results.pbProducts}' +':'+num+':product_ChkBox') != null)
+            {
+                var inputElem = document.getElementById('{!$Component.form.block.results.pbProducts}' +':' +num+':product_ChkBox');
+                //alert('inputElem  ' + inputElem );
+                //alert('inputElem.checked' + inputElem.checked);
+                if( ! inputElem.checked){
+                    checkFlag = false;
+                    break;
+                }
+                num++;
+            }           
+            
+            if( checkFlag ){
+                chkInput.checked = true;
+            }else{
+                chkInput.checked = false;
+            }
+        }       
+    </script>
+    <apex:outputPanel id="pnlHeader" rendered="{! isExternalPortalSource}">
+        <apex:include pageName="EMC_Header" /><br/>
+    </apex:outputPanel>
+    <apex:pageMessages /> 
+    <apex:form id="form">
+        
+        <apex:pageBlock id="block"> 
+            <br/>
+            <apex:outputPanel id="pnlFilter">
+                <div class="searchFilterFields">
+                    <apex:panelGrid columns="3" id="theGrid" >
+                        <apex:outputLabel ><b>{!$Label.By_Product}</b></apex:outputLabel>
+                        <apex:inputText id="searchProduct" value="{!searchProduct}"/>
+                        <apex:commandButton value="{!$Label.Go}" action="{!doSearchProduct}" styleClass="btn" rerender="block" status="statusProduct"/>
+                        <apex:outputLabel ><b>{!$Label.By_Sub_Catalog}</b></apex:outputLabel>
+                        <apex:inputText id="searchProductCatalog" value="{!SearchProductCatalog}"/>
+                        <apex:commandButton value="{!$Label.Go}" action="{!doSearchSubCatalog}"  styleClass="btn" rerender="block" status="statusProduct"/>                                             
+                    </apex:panelGrid>                
+                    <br/>   
+                </div>
+                <br/>
+                <div class="searchFilterFields">
+                    <apex:panelGrid columns="5" id="theGridFilterCriteria" >
+                        <!-- 
+                        <apex:outputLabel ><b>{!$Label.Filtered_By}</b></apex:outputLabel>
+                        <apex:outputLabel Rendered="{! OR(NOT(ISBLANK(SearchProductCatalog)), NOT(SearchProductCatalog=='')) }">{!$Label.By_Sub_Catalog}({!SearchProductCatalog})</apex:outputLabel>
+                        <apex:outputLabel Rendered="{! OR(NOT(ISBLANK(searchProduct)), NOT(searchProduct==''))}">{!$Label.By_Product}({!searchProduct})</apex:outputLabel>                      
+                        <apex:outputLabel ><b> | </b></apex:outputLabel>
+                         -->
+                        <apex:commandLink title="{!$Label.Clear_Filters}" value="{!$Label.Clear_Filters}" action="{! doSearchClearFilters}" reRender="block" status="statusProduct">
+                           <!-- <apex:param assignTo="{!productId}" name="test" value="{!result.Id}"/>  -->
+                       </apex:commandLink>                      
+                    </apex:panelGrid>
+                </div>
+            </apex:outputPanel> 
+            <apex:actionStatus id="statusProduct">
+                <apex:facet name="start"><apex:image url="{!$Resource.AjaxLoader}" /></apex:facet>
+            </apex:actionStatus>
+            <apex:image url="/s.gif" width="25" height="25" />
+            <apex:inputHidden id="sortAscending" value="{!sortAscending}" />
+            <apex:inputHidden id="test" value="{!isExternalPortalSource}" />
+            <apex:inputHidden id="sortField" value="{!sortField}" /> 
+                    
+            <apex:pageBlockButtons >
+                <apex:commandButton value="{!$Label.Select}" action="{!selectedProducts}" reRender="block" status="statusProduct" styleClass="btn searchFilterButtons productButtons" rendered="{!ProductsDetails.size > 0}"/>
+                <apex:commandButton value="{!$Label.btncancel}" action="{!cancelDeal}" styleClass="btn searchFilterButtons productButtons"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="{!$Label.Registration_Products}" id="results" columns="1">
+             <!-- no matches message -->
+             <apex:outputtext styleClass="importantWarning" rendered="{!NOT(ProductsDetails.size >0)}">                          
+                 {! $Label.Component_User_Search_No_Search_Result}
+             </apex:outputtext>
+                <apex:pageBlockTable id="pbProducts" value="{!ProductsDetails}" var="l" rendered="{!ProductsDetails.size > 0}" >
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:inputCheckbox value="{!l.selected}" id="product_ChkBox1" onclick="checkAll(this)" />
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!l.selected}" id="product_ChkBox" onclick="checkAllSelected(this)" />
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">                          
+                            <apex:commandLink title="{!$Label.By_Product}" value="{!$Label.By_Product}" action="{!runSortAction}" reRender="block, pagingPanel" status="statusProduct" onclick="sortColumn('Partner_Product_Catalogue__r.Product__r.Name');">
+                                <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField == 'Partner_Product_Catalogue__r.Product__r.Name',sortAscending==true),true,false)}" />
+                                <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField == 'Partner_Product_Catalogue__r.Product__r.Name',sortAscending==false),true,false)}"  />                                
+                                <apex:param assignTo="{!sortField}" name="test" value="Partner_Product_Catalogue__r.Product__r.Name"/>
+                            </apex:commandLink>    
+                        </apex:facet>
+                        <apex:outputField value="{!l.selProduct.Partner_Product_Catalogue__r.Product__r.Name}"/> 
+                    </apex:column> 
+                    <apex:column >
+                        <apex:facet name="header">                          
+                            <apex:commandLink title="{!$Label.By_Sub_Catalog}" value="{!$Label.By_Sub_Catalog}" action="{!runSortAction}" reRender="block, pagingPanel" status="statusProduct" onclick="sortColumn('Partner_Product_Catalogue__r.Name');">
+                                <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField == 'Partner_Product_Catalogue__r.Name',sortAscending==true),true,false)}" />
+                                <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField == 'Partner_Product_Catalogue__r.Name',sortAscending==false),true,false)}"  />                               
+                                <apex:param assignTo="{!sortField}" name="test1" value="Partner_Product_Catalogue__r.Name"/>
+                            </apex:commandLink>    
+                        </apex:facet>
+                        <apex:outputField value="{!l.selProduct.Partner_Product_Catalogue__r.Name}"/>
+                    </apex:column>     
+                    <!--
+                    <apex:column value="{!l.selProduct.Product__c}"/>
+                    <apex:column value="{!l.selProduct.Partner_Product_Catalog__c}"/> 
+                    <apex:column value="{!l.selProduct.Deal_Registration__c}"/> --> 
+               </apex:pageBlockTable>
+           </apex:pageBlockSection>
+           <apex:pageBlockSection title="{!$Label.Selected_Registration_Products}" id="result" columns="1" rendered="{!IF(lstRegistrationProduct.size >0, true, false)}">
+               <apex:commandButton value="{!$Label.Save_Products}" action="{!saveLeadAndProducts}" styleClass="btn searchFilterButtons productButtons" rendered="{!NOT(isExternalPortalSource)}" />
+               <apex:commandButton value="{!$Label.Save_Products}" action="{!saveProducts}" styleClass="btn searchFilterButtons productButtons" rendered="{!isExternalPortalSource}"/>
+               <apex:pageBlockTable value="{!lstRegistrationProduct}" var="result" >
+                   <apex:column style="text-align: center; font-weight: bold;">                       
+                       <apex:commandLink title="{!$Label.Remove}" value="{!$Label.Remove}" action="{!updateProduct}" reRender="block, pbProducts,result,  pagingPanel" status="statusProduct">
+                           <apex:param assignTo="{!productId}" name="test" value="{!result.Id}"/>
+                       </apex:commandLink>  
+                   </apex:column>
+                   <apex:column >
+                        <apex:facet name="header">                          
+                            <apex:outputText title="{!$Label.By_Product}" value="{!$Label.By_Product}"></apex:outputText>                             
+                        </apex:facet>
+                        <apex:outputField value="{!result.Partner_Product_Catalogue__r.Product__r.Name}"/> 
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">                          
+                            <apex:outputText title="{!$Label.By_Sub_Catalog}" value="{!$Label.By_Sub_Catalog}"></apex:outputText>                             
+                        </apex:facet>
+                        <apex:outputField value="{!result.Partner_Product_Catalogue__r.Name}"/> 
+                    </apex:column>
+                   
+                   <!-- <apex:column value="{!result.Deal_Registration__c}"/>
+                   <apex:column value="{!result.Partner_Product_Catalogue__c}"/> 
+                   <apex:column value="{!result.Partner_Product_Catalogue__r.Product__c}"/>
+                   <apex:column value="{!result.Product_c}"/>-->
+               </apex:pageBlockTable>
+           </apex:pageBlockSection> 
+           <!-- paging -->
+           <apex:outputPanel id="pagingPanel" rendered="{!(NOT(lstProductsDetails.size == 0))}">
+               <c:paginator reRenderComponent="results, pbProducts, pagingPanel" pageManager="{!objPageManager}" statusComponent="statusProduct" id="bottom_paginator"/>                                                 
+           </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+    <apex:outputPanel id="pnlFooter" rendered="{! isExternalPortalSource}">
+        <apex:include pageName="EMC_Footer" />
+    </apex:outputPanel>
+</apex:page>

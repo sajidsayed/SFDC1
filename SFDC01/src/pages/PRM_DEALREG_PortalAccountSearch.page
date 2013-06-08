@@ -1,0 +1,199 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req      DESCRIPTION 
+ |  11/05/2011      Suman B                        This Page will allow Partners to Search the Account for Non Portal 
+ |                                                 Deal Registration Form.
+ |  11/11/2011      Suman B			WR#178765	   Added Party_Number field in the input search. 	                                                 
+ |  23/11/2011      Suman B			WR#178765	   Added Account Number field in search results.
+ |  02/07/2012      Ganesh Soma     WR#194991      Added custom label to show search message for Leads
+ ============================================================================================================================== -->
+
+<apex:page id="myPage" controller="PRM_DEALREG_CustomSearch" sidebar="true" showHeader="true" > 
+  <style>
+    .searchMessage { color: #204EA9; font-weight: bold;}
+  </style>
+  
+ <apex:form id="myForm">
+   <apex:pageBlock rendered="true" title="{!$Label.Account_Search}" id="inputblock">
+  <apex:outputText value="{!$Label.CustomSearch_Message}" escape="false" styleClass="searchMessage" rendered="{!if($CurrentPage.parameters.isDealReg=='true',true,false)}"/> 
+   <apex:outputText value="{!$Label.CustomSearchMessageForPartners}" escape="false" styleClass="searchMessage" rendered="{!if($CurrentPage.parameters.isDealReg=='true',false,true)}"/>     
+      <br></br><br></br>  
+       <apex:outputText style="font-weight:bold" value="{!$Label.Search_Account}" /> 
+       <apex:commandButton action="{!search}" value="{!$Label.DealReg_Go}"/>
+       <apex:commandButton action="{!populateAccountInfo}" value="{!$Label.Create_New_Account}" rendered="{!noResult}" />      
+       <apex:commandButton value="{!$Label.cancel}"  action="{!cancel}"/>
+      <br></br><br></br>  
+     <apex:pageBlockSection columns="4" id="inputsection"> 
+       <!--  <apex:outputText style="font-weight:bold" value="First Name" rendered="{!namesRequired}" /> 
+         <apex:inputtext value="{!inputFirstName}" title="First Name" rendered="{!namesRequired}" /> 
+         <apex:outputText style="font-weight:bold" value="Last Name" rendered="{!namesRequired}" /> 
+         <apex:inputtext value="{!inputLastName}" title="Last Name" rendered="{!namesRequired}" /> --> 
+         <apex:outputText style="font-weight:bold" value="{!$Label.DealReg_Account_Name}"  />  
+         <apex:inputtext value="{!inputAccountName}" title="Account Name"/>
+         <apex:outputText style="font-weight:bold" value="{!$Label.Street}" /> 
+         <apex:inputtext value="{!inputStreet}" title="Street" id="inputStreet"/>
+         <apex:outputText style="font-weight:bold" value="{!$Label.DealReg_City}" />
+         <apex:inputtext value="{!inputCity}" title="City" id="inputCity"/>
+         <apex:outputText style="font-weight:bold" value="{!$Label.DealReg_State}" />
+         <apex:inputtext value="{!inputState}"   title="State" id="inputState"/>
+         <apex:outputText style="font-weight:bold" value="{!$Label.DealReg_ZipCode}" />
+         <apex:inputtext value="{!inputZipCode}" title="Zip Code" id="inputZipCode"/>
+         <apex:outputText style="font-weight:bold" value="{!$Label.DealReg_Country}" />   
+         <apex:selectList value="{!inputCountry}" id="inputCountry"  size="1" >
+                     <apex:selectOptions value="{!SearchCriteriaList}"/>
+         </apex:selectList>
+         <apex:outputText style="font-weight:bold" value="{!$Label.Account_Number_or_Party_Number}" />
+         <apex:inputtext value="{!inputPartyNumber}"   title="State" id="inputPartyNumber"/>
+        
+     </apex:pageBlockSection>
+     <br>  </br>
+     <apex:commandLink action="{!clearresults}" value="{!$Label.Clear_Search_Results}" id="clearlink" style="font-weight:bold"/>
+   </apex:pageBlock>
+   
+  <apex:pageBlock title="{!$Label.Search_Results}" tabStyle="Account" id="Block">
+    <apex:pageMessages />
+   <apex:pageBlockTable value="{!AccountDetails}" var="acc" >
+
+    <apex:column rendered="true"> 
+       <apex:facet name="header">
+          <apex:commandLink title="Account Name" value="{!$Label.DealReg_Account_Name}" action="{!runSortAction1}" reRender="Block"  onclick="sortColumn1('Name');" status="sortStatus">
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Name',sortAscending1==true),true,false)}" />
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Name',sortAscending1==false),true,false)}"  />                               
+               <apex:param assignTo="{!sortField1}" name="test1" value="Name"/>
+          </apex:commandLink>    
+        </apex:facet>
+       <apex:commandLink value="{!acc.name}" action="{!populateValues1}" target="_parent" rerender="Block, successPanel" >  
+        <apex:param assignTo="{!paramValue}" name="selectedId" value="{!acc.id}" id="paramId"/>
+       </apex:commandLink>
+    </apex:column> 
+    <apex:column rendered="true" >
+        <apex:facet name="header">
+          <apex:commandLink title="Account Name (Local)" value="{!$Label.Account_Name_Local}" action="{!runSortAction1}" reRender="Block" onclick="sortColumn1('NameLocal');">
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'NameLocal',sortAscending1==true),true,false)}" />
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'NameLocal',sortAscending1==false),true,false)}"  />                               
+               <apex:param assignTo="{!sortField1}" name="NameLocal" value="NameLocal"/>
+          </apex:commandLink>    
+        </apex:facet>
+     <apex:outputField value="{!acc.NameLocal}"/>
+    </apex:column>
+  
+  
+   <apex:column rendered="true" >
+        <apex:facet name="header">
+          <apex:commandLink title="Party Number" value="{!$Label.Party_Number}" action="{!runSortAction1}" reRender="Block" onclick="sortColumn1('Party_Number__c');">
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Party_Number__c',sortAscending1==true),true,false)}" />
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Party_Number__c',sortAscending1==false),true,false)}"  />                               
+               <apex:param assignTo="{!sortField1}" name="partyNumber" value="Party_Number__c"/>
+          </apex:commandLink>    
+        </apex:facet>
+     <apex:outputField value="{!acc.Party_Number__c}"/>
+    </apex:column>
+   
+   <apex:column rendered="true" >
+        <apex:facet name="header">
+          <apex:commandLink title="Account Number" value="{!$Label.Account_Number}" action="{!runSortAction1}" reRender="Block" onclick="sortColumn1('Synergy_Account_Number__c');">
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Synergy_Account_Number__c',sortAscending1==true),true,false)}" />
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Synergy_Account_Number__c',sortAscending1==false),true,false)}"  />                               
+               <apex:param assignTo="{!sortField1}" name="accountNumber" value="Synergy_Account_Number__c"/>
+          </apex:commandLink>    
+        </apex:facet>
+     <apex:outputField value="{!acc.Synergy_Account_Number__c}"/>
+    </apex:column>    
+   
+     <apex:column rendered="true" >
+        <apex:facet name="header">
+            <apex:commandLink title="Address" value="{!$Label.Address}" action="{!runSortAction1}" reRender="Block"  onclick="sortColumn1('Address__c');">
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Address__c',sortAscending1==true),true,false)}" />
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Address__c',sortAscending1==false),true,false)}"  />                               
+               <apex:param assignTo="{!sortField1}" name="Address" value="Address__c"/>
+            </apex:commandLink>    
+        </apex:facet>    
+     <apex:outputText value="{!IF(TRIM(acc.Address__c) ==',', '', acc.Address__c )}" escape="false"/>
+    </apex:column>
+
+    <apex:column rendered="true" >
+        <apex:facet name="header">
+            <apex:commandLink title="Address(Local)" value="{!$Label.Address_Local}" action="{!runSortAction1}" reRender="Block" onclick="sortColumn1('Address_Local__c');">
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Address_Local__c',sortAscending1==true),true,false)}" />
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Address_Local__c',sortAscending1==false),true,false)}"  />                               
+               <apex:param assignTo="{!sortField1}" name="Addresslocal" value="Address_Local__c"/>
+            </apex:commandLink>    
+        </apex:facet> 
+     <apex:outputText value="{!IF(TRIM(acc.Address_Local__c) ==',' , '',acc.Address_Local__c ) }" escape="false"/>     
+    </apex:column>
+
+   <apex:column rendered="true" >
+        <apex:facet name="header">
+            <apex:commandLink title="Preferred Install" value="{!$Label.Preferred_Install}" action="{!runSortAction1}" reRender="Block"  onclick="sortColumn1('Preferred_Install_Flag__c');">
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Ascending" alt="Sorted Ascending" url="/img/sort_asc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Preferred_Install_Flag__c',sortAscending1==true),true,false)}" />
+               <apex:image height="14" width="21" style="vertical-align: text-top;" title="Sorted Descending" alt="Sorted Descending" url="/img/sort_desc_arrow.gif" rendered="{!IF(AND(sortField1 == 'Preferred_Install_Flag__c',sortAscending1==false),true,false)}"  />                               
+               <apex:param assignTo="{!sortField1}" name="PreferredInstall" value="Preferred_Install_Flag__c"/>
+            </apex:commandLink>    
+        </apex:facet>
+     <apex:outputField value="{!acc.Preferred_Install_Flag__c}" />
+    </apex:column>     
+
+   </apex:pageBlockTable>
+   <!-- paging -->
+   <apex:outputPanel id="pagingPanel" rendered="{!(NOT(listAccount.size == 0))}">
+       <c:paginator reRenderComponent="pagingPanel,Block" statusComponent="sortStatus" pageManager="{!objPageManager}" id="bottom_paginator"/>                                                 
+   </apex:outputPanel>
+  </apex:pageBlock>
+  <apex:outputPanel id="successPanel">
+       <apex:inputHidden id="successFlag" value="{!hiddenAccId}"/>
+       <apex:inputHidden id="hiddenStreet" value="{!hiddenStreet}"/>
+       <apex:inputHidden id="hiddenCity" value="{!hiddenCity}"/>
+       <apex:inputHidden id="hiddenState" value="{!hiddenState}"/>
+       <apex:inputHidden id="hiddenZipCode" value="{!hiddenZipCode}"/>
+       <apex:inputHidden id="hiddenCountry" value="{!hiddenCountry}"/> 
+       <apex:inputHidden id="sortAscending1" value="{!sortAscending1}" />
+       <apex:inputHidden id="sortField1" value="{!sortField1}" /> 
+       <apex:actionStatus id="sortStatus" startText="Loading....">
+       </apex:actionStatus>
+    </apex:outputPanel>
+  
+   <!-- <apex:actionFunction name="populateAction"  action="{!populateValues}"/>  -->
+  </apex:form>
+    <script type="text/javascript">
+     function sample()  
+     {
+      var successflagApp = document.getElementById('{!$Component.myPage.myForm.successFlag}').value;
+      //alert(successflagApp);
+      //window.opener.CallAlert(document.getElementById('{!$Component.myPage.myForm.successFlag}').value);
+      window.close();
+        return false;
+     }
+     
+     function populateaddress()
+     {
+       //alert(document.getElementById('{!$Component.myPage.myForm.inputblock.inputsection.inputStreet}').value);
+       window.close();                           
+     }
+     
+    function sortColumn1(column_name) {
+       var fieldobj = document.getElementById('{!$Component.myPage.myForm.sortField1}');
+       var orderobj = document.getElementById('{!$Component.myPage.myForm.sortAscending1}');
+       //alert(fieldobj.value);
+       //alert(orderobj.value);
+       var new_sort_order = 'true';
+       if(column_name == fieldobj.value) {
+         // if previously same column sorted, reverse the sort order
+         new_sort_order = (orderobj.value=='false'?'true':'false');
+        }
+       fieldobj.value = column_name;
+       orderobj.value = new_sort_order; 
+       //alert('end sorting');
+     }
+     
+    function account_confirm()
+    {
+     var r=confirm("On selection of the Account, Lead record will get created.Are you sure with the selection? ");
+     //if (r==true)
+     //{
+      //alert("OK!");
+     //}
+     //return r;
+    }   
+    </script>
+
+</apex:page>

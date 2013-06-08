@@ -1,0 +1,224 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" contentType="text/css">
+    
+    .headings  {
+    color: #333; font-weight: normal; 
+    font: normal 14px/22px "Arial", sans-serif; 
+    }
+    
+    .bg_searchtop_bar{
+    width: 945px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    padding:10px 10px 10px 10px;
+    background:url({!$Resource.bg_container_gif}) top center;
+    }
+    
+    .bg_searchbottom_bar{
+    width:945px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    padding:10px 10px 10px 10px;
+    background-repeat: no-repeat;
+
+    background:url({!$Resource.bottom_bar_gif}) top center no-repeat;
+    }
+    
+    .bg_searchinline{
+    width: 915px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    background:#CCC;
+    font: bold 12px "Arial", sans-serif; color:#333333;
+    padding: 15px 0 15px 0;
+    }
+    
+    .bg_noresultinline{
+    width: 915px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    background:#CCC;
+    font: bold 12px "Arial", sans-serif; color:#333333;
+    padding: 0px 0 0px 0;
+    }
+    .bg_resultstop_bar{
+    width: 915px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    padding:10px 10px 10px 10px;
+    background:url({!$Resource.bg_result_top_bar}) top center;
+    }
+    
+    .required{
+    border-color:red;
+    border-width:5px;
+    border-left-style: solid;
+    border-top-style:none;
+    border-bottom-style:none;
+    border-right-style:none;
+    }
+    
+    .noborders{
+    border-color:white;
+    border-width:1px;
+    border-left-style: none;
+    border-top-style:none;
+    border-bottom-style:none;
+    border-right-style:none;
+    }
+    
+    body {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    background: url({!$Resource.bg_gif}) top left repeat-x;
+    }
+
+    .main_text {
+    font: bold 26px "Arial", sans-serif; color:#333333; 
+    }
+    
+    .main_title {
+    width: 945px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    padding:10px 10px 0 10px;
+    }
+
+    .container {
+    width: 945px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    padding:10px 10px 10px 10px;
+    background:url({!$Resource.bg_container_gif}) top center;
+    }
+    
+    .buttonwrapper{  
+    overflow: hidden;  
+    width: 100%;
+    }
+    
+    h1 {
+    font: bold 22px "Arial", sans-serif; color:#333333; margin-bottom:10px; margin-left:17px; margin-top:20px;
+    }
+    
+    .search_inline {
+    width: 915px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    background:#CCC;
+    font: bold 12px "Arial", sans-serif; color:#333333;
+    padding: 15px 0 15px 0;
+    }
+    
+    .ovalbutton{
+    background: transparent url('{!$Resource.left_button_png}') no-repeat top left;
+    display: block;
+    float: left;
+    font: normal 11px Arial; /* Change 13px as desired */
+    line-height: 14px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 24px) */
+    height: 24px; /* Height of button background height */
+    padding-left: 11px; /* Width of left menu image */
+    text-decoration: none;
+    }
+    
+    a:link.ovalbutton, a:visited.ovalbutton, a:active.ovalbutton{
+    color: #494949; /*button text color*/
+    }
+    
+    a.ovalbutton span{
+    background: transparent url('{!$Resource.right_button_png}') no-repeat top right;
+    color:#FFFFFF;
+    display: block;
+    padding: 4px 11px 4px 0; /*Set 11px below to match value of 'padding-left' value above*/
+    }
+    
+    a.ovalbutton:hover{ /* Hover state CSS */
+    background-position: top left;
+    }
+    
+    a.ovalbutton:hover span{ /* Hover state CSS */
+    background-position: top right;
+    }
+    
+    .search_tip{
+    font: italic 10px "Arial", sans-serif;
+    }
+    
+    .title2 {
+       background-color:#CCCCCC;
+       color: #333; font-weight: bold; 
+       font: bold 14px/22px "Arial", sans-serif; 
+       text-align: left; white-space: nowrap;
+       
+    }
+    
+    .results2  {   
+    color: #333; 
+    text-align: left; white-space: nowrap; 
+    background-color:#CCCCCC; 
+    font: bold 14px "Arial", sans-serif;   
+    }
+    
+    table.title {
+    border-collapse: collapse;  
+    }
+    
+    table.title td  {
+    color: #333; font-weight: bold; 
+    text-align: left; white-space: nowrap;
+    background-color:#CCCCCC; 
+    font: bold 14px/22px "Arial", sans-serif; 
+    padding:10px 0 10px 15px; 
+    margin:0px;
+    }
+
+    table.title th  {
+    color: #333; font-weight: bold; 
+    text-align: right; white-space: nowrap;
+    background-color:#CCCCCC; 
+    font: bold 14px/22px "Arial", sans-serif; 
+    padding:10px 0 10px 15px; 
+    margin:0px;
+    }
+
+    table.results  {   
+    border-collapse: collapse;
+    }
+    
+    table.results th, table.results td   {   
+    padding: 12px 0 6px 12px; 
+    font: normal 11px/16px "Arial", sans-serif; 
+    vertical-align: top;  
+    }
+    
+    table.results td  {   
+    border-top: #D5D5D5 1px solid; 
+    color: #333333;  
+    }
+    
+    table.results th  {   
+    color: #333; font-weight: bold; 
+    text-align: left; white-space: nowrap; 
+    background-color:#CCCCCC; 
+    font: bold 14px "Arial", sans-serif;   
+    }
+    
+    
+</apex:page>

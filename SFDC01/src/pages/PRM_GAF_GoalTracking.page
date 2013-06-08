@@ -1,0 +1,441 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  15-03-2012      Anirudh Singh   188157      This Page will be used to display Goal Tracking Table for 
+ |                                              Americas/EMEA Distribution VAR.     
+ |  25 Sep 2012     Arif                               Commented code for PAN GAF  
+ |  25 Sep 2012     Arif                               UnCommented code for PAN GAF     
+ |  14 Feb 2013     Krishna Pydavula 209736      To Render the "Governance & Archive" and "Isilon" tables based on old and new record types.  
+ |  21 MAR 2013     Karunaker M      235602      Added Isilon Incentive and Target Product fields in the tables.                                          
+========================================================================================================================-->
+<apex:page standardController="GAF__c" extensions="PRM_GAF_VF_Controller">  
+
+    <apex:pageBlock >
+       <table rules="all" columns="2" class="list" border="2">
+        <td>
+        <table class="list" columns="5" Frame="Box" border="2">            
+                <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">                        
+                        <td colspan="5"><center>BRS</center></td>                                        
+                </tr>
+            <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">                    
+                    <td>Quarter</td>
+                    <td>GAF Goal</td>
+                    <td>Actual</td>
+                    <td>% Goal</td>
+                    <td>Rebate</td> 
+                                                      
+               </tr>
+               <tr>
+                    <td>
+                    <span>Q1</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Actl_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Rebt_Q1__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q2</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Actl_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Rebt_Q2__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q3</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Actl_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Rebt_Q3__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q4</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Actl_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Rebt_Q4__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Total</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Total__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Actl_Tot__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Goal_Total__c}"/></td>
+                    <td><apex:outputField value="{!gaf.BRS_Rebt_Tot__c}"/></td>                          
+            </tr>
+            
+        </table>
+        </td>
+        <td>
+         <table class="list" columns="5" Frame="Box" border="2">            
+                <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}" >                    
+                        <td colspan="5"><center>Advanced Consolidate</center></td>                                       
+                </tr>
+            <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">                    
+                    <td>Quarter</td>
+                    <td>GAF Goal</td>
+                    <td>Actual</td>
+                    <td>% Goal</td>
+                    <td>Rebate</td> 
+               </tr>
+               <tr>
+                    <td>
+                    <span>Q1</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Actual_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advanced_Consolidate_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Rebt_Q1__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q2</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Actual_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advanced_Consolidate_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Rebt_Q2__c}"/></td>                         
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q3</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Actual_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advanced_Consolidate_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Rebt_Q3__c}"/></td>                           
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q4</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Actual_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advanced_Consolidate_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Rebt_Q4__c}"/></td>                         
+            </tr>
+            <tr>
+                    <td>
+                    <span>Total</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Tot__c}"/></td> 
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Actual_Tot__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advanced_Consolidate_Goal_Total__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Advcd_Cnsld_Rebt_Tot__c}"/></td>                             
+            </tr>
+            
+        </table>
+        </td> 
+        <tr>
+        <td>
+        <table class="list" columns="5" Frame="Box" border="2">            
+                <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}" >                       
+                        <td colspan="5"><center>Consolidate</center></td>                                     
+                </tr>
+            <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">                    
+                    <td>Quarter</td>
+                    <td>GAF Goal</td>
+                    <td>Actual</td>
+                    <td>% Goal</td>
+                    <td>Rebate</td> 
+               </tr>
+               <tr>
+                    <td>
+                    <span>Q1</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Actl_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Consolidate_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Rebt_Q1__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q2</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Actl_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Consolidate_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Rebt_Q2__c}"/></td>                            
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q3</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Actl_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Consolidate_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Rebt_Q3__c}"/></td>                            
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q4</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Actl_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Consolidate_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Rebt_Q4__c}"/></td>                            
+            </tr>
+            <tr>
+                    <td>
+                    <span>Total</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Tot__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Actl_Tot__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Consolidate_Goal_Total__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Cnsld_Rebt_Tot__c}"/></td>                           
+            </tr>
+            
+        </table>
+        </td>
+        <apex:outputPanel rendered="{!IF((GAFrecordtype==GAFAmerDirectAndVAROld || GAFrecordtype==GAFAmerDirectDistiApprovedOld || GAFrecordtype==GAFEMEADirectAndVAROld || GAFrecordtype==GAFEMEADirectVARApprovedOld),true,false)}">
+        <td>
+         <table class="list" columns="5" Frame="Box" border="2" >            
+                <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">
+                        <td colspan="5"><center>Governance And Archive</center></td>                                       
+                </tr>
+            <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">                    
+                    <td>Quarter</td>
+                    <td>GAF Goal</td>
+                    <td>Actual</td>
+                    <td>% Goal</td>
+                    <td>Rebate</td> 
+               </tr>
+               <tr>
+                    <td>
+                    <span>Q1</span>
+                    </td> 
+                   <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvr_Arv_Actl_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Governance_Archive_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvrn_Archv_Rebt_Q1__c}"/></td>                           
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q2</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvr_Arv_Acl_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Governance_Archive_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvrn_Archv_Rebt_Q2__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q3</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvr_Arv_Acl_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Governance_Archive_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvrn_Archv_Rebt_Q3__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q4</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvr_Arv_Acl_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Governance_Archive_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvrn_Archv_Rebt_Q4__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Total</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Tot__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvr_Arv_Acl_Tot__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Governance_Archive_Goal_Total__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Gvrn_Archv_Rebt_Tot__c}"/></td>                         
+            </tr>            
+        </table>
+        </td>
+        </apex:outputPanel>
+         <apex:outputPanel rendered="{!IF((GAFrecordtype==GAFAmerDirectAndVAR || GAFrecordtype==GAFAmerDirectDistiApproved || GAFrecordtype==GAFEMEADirectAndVAR || GAFrecordtype==GAFEMEADirectVARApproved),true,false)}">
+        <td>
+         <table class="list" columns="5" Frame="Box" border="2" >            
+                <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">
+                        <td colspan="5"><center>Isilon</center></td>                                       
+                </tr>
+            <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">                    
+                    <td>Quarter</td>
+                    <td>GAF Goal</td>
+                    <td>Actual</td>
+                    <td>% Goal</td>
+                    <td>Rebate</td> 
+               </tr>
+               <tr>
+                    <td>
+                    <span>Q1</span>
+                    </td> 
+                   <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Actl_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Rebt_Q1__c}"/></td>                           
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q2</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Acl_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Rebt_Q2__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q3</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Acl_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Rebt_Q3__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q4</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Acl_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Rebt_Q4__c}"/></td>                          
+            </tr>
+            <tr>
+                    <td>
+                    <span>Total</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Total__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Acl_Tot__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Goal_Total__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Rebt_Tot__c}"/></td>                         
+            </tr>            
+        </table>
+        </td>
+        </apex:outputPanel>
+        </tr>
+        <tr>
+        <apex:outputPanel rendered="{!IF((GAFrecordtype==GAFAmerDirectAndVAR || GAFrecordtype==GAFAmerDirectDistiApproved || GAFrecordtype==GAFEMEADirectAndVAR || GAFrecordtype==GAFEMEADirectVARApproved),true,false)}">
+         <td>         
+        <table class="list" columns="5" Frame="Box" border="2">            
+                <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">                        
+                        <td colspan="3"><center>Isilon Incentive Rebates</center></td>                                        
+                </tr>
+            <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">                    
+                    <td>Quarter</td>                    
+                    <td>Actual</td>                    
+                    <td>Rebate</td> 
+                                                      
+               </tr>
+               <tr>
+                    <td>
+                    <span>Q1</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Actual_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Rebate_Q1__c}"/></td>
+                                       
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q2</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Actual_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Rebate_Q2__c}"/></td>
+                                        
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q3</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Actual_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Rebate_Q3__c}"/></td>
+                                       
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q4</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Actual_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Rebate_Q4__c}"/></td>
+                                         
+            </tr>
+            <tr>
+                    <td>
+                    <span>Total</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Actual_Total__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Isilon_Incentive_Rebate_Total__c}"/></td>
+                                        
+            </tr>
+            
+        </table>
+        </td>
+        <td>
+         <table class="list" columns="5" Frame="Box" border="2">            
+                <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}" >                    
+                        <td colspan="3"><center>Target Products Rebate </center></td>                                       
+                </tr>                
+			<tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">            
+                       
+                    <td>Quarter</td>                    
+                    <td>Actual</td>
+                    <td>Rebate</td> 
+             </tr>
+             <tr>
+                    <td>
+                    <span>Q1</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Target_Products_Actual_Q1__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Target_Products_Rebate_Q1__c}"/></td>
+                                
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q2</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Target_Products_Actual_Q2__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Target_Products_Rebate_Q2__c}"/></td>
+                               
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q3</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Target_Products_Actual_Q3__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Target_Products_Rebate_Q3__c}"/></td>
+                                       
+            </tr>
+            <tr>
+                    <td>
+                    <span>Q4</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Target_Products_Actual_Q4__c}"/></td>
+                    <td><apex:outputField value="{!gaf.Target_Products_Rebate_Q4__c}"/></td>
+                                           
+            </tr>
+            <tr>
+                    <td>
+                    <span>Total</span>
+                    </td> 
+                    <td><apex:outputField value="{!gaf.Target_Products_Actual_Total__c}"/></td> 
+                    <td><apex:outputField value="{!gaf.Target_Products_Rebate_Total__c}"/></td>
+                                         
+            </tr>
+            
+        </table>
+        </td> 
+        </apex:outputPanel>
+        </tr>        
+        </table>
+          <table align="center" columns ="10">                 
+                    <td colspan="8">
+                    <center>
+                     <apex:outputText value="{!$Label.VAR_Reseller_GAF_Doc}" escape="false"></apex:outputText>
+                     </center>
+                     </td>
+           </table>        
+    </apex:pageBlock>
+</apex:page>

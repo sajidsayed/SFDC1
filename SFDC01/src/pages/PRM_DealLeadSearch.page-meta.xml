@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>22.0</apiVersion>
+    <description>This Page is used to provide the ability to Search Deal Registration with different  search criteria.</description>
+    <label>PRM_DealLeadSearch</label>
+</ApexPage>

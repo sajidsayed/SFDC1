@@ -1,0 +1,138 @@
+<apex:page showHeader="false" sidebar="false">
+	<!-- Start ContentBody -->
+
+	<!---->
+
+	<!---->
+
+	<!-- Header-specific includes -->
+	<link type="text/css" rel="stylesheet"
+		href="//www.emc.com/_admin/css/header.css" />
+
+	<script type="text/javascript" src="//www.emc.com/_admin/js/jquery.js"></script>
+	<script type="text/javascript" src="//www.emc.com/_admin/js/header.js"></script>
+
+	<style type="text/css">
+	/* rule duplicated here because header.css was loading slowly sometimes leading to this content showing when it should have been hidden */
+	.overlayContentTempHolder {
+		display: none;
+	}
+	</style>
+
+	<!-- iOS settings //-->
+	<meta name="viewport" content="width=1000" />
+	<!-- OVERLAY CONTENT, included here so that it's in the page, moved to dropdown/overlays by header JS //-->
+<div id="gscContentHolder" class="overlayContentTempHolder">
+    <div class="overlayInner" style="width: 500px;">
+	<h2 class="overlayTitle">Global Sales Contact List</h2>
+	<div class="contactListAlphaList">Contact&nbsp;&nbsp;
+	    <a href="#" class="contactListAlphaLink darkBlueLink">A</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">B</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">C</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">D</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">E</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">F</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">G</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">H</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">I</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">J</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">K</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">L</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">M</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">N</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">O</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">P</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">Q</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">R</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">S</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">T</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">U</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">V</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">W</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">X</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">Y</a>
+	    <a href="#" class="contactListAlphaLink darkBlueLink">Z</a>
+	</div>
+	<div id="globalSalesContactsList"></div>
+    </div>
+</div>
+
+<!-- need to add code here -->
+	
+<!-- Start ContentBody -->
+<!-- Header part from here -->
+<div id="headerWrap">
+<div id="header">
+
+    <div class="skipNav"><a href="#after_nav" class="skipNav">Skip Navigation</a></div>
+
+    <div id="headerTop">
+
+	<a href="//www.emc.com/" title="EMC Corporation"><div id="emcLogo" class="headerSprite headerEMCLogo" alt="EMC Corporation"></div></a>
+
+	<div id="searchFormWrapper" class="searchFormWrapper">
+	    <form class="searchForm" name="globalSearchForm" id="globalSearchForm" method="POST" action="//www.emc.com/utilities/search.esp">
+	      <input type="text"  name="searchString" id="searchString" class="searchString" defaultvalue="Search EMC.com" />
+	      <div class="headerSprite searchIcon"></div>
+	    </form>
+	</div>
+
+	<div id="headerRight">
+	    <ul>
+		<li id="loginButton">
+		    <div class="headerSprite userIcon"></div>
+		    <a href="//www.emc.com/login.htm">My Account</a>
+		</li>
+		<li id="siteSelectButton">
+		    <div class="headerSprite globeIcon"></div>
+		    <a href="//www.emc.com/utilities/globalsiteselect.jhtml">United States</a>
+		</li>
+		<li>
+		    <div class="headerSprite lockIcon"></div>
+		    <a href="//www.emc.com/legal/emc-corporation-privacy-statement.httm"><strong>Cookie &amp; Privacy Policy </strong></a>
+		</li>
+	    </ul>
+	</div>
+
+	<!-- modal -->
+	<div class="my-account-modal hidden" id="myAccountModal">
+	    <div class="my-account-title">My Account </div>
+	    <div class="my-account-data">
+	        <p class="my-account-salute">Welcome, <span class="my-account-fullname"></span></p>
+	        <p><span class="my-account-username"></span></p>
+	    </div>
+	    <a class="button button-blue button-action" href="//www.emc.com/logout.htm" target="_self"><span class="button-l"><span class="button-r"><span class="button-label">Log out</span></span></span></a>
+	    <a href="//www.emc.com/profile/account_information.htm" class="my-account-profile-link">View or Edit Profile</a>
+	</div>
+	<!-- /modal -->
+
+    </div>
+
+    <div id="menu">
+        <a class="menuItem" sections="/products/,/solutions/,/products-solutions/" href="//www.emc.com/products-solutions/index.htm"><div class="menuSprite" alt="PRODUCTS & SOLUTIONS" style="width: 145px; background-position: -6px -10px;"></div></a>
+        <a class="menuItem" sections="/services/" href="//www.emc.com/services/index.htm"><div class="menuSprite" alt="SERVICES" style="width: 55px; background-position: -6px -30px;"></div></a>
+        <a class="menuItem" sections="/support-training/" href="//www.emc.com/support-training/index.htm"><div class="menuSprite" alt="SUPPORT" style="width: 54px; background-position: -6px -50px;"></div></a>
+        <a class="menuItem" sections="/products/how-to-buy/" href="//www.emc.com/products/how-to-buy/index.htm"><div class="menuSprite" alt="HOW TO BUY" style="width: 73px; background-position: -6px -70px;"></div></a>
+        <a class="menuItem" sections="/emc-plus/" href="//www.emc.com/emc-plus/index.htm" id="emcplusMenuButton"><div class="menuSprite" alt="EMC+" style="width: 32px; background-position: -6px -110px;"></div></a>
+    </div>
+
+    <div class="clearBothTight">
+	<a name="after_nav" id="after_nav"></a>
+    </div>
+
+</div>
+</div>
+
+<div id="dropDownIndicatorWrapper">
+    <div id="dropDownIndicatorInner">
+	<div id="dropDownIndicator">
+	    <div>
+		<div class="headerSprite ddIndicator normal"></div>
+		<div class="headerSprite ddIndicator current"></div>
+	    </div>
+	</div>
+    </div>
+</div>
+
+
+</apex:page>

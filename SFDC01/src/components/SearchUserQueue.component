@@ -1,0 +1,93 @@
+<!-- =======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER           WR/Req      DESCRIPTION 
+ |  25-10-2010      Anand Sharma                    This page will be used to search user, queue or partner user.
+    =====================================================================================================================-->
+<apex:component >
+    <apex:attribute name="objSearchUserQueueCon" type="SearchUserQueueController" assignTo="{!objSearchUserQueueCon}" 
+        required="true" description="A SearchUserQueueController object for this Paginator"/>
+    <apex:attribute name="reRenderComponent" type="string" assignTo="{!reRenderComponent}" required="true" 
+        description="Component Ids to reRender"/>
+    <apex:attribute name="filterCriteria" type="string" description="Filter criteria to search user"/>
+    <apex:outputPanel id="pnlSearch" >
+        <apex:pageBlock id="pbLookUp">
+            <apex:pageBlockSection id="mainSection" title="{! $Label.Component_User_Search_Title}">                         
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel id="oplOwner" value="{! $Label.Component_User_Search_Owner}"/>
+                    <apex:panelGrid id="nameLkUpGrp" columns="3">  
+                        <apex:selectList value="{!objSearchUserQueueCon.userType}" size="1" 
+                            style="width:100px; height:20px">   
+                            <apex:selectOptions value="{!objSearchUserQueueCon.items}"/>                     
+                        </apex:selectList> 
+                        <apex:inputText value="{!objSearchUserQueueCon.newUserName}" id="inputNewUser" 
+                            style="width:150px; height:17px" />
+                        <apex:commandButton action="{!objSearchUserQueueCon.searchUser}" 
+                            value="{! $Label.Component_User_Search_Button_Search_Label}" style="height:20px" 
+                            reRender="errorMessage,pnlUserDetails, {!reRenderComponent}"/>                          
+                    </apex:panelGrid>                                                  
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:outputPanel>
+    
+    <apex:outputPanel id="pnlUserDetails" >
+        
+        
+        <apex:pageBlock id="pbUserDetails" rendered="{! OR(objSearchUserQueueCon.isUserResult, 
+            objSearchUserQueueCon.isQueueResult)}">          
+            
+            <!-- no matches message -->
+             <apex:outputtext styleClass="importantWarning" rendered="{!AND((objSearchUserQueueCon.UserRecords.size == 0 ), 
+                (objSearchUserQueueCon.QueueRecords.size == 0 ))}">                         
+                 {! $Label.Component_User_Search_No_Search_Result}
+             </apex:outputtext>
+            
+             <!-- more than 200 matches message -->
+             <span style="color: red">
+             <apex:outputtext style="font-weight:bold;color: black"  
+                rendered="{!OR((objSearchUserQueueCon.UserRecords.size >= 200 ), (objSearchUserQueueCon.QueueRecords.size >= 200 ))}">                         
+                {! $Label.Component_User_Search_MoreThan1000_Search_Result}
+             </apex:outputtext>
+            </span>
+            <!-- list of users -->                    
+            <apex:PageBlockTable id="pbtUserDetails" value="{!objSearchUserQueueCon.UserRecords}" var="user" 
+                rendered="{!objSearchUserQueueCon.UserRecords.size >0}">
+                <apex:column >
+                    <apex:facet name="header">{! $Label.Component_User_Search_Column_Name}</apex:facet>
+                    <apex:commandLink action="{!objSearchUserQueueCon.ApplyFilter}" value="{!user.Name}" id="cmdUserLink" 
+                            reRender="pnlSearch, pnlUserDetails, {!reRenderComponent}">
+                        <apex:param id="pSelOwnerId" name="SelOwnerId" assignTo="{!objSearchUserQueueCon.selectedOwnerId}" value="{!user.Id}" />
+                        <apex:param id="pSelOwnerName" name="SelOwnerName" assignTo="{!objSearchUserQueueCon.newUserName}" value="{!user.Name}" />
+                    </apex:commandLink>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">{! $Label.Component_User_Search_Column_Role}</apex:facet>
+                    <apex:outputText value="{!user.Role__c}">&nbsp;</apex:outputText>
+                </apex:column>    
+                <apex:column >
+                    <apex:facet name="header">{! $Label.Component_User_Search_Column_BU}</apex:facet>
+                    <apex:outputText value="{!user.BU__c}">&nbsp;</apex:outputText>
+                </apex:column>                 
+                <apex:column >
+                    <apex:facet name="header">{! $Label.Component_User_Search_Column_ForecastGroup}</apex:facet>
+                    <apex:outputText value="{!user.Forecast_Group__c}">&nbsp;</apex:outputText>
+                </apex:column>
+            </apex:PageBlockTable>
+            
+            <apex:PageBlockTable id="pbtQueueDetails" value="{!objSearchUserQueueCon.QueueRecords}" var="queueObj" 
+                rendered="{!objSearchUserQueueCon.QueueRecords.size >0}">
+                <apex:column >
+                    <apex:facet name="header">{! $Label.Component_User_Search_Column_Name}</apex:facet>
+                    <apex:commandLink action="{!objSearchUserQueueCon.ApplyFilter}" value="{!queueObj.queue.Name}" id="cmdQueueLink" 
+                        reRender="pnlSearch, pnlUserDetails, {!reRenderComponent}">
+                        <apex:param id="pSelOwnerId" name="SelOwnerId" assignTo="{!objSearchUserQueueCon.selectedOwnerId}" 
+                            value="{!queueObj.queue.Id}" />
+                        <apex:param id="pSelOwnerName" name="SelOwnerName" assignTo="{!objSearchUserQueueCon.newUserName}" 
+                            value="{!queueObj.queue.Name}" />
+                    </apex:commandLink>                            
+                </apex:column>                        
+            </apex:PageBlockTable>
+        </apex:pageBlock>
+    </apex:outputPanel>
+    
+</apex:component>

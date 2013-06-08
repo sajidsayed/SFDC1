@@ -1,0 +1,202 @@
+<apex:page controller="EBC_PresenterLookup" sidebar="false" showHeader="false" id="thepage">
+    
+<!-- Start of scripts-->    
+    <script type="text/javascript" src="/js/functions.js"></script>
+    <script src="/soap/ajax/11.1/connection.js"></script>
+    <script src="/soap/ajax/10.0/apex.js"></script>
+    
+    <script >
+        function setParentValues(Name,Id)
+        {   
+           window.parent.opener.document.getElementById('{!componentid}').value=Name+'';
+           window.parent.opener.document.getElementById('{!topicpresenterid}').value=Id;
+           window.parent.opener.document.getElementById('{!guestfirstname}').value='';
+           window.parent.opener.document.getElementById('{!guestlastname}').value='';
+           window.parent.opener.document.getElementById('{!guesttitle}').value='';
+           window.parent.opener.document.getElementById('{!guestemail}').value='';
+           window.parent.opener.document.getElementById('{!guestcompany}').value='';
+           window.parent.close();
+        }
+        function setParentValues1()
+        {    
+            var l1,l2,l3,l4,l5;
+            
+            l1 = document.getElementById('{!$Component.thepage.formChild.pgb2.pbscgp.Guest_Presenter1.Guest_Presenter_First_Name__c}').value;
+            l2 = document.getElementById('{!$Component.thepage.formChild.pgb2.pbscgp.Guest_Presenter2.Guest_Presenter_Last_Name__c}').value;
+            l3 = document.getElementById('{!$Component.thepage.formChild.pgb2.pbscgp.Guest_Presenter3.Guest_Presenter_Email__c}').value;
+            l4 = document.getElementById('{!$Component.thepage.formChild.pgb2.pbscgp.Guest_Presenter5.Guest_Presenter_EBC_Title__c}').value;
+            l5 = document.getElementById('{!$Component.thepage.formChild.pgb2.pbscgp.Guest_Presenter6.Guest_Company__c}').value;
+            if(l2!=''&& l3!='')
+            {
+            window.parent.opener.document.getElementById('{!componentid}').value=l1+' '+l2;
+            window.parent.opener.document.getElementById('{!isguestpresenter}').value=true;
+            window.parent.opener.document.getElementById('{!guestfirstname}').value=l1+'';
+            window.parent.opener.document.getElementById('{!guestlastname}').value=l2+'';
+            window.parent.opener.document.getElementById('{!guestemail}').value=l3+'';
+            window.parent.opener.document.getElementById('{!guesttitle}').value=l4+'';
+            window.parent.opener.document.getElementById('{!guestcompany}').value=l5+'';
+            window.parent.opener.document.getElementById('{!topicpresenterid}').value='';
+            window.parent.close();
+            }
+        }
+        
+        function closewindow()
+        {
+        window.parent.close();
+        }
+    </script>
+<!-- End of scripts-->
+      
+    <style>
+    .container{
+        overflow:auto;
+        height:500px;
+    }
+    </style>
+      <apex:form id="formChild">
+        <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1181680187000/Theme2/default/common.css"></link>
+        <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1182928755000/Theme2/00D500000007vPf/005500000011iFC/dCustom.css"></link>
+        <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1210726271000/Theme2/default/elements.css"></link>
+        <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1210726271000/Theme2/default/common.css"></link>
+        <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1186006102000/Theme2/default/rlHovers.css"></link>
+        <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/18.0/sprites/1264712396000/Theme2/dStandard.css"></link>
+        <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/18.0/sprites/1264712396000/Theme2/00DQ00000008rrT/005Q0000000E904/dCustom0.css"></link>
+        
+  
+ 
+        <div class="lookup" >
+                    <div class="bPageTitle">
+                        <div class="ptBody secondaryPalette">
+                                <div class="content">
+                                <img class="pageTitleIcon" title="" alt="" src="/s.gif"/>
+                                    <h1>Lookup</h1>
+                                </div>
+                        </div>
+                    </div>
+                    </div>
+                            
+<!--
+<apex:pageBlock >
+<apex:selectRadio value="{!selected}">
+<apex:actionSupport event="onchange" rerender="theBlock"/>
+            <apex:selectOptions value="{!Items}"/>
+            </apex:selectRadio><p/>
+</apex:pageBlock>
+-->                            
+<!--
+<apex:outputPanel id="theBlock">
+-->
+<apex:tabPanel switchType="server" selectedTab="Topicpresentertab" id="MyTabPanel">
+<apex:tab label="Topic Presenter" name="TopicPresenter" id="Topicpresentertab" immediate="true">                                                  
+<apex:outputpanel id="Topic_Presenter" rendered="true"> <!-- start of the topic presenter outputpanel-->
+                            
+  <apex:outPutText >Topic&nbsp;&nbsp;</apex:outPutText>
+   <apex:inputText value="{!searchTopicName}" /> OR &nbsp;&nbsp;
+   <apex:outPutText >Presenter&nbsp;&nbsp;</apex:outPutText>
+   <apex:inputText value="{!PresenterName}" tabindex="1" /> OR &nbsp;&nbsp;
+   <apex:outPutText >Location&nbsp;&nbsp;</apex:outPutText>
+   <apex:inputText value="{!location}" /> OR &nbsp;&nbsp;
+   <apex:outPutText >Area of Expertise&nbsp;&nbsp;</apex:outPutText>
+   <apex:inputText value="{!areaOfExpertise}" />
+   <apex:commandButton value="Go" action="{!doSearch}" reRender="Topic_Presenter" status="searchstatus" />
+   
+   <apex:actionStatus startText=" (searching...)" stopText="" id="searchstatus"/>
+
+
+   <br/>You can use "*" as a wildcard next to other characters to improve your search results. For example, "ad*" returns all records with a word in one of the searched fields that begins with "ad".
+     <apex:outputPanel layout="block" styleclass="container"> <!-- start of table output panel-->
+      
+      <apex:pageBlock >
+      <apex:pageBlockTable value="{!tp}" var="a" id="rows" >
+           <apex:column >
+            <apex:facet name="header">Presenter</apex:facet>
+                <a href='javascript:setParentValues("{!a.Name}","{!a.Id}")'>{!a.Presenter__r.Name}</a>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">Topic</apex:facet>
+                    <apex:outPutText value="{!a.Topic__r.Name}"></apex:outPutText>                    
+      </apex:column>
+
+
+     
+      <apex:column >
+          <apex:facet name="header">EBC Name</apex:facet>
+                    <apex:outPutField value="{!a.EBC_Name__c}"></apex:outPutField>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">EBC Title</apex:facet>
+                    <apex:outPutField value="{!a.EBC_Title__c}"></apex:outPutField>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">Organization</apex:facet>
+                    <apex:outPutField value="{!a.Organization__c}"></apex:outPutField>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">Discussion Leader Location</apex:facet>
+                    <apex:outPutField value="{!a.Discussion_Leader_Location__c}"></apex:outPutField>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">Discussion Leader Area of Expertise</apex:facet>
+                    <apex:outPutField value="{!a.Discussion_Leader_Area_of_Expertise__c}"></apex:outPutField>
+      </apex:column>                        
+
+<!-- Devi: End of WR#165071 -->    
+      
+      <apex:column >
+          <apex:facet name="header">Is Certified</apex:facet>
+                    <apex:outPutField value="{!a.IsCertified__c}"></apex:outPutField>
+      </apex:column>
+      </apex:pageBlockTable>
+      </apex:pageBlock>
+      </apex:outputPanel> <!--Closing of the table output panel-->
+</apex:outputpanel> <!-- closing of Topic Presenter output panel-->
+</apex:tab>
+
+<apex:tab label="Guest Presenter" name="GuestPresenter" id="Guestpresentertab" immediate="true"> 
+<apex:outputpanel id="Guest_Presenter" rendered="true" > <!-- start of the guest presenter output panel-->
+
+<apex:pageBlock id="pgb2">
+     <apex:pageBlockButtons location="bottom">
+        <apex:commandButton onclick="setParentValues1()"  value="Save"/>
+        <apex:commandButton onclick="closewindow()" value="Cancel" immediate="true"/> 
+     </apex:pageBlockButtons>
+
+<apex:pageBlockSection title="Create Guest Presenter" collapsible="false" id="pbscgp">
+
+<apex:pageBlockSectionItem id="Guest_Presenter1" rendered="true">
+<apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Presenter_First_Name__c.label}" />
+<apex:inputField value="{!SPresenterforg.Guest_Presenter_First_Name__c}" id="Guest_Presenter_First_Name__c"/>
+</apex:pageBlockSectionItem>
+
+<apex:pageBlockSectionItem id="Guest_Presenter2" rendered="true"> 
+<apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Presenter_Last_Name__c.label}" />
+<apex:inputField value="{!SPresenterforg.Guest_Presenter_Last_Name__c}" id="Guest_Presenter_Last_Name__c" required="true"/> 
+</apex:pageBlockSectionItem>
+
+ <apex:pageBlockSectionItem id="Guest_Presenter3" rendered="true">
+ <apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Presenter_Email__c.label}"/>
+<apex:inputField value="{!SPresenterforg.Guest_Presenter_Email__c}" id="Guest_Presenter_Email__c" required="true"/> 
+</apex:pageBlockSectionItem>
+
+<apex:pageBlockSectionItem id="Guest_Presenter5" rendered="true">
+<apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Presenter_EBC_Title__c.label}" />
+<apex:inputField value="{!SPresenterforg.Guest_Presenter_EBC_Title__c}" id="Guest_Presenter_EBC_Title__c" />
+</apex:pageBlockSectionItem>
+
+<apex:pageBlockSectionItem id="Guest_Presenter6" rendered="true">
+ <apex:outputLabel value="{!$ObjectType.EBC_Session_Presenter__c.fields.Guest_Company__c.label}" />
+<apex:inputField value="{!SPresenterforg.Guest_Company__c}" id="Guest_Company__c"/> 
+</apex:pageBlockSectionItem>
+
+</apex:pageBlockSection>
+</apex:pageBlock>
+
+</apex:outputpanel> <!-- closing of the guest output panel-->
+<!--
+</apex:outputPanel>
+-->
+</apex:tab>
+</apex:tabPanel>
+      Copyright © 2000-2009 salesforce.com, inc. All rights reserved.
+  </apex:form>
+</apex:page>

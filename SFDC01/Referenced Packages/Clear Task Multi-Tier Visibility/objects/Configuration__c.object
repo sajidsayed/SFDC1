@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <customSettingsVisibility>Public</customSettingsVisibility>
+    <description>This custom setting will define if sharing should be based off of a custom field for which portal type</description>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Field_Name__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Account Field</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Object__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Defines the object on which the sharing is to be done.</description>
+        <externalId>false</externalId>
+        <label>Object</label>
+        <length>40</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Share_with_this_Account__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>flag to check if all users belonging to base account should have access to the object records</description>
+        <externalId>false</externalId>
+        <label>Share with Account Field Users</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Use_Customer_Portal__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Apply To Customer Portal Users</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Use_Partner_Portal__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Apply To Partner Portal Users</label>
+        <type>Checkbox</type>
+    </fields>
+    <label>Object Share Setings</label>
+</CustomObject>

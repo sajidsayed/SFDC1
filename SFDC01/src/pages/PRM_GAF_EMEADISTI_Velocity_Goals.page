@@ -1,0 +1,79 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  15-03-2012      Anirudh Singh   188157      This Page will be used to display Goals for 
+ |												EMEA Distributor.                                                  
+========================================================================================================================-->
+<apex:page standardController="GAF__c" extensions="PRM_GAF_VF_Controller">
+    <apex:pageBlock >
+       
+        <table class="list" columns="12" Frame="Box" border="2">            
+                <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">
+                    <th>                        
+                    <td align="center" colspan="2">Q1</td>
+                    <td align="center" colspan="2">Q2</td>
+                    <td align="center" colspan="2">Q3</td>
+                    <td align="center" colspan="2">Q4</td>
+                    <td align="center" colspan="2">Total</td>                        
+                    </th>                    
+                </tr>
+            <tr class="{!If(Not(IspickVal($User.Usertype,'PowerPartner')),'headerRow',if(ispickval($User.Usertype,'PowerPartner'),'sidebarModuleHeader','headerrow'))}">                                          
+               </tr>
+               <tr>
+                    <td>
+                    <span>All Partners</span>
+                    </td>                    
+                    <td>Revenue</td>
+                    <td>Units</td>                    
+                    <td>Revenue</td>
+                    <td>Units</td>
+                    <td>Revenue</td>
+                    <td>Units</td>
+                    <td>Revenue</td>
+                    <td>Units</td>
+                    <td>Revenue</td>
+                    <td>Units</td>
+                                              
+            </tr>
+            <tr>
+                <td>BRS</td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Rev_Goal_Q1__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Unit_Goal_Q1__c}"/></td>                    
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Rev_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Unit_Goal_Q2__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Rev_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Unit_Goal_Q3__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Rev_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Unit_Goal_Q4__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Rev_Goal_Tot__c}"/></td>
+                    <td><apex:outputField value="{!GAF__c.BRS_Al_Ptr_Unit_Goal_Tot__c}"/></td>                    
+            </tr>
+            <tr>
+                <td>Consolidate</td>
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Rev_Goal_Q1__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Unit_Goal_Q1__c}"/></td>                    
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Rev_Goal_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Unit_Goal_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Rev_Goal_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Unit_Goal_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Rev_Goal_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Unit_Goal_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Rev_Goal_Tot__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Cnsld_Al_Ptr_Unit_Goal_Tot__c}"/></td>      
+            </tr>
+            <tr>
+                <td>Governance And Archive</td>
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Rev_Goal_Q1__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Unt_Goal_Q1__c}"/></td>                
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Rev_Goal_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Unt_Goal_Q2__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Rev_Goal_Q3__c}"/></td> 
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Unt_Goal_Q3__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Rev_Goal_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Unt_Goal_Q4__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Rev_Goal_Tot__c}"/></td>
+                <td><apex:outputField value="{!GAF__c.Gvrn_Archv_All_Ptr_Unt_Goal_Tot__c}"/></td>                     
+            </tr>
+        </table>            
+    </apex:pageBlock>
+</apex:page>

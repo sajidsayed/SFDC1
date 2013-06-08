@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Use to create a sharing relationship between a given record (lead, opportunity etc) with a given set of portal users at a specific account</description>
+    <enableActivities>false</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Associated_Account__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Designates the account to which the record is shared</description>
+        <externalId>false</externalId>
+        <label>Associated Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Record Associations</relationshipLabel>
+        <relationshipName>Record_Associations</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>true</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>LeadId__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The lead record to be shared to the account</description>
+        <externalId>false</externalId>
+        <label>Lead</label>
+        <referenceTo>Lead</referenceTo>
+        <relationshipLabel>Record Associations</relationshipLabel>
+        <relationshipName>Lead_Associations</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>OpportunityId__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The opportunity record to be shared to the account</description>
+        <externalId>false</externalId>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Record Associations</relationshipLabel>
+        <relationshipName>Opportunity_Associations</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Primary__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Indicates if the associated account is a preferred partner. 
+This is used later in record level associations. The preferred partner is added automatically without having to go through the process of selection of partners if the user wishes to.</description>
+        <externalId>false</externalId>
+        <label>Preferred</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Stores the display name of the record being shared to the account. This is done by the application and is useful for reporting purposes to understand what type of records are being shared through reporting.</description>
+        <externalId>false</externalId>
+        <label>Type</label>
+        <length>80</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Record Association</label>
+    <nameField>
+        <displayFormat>RA-{0000}</displayFormat>
+        <label>Association ID</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Record Associations</pluralLabel>
+    <searchLayouts>
+        <lookupDialogsAdditionalFields>Associated_Account__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>LeadId__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>OpportunityId__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Associated_Account__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>LeadId__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>OpportunityId__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Associated_Account__c</searchFilterFields>
+        <searchFilterFields>LeadId__c</searchFilterFields>
+        <searchFilterFields>OpportunityId__c</searchFilterFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Select_A_Record_To_Relate</fullName>
+        <active>true</active>
+        <description>Makes sure that a record is selected to relate to the account</description>
+        <errorConditionFormula>AND(
+ LEN(  LeadId__r.Id  )=0 ,
+ LEN( OpportunityId__r.Id  ) =0
+)</errorConditionFormula>
+        <errorMessage>A record must be associated with a selected account</errorMessage>
+    </validationRules>
+    <webLinks>
+        <fullName>Add_Preferred_Association</fullName>
+        <availability>online</availability>
+        <description>Creates a record association between the current record and the current users preferred associated account, if one has been chosen</description>
+        <displayType>massActionButton</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <height>600</height>
+        <linkType>url</linkType>
+        <masterLabel>Add Preferred Association</masterLabel>
+        <openType>sidebar</openType>
+        <protected>false</protected>
+        <requireRowSelection>false</requireRowSelection>
+        <url>/apex/APPR_MTV__addPreferred?leadId={!Lead.Id}&amp;oppId={!Opportunity.Id}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>New_Association</fullName>
+        <availability>online</availability>
+        <description>Custom button to be placed on Opportunity related list layout to create new associations</description>
+        <displayType>massActionButton</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <height>600</height>
+        <linkType>url</linkType>
+        <masterLabel>New Association</masterLabel>
+        <openType>sidebar</openType>
+        <protected>false</protected>
+        <requireRowSelection>false</requireRowSelection>
+        <url>/apex/APPR_MTV__selectRecordAssociation?oppId={!Opportunity.Id}&amp;leadId={!Lead.Id}</url>
+    </webLinks>
+</CustomObject>

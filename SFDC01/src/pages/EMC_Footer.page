@@ -1,0 +1,132 @@
+<apex:page showHeader="false" sidebar="false" >
+<!-- Start ContentBody -->
+<!-- Footer start from here. -->
+    <link rel="stylesheet" href="/_admin/css/share-links-inc.css" />
+    <script type="text/javascript">
+    function ShareLinksShowHide(divID) {
+        var item = document.getElementById(divID);
+        if (item) {
+            item.parentNode.className=(item.parentNode.className=='shareIcon hideShareLink')?'shareIcon showShareLink':'shareIcon hideShareLink';
+        }
+    }
+    </script>
+
+   
+ <div id="footerWrap">
+    <div id="footer">
+
+    <div id="footerTopRow">
+        <div class="col col1">
+        <h3>EMC MEANS TRANSFORMATION</h3>
+        <div><a href="http://www.emc.com/microsites/cloud/cloud.htm">CLOUD TRANSFORMS IT&nbsp;<span class="arrow">&#0187;</span></a></div>
+        <div><a href="http://www.emc.com/microsites/bigdata/index.htm ">BIG DATA TRANSFORMS BUSINESS&nbsp;<span class="arrow">&#0187;</span></a></div>
+        <div><a href="http://www.emc.com/microsites/it-trust/trusted-infrastructure.htm ">TRUST TRANSFORMS CLOUD&nbsp;<span class="arrow">&#0187;</span></a></div>
+        </div>
+        <div class="col col2">
+        <h3><a href="http://www.emc.com/social-emc/">SOCIAL@EMC <span class="arrow">&#0187;</span></a></h3>
+        <div><a href="http://www.emc.com/social-emc/index.htm#blog-posts">Recent Blog Posts</a></div>
+        <div><a href="http://www.emc.com/social-emc/index.htm#bloggers">All EMC Blogs</a></div>
+        <div><a href="http://www.emc.com/social-emc/index.htm#social-community">Communities</a></div>
+        <div><a href="http://www.facebook.com/emccorp" target="_blank">Facebook</a></div>
+        <div><a href="http://twitter.com/emccorp" target="_blank">Twitter</a></div>
+        <div><a href="http://www.youtube.com/emccorp" target="_blank">YouTube</a></div>
+        <div><a href="http://www.flickr.com/emccorp" target="_blank">Flickr</a></div>
+        </div>
+        <div class="col col3">
+        <h3><a href="http://www.emc.com/partnerships/index.htm">PARTNERS <span class="arrow">&#0187;</span></a></h3>
+        <div><a href="http://emc.force.com/PartnerFinder" target="_blank">View EMC Partners</a></div>
+        <div><a href="https://community.emc.com/community/partner?view=overview">Partner Community</a></div>
+        <div><a href="http://www.emc.com/partnerships/rsa-partners/rsa-partners.htm">RSA Partners</a></div>
+        <div><a href="http://gallery.emc.com/" target="_blank">Partner Solution Gallery</a></div>
+        <div><a href="http://powerlink.emc.com/" target="_blank">Powerlink Login</a></div>
+        </div>
+        <div class="col col4">
+        <h3><a href="http://www.emc.com/support-training/index.htm">LEARNING <span class="arrow">&#0187;</span></a></h3>
+        <div><a href="https://education.emc.com/">EMC Training</a></div>
+        <div><a href="http://www.emc.com/training/rsa-education-services/index.htm">RSA Security Training</a></div>
+        <div><a href="http://www.emc.com/support-training/training/certification-programs.htm">EMC Academic Alliance</a></div>
+        <div><a href="http://www.emc.com/support-training/training/training-offerings.htm">EMC Proven Professional</a></div>
+        <div><a href="http://www.emc.com/support-training/training/certification-programs.htm">Partner Readiness</a></div>
+        <div><a href="http://www.emc.com/events/events.htm">Events</a></div>
+        <div><a href="http://www.emc.com/resource-library/resource-library.esp">Resource Library</a></div>
+        </div>
+        <div class="col col5">
+        <h3>POPULAR</h3>
+        <div><a href="http://www.emc.com/about/index.htm">About EMC</a></div>
+        <div><a href="http://www.emc.com/corporate/investor-relations/index.htm">Investor Relations</a></div>
+        <div><a href="http://www.emc.com/corporate/jobs/index.htm">Careers @ EMC</a></div>
+        <div><a href="http://www.emc.com/about/news/index.esp">Newsroom</a></div>
+        <div><a href="http://www.emc.com/corporate/sustainability/index.htm">Sustainability</a></div>
+        <div><a href="http://www.emc.com/apps/folio.htm">EMC Mobile</a></div>
+        </div>
+        <div class="clearBothTight"></div>
+    </div>
+
+    <div style="clear: both;">
+
+        <div id="footerLeftText1st">
+        <ul>
+           <li class="shareIcon hideShareLink">
+                    <div class="shareBtn"><a href="javascript:ShareLinksShowHide('footerShareLinks');">Share &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class="verticalMiddle" src="http://www.emc.com/images/common/spacer.gif" height="16" width="16" alt="Share" /></a></div>
+                 
+                    <div id="footerShareLinks">
+                        <a class="addthis_button_pdfmyurl">PDFmyURL</a>
+                        <a class="addthis_button_email">Email</a>
+                        <a class="addthis_button_linkedin">Linkedin</a>
+                        <a class="addthis_button_twitter">Twitter</a>
+                        <a class="addthis_button_facebook">Facebook</a>
+                        <a class="addthis_button_print">Print</a>
+                        <!--[if LTE IE 6]><a class="addthis_button_google_plusone at300m" g:plusone:count="false"><span style="float: right; margin-right: 21px;">Google +1</span></a><![endif]> -->
+                        <a class="addthis_button_expanded">More</a>
+                        <div class="clearBothTight"></div>
+                        <div class="footerShareLinksClose"><a href="javascript:ShareLinksShowHide('footerShareLinks');">Close</a></div>
+                    </div>
+                    <script src="http://s7.addthis.com/js/250/addthis_widget.js?pub=nmnectar" type="text/javascript"></script>
+
+            </li>
+            <!-- EMC VERSIONS SHOWN BY DEFAULT //-->
+            <!-- RSA VERSIONS SHOWN BY SCRIPT IN HEADER.JS DEPENDING ON WHICH DIRECTORY THE PAGE IS IN //-->
+            <style type="text/css">
+            #footerLeftText1st ul li.emcSocial { }
+            #footerLeftText1st ul li.rsaSocial { display: none; }
+            </style>
+
+            <li class="followJustBg">follow</li>
+                <li class="smIcon fb"><a href="http://www.facebook.com/emccorp"><img src="http://www.emc.com/images/common/spacer.gif" height="16" width="21" alt="Follow EMC on Facebook" /></a></li>
+                <li class="smIcon tw"><a href="http://twitter.com/#!/emccorp"><img src="http://www.emc.com/images/common/spacer.gif" height="16" width="21" alt="Follow EMC on Twitter" /></a></li>
+                <li class="smIcon li"><a href="http://www.linkedin.com/groups/EMC-Corporation-44934?gid=44934"><img src="http://www.emc.com/images/common/spacer.gif" height="16" width="21" alt="Follow EMC on LinkedIn" /></a></li>
+                <li class="smIcon yt"><a href="http://www.youtube.com/emccorp"><img src="http://www.emc.com/images/common/spacer.gif" height="16" width="26" alt="Follow EMC on YouTube" /></a></li>
+                <li class="justBg">&nbsp;</li>
+                <li class="rssIcon"><a href="http://emcfeeds.emc.com/subscription">RSS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class="verticalMiddle" src="http://www.emc.com/images/common/spacer.gif" height="16" width="14" alt="Subscribe to EMC's RSS feeds" /></a></li>
+            <li class="clearBothTight"></li>
+
+        </ul>
+        </div>
+
+        <div id="footerRightText1st">
+        <div>
+            <a href="http://www.emc.com/contact-us/contact-us.esp" target="_blank" class="noBg">CONTACT</a>
+            <a href="https://emcinformation.com/feedback" target="_blank">feedback</a>
+            <a href="http://www.emc.com/site-map/index.htm">SITE MAP</a>
+            <a href="http://www.emc.com/legal/emc-corporation-privacy-statement.htm">PRIVACY POLICY</a>
+            <a href="http://www.emc.com/legal/legal-information.htm">LEGAL NOTICES</a>
+        </div>
+        <div class="copyRight">&copy; 2012 EMC Corporation. All rights reserved.</div>
+        </div>
+
+        <div class="clearBothTight"></div>
+
+    </div>
+
+        <div id="footerSeoBlock">EMC builds <span class="themeSEOLinks"><a href="http://www.emc.com/solutions/business-need/virtualizing-information-infrastructure/index.htm">information infrastructures</a></span> and <span class="themeSEOLinks"><a href="http://www.emc.com/solutions/business-need/virtualizing-information-infrastructure/index.htm">virtual infrastructures</a></span> to help people and businesses around world unleash the power of their digital information. EMC offerings in <span class="themeSEOLinks"><a href="http://www.emc.com/backup-and-recovery/index.htm">backup and recovery</a></span>, <span class="themeSEOLinks"><a href="http://www.emc.com/enterprise-content-management/index.htm">enterprise content management</a></span>, <span class="themeSEOLinks"><a href="http://www.emc.com/microsites/unified/unifiedstorage.htm">unified storage</a></span>, <span class="themeSEOLinks"><a href="http://www.emc.com/microsites/bigdata/index.htm">big data</a></span>, <span class="themeSEOLinks"><a href="http://www.emc.com/storage/symmetrix-vmax/symmetrix-vmax.htm">enterprise storage</a></span>, <span class="themeSEOLinks"><a href="http://www.emc.com/storage/vplex/vplex.htm">data federation</a></span>, <span class="themeSEOLinks"><a href="http://www.emc.com/archiving/index.htm">archiving</a></span>, <span class="themeSEOLinks"><a href="http://www.emc.com/security/index.htm">security</a></span>, and <span class="themeSEOLinks"><a href="http://www.emc.com/backup-and-recovery/data-domain/data-domain.htm">deduplication</a></span> help customers move to and build <span class="themeSEOLinks"><a href="http://www.emc.com/microsites/it-trust/trusted-infrastructure.htm">IT trust</a></span> in their next generation of <span class="themeSEOLinks"><a href="http://www.emc.com/data-center-management/index.htm">information management</a></span> and enable them to offer <span class="themeSEOLinks"><a href="http://www.emc.com/microsites/emc-it-proven/index.htm">IT-as-a-Service</a></span> as part of their journey to <span class="themeSEOLinks"><a href="http://www.emc.com/microsites/cloud/cloud.htm">cloud computing</a></span>.</div>
+
+    </div>
+    <div class="clearBoth"></div>
+</div>
+
+
+<!-- Footer end here. -->
+
+
+     
+</apex:page>

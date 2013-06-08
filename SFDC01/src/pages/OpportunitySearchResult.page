@@ -1,0 +1,136 @@
+<!--/*===========================================================================+
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER   WR/DEFECT    DESCRIPTION                               
+ |  ====       =========   =========    =========== 
+ |    
+   08-Jul-10   Shipra       WR#138244
+   12-Aug-10   Shipra       WR#139403
+   08-Aug-11   Srinivas     WR#170870 
+ +===========================================================================*/-->
+<apex:page showHeader="true" controller="MassSalesTeamOperation" wizard="true" id="thePage">
+<script>
+    function checkAll(cb){
+        var inputElem = document.getElementsByTagName("input");
+        var total = 0;
+        for(var i=0; i<inputElem.length; i++)
+        {
+            if(inputElem[i].id.indexOf("checkedone")!=-1)
+                {
+                    inputElem[i].checked = cb.checked;
+                }
+                if (inputElem[i].checked==true)
+                {
+                    total = total+1;
+                 }
+                if (total > 200 )
+                {
+                    var msg='{!$Label.Multiple_Batch_Required}';
+                    
+                    alert(msg);
+                    inputElem[i].checked =false;
+                    return (false);
+                }
+        }
+        
+    }
+    function SelectAllOpps()
+    {
+        //alert('in select');
+        var num = 0;
+        while(document.getElementById('thePage:myForm:pageBlock:SearchResult:'+num+':Oppty_ChkBox') != null)
+        {
+            var inputElem = document.getElementById('thePage:myForm:pageBlock:SearchResult:'+num+':Oppty_ChkBox');
+            inputElem.checked = true;
+            num++;
+        }
+        
+    }
+    function DeselectAllOpps()
+    {
+        //alert('in deselect');
+        var num = 0;
+        while(document.getElementById('thePage:myForm:pageBlock:SearchResult:'+num+':Oppty_ChkBox') != null)
+        {
+            var inputElem = document.getElementById('thePage:myForm:pageBlock:SearchResult:'+num+':Oppty_ChkBox');
+            inputElem.checked = false;
+            num++;
+        }
+        
+    }
+</script>
+    <apex:form id="myForm">
+        <apex:pageBlock title="{!$Label.Mass_Opportunity}" id="pageBlock">
+        <apex:pageBlockSection title="{!$Label.Step_3_Opportunity}" collapsible="false"/><br/>
+        <apex:outputText value="{!$Label.Specify_Update}"/><br/><br/>
+        <apex:pageMessages />
+        <!--Changed for WR-160725 -->
+        <!--
+        <apex:commandLink Action="{!selectAll}" value="Select All" onclick="checkAll(this)" /> &nbsp;&nbsp;
+        <apex:commandLink Action="{!deSelectAll}" value="Deselect All"/> -->
+        Total number of results are {!totalSearchResults}, Showing {!oppWrap.size} records.<br/><br/>
+        <!-- From {!(pmOffering.page*resultPageSize)+1} to {!(pmOffering.page*resultPageSize)+ops.size} records. -->
+        <apex:actionStatus id="statusProduct">
+                <apex:facet name="start"> <br></br><apex:image url="{!$Resource.AjaxLoader}" /></apex:facet>
+        </apex:actionStatus>
+        <c:paginator id="page_products" pageManager="{!pmOffering}" 
+         reRenderComponent="SearchResult,myForm,page_products" statusComponent="statusProduct"/>
+       
+        <a onclick="SelectAllOpps();" > <u>Select All</u></a>&nbsp;&nbsp;&nbsp;
+        <a onclick="DeselectAllOpps();"> <u>Deselect All</u></a>
+        <!--End Changed for WR-160725 -->
+        
+         
+        <apex:pageblockTable value="{!ops}" var="Oppt" border="0" id="SearchResult">
+         
+        <apex:column headerValue="{!$Label.Select}">
+            <apex:inputCheckbox value="{!Oppt.checked}" id="Oppty_ChkBox" onclick="checkAll(this)" />
+        </apex:column>
+        <!-- Change for WR-170870 -->
+            <apex:column headerValue="{!$Label.Opportunity_Number}" width="9%">
+                <apex:outputField value="{!Oppt.opp.Opportunity_Number__c}"/>
+            </apex:column>
+        <!-- End of Change for WR-170870 -->
+        <apex:column headerValue="{!$Label.Oppt_Name}">
+            <apex:outputLink value="{!'/'+Oppt.opp.Id}" target="_new">
+                <apex:outputText value="{!Oppt.opp.Name}"/>
+            </apex:outputLink>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Account_Name}">
+            <apex:outputLink value="{!'/'+Oppt.opp.account.Id}" target="_new">
+                <apex:outputText value="{!Oppt.opp.account.name}"/>
+            </apex:outputLink>
+        </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Amount}">
+            <apex:outputField value="{!Oppt.opp.Amount}" />
+        </apex:column>
+        <apex:column headerValue="{!$Label.Opportunity_Close}">
+            <apex:outputField value="{!Oppt.opp.closedate}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Opportunity_Stage}">
+            <apex:outputText value="{!Oppt.opp.StageName}"/>
+            </apex:column>
+        <apex:column headerValue="{!$Label.Owner_Alias}">
+            <apex:outputText value="{!Oppt.opp.owner.Name}"/>
+        </apex:column>
+     <apex:column headerValue="{!$Label.Opportunity_Salesforce}">
+            <apex:outputText value="{!Oppt.opp.Sales_Force__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Opportunity_Source}">
+            <apex:outputText value="{!Oppt.opp.LeadSource}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Account_Country}">
+            <apex:outputText value="{!Oppt.opp.Account.BillingCountry}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Account_State}">
+            <apex:outputText value="{!Oppt.opp.Account.BillingState}"/>
+        </apex:column>
+        </apex:pageblockTable>
+            <apex:pageBlockButtons dir="RTL">
+                <apex:commandButton value="{!$Label.EMC_Cancel}" action="{!cancel}"/>
+                <apex:commandButton value="{!$Label.Next}" action="{!nextStep3}" status="statusProduct" />
+                <apex:commandButton value="{!$Label.EMC_Previous}" action="{!previousStep3}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

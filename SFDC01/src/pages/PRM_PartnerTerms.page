@@ -1,0 +1,190 @@
+<apex:page showHeader="False" sidebar="False" >
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252"></meta>
+
+<title>{!$Label.EMC_PARTNER_CENTRAL}</title>
+
+<style>
+<!--
+ p.MsoNormal
+    {mso-style-parent:"";
+    margin-bottom:.0001pt;
+    font-size:12.0pt;
+    font-family:"Times New Roman";
+    margin-left:0in; margin-right:0in; margin-top:0in}
+span.MsoHyperlink
+    {font-family:"Times New Roman";
+    color:blue;
+    text-decoration:underline;
+    text-underline:single}
+-->
+</style>
+</head>
+
+<body>
+
+<p class="MsoNormal" align="center" style="text-align: center"></p><b>
+<center><span style="font-size: 11.0pt; font-family: Verdana">{!$Label.EMC_PARTNER_CENTRAL}</span></center></b>
+<p class="MsoNormal" align="center" style="text-align: center"><b>
+<span style="font-size: 11.0pt; font-family: Verdana">{!$Label.PRIVACY_POLICY_AND_TERMS_OF_USE}</span></b></p>
+<p class="MsoNormal" style="margin-bottom: 12.0pt">
+<span style="font-size: 11.0pt">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in; margin-bottom: 12.0pt" align="justify">
+<font size="2"><span style="font-family: Verdana">&nbsp;</span></font><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Partner_Terms_Attention}</span></p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: 1in; margin-right: 1in; margin-top: 12.0pt; margin-bottom: 3.0pt">
+<span style="font-size: 13.0pt; font-family: Verdana">{!$Label.Privacy_Policy}</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in"><b>
+<span style="font-size: 10.0pt; font-family: Verdana">{!$Label.General_Information}</span></b></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">{!$Label.EMC_Privacy_Statement}</span>
+<a style="font-family: Times New Roman; color: blue; text-decoration: underline; text-underline: single" href="http://www.emc.com/legal/emc-corporation-privacy-statement.htm">
+<span style="font-size: 10.0pt; font-family: Verdana; color: #663300">{!$Label.Privacy_Policy}</span></a> .</p>
+<p class="MsoNormal"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Partner_Central_Policy}</span>
+<span style="font-size: 11.0pt">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 13.0pt; font-family: Verdana">{!$Label.Terms_Of_Use}</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<a name="OLE_LINK4"><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Partner_Terms_Attention}</span></a><span style="font-size: 10.0pt; font-family: Verdana">
+</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in">&nbsp;</p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in"><b>
+<span style="font-size: 10.0pt; font-family: Verdana">{!$Label.DEFINITIONS}</span></b></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in"><b>
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></b></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in; margin-bottom: 12.0pt" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana"><u>{!$Label.AppExchange}</u> {!$Label.AppExchangeDefinition} </span>
+<a style="font-family: Times New Roman; color: blue; text-decoration: underline; text-underline: single" href="http://www.appexchange.com/">
+<span style="font-size: 10.0pt; font-family: Verdana">http://www.appexchange.com</span></a><span style="font-size: 10.0pt; font-family: Verdana"> 
+or at any successor website. </span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in; margin-bottom: 12.0pt" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana"><u>{!$Label.Malicious_Code}</u> 
+{!$Label.Malicious_Code_Definition} <br></br>
+<u>{!$Label.Service}</u> {!$Label.Service_Definition} </span>
+<a style="font-family: Times New Roman; color: blue; text-decoration: underline; text-underline: single" href="http://www.salesforce.com/">
+<span style="font-size: 10.0pt; font-family: Verdana">http://www.salesforce.com</span></a><span class="MsoHyperlink">
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$label.Service_Definition_1}</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in; margin-bottom: 12.0pt" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana"><u>{!$Label.User_Guide}</u>{!$Label.User_Guide_Definition} </span>
+<a style="font-family: Times New Roman; color: blue; text-decoration: underline; text-underline: single" href="http://www.salesforce.com/">
+<span style="font-size: 10.0pt; font-family: Verdana">http://www.salesforce.com</span></a><span style="font-size: 10.0pt; font-family: Verdana">, 
+{!$Label.User_Guide_Definition_1}</span></p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">1.&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!$Label.Use_of_Website_Information}</span></b><span style="font-size: 10.0pt; font-family: Verdana"><br> </br>
+{!$Label.Website_Information_Details}</span></p>
+<p class="MsoNormal"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">2.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Use_of_Software_and_Services}<br></br>
+2.1&nbsp; {!$Label.EMC_Software}.&nbsp; </span></b>
+<span style="font-size: 10.0pt; font-family: Verdana">{!$Label.EMC_Software_Terms}&nbsp; </span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in; margin-top: 0in; margin-bottom: 12.0pt" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">2.2</span></b><span style="font-size: 10.0pt; font-family: Verdana">
+<b>{!$Label.Salesforce_com_Service}</b>.&nbsp; {!$Label.Salesforce_Service_Details}&nbsp; 
+{!$Label.Salesforce_Service_Details_1} </span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span><b><span style="font-size: 10.0pt; font-family: Verdana">3.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Use_of_Forums_and_Public_Communication}</span></b><span style="font-size: 10.0pt; font-family: Verdana"><br></br>
+{!$Label.Forum_means}</span></p>
+<p class="MsoNormal" style="margin-left: .5in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Forums_shall_be_used}</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">{!$Label.By_uploading_emailing}</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">4.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Passwords_and}</span></b><span style="font-size: 10.0pt; font-family: Verdana"><br></br>
+{!$Label.You_are_responsible_for_maintaining}</span></p>
+<p class="MsoNormal" align="justify"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">5.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Termination_of_Use}<br></br>
+</span></b><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.You_agree_that_EMC_may} </span></p>
+<p class="MsoNormal"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">6.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Third_Party_Websites}</span></b><span style="font-size: 10.0pt; font-family: Verdana"><br></br>
+{!$Label.EMC_PARTNER_CENTRAL_Provides}&nbsp; {!$Label.a_the_quality} </span></p>
+<p class="MsoNormal"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">7.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">Disclaimer<br></br>
+</span></b><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.EXCEPT_WHERE_EXPRESSLY}</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">{!$Label.ANY_CONTENT}</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">{!$label.EMC_RESERVES}</span></p>
+<p class="MsoNormal" style="margin-left: .5in">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">8.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Limitation_of}</span></b><span style="font-size: 10.0pt; font-family: Verdana"><br></br>
+{!$Label.IN_NO_EVENT_SHALL}</span></p>
+<p class="MsoNormal" style="margin-left: .5in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">{!$Label.SOME_JURISDICTIONS}</span></p>
+<p class="MsoNormal" style="margin-left: .5in">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">9.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Indemnity}</span></b><span style="font-size: 10.0pt; font-family: Verdana"><br></br>
+{!$Label.You_agree_to_defend}</span></p>
+<p class="MsoNormal" align="justify"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">10.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Status_Information}
+</span></b><span style="font-size: 10.0pt; font-family: Verdana"><br></br>
+{!$Label.EMC_is_entitled}</span></p>
+<p class="MsoNormal"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in; margin-top: 0in; margin-bottom: 12.0pt" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">11.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Restrictions} </span>
+</b><span style="font-size: 10.0pt; font-family: Verdana"><br></br>
+{!$Label.Subject_to_the_limited_rights}</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<span style="font-size: 10.0pt; font-family: Verdana">&nbsp;<b>12.</b></span><b><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Export}</span></b><span style="font-size: 10.0pt; font-family: Verdana"><br></br>
+{!$Label.You_may_not_access}&nbsp; {!$Label.Neither_the_services}</span></p>
+<p class="MsoNormal" align="justify"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">13.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Applicable_Law}<br></br>
+</span></b><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.All_matters}</span></p>
+<p class="MsoNormal" align="justify"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">14.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Confidential_Information}<br></br>
+</span></b><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.You_agree_that}&nbsp;{!$Label.You_agree_to}</span></p>
+<p class="MsoNormal" align="justify"><span style="font-size: 10.0pt; font-family: Verdana">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -.5in; margin-left: 1in; margin-right: 1in" align="justify">
+<b><span style="font-size: 10.0pt; font-family: Verdana">15.</span><span style="font-size: 7.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Copyright_Trademark}</span><br></br>
+</b><span style="font-size: 10.0pt; font-family: Verdana">{!$Label.Copyright_1994_2010}</span></p>
+<p class="MsoNormal" align="justify">&nbsp;</p>
+<p class="MsoNormal" align="justify">&nbsp;</p>
+
+</body>
+
+</html>
+</apex:page>

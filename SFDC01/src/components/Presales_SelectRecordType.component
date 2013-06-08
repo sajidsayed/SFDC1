@@ -1,0 +1,7 @@
+<apex:component controller="Presales_RecordTypeListController">
+<apex:attribute name="sObjectType" description="" type="String" required="true" default="Case" assignTo="{!sObjectType}"></apex:attribute>
+<apex:attribute name="value" description="" type="Id" required="true"></apex:attribute>
+<apex:selectList value="{!value}" size="1">
+<apex:selectOptions value="{!items}"></apex:selectOptions>
+</apex:selectList>
+</apex:component>

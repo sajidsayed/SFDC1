@@ -1,0 +1,58 @@
+<!--
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER   WR/DEFECT    DESCRIPTION                               
+ |  ====       =========   =========    =========== 
+ |    
+    28-Apr-10  Arif     Defect - 666,668,669,670,667 Updated pageMessage tag add the new label 
+
+    05-May-10  Karthik  Changes done to display the result of the assigned Opportuntiy WR 132841
+
+"Label.Additional_Message" -->
+
+
+<apex:page standardController="User_Assignment__c" extensions="OpportunityAssignListController" tabStyle="User_Assignment__c" action="{!addSalesTeamMember}" showHeader="true" sidebar="true">
+  <!-- Begin Default Content REMOVE THIS -->
+  <apex:form >
+  <apex:pageBlock >
+  <apex:pageMessages />
+  <!--apex:pageMessage summary="{!$Label.Assigned_Self_On_UserAssignment + ' ' + $Label.Additional_Message + ' ' + successOpps}" severity="Info" strength="1" id="AssignmentMessage"  rendered="{!showAssignedMessage}" />
+  <apex:pageMessage summary="{!$Label.Error_Sales_Rep_exist_on_Sales_Team + ' ' + $Label.Additional_Message + ' ' + failOpps}" severity="Info" strength="1" id="AssignmentMessage1"  rendered="{!showRepExist}" />
+  <apex:pageMessage summary="{!$Label.Assign_Self_Forecast_Group_Not_Same}" severity="Error" strength="3" id="ForecastErrorMsg"  rendered="{!showForecastGroupError}" action="{!addSalesTeamMember}"/-->
+  <apex:pageBlockSection title="{!$Label.Result}" collapsible="false" rendered="{!showresultsection}" >
+           <apex:pageblockTable value="{!opportunityWrapResult}" var="Oppt" border="0">
+            <apex:column headerValue="{!$Label.Oppt_Name}">
+                <apex:outputLink value="{!'/'+Oppt.opp.Id}" target="_new">
+                    <apex:outputText value="{!Oppt.opp.Name}"/>
+                </apex:outputLink>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Account_Name}">
+                <apex:outputLink value="{!'/'+Oppt.opp.account.Id}" target="_new">
+                    <apex:outputText value="{!Oppt.opp.account.name}"/>
+                </apex:outputLink>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Amount}">
+                <apex:outputText value="{!Oppt.opp.Amount}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Close}">
+                <apex:outputText value="{!Oppt.opp.closedate}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Stage}">
+                <apex:outputText value="{!Oppt.opp.StageName}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Owner_Alias}">
+                 <apex:outputText value="{!Oppt.opp.Opportunity_Owner__r.Alias}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Opportunity_Result}">
+                <apex:outputText value="{!Oppt.result}"/>
+            </apex:column>
+            </apex:pageblockTable>
+          </apex:pageBlockSection>  
+  <apex:pageBlockButtons > 
+  <apex:commandButton action="{!Ok}" style="position:middle;" value="{!$Label.OK}" />
+  </apex:pageBlockButtons>  
+  </apex:pageBlock>
+  </apex:form>
+
+
+</apex:page>

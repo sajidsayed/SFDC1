@@ -1,0 +1,90 @@
+<!-- =======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  22/Dec/2010     Arif                        This page is used to display Education Record Owned By Super User.
+ |  04/Jan/2010     PRasad          Defect 223  Change the columns  
+ |  29/Dec/2011     Suman B         IM7439801   Added Pagination.
+ |  04/01/2012		Suman B			IM7439801   Replaced Name field with Name_Detail__c in the table column.
+ |  23/08/2012      Ganesh          199997     Added javascript which invokes an Actionfunction
+    =====================================================================================================================-->
+
+<apex:page controller="PRM_EducationViewController" id="pageid">
+ <script>
+  //Added by Ganesh to pass Education ID to Controller  
+	function init(EduId)
+	{  	
+	   if(document.getElementById('pageid:formid:HiddenId')!=null)
+		{
+		 document.getElementById('pageid:formid:HiddenId').value=EduId;				
+		 ShowEducationDetail();	
+		  return false;	  
+		}	
+	}
+</script> 
+  <apex:form id="formid">
+   <apex:inputHidden value="{!hiddenEducationId}" id="HiddenId"/>   
+    <apex:actionFunction name="ShowEducationDetail" action="{!LoadEducationDetail}"/> 
+    <apex:pageBlock Title="{!$Label.All_Education}" id="pblock_id" >
+    <apex:pageblockSection title="Access Denied" rendered="{!flag}" >
+    <apex:messages />
+    </apex:pageblockSection>
+    
+    
+    <apex:dataTable value="{!EducationDetails}" var="EducationRecord"  rendered="{!status}" cellspacing="10px" >
+        
+        <apex:column width="200px">
+            <apex:facet name="header">{!$Label.Name_Detail}</apex:facet>
+            <!--apex:outputText value="{!EducationRecord.Name}"/-->
+             <apex:commandLink onclick="return init('{!EducationRecord.Id}');" value="{!EducationRecord.Name_Detail__c}" id="EducationRecord" target="_parent">
+                <apex:param name="eId" value="{!EducationRecord.Id}"/>
+            </apex:commandLink>
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">{!$Label.Contact_Name}</apex:facet>
+            <apex:outputText value="{!EducationRecord.Contact__r.Name}"/>
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">{!$Label.Account_Name2}</apex:facet>
+            <apex:outputText value="{!EducationRecord.Contact__r.Account.Name}"/>
+        </apex:column>
+         <apex:column >
+            <apex:facet name="header">{!$Label.Type}</apex:facet>
+            <apex:outputText value="{!EducationRecord.Type__c}"/>
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">{!$Label.Category}</apex:facet>
+            <apex:outputText value="{!EducationRecord.Category__c}"/>
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">{!$Label.Date_Achieved}</apex:facet>
+            <apex:outputText value="{0,date,MM/dd/yyyy }">
+                    <apex:param value="{!EducationRecord.Date_Achieved__c}" />
+            </apex:outputText>
+           
+        </apex:column>         
+        <apex:column >
+             <apex:facet name="header">{!$Label.Expiration_Date}</apex:facet>
+            <apex:outputText value="{0,date,MM/dd/yyyy }">
+                    <apex:param value="{!EducationRecord.Expiration_Date__c}" />
+            </apex:outputText>
+        </apex:column>  
+        <apex:column >
+            <apex:facet name="header">{!$Label.Active}</apex:facet>
+            <apex:outputText value="{!EducationRecord.Active__c}"/>
+        </apex:column> 
+      
+    </apex:dataTable>
+       
+        <!-- Paging -->
+         <apex:outputPanel id="pagingPanel" rendered="{!(NOT(EducationDetails.size == 0))}"> 
+           <c:paginator reRenderComponent="pblock_id" statusComponent="sortStatus"  pageManager="{!objPageManager}" id="bottom_paginator1"/>                                                 
+       </apex:outputPanel>        
+
+         <apex:outputPanel id="OP_Panel" > 
+       <apex:actionStatus id="sortStatus" startText="Loading........" layout="block">
+       </apex:actionStatus>
+        </apex:outputPanel>        
+    
+    </apex:pageBlock>
+  </apex:form>  
+</apex:page>

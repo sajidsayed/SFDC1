@@ -1,0 +1,97 @@
+<!-- ==================================================================================================+
+
+|  HISTORY  |                                                                           
+
+|  DATE          DEVELOPER                WR        DESCRIPTION                               
+
+|  ====          =========                ==        =========== 
+
+| 12/09/2011     Anil Sure               #3656      This Page is used to provide 
+                                                    the ability to Search Deal Registration with different
+                                                    search criteria.
+========================================================================================================-->
+<apex:page standardcontroller="Lead" extensions="PRM_DealLeadSearchController" tabStyle="Lead">   
+  <apex:form >
+    <b><apex:outputLabel value="{!$Label.Deal_Registration_Search}" styleClass="font" style="width: 365px;"/></b>
+              <div align="center">
+      <apex:commandButton action="{!SearchResults}" value="{!$Label.Search}"/>
+      </div>
+      <br></br>
+      <apex:pageBlock >
+      <apex:pagemessages />
+          <apex:pageBlockSection columns="2" title="{!$Label.By_Submission_Date_Range}">
+                <apex:pageBlockSectionItem >
+                      <apex:outputLabel value="{!$Label.From}" styleClass="font" style="width: 365px;"/>
+                      <apex:inputField value="{!leads.Contract_End_Date__c}" /> 
+                      </apex:pageBlockSectionItem>    
+                      <apex:pageBlockSectionItem >
+                      <apex:outputLabel value="{!$Label.To}" styleClass="font" style="width: 365px;"/>  
+                      <apex:inputField value="{!leads.DealReg_Partner_Expected_Close_Date__c}" />
+                  </apex:pageBlockSectionItem>                 
+          </apex:pageBlockSection>
+          <apex:pageBlockSection columns="2" title="{!$Label.By_Expiration_Date_Range}">
+              <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$Label.Expiration_Date_From}" styleClass="font" style="width: 365px;"/>
+                    <apex:inputField value="{!leads.DealReg_Expiration_Date__c}" />
+              </apex:pageBlockSectionItem>      
+              <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$Label.To}" styleClass="font" style="width: 365px;"/>
+                    <apex:inputField value="{!leads.DealReg_Expected_Close_Date__c}" />
+              </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+           <apex:pageBlockSection columns="1" title="{!$Label.By_Deal_Registration_Area}">              
+                <apex:pageBlockSectionItem >         
+                       <apex:outputLabel value="{!$Label.Country}" styleClass="font" style="width: 365px;"/>
+                        <apex:selectList value="{!Country}" multiselect="false" size="1">
+                            <apex:selectOptions value="{!CountryList}"/>
+                        </apex:selectList>
+                </apex:pageBlockSectionItem> 
+          </apex:pageBlockSection>            
+          <apex:pageBlockSection columns="1" title="{!$Label.By_Customer_Partner}">
+          <apex:pageBlockSectionItem >
+          	   <apex:outputLabel value="{!$Label.Related_Account}" styleClass="font" style="width: 365px;"/>
+               <apex:inputField value="{!leads.DealReg_Related_Account_lookup__c}" />
+           </apex:pageBlockSectionItem> 
+            <apex:pageBlockSectionItem > 
+               <apex:outputLabel value="{!$Label.Distributor_Direct_Reseller1}" styleClass="font" style="width: 365px;"/>
+               <apex:inputField value="{!leads.Partner__c}" />
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >  
+               <apex:outputLabel value="{!$Label.Distribution_VAR}" styleClass="font" style="width: 365px;"/>
+               <apex:inputField value="{!leads.Tier_2_Partner__c}" />
+            </apex:pageBlockSectionItem>                  
+             <!--  <apex:inputField value="{!leads.DealReg_Related_Account_lookup__c}" />
+              <apex:inputField value="{!leads.Partner__c}" />
+              <apex:inputField value="{!leads.Tier_2_Partner__c}" /> -->    
+                                  
+                          
+          </apex:pageBlockSection>                  
+          <apex:pageBlockSection columns="1" title="{!$Label.By_Status_Submitter}">
+                <apex:pageBlockSectionItem >
+                      <apex:outputLabel value="{!$Label.Deal_Reg_Submitter}" styleClass="font" style="width: 365px;"/>
+                      <apex:inputField value="{!leads.DealReg_Deal_Submitter_Contact__c}" /> 
+                  </apex:pageBlockSectionItem>
+                  <apex:pageBlockSectionItem >         
+                          <apex:outputLabel value="{!$Label.Status}" styleClass="font" style="width: 365px;"/>
+                               <apex:selectList value="{!Status}" multiselect="false" size="1">
+                                    <apex:selectOptions value="{!StatusList}"/>
+                          </apex:selectList>
+                    </apex:pageBlockSectionItem>                                                                        
+          </apex:pageBlockSection>
+          <apex:pageBlockSection columns="1" title="{!$Label.By_Reference_Number}">
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="{!$Label.Deal_Registration_Number}" styleClass="font" style="width: 365px;"/>
+                     <apex:inputText value="{!DealRegNumber}" />
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$Label.Opportunity_Number}" styleClass="font" style="width: 365px;"/>
+                    <apex:inputText value="{!OppNumber}" />
+                </apex:pageBlockSectionItem>          
+          </apex:pageBlockSection>
+      </apex:pageBlock>
+      <div align="center">
+      <apex:commandButton action="{!SearchResults}" value="{!$Label.Search}"/>      
+      </div>
+       <!--  <b> <apex:messages id="errorMessage" styleClass="errorMsg" layout="table" style="margin-top:1em;"/></b>-->
+ </apex:form>
+</apex:page>

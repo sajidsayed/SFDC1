@@ -1,0 +1,58 @@
+<!-- 
+Author:     Devi Prasad Bal
+Created on: 01-Jun-2010
+Description: This page helps view the Briefing event information on the Briefing Food Option page and allows the user to enter other data related to the Briefing Food Option.
+Modified on: 
+Reason: 
+-->
+
+<apex:page standardController="Briefing_Food_Options__c" extensions="EBC_Food_Options" >
+    <apex:sectionHeader title="Briefing Food Option Edit" subtitle="New Briefing Food Option" />
+    <apex:form > 
+        
+        <apex:outputPanel id="theMessages">
+                <apex:pagemessages />
+            </apex:outputPanel>
+        
+        <apex:pageBlock id="briefingInfo">
+            <apex:pageBlockSection columns="1">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="name">Name:</apex:outputLabel>
+                    <apex:outputField id="name" value="{!objBEvent.Name}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="startDate">Start Date:</apex:outputLabel>
+                    <apex:outputField id="startDate" value="{!objBEvent.Start_Date__c}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="endDate">End Date:</apex:outputLabel>
+                    <apex:outputField id="endDate" value="{!objBEvent.End_Date__c}" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>       
+        </apex:pageBlock>
+    
+   
+    
+        <apex:pageBlock title="Briefing Food Option Edit" >
+          <apex:pageBlockButtons >
+                <apex:commandButton id="CustomSave" value="Save" action="{!bfoSave}"/>
+                <!-- <apex:commandButton id="Save & New" value="Save" action="{!save}"/> -->
+                <apex:commandButton id="Cancel" value="Cancel" action="{!cancel}"/>
+                <!-- <apex:commandButton action="{!createbfosave}" value="{!$Label.Save}" id="savebutton"   /> -->
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockSection title="Information" columns="1" collapsible="false">
+                <apex:inputfield required="true" value="{!bfo.Name}" id="Name" />
+                <!--  <apex:inputfield value="{!bfo.Briefing_Event__c}" id="Briefing_Event__c"/> -->
+                <apex:inputfield value="{!bfo.Breakfast_Options__c}" id="Breakfast_Options__c"/>
+                <apex:inputfield value="{!bfo.Lunch_Options__c}" id="Lunch_Options__c"/>
+                <apex:inputfield value="{!bfo.Special_Diet_Needs__c}" id="Special_Diet_Needs__c"/>
+                <apex:inputfield value="{!bfo.Special_Diet_Needs_Notes__c}" id="Special_Diet_Needs_Notes__c"/>
+                <apex:inputfield value="{!bfo.Date__c}" id="Date__c"/>
+                
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+           
+        
+    </apex:form>
+</apex:page>

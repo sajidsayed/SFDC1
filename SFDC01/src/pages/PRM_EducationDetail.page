@@ -1,0 +1,215 @@
+<!-- =======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  05/Jan/2011     Anirudh                     Page to display the Detail of Education Record and is called
+ |                                              from PRM_EducationView Page    
+ |  21-FEB-2011     Saravanan C     Req 2071    Added new field - Comments in VF Page
+ |  24-Mar-2011     Anil Sure       #2148       Removed "Education Master" field on the Education VF page and 
+ |                                              Placed "Mentoring Required" below "Level" field.
+ |
+ |  =====================================================================================================================  -->
+
+
+<apex:page Controller="PRM_EducationViewController" showHeader="true" tabStyle="Education__c" standardStylesheets="true" >
+    <apex:form id="EducationForm">
+    
+    <apex:pageBlock title=" Education {!NameDetail}"  mode="Detail" >
+           
+        <apex:pageBlockSection title=" Education Detail" columns="2" collapsible="False">
+       
+        <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Education Number" />
+             <apex:outputText value="{!Name}"/>
+         </apex:pageBlockSectionItem>
+        
+         
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Contact" />
+             <apex:outputText value="{!Contact}"/>
+          </apex:pageBlockSectionItem>
+         
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Education Name Detail" />
+             <apex:outputText value="{!NameDetail}"/>
+         </apex:pageBlockSectionItem>
+          
+       <!-- <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Owner" />
+             <apex:outputText value="{!Owner}"/>
+         </apex:pageBlockSectionItem>-->
+         
+         
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Date Achieved" />
+              <apex:outputText value="{0,date,MM/dd/yyyy }">
+                    <apex:param value="{!Date_Achieved}" />
+            </apex:outputText>
+          </apex:pageBlockSectionItem>
+           <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Type" />
+             <apex:outputText value="{!EducationType}"/>
+          </apex:pageBlockSectionItem>
+           <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Expiration Date" />
+             <apex:outputText value="{0,date,MM/dd/yyyy }">
+                    <apex:param value="{!Expiration_Date}" />
+            </apex:outputText>
+          </apex:pageBlockSectionItem> 
+           <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Category" />
+             <apex:outputText value="{!Category}"/>
+          </apex:pageBlockSectionItem>
+                 
+           
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Days to Expiration" />
+             <apex:outputText value="{!Days_to_Expiration}" />
+            
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Level" />
+             <apex:outputText value="{!Level}"/>
+          </apex:pageBlockSectionItem> 
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="" />             
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Mentoring Required" />
+             <apex:outputText value="{!Mentoring_Required}"/>
+          </apex:pageBlockSectionItem>
+
+          
+          <!--
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Education Master" />
+             <apex:outputText value="{!Education_Master}"/>
+          </apex:pageBlockSectionItem>  
+          -->
+          
+          <apex:outputText ></apex:outputText>
+      
+        </apex:pageBlockSection>  
+        <apex:pageBlockSection title="Mentoring (Required Only for Implementation Engineer Certification):" columns="2" collapsible="False">
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Mentoring Completed" />
+             <apex:outputText value="{!Mentoring_Completed}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Mentoring Date" />
+             <apex:outputText value="{!Mentoring_Date}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Mentoring Type" />
+             <apex:outputText value="{!Mentoring_Type}"/>
+         </apex:pageBlockSectionItem>         
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Comments" />
+             <apex:outputText value="{!Comments}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Mentoring Schduled" />
+             <apex:inputCheckbox value="{!Mentoring_Schduled}" disabled="true"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="EMC Mentoring Location" />
+             <apex:outputText value="{!EMC_Mentoring_Location}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Mentoring Scheduled Date" />
+             <apex:outputText value="{!Mentoring_Scheduled_Date}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="EMC Mentor Name" />
+             <apex:outputText value="{!EMC_Mentor_Name}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="CLARiiON" />
+             <apex:inputCheckbox value="{!CLARiiON}"  disabled="true"/>
+         </apex:pageBlockSectionItem>
+         <apex:outputText ></apex:outputText>
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="NAS" />
+             <apex:inputCheckbox value="{!NAS}" disabled="true"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="BACKUP NETWORKER" />
+             <apex:inputCheckbox value="{!BACKUP_NETWORKER}" disabled="true"/>
+         </apex:pageBlockSectionItem>
+        
+        </apex:pageBlockSection>
+          <apex:pageBlockSection columns="1"  collapsible="False"> 
+       <!--  <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="First Name" />
+             <apex:outputText value="{!First_Name}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Last Name" />
+             <apex:outputText value="{!Last_Name}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="ESBI Name" />
+             <apex:outputText value="{!ESBI_Name}"/>
+         </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="SABA Contact ID" />
+             <apex:outputText value="{!SABA_Contact_ID}"/>
+         </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Cert Tracker Contact ID" />
+             <apex:outputText value="{!Cert_ID}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Partner Grouping ID" />
+             <apex:outputText value="{!Partner_Grouping_ID}"/>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Education ID" />
+             <apex:outputText value="{!Education_ID}"/>
+         </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Partner Grouping Name" />
+             <apex:outputText value="{!Partner_Grouping}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Email" />
+             <apex:outputText value="{!Email}"/>
+         </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Country" />
+             <apex:outputText value="{!Country}"/>
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Transaction ID" />
+             <apex:outputText value="{!Transaction_Id}"/>
+         </apex:pageBlockSectionItem>          
+           <apex:outputText ></apex:outputText>
+         </apex:pageBlockSection>
+         <apex:pageBlockSection columns="1" >
+         <apex:outputText ></apex:outputText>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Attention EMC Employees" />
+             <apex:outputText value="{!Attention_Partners}"/>
+         </apex:pageBlockSectionItem> --> 
+          
+          <apex:pageBlockSectionItem >
+            &nbsp;
+         </apex:pageBlockSectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Attention Partners" />
+             <apex:outputText value="{!Attention_Partners}"/>
+         </apex:pageBlockSectionItem>
+         <apex:outputText ></apex:outputText>
+         </apex:pageBlockSection>
+         <apex:pageBlockSection columns="2" >        
+         <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Created By" />
+             <apex:outputText value="{!CreatedBy}"/>
+         </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+             <apex:outPutLabel value="Last Modified By" />
+             <apex:outputText value="{!LastModifiedBy}"/>
+         </apex:pageBlockSectionItem>
+         </apex:pageBlockSection>
+      </apex:pageBlock>
+    </apex:form>
+</apex:page>

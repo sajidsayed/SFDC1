@@ -1,0 +1,134 @@
+<apex:page standardController="Article_Rating__c"  extensions="KB_Controller" sidebar="false" showHeader="false">
+<style>
+  .menu1 { 
+      visibility : visible;
+       }
+  .menu2 { 
+      visibility : hidden; }
+
+</style>
+
+
+<apex:form id="myform">
+
+<apex:outputPanel id="noSR" onmouseout="testingout();" styleclass="menu2" >
+<center>
+<apex:outputText value="Thank you For Your FeedBack" style="font-weight:bold"  rendered="{!insertRating}" />
+</center>
+</apex:outputPanel>
+ <br/>
+
+     <apex:outputPanel id="thePanel" styleclass="menu1">
+     <apex:inputHidden id="rateTrue" value="{!insertRating}"/>
+       &nbsp;&nbsp;
+                 <apex:outputLabel value="Rate this Answer:" style="font-weight:bold;font-family:arial;" />
+
+          
+            <apex:outputLabel value="Excellent" style="font-family:arial;" />
+            <input type="radio" name="rating" id="Ex1" value="6" onclick= "displayResult('5');" />
+            <input type="radio" name="rating" id="Ex2" value="5" onclick= "displayResult('4');" />
+
+            <input type="radio" name="rating" id="Ex3" value="4" onclick= "displayResult('3');" />
+            <input type="radio" name="rating" id="Ex4" value="3" onclick= "displayResult('2');" />
+            <input type="radio" name="rating" id="poor" value="2" onclick= "displayResult('1');" />
+            <apex:outputLabel value="Poor" style="font-family:arial;"/>
+
+            <input type="radio" name="rating" id="noopinion" value="1" onclick= "displayResult('0');" />
+             <apex:outputLabel value="No Opinion"  style="font-family:arial;"/>
+
+            
+  <script type="text/javascript"> 
+function displayResult(s)
+{
+      
+                document.getElementById("{!$Component.rt}").value = s;
+                
+                        
+        
+
+}
+</script>
+            
+           
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+<apex:outputLabel value="Comments" style="font-weight:bold; height: 75px;font-family:arial;"/>
+  &nbsp;&nbsp;
+<apex:inputField id="commentFld" value="{!rateArt.Comments__c}" style="width:200px;"/>
+
+<br/>
+
+&nbsp;
+<apex:outputLabel value="Solved My Problem" style="font-weight:bold;font-family:arial;"/>
+
+<apex:inputCheckbox value="{!rateArt.Solved_My_Problem__c}"/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<apex:outputLabel value="Your Email" style="font-weight:bold;font-family:arial;"/>
+  &nbsp;&nbsp;&nbsp;
+<apex:inputField id="emailFld" value="{!rateArt.Raters_Email_Address__c}"/>
+
+<apex:inputHidden value="{!articleNo}" />
+<apex:inputHidden id="rt" value="{!rateArt.Rating__c}" />
+
+
+<apex:commandButton value="Submit" action="{!rateArticle}" onComplete="completeThis();" reRender="thePanel,noSR" />
+</apex:outputPanel>
+
+
+<script type="text/javascript"> 
+
+function testingout(){
+
+     var thePanel111 = document.getElementById("{!$Component.thePanel}");
+     alert('thePanel111--->'+thePanel111);
+     thePanel111.style.visibility='hidden';
+
+
+
+
+}
+
+function completeThis()
+{
+                 var rateComplete = document.getElementById("{!$Component.rateTrue}").value;
+                    //alert('Rating Completed---->'+rateComplete);
+                    if(rateComplete=='true'){
+                  var divTag1 = document.getElementById("{!$Component.thePanel}");
+                   //alert(divTag1);
+                  divTag1.style.visibility='hidden';
+                    var divTag = document.getElementById("{!$Component.myform.noSR}");
+                             
+                               //alert(divTag);
+                              divTag.style.visibility='visible';
+
+                  setTimeout("Func1()", 5000);
+                    }
+}
+
+     
+                   function Func1(){
+
+                             
+                             var divTag2 = document.getElementById("{!$Component.noSR}");
+                                  divTag2.style.visibility='hidden';
+                             var divTag3 = document.getElementById("{!$Component.thePanel}");
+                                
+                            
+                              divTag3.style.visibility='hidden';
+                            document.getElementById("{!$Component.commentFld}").value = '';
+                                  document.getElementById("{!$Component.emailFld}").value = '';
+                              return null;
+
+                         }
+</script>
+    
+
+</apex:form>
+
+</apex:page>

@@ -1,0 +1,165 @@
+<!--
+    
+    8-Nov-11    Hemavathi    Updated the logo image id for sfdc new skin    
+-->
+<apex:page sidebar="false"  showHeader="false">
+<link href="/dCSS/Theme2/default/common.css" type="text/css" 
+media="handheld,print,projection,screen,tty,tv" rel="stylesheet"> 
+<link href="/dCSS/Theme2/default/custom.css" type="text/css" 
+media="handheld,print,projection,screen,tty,tv" rel="stylesheet"> 
+<apex:form > 
+<html> 
+<head>
+<style>
+table { 
+border-collapse: collapse; 
+border-spacing: 0; 
+} 
+
+td { 
+border: 1px solid #9096A1; 
+padding: 5px 5px 5px 4px; 
+text-align: left 
+}
+td.lineview { 
+border: 1px solid #FFFFFF; 
+background: #F1F1F1; 
+} 
+td.blanklineview { 
+border: 1px solid #FFFFFF; 
+} 
+
+
+TH { 
+border: 1px solid #9096A1; 
+padding: 5px 5px 5px 5px;
+text-align: left  
+}
+</style> 
+
+<Script Language="JavaScript"> 
+function load(resultURL) {
+var load = window.open(resultURL,'','scrollbars=yes,top=50 ,menubar=no,height=620,width=1050,resizable=yes,toolbar=no,location=no,status=no');
+}
+
+</Script> 
+</head> 
+<body> 
+<table width="100%" height="52" border="0" cellpadding="0"> 
+<tr> 
+<td width="100%" height="26" class="lineview"><img src="/servlet/servlet.ImageServer?id=01570000000qvxv&oid=00DS0000000AFrs&lastMod=1206541114000" alt="Powered by salesforce.com" title="Powered by salesforce.com" /> 
+</td> 
+</tr> 
+<tr> 
+<td width="100%" height="26" class="blanklineview"></td> 
+</tr> 
+</table>
+
+<table  width="40%" height="10" border="0" cellpadding="0"> 
+<tr> 
+<td height="10" align="left" class="blanklineview"><h3 class="recordTypesHeading"><font color="9096A1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Research Competitors</font></h3></td> 
+</tr> 
+<tr> 
+<td width="100%" height="10" class="blanklineview"></td> 
+</tr> 
+</table> 
+
+ <center>
+<table  width="95%" height="50%" class="infoTable" border="0" cellpadding="4" cellspacing="1"> 
+
+<tr class="headerRow"> 
+<TH  class="normal" scope="col">Link</TH> 
+<TH class="normal" scope="col"><span class="programlisting">Description 
+</span></TH> 
+</tr> 
+<tr> 
+<TH class="recordTypeName" width="8%"><a 
+href="http://powerlink.emc.com/km/appmanager/km/secureDesktop?_nfpb=true&_pageLabel=image6b&internalId=0b0140668002449f&_irrt=true" 
+target="_blank" class="menu">
+<font color="blue">Powerlink – Competitive</font></a></TH> 
+<td class="recordTypeDescription" width="10%" style="word-wrap:break-word" padding-left:10px width="1%">Authoritative 
+competitive and technical content.</td>
+</tr> 
+<tr> 
+<TH class="recordTypeName" width="8%"><a 
+href="http://as.ideascp.com/cp/register.aspx?t=%2fcp%2fcp.aspx%3flid%3d69c-497b5023377b&lid=69c-497b5023377b" 
+target="_blank" class="menu"><font color="blue">Product Specs </font></a></TH> 
+<td class="recordTypeDescription" padding-left:10px width="10%">Specifications, configuration notes, and announcement history on arrays from major vendors. Data provided by IDEAS International.</td> 
+</tr> 
+<tr> 
+<TH class="recordTypeName" scope="row" width="8%"><a 
+href="http://one.emc.com/clearspace/community/active/competitive_community" 
+target="_blank"><font color="blue">EMC ONE – Competitive</font></a></TH> 
+<td class="recordTypeDescription" width="10%" >Field discussions, breaking 
+news stories.</td> 
+</tr> 
+
+<tr> 
+<TH class="recordTypeName" scope="row" width="8%"><a 
+href="http://powerlink.emc.com/km/appmanager/km/secureDesktop?_nfpb=true&_pageLabel=default&internalId=0b014066801c0998&_irrt=true" 
+target="_blank"><font color="blue">Why EMC - Key Differentiators</font></a></TH> 
+<td class="recordTypeDescription" width="10%">Library of “Why EMC” documents.</td> 
+</tr> 
+
+<tr> 
+<TH class="recordTypeName" scope="row" width="8%"><a 
+href="http://one.emc.com/clearspace/docs/DOC-7167" 
+target="_blank"><font color="blue">White Board Talk - Videos</font></a></TH> 
+<td class="recordTypeDescription" width="10%">Customer-facing competitive 
+messaging.</td> 
+</tr> 
+
+<tr> 
+<TH class="recordTypeName" scope="row" width="8%"><a 
+href="http://one.emc.com/clearspace/docs/DOC-7167" target="_blank"><font color="blue">Competitive 
+Training</font></a></TH> 
+<td class="recordTypeDescription" width="10%" >Recent field webcasts, 
+accreditation training.</td> 
+</tr> 
+
+<tr> 
+<TH class="recordTypeName" scope="row" width="8%"><a 
+href="http://powerlink.emc.com/km/live1/en_US/Sales_Support/Tool/CompetitivePowerCalculator.xls" 
+target="_blank"><font color="blue">Competitive Power Calculator</font></a></TH> 
+<td class="recordTypeDescription" width="10%">Estimate environmentals for 
+competitive arrays.</td> 
+</tr> 
+
+<tr> 
+<TH class="recordTypeName" scope="row" width="8%"><a 
+href="http://powerlink.emc.com/km/appmanager/km/secureDesktop?_nfpb=true&_pageLabel=freeform&internalId=0b0140668035dd5a&_irrt=true&rnavid=myFavorites" 
+target="_blank"><font color="blue">Competitive References</font></a></TH> 
+<td class="recordTypeDescription" width="10%">Swaps and other sales success 
+stories.</td> 
+</tr> 
+
+<!--<tr> 
+<TH class="recordTypeName" scope="row"><a href="/00OQ0000000Ny4o" 
+target="_blank"><font color="blue">Search Past Competitive Inquiries from the Field</a></TH> 
+<td class="recordTypeDescription">Find colleagues who have 
+competed against the same vendors and contact them for more details, 
+tips, and suggestions.</td> 
+</tr>-->
+<tr> 
+<TH class="recordTypeName" scope="row" width="8%"><a href="javascript:load('/00O70000002ZqNy')" ><font color="blue"> 
+Search Past Competitive Inquiries from the Field</font></a></TH> 
+<td class="recordTypeDescription" width="10%">Find colleagues who have 
+competed against the same vendors and contact them for more details, 
+tips, and suggestions.</td> 
+</tr> 
+
+<tr> 
+<TH class="recordTypeName" scope="row" width="8%"><a href="http://competitivehelp" target="_blank"><font color="blue">Strategize about 
+your Account </font></a><span style="font-weight: normal; font-family: cambria"><i></br> 
+Or call </i></span><span style="font-weight: bold">1-508-435-1000 x54777</span></TH> 
+<td  width="10%">Contact the Competitive Group 
+to develop a plan to take-out the competition, seed content into a 
+customer RFP, or get comparison pricing. Leverage the links above for 
+basic competitive questions. <font color="red">SLA: 24 hours for a response.</font> </td> 
+</tr> 
+</table> 
+</center>
+</body> 
+</html>
+</apex:form>
+</apex:page>

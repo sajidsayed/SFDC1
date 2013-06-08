@@ -1,0 +1,17 @@
+<apex:page sidebar="False" showHeader="False">
+  <!-- Begin Default Content REMOVE THIS -->
+  <html>
+      <style type="text/css">
+          .text{
+          font-family:Cambria;
+          font-size:16px;
+          }
+      </style>
+  </html>        
+      <div class="text">    
+          By submitting your Partner Profile to EMC’s Partner Finder, you are providing an accurate representation of your company information. EMC reserves the right to 
+          make appropriate edits if necessary.
+              
+      </div>    
+      
+</apex:page>

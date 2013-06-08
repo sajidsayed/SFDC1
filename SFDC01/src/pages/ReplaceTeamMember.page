@@ -1,0 +1,27 @@
+<!--
+    25-May-10  Srinivas      Changed version to 21 for mass reassignment pagination WR-163052   
+-->
+<apex:page controller="MassSalesTeamOperation" wizard="true">
+    <apex:form > 
+    <apex:pageMessages id="pageMessages"/>
+        <apex:pageBlock title="{!$Label.Step_4}" id="thePageBlock">
+            <apex:outputLabel value="{!$Label.Specify_Replace}"/><br/><br/>
+             <p><apex:outputLabel value="{!$Label.Existing_Team}" for="search" dir="RTL"/>&nbsp;&nbsp;&nbsp;
+              <apex:inputText maxlength="25" value="{!ExstingUser}"/>
+               <apex:commandButton action="{!existingSearch}" value="{!$Label.Search}"/><br/><br/></p>
+                <apex:outputLabel value="{!$Label.New_Team}" for="lookup" dir="RTL"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <apex:inputText maxlength="25" value="{!ReplaceUser}" id="mytext"/>
+                  <apex:commandButton action="{!replaceSearch}" value="{!$Label.Search}"/><br/><br/>
+                   <apex:pageBlockButtons dir="RTL">
+                     <apex:commandButton action="{!cancel}" value="{!$Label.cancel}"/>
+                     <apex:commandButton action="{!replace}" value="{!$Label.replace}"/>
+                     <apex:commandButton action="{!previousStep4}" value="{!$Label.previous}"/>
+                  </apex:pageBlockButtons>
+                  <apex:actionStatus startText=" Processing.... " id="counterStatus">
+                   <apex:facet name="start" ><br/>Processing...
+                    <img src="/apexpages/devmode/img/saveStatus.gif" />
+                   </apex:facet>
+                  </apex:actionStatus>         
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,19 @@
+<!-- 
+Author:     Devi Prasad Bal
+Created on: 15-April-2010
+Description: This page alerts the user that he cannot edit the Invitee from the Edit on Invitee Related List of a Briefing Event.
+Modified by: 
+Modified on: 
+Reason: 
+-->
+
+
+<apex:page standardController="EBC_Invitees__c" showHeader="true"
+    tabStyle="EBC_Invitees__c" title="Invitee cannot be edited from here" >
+
+    <script language="javascript">
+        alert('You cannot edit Invitee from here. Please click on the \'Briefing Team Attributes\' button to edit invitee information.');
+        window.parent.location.href = '/' + '{!EBC_Invitees__c.Briefing_Event__c}';
+    </script>
+    
+</apex:page>

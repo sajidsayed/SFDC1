@@ -1,0 +1,81 @@
+<apex:page controller="EmailMaskingTool">
+    <apex:form >  
+    <script type="text/javascript">
+    var __sfdcSessionId = '{!GETSESSIONID()}';
+    </script>
+    <script src="../../soap/ajax/27.0/connection.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    function setHiddenField() {
+   
+    var emailFields='';
+    var obj = document.getElementById("sel");
+    
+    var result = sforce.connection.describeSObject(obj.value);
+   
+        for (var i=0; i<result.fields.length; i++) {
+        var field = result.fields[i];
+            if(field.name =='DealReg_Approver_Email__c'){
+                alert('I m here ' + field.name +' : ' + field.type);
+            }
+             if(field.name =='DealReg_EMCTA_Certified_Email__c'){
+                alert('I m here ' + field.name +' : ' + field.type);
+            }
+            if(field.type=="email"){
+                //alert('field.name' + field.name +' : ' + field.type);
+                emailFields=emailFields + field.name +':';
+            }
+        }
+     var obj1 = document.getElementById("j_id0:j_id1:Tool:theHiddenInput");
+    
+    obj1.value=emailFields;
+    var obj2 = document.getElementById("j_id0:j_id1:Tool:theObjectName");
+    obj2.value=obj.value; 
+   
+    }
+    </script>
+    <apex:pageBlock title="Email Masking Tool" id="Tool">
+        <apex:messages />
+      <apex:inputHidden value="{!inputHiddenValue}" id="theHiddenInput" />
+      <apex:inputHidden value="{!objectName}" id="theObjectName" />
+          
+     <apex:pageBlocksection title="Step 1) Select Object" columns="1" id="Step1">    
+         
+        <select id="sel" >
+        </select>
+        <apex:commandButton value="Get Email Fields" id="GetEmailFields" onclick="setHiddenField()" reRender="EmailFieldsSection"/>
+        
+        
+    </apex:pageBlocksection>
+    <apex:pageBlocksection title="Step 2) Select Email Fields You Want To Mask" id="EmailFieldsSection" >
+    <apex:selectCheckboxes value="{!selectedFields}" layout="pageDirection">
+            <apex:selectOptions value="{!Email}" />
+    </apex:selectCheckboxes>
+    </apex:pageBlocksection> 
+    <apex:pageBlockSection title="Step 3) Select Records to update" id="Step3">
+        <apex:inputTextarea value="{!citeria}"  title="citeria"  label="Update Selected records? Criteria :"  />
+    </apex:pageBlockSection>
+    <apex:pageBlockSection title="Step 4) Masking Details" columns="1" id="Step4">
+        <apex:inputText label="Append Text :" value="{!appendText}"  title="Append Text" />
+        <apex:inputText label="Batch Size Supported By Your Organization :" value="{!batchSize}"  title="Batch Size" />
+     </apex:pageBlockSection>
+     
+    <apex:pageBlockSection title="Step 5) Kick Off Job" id="Step5">
+        <apex:commandButton action="{!startMasking}" value="Start Masking" id="startMasking"/>    
+    </apex:pageBlockSection>
+    </apex:pageBlock>
+    <script>
+        var objs = sforce.connection.describeGlobal();
+        var allObj = objs.getArray('sobjects');
+        
+        for(var i=0;i<allObj.length;i++){
+            
+            var anOption = document.createElement("OPTION");
+            anOption.text = allObj[i].label;
+            anOption.value = allObj[i].name;
+            document.getElementById("sel").options.add(anOption);
+            
+    }
+    </script>
+    
+    </apex:form>
+</apex:page>

@@ -1,0 +1,61 @@
+<!-- ======================================================================================================================
+ |   
+ |  DATE            DEVELOPER               WR/Req          DESCRIPTION 
+ |  10-08-2012      Avinash Kaltari         201030          This is used to display Alliance Engagement Mapping Document URL 
+ ========================================================================================================================-->
+
+<apex:page id="allianceMappingUrlPage" standardController="Opportunity" extensions="Opp_AllianceEngagementMapping" tabStyle="Opportunity" rendered="{!isUpdated}">
+    <script language="JavaScript">
+        function validateDocument(){            
+            var documentURLValue = document.getElementById('{!$Component.allianceMappingUrlPage.theForm.documentURL}').value;
+            if(documentURLValue != null && documentURLValue != ''){
+                return true;
+            }else{
+                return false;
+            } 
+        } 
+    </script>
+     
+    <apex:form id="theForm">
+        <apex:outputPanel id="errorMessage">
+              <apex:inputHidden id="successFlag" value="{!isUpdated}"/>   
+              <apex:inputHidden id="documentURL" value="{!strDocumentUrl}"/>          
+        </apex:outputPanel>
+        
+        <div id="ep" class="bDetailBlock bPageBlock secondaryPalette">
+            <div class="pbBody">
+                <div class="pbSubsection">
+                    <table class="detailList" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                            <td class="labelCol">
+                                <apex:outputText value="{!$Label.Alliance_Engagement_Document}" title="{!$Label.Alliance_Engagement_Document_Help_Text}" rendered="{!isUpdated}">
+                                    
+                                </apex:outputText>
+                                <apex:outputpanel styleclass="helpButton">
+                                    <apex:image styleclass="helpOrb" style="background-position: right top; width: 15px; height: 15px; padding-right: 2px; padding-bottom: 1px;" alt="" value="/s.gif" title="{!$Label.Alliance_Engagement_Document_Help_Text}" />
+                                </apex:outputpanel>
+                            </td>
+                            <td id="00NS000000175PM_ilecell" class="dataCol col02 inlineEditWrite">                    
+                                <apex:outputLink title="{!$Label.Alliance_Engagement_Document_Help_Text}"  target="_blank" value="{!strDocumentUrl}" id="theLink" onclick="return validateDocument();" ><b>{!Opportunity.Alliance_Engagement_Document__r.Name}</b></apex:outputLink>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+    </apex:form>
+    
+    <script>     
+    window.onload=function resize()
+    {
+      var successFlagValue = document.getElementById('{!$Component.allianceMappingUrlPage.theForm.successFlag}').value;
+      var documentURLValue = document.getElementById('{!$Component.allianceMappingUrlPage.theForm.documentURL}').value;
+        if(successFlagValue =='true')
+        {
+            //window.parent.location.href = documentURLValue ; 
+        }
+    }
+    </script>
+    
+</apex:page>

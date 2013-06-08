@@ -1,0 +1,40 @@
+<apex:page controller="APPR_MTV.SelectAssociationOnRecordController" id="thePage">
+    <script> 
+      <!-- currently selected primary distributor -->
+       var selectedChkbox;
+      <!-- counter used to count which table row was preselected at load of the table -->      
+       var tableIdCount = 0;
+       function deSelectOthers(chkBox) {
+            if (chkBox.checked) {
+                <!-- set the previously selected primary distributor as unchecked -->      
+                if ((chkBox != selectedChkbox) && (selectedChkbox != null)) {
+                    selectedChkbox.checked = false;
+                }
+                selectedChkbox = chkBox;
+            }            
+        }
+    </script>
+    <apex:form id="theForm">
+        <apex:sectionHeader title="Select Associations" subtitle="{!recordName}" />
+		<apex:outputPanel id="errorPanel"> 
+ 			<apex:pageMessage summary="{!errorMsg}" severity="error" strength="3" rendered="{!(preferredAccountWithSelects.size = 0)}" />
+			<apex:commandButton action="{!Cancel}" immediate="true" value="OK" rendered="{!(preferredAccountWithSelects.size = 0)}"/>
+		</apex:outputPanel>
+        <apex:pageBlock rendered="{!(PreferredAccountWithSelects.size > 0)}">
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!Save}" value="Save" />
+                <apex:commandButton action="{!Cancel}" value="Cancel" />
+            </apex:pageBlockButtons>
+            <!-- show the Table with selection -->
+            <apex:pageBlockTable value="{!PreferredAccountWithSelects}" var="pd" id="theTable" frame="border" >
+                <apex:column headerValue="Select"> 
+                    <apex:inputCheckBox value="{!pd.selected}">
+                      <!-- AJAX support - if this distributor is unselected, unselect the primary flag. If this distributor is selected, enable the primary check box -->      
+                        <apex:actionSupport event="onclick" rerender="primaryCheckBox" action="{!uncheckPrimaryIfChecked}"/>
+                    </apex:inputCheckBox>
+                </apex:column>               
+                <apex:column headerValue="Associated Account" value="{!pd.pAccount.Associated_Account__r.name}" />
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+	</apex:form>
+</apex:page>

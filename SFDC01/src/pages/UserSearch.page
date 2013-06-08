@@ -1,0 +1,43 @@
+<!--
+    25-May-10  Srinivas      Changed version to 21 for mass reassignment pagination WR-163052   
+-->
+<apex:page controller="MassSalesTeamOperation" wizard="true">
+  <apex:form id="userSearch">
+  <apex:pageMessages />
+      <apex:pageBlock title="{!$Label.Search_User}">
+      <apex:outputLabel value="{!$Label.Search_Users}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <apex:selectList value="{!usr}" size="1" style="">
+            <apex:selectOption itemValue="user" itemLabel="User"/>
+         </apex:selectList>&nbsp;&nbsp;&nbsp;
+            <apex:inputText maxlength="25" value="{!searchText}" id="text"/>
+               <apex:commandButton action="{!SearchUsers}" value="{!$Label.Search}" status="counterStatus" reRender="counterStatus,userSearch"/><br/>
+                 <apex:actionStatus startText=" Processing the stuff " id="counterStatus">
+                  <apex:facet name="start" ><br/>Processing...
+                   <img src="/apexpages/devmode/img/saveStatus.gif" />
+                  </apex:facet>
+                 </apex:actionStatus><br/>
+                <apex:pageBlockButtons >
+                  <apex:commandButton action="{!searchCancel}" value="{!$Label.cancel}"/>
+                </apex:pageBlockButtons>
+                 <apex:pageBlockSection title="Result" collapsible="false"/><br/>
+                  <apex:pageBlockTable value="{!users}" var="u" columns="4">
+                   <apex:column headerValue="{!$Label.Name}" width="200">           
+                     <apex:commandLink action="{!searchOption}" value="{!u.name}" id="thename">
+                       <apex:param name="userName" value="{!u.name}"/>
+                       <apex:param name="uid" value="{!u.Id}"/>
+                     </apex:commandLink>
+                     &nbsp;
+                     </apex:column>
+                     <apex:column headerValue="{!$Label.Role}" width="300">
+                         <apex:outputText value="{!u.Role__c}"/>
+                     </apex:column>
+                     <apex:column headerValue="{!$Label.BU_Attribute}" width="300">
+                         <apex:outputText value="{!u.BU_Attribute__c}"/>
+                     </apex:column>
+                     <apex:column headerValue="{!$Label.Forecast_Group}" width="300">
+                         <apex:outputText value="{!u.Forecast_Group__c}"/>
+                     </apex:column>
+                </apex:pageBlockTable>                                                                      
+    </apex:pageBlock>  
+ </apex:form>
+</apex:page>

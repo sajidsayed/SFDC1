@@ -1,0 +1,137 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  20-09-2010      Anand Sharma    #779        This page will be used to display lead into home page of partner portal.
+ |  08-10-2010      Anand Sharma                Moved hard code column name value into custom label
+ |  10/09/2010      Prasad                      udpaed the page for return page. 
+ |  27/12/2010      Anirudh         #1597       Added one more column for originator detail field.
+ |                                              Updated width in style sheet to 200%
+    ========================================================================================================================-->
+
+<apex:page id="leadPage" controller="PRM_LeadInbox" showHeader="false" tabStyle="Task">
+    <html>
+        <head>
+            <style>                                         
+                h2{                 
+                    font-size: 10px;                                                                        
+                }
+                .pbHeader{
+                    height:18px;
+                    vertical-align:middle;
+                    padding-top: 3px;
+                }
+                 
+                .bPageBlock {
+                    width: 200% ;
+                }                                 
+            </style> 
+        </head>
+        <body>
+            <apex:form id="leadForm">
+                <apex:actionFunction name="transfer" action="{!transferToLead}"/>
+                <apex:outputPanel id="errorMessage">
+                    <apex:inputHidden id="successFlag" value="{!isSuccess}"/>  
+                    <apex:inputHidden id="successLead" value="{!successLeadId}"/>
+                    <apex:inputHidden id="successMsgLead" value="{!successMsgLead}"/>
+                    <apex:pageMessages ></apex:pageMessages>
+                </apex:outputPanel>
+                <apex:pageblock id="leadPB" title="{! $Label.PRM_Lead_Inbox_Title}"> 
+                    <!-- no matches message -->
+                    <apex:pageBlockSection rendered="{!LeadInbox.size == 0}">
+                        <apex:outputtext styleClass="importantWarning">                         
+                            {! $Label.No_leads_for_accept_or_reject}
+                        </apex:outputtext>
+                    </apex:pageBlockSection>
+                    
+                    <!-- list of leads --> 
+                    <apex:pageBlockTable value="{!LeadInbox}" var="Lead" rendered="{!LeadInbox.size > 0}">
+                        <apex:column width="100px" colspan="2" headerClass="text-align:center">
+                            <apex:facet name="header">{! $Label.PRM_Lead_Inbox_Action}</apex:facet>
+                            <apex:commandLink action="{!accept}" 
+                                           value="{! $Label.PRM_Lead_Inbox_Accept}" id="acceptLead" 
+                                           target="_parent" title="{! $Label.Title_For_Accept_Lead}" 
+                                           style="font-weight:bold;color: black" 
+                                           onComplete="checkSuccess();" rerender="errorMessage">
+                                <apex:param name="selectedRow" value="{!Lead.Id}"/>
+                            </apex:commandLink>
+                            <apex:outputText >&nbsp;&nbsp;&nbsp;</apex:outputText>
+                            <apex:outputText >
+                                <apex:outputLink value="/apex/PRM_LeadAcceptReject" target="_blank" id="rejectLead" title="{! $Label.Title_For_Reject_Lead}" style="font-weight:bold;color: black" >{! $Label.PRM_Lead_Inbox_Reject}
+                                    <apex:param name="id" value="{!Lead.Id}"/>
+                                    <apex:param name="parent" value="true"/>
+                                </apex:outputLink>
+                            </apex:outputText>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_Name}</apex:facet>
+                            <apex:outputLink target="_parent"  value="/{!Lead.Id}">{!Lead.Name}</apex:outputLink>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_Company}</apex:facet>
+                            <apex:outputText value="{!Lead.Company}">&nbsp;</apex:outputText>
+                        </apex:column>    
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_City}</apex:facet>
+                            <apex:outputText value="{!Lead.City}">&nbsp;</apex:outputText>
+                        </apex:column>                 
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_State}</apex:facet>
+                            <apex:outputText value="{!Lead.State}">&nbsp;</apex:outputText>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_CampaignEventName} </apex:facet>
+                            <apex:outputText value="{!Lead.Campaign_Event_Name__c}">&nbsp;</apex:outputText>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_PreviousOwner}</apex:facet>
+                            <apex:outputText value="{!Lead.Previous_Owner__r.name}">&nbsp;</apex:outputText>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_LeadStatus}</apex:facet>
+                            <apex:outputText value="{!Lead.Status}">&nbsp;</apex:outputText>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_Originator}</apex:facet>
+                            <apex:outputText value="{!Lead.Lead_Originator__c}">&nbsp;</apex:outputText>
+                        </apex:column>
+                        <!--Added by Anirudh
+                            Created one more column to Accomodate Originator Detail Value.-->
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_Originator_Details}</apex:facet>
+                            <apex:outputText value="{!Lead.Originator_Details__c}">&nbsp;</apex:outputText>
+                        </apex:column>                       
+                        <apex:column value="{!Lead.CreatedDate}" />
+                        <apex:column >
+                            <apex:facet name="header">{!$Label.PRM_Lead_Inbox_Column_Email} </apex:facet>
+                            <apex:outputText value="{!Lead.Email}">&nbsp;</apex:outputText>
+                        </apex:column>                       
+                    </apex:pageBlockTable> 
+                    <apex:inputHidden id="Pageheight" value="{!Pageheight}"/>
+                     <br/>
+                    <apex:commandLink action="{!fullLead}" value="Full list of Leads" id="cmdLinkFullLead" reRender="leadPB" rendered="{!(NOT(isFullLead) && LeadInbox.size > 5)}"/>             
+                    <apex:commandLink action="{!limitLeadInbox}" value="Back to list of Leads" id="cmdLinkStandard" reRender="leadPB" rendered="{!(isFullLead && LeadInbox.size > 5)}"/>
+                </apex:pageblock>     
+                                            
+            </apex:form>
+        </body>
+        <script>     
+            window.onload=function resize(){
+               // alert(1);
+                var pgheight=document.getElementById('{!$Component.leadPage.leadForm.leadPB.Pageheight}').value;                              
+                window.resizeTo(document.body.clientWidth + 17,pgheight);                
+            }
+            function checkSuccess(){
+                //alert(2);
+                var successFlag = document.getElementById("{!$Component.leadPage.leadForm.successFlag}").value;
+                //alert('successFlag  '+successFlag  );
+                var successLead = document.getElementById("{!$Component.leadPage.leadForm.successLead}").value;
+                //var successMsgLead = document.getElementById("{!$Component.leadPage.leadForm.successMsgLead}").value;
+                //alert('{!isSuccess}');
+                if(successFlag == 'true'){
+                    alert('{!$Label.Lead_Accepted_Message}');                  
+                    window.parent.location.href = '/'+successLead ;
+                }
+            }
+        </script>
+    </html>
+</apex:page>

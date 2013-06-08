@@ -1,0 +1,115 @@
+<!-- ====================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER      WR/Req      DESCRIPTION 
+ |  12/10/2010      Karthik S      1173        This page is used to filter the objectives
+ |                                             on channel accoutn plan.
+ |  23/12/2010      Karthik S      184         Defect to fix the alignment of the filter 
+ |                                             objective fields.
+ 
+    11/1/2011       Ashwini Gowda  Def#251     Added PageMessages tag to display Error Message.
+    19/05/2011      Anil Sure       2775       Added Geography Section for Filter Criteria          
+ ======================================================================================================-->
+
+<apex:page standardController="SFDC_Channel_Account_Plan__c" extensions="PRM_FilterObjective" tabStyle="SFDC_Channel_Account_Plan__c">
+  <style>
+      .font{
+           font-weight: bolder;
+           }
+  </style>
+<apex:form >  
+  <apex:pageBlock dir="LTR">
+        
+    <apex:pageMessages />
+     <apex:outputLabel value="{!$Label.Filter_Objectives}" styleClass="font"/>
+         <apex:pageBlockSection columns="1" >
+          
+              <apex:pageBlockSectionItem dataStyle="align: left" dir="LTR" labelStyle="align :left">
+                 <apex:outputLabel >Parent Objective Geography</apex:outputLabel> 
+                 <apex:selectList size="1" value="{!Geography}" style="width: 365px;">
+                    <apex:selectOptions value="{!GeographyList}"/>
+                 </apex:selectList>
+              </apex:pageBlockSectionItem>
+        
+             <apex:pageBlockSectionItem dataStyle="align: left" dir="LTR" labelStyle="align :left">
+                   <apex:outputLabel >Parent Objective Region</apex:outputLabel> 
+                  <apex:inputText value="{!ParentObjectiveRegion}"/> 
+             </apex:pageBlockSectionItem>
+              <apex:inputField value="{!Objective.Parent_Objective_Type__c}"/>
+              <apex:inputField value="{!Objective.Objective_Type__c}"/>  
+              <apex:inputField value="{!Objective.Segment__c}"/>
+              <apex:inputField value="{!Objective.Solution__c}"/>
+              <apex:inputField value="{!Objective.Vertical__c}"/>
+           </apex:pageBlockSection>
+           
+           <apex:pageBlockButtons location="bottom">
+                
+               
+                <apex:commandButton action="{!goOnDetailPage}"  value="Go"/>
+                <apex:commandButton action="{!goonpdfpage}"  value="PDF View"/>
+           </apex:pageBlockButtons>
+      </apex:pageBlock>
+      <apex:pageBlock >    
+     <apex:pageBlockSection title="{!$Label.search_result}" collapsible="false"/>
+       <apex:pageBlockTable value="{!ObjectiveList}" var="Obj" width="100%" columnsWidth="100px,100px">
+
+           <apex:column headerValue="{!$Label.ActionLabel}">
+               <b><apex:commandLink value="Edit" action="{!EditRecord}">
+                    <apex:param value="{!Obj.Id}" name="ObjectiveEditId"/>
+                  </apex:commandLink>|
+                 <apex:commandLink value="Del" action="{!DeleteRecord}">
+                   <apex:param value="{!Obj.Id}" name="ObjectiveDeleteId"/>
+                 </apex:commandLink></b>
+           </apex:column>
+                      
+           <apex:column headerValue="{!$Label.Objective_Name}">
+             <apex:commandLink value="{!Obj.name}" action="{!OpenObjective}">
+               <apex:param value="{!Obj.Id}" name="ObjectName"/>
+             </apex:commandLink>  
+           </apex:column>
+           <apex:column headerValue="{!$Label.ParentObjective}">
+              <apex:commandLink value="{!Obj.Strategy__r.name}" action="{!OpenObjective}">
+               <apex:param value="{!Obj.Strategy__c}" name="ObjectName"/>
+             </apex:commandLink>   
+           </apex:column>
+           <apex:column headerValue="{!$Label.Stage}">
+             <apex:outputText value="{!Obj.Stage__c}"/>
+           </apex:column>
+           
+           <apex:column headerValue="{!$Label.StartDate}">
+             {!MONTH(Obj.Start_Date__c)}{!if(isBlank(Obj.Start_Date__c),'','/')}{!Day(Obj.Start_Date__c)}{!if(isBlank(Obj.Start_Date__c),'','/')}{!YEAR(Obj.Start_Date__c)}
+           </apex:column>
+           
+           <apex:column headerValue="{!$Label.End_Date}">
+             {!MONTH(Obj.End_Date__c)}{!if(isBlank(Obj.End_Date__c),'','/')}{!Day(Obj.End_Date__c)}{!if(isBlank(Obj.End_Date__c),'','/')}{!YEAR(Obj.End_Date__c)}
+           </apex:column>
+           <apex:column headerValue="{!$Label.Solution}" >
+             <apex:outputText value="{!Obj.Solution__c}"/>
+           </apex:column>
+                      
+           <apex:column headerValue="{!$Label.Segment}" >
+             <apex:outputText value="{!Obj.Segment__c}"/>
+           </apex:column>
+           
+           <apex:column headerValue="{!$Label.Vertical}" >
+             <apex:outputText value="{!Obj.Vertical__c}"/>
+           </apex:column>
+           
+           <apex:column headerValue="{!$Label.Parent_Objective_Type}" >
+             <apex:outputText value="{!Obj.Parent_Objective_Type__c}"/>
+           </apex:column>
+           <apex:column headerValue="{!$Label.Objective_Type}" >
+             <apex:outputText value="{!Obj.Objective_Type__c}"/>
+           </apex:column> 
+           <apex:column headerValue="{!$Label.Geography}">
+             <apex:outputText value="{!Obj.Parent_Objective_Geography__c}"/>
+           </apex:column>
+           <apex:column headerValue="{!$Label.Region}">
+             <apex:outputText value="{!Obj.Parent_Objective_Region__c}"/>
+           </apex:column>
+           
+       </apex:pageBlockTable>
+     
+
+      </apex:pageblock>
+    </apex:form> 
+</apex:page>

@@ -1,0 +1,35 @@
+<apex:page standardController="Opportunity" sidebar="false" showHeader="false" tabstyle="Opportunity">
+<HEAD>
+
+
+<link href="/sCSS/Theme2/default/ie/elements.css" media="handheld,print,projection,screen,tty,tv" rel="stylesheet" type="text/css" />
+<link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/12.0/1206048296000/Theme2/dStandard.css">
+
+
+</HEAD>
+ 
+ <script>
+     if('{!opportunity.Integration_Error_Message__c}'!='')
+     {
+        window.resizeTo(950,80);
+       // document.write('<div>');
+        document.write('<table bgcolor='#F3F3EC' width="100%" height="100%">');
+        document.write('<tr><td>');
+        document.write('<div class="message infoM4" id="ileBanner" >');
+        document.write('<table class="messageTable" border="0" cellpadding="0" cellspacing="0" >');
+        document.write(' <tr>');
+        document.write(' <td><img src="/s.gif" alt="Information" class="msgIcon" title="Information"/></td>');
+        document.write('<td class="messageCell">');
+        document.write('<div class="messageText"> <center><span style="font-size: 0.75em">  <font color="red" face="Arial" style='Regular' >{!$Label.Integration_Error_Message_Header_Opportunity}</font><br /><font face="Arial" style='Regular'><b>{!$Label.Action} </b>{!$Label.Integration_Error_message_For_Opportunity}</font></span>' );
+        document.write(' </td>');
+        document.write('</tr>');
+        document.write(' </table>');
+        document.write('</div>');
+        document.write('</td></tr>'); 
+        document.write('</table>');
+
+     }
+     
+ </script>
+
+</apex:page>

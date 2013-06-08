@@ -1,0 +1,21 @@
+<apex:page Controller="RunBatchJobs">
+    <apex:form >
+    <apex:pageBlock title=" This Page is to Run Batch jobs">
+    <apex:pageMessages />
+      <apex:pageBlockSection title="Run All jobs" columns="3" rendered="true">
+        <apex:pageBlockSectionItem >
+          <apex:selectList value="{!SelectedJob}" id="allJobs"  size="1" >
+                <apex:selectOptions value="{!JobOperations}"/>
+            </apex:selectList>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:inputHidden />
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem dataStyle="text-align:center">
+            <apex:commandButton action="{!runSelectedJob}" value="Run" />
+            
+        </apex:pageBlockSectionItem>
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+   </apex:form> 
+ </apex:page>

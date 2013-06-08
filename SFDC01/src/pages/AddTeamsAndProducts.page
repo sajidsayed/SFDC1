@@ -1,0 +1,342 @@
+<!--
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER   WR/DEFECT    DESCRIPTION                               
+ |  ====       =========   =========    =========== 
+ |    
+    20-Apr-10  Karthik     Defect - 635 Updated input field tag of "Split%" under the header "Splits" for the styleClass={!IF(splitExceeding,'SplitsBorder','')} 
+    
+    03-06-10   Prasad      Defect - 706 Apex Messages should always be visible
+    15-Dec-10  Srinivas    Added new column in sales team tab "Owner-Eligible?" for WR-151992 
+    08/11/2011  Leonard V   Added Width Style in Form tag for New SFDC skin
+    02/16/2012  D Quinn    WR-188298 fix display issues caused by new UI and Spring 12 release
+    01-Aug-12   Smitha     WR-201029 Browser compliance for sales team splits and Sales split assignment page not reflecting the database information       
+    20-Mar-13  Hemavathi   WR-222852 Sales split , opportunity access level field is disabled for owner.
+    -->
+
+
+<apex:page id="thePage" standardController="Opportunity"  standardStylesheets="true" extensions="CustomDetailSplit" tabStyle="Opportunity" action="{!init}">
+ <style>
+    .StatusError { color: red; font-weight: 900;background:#CCCCCC}
+    .ProductforecastError { color: green; font-weight: 900;background:#CCCCFF}
+    
+    .SplitsBorder
+  {
+     border:2px solid;
+     border-color:#CD3333;
+  }
+   .ErrMsg{
+    color:red;
+    font-size: 10pt; font-family: Arial;
+    display: none;
+
+    !important;
+   } 
+    .searchMessageFont { color: red; font-size: 10pt; font-family: Arial;}
+ </style>
+<script>
+var glob = 1;
+ var previousOnload = window.onload;        
+ window.onload = function setOwner() { 
+    if (previousOnload) { 
+        previousOnload();
+        
+    }
+  
+    setOpptyOwner();
+ }
+ function setOpptyOwner()
+ {
+    oppown=document.getElementById('{!Opportunity.Opportunity_Owner__c}').value;
+    document.getElementById(oppown).checked=true;
+   
+    var diabledUser=document.getElementById('thePage:j_id1:j_id3:TeamSelling:Userforecastgroup').value;
+    arr=diabledUser.split(",");
+    
+    for(i=0;i<arr.length-1;i++){
+    //alert('arr[i]'+arr[i]);
+        document.getElementById(arr[i]).disabled=true;
+    }
+    
+    
+    
+ }
+
+ function sendRadio(userid,cnt){
+// Added by Hemavathi for WR-222852 
+var count =document.getElementById('thePage:j_id1:j_id3:TeamSelling:UserAccountOwner').value;
+
+
+for(i=0;i<count;i++){
+var sp = 'thePage:j_id1:j_id3:TeamSelling:pageblk:SalesTeamTable:'+i+':txtAccess';
+
+ if(sp == cnt){
+   document.getElementById(cnt).value="All";
+  document.getElementById(cnt).disabled=true;
+   }
+ else{
+ if(document.getElementById(sp).value != "Read"){
+ document.getElementById(sp).value="Edit";
+ document.getElementById(sp).disabled=false;}
+ }
+   }
+ 
+ // Added by Hemavathi for WR-222852 End  
+      
+    if(userid!=''){
+        document.getElementById('thePage:j_id1:j_id3:TeamSelling:RadioOwnerSelected').value=userid;
+        //checkvalidation();    
+    }else{
+        alert('Please Populate the User Before assign the Ownership');
+        document.getElementById('{!Opportunity.OwnerId}').checked=true;
+        }
+        return false;
+ }
+ function setSeletedTab(tabclicked){
+    document.getElementById('thePage:j_id1:j_id3:TeamSelling:OnTab').value=tabclicked;
+ }
+ function setRadio(){
+ var count =document.getElementById('thePage:j_id1:j_id3:TeamSelling:UserAccountOwner').value;
+ //alert('count---->'+count);
+ var i =count;
+ var sp1 = 'thePage:j_id1:j_id3:TeamSelling:pageblk:SalesTeamTable:'+i+':txtAccess';
+  //alert('sp1--->'+sp1);
+   for(i=0;i<count;i++){
+     var sp2 = 'thePage:j_id1:j_id3:TeamSelling:pageblk:SalesTeamTable:'+i+':txtAccess';
+    
+   if(document.getElementById(sp2).value == 'All'){
+       document.getElementById(sp2).disabled=true;
+      }
+    }
+   //for checked the owner on refresh
+    var ownerid=document.getElementById('thePage:j_id1:j_id3:TeamSelling:RadioOwnerSelected').value;
+    document.getElementById(ownerid).checked=true;
+     document.getElementById(sp1).value="Edit";
+    
+  
+     
+
+    //for Disable the radio
+    var arr=new Array();
+    var diabledUser=document.getElementById('thePage:j_id1:j_id3:TeamSelling:Userforecastgroup').value;
+    
+    arr=diabledUser.split(",");
+    for(i=0;i<arr.length-1;i++){
+    
+        document.getElementById(arr[i]).disabled=true;
+        
+    }
+    
+   
+}
+/* function LeaveFirstUser(NewuserId){
+     glob=2;
+     alert('On Blur');
+     if(NewuserId==''){
+         return null;
+     }
+         
+         alert('glob in last of blur'+glob)
+ }*/
+  /*function ChangeUser(UserExist){
+         alert('On change');
+         alert(glob);
+         if(UserExist=='ChangeValue'&& glob==1){
+             alert('glob in if'+glob);
+             init();
+         }
+   }*/
+    function FirstUser(newValue,ExistingValue){
+      if(newValue!=ExistingValue){
+          init();
+          return false;
+      } 
+      return false;         
+}
+</script>
+
+
+<apex:form > 
+        <apex:outputLink id="theCommandLink" value="/{!Opportunity.Id}">{!$Label.Return_to_Opportunity}</apex:outputLink>
+        <!--<apex:commandLink action="{!backToOppty}" value="Return to Opportunity" id="theCommandLink"/>-->
+        <apex:pageBlock rendered="{!Not(OpptyAccess)}">
+        
+        <apex:pageBlockButtons >
+           <apex:commandButton value="{!$Label.Save}" action="{!doSave}" />
+           <apex:commandButton value="{!$Label.EMC_Cancel}" action="{!cancel}"/>
+        </apex:pageBlockButtons>
+        <apex:outputpanel id="pageblktabl">
+         <apex:pageBlockSection title="{!$Label.Team_Selling}" columns="1" collapsible="false" id="TeamSelling">
+          <apex:pageMessages />
+          <apex:tabPanel switchType="client" value="{!SelectedTab}" id="theTabPanel">
+           <apex:tab label="{!$Label.Sales_Team}" name="salesTeam" id="salesTeam" title="{!$Label.View_Add_or_Remove_Sales_Team_Members}" ontabenter="setSeletedTab('salesTeam')">
+            <apex:inputHidden value="{!Userforecastgroup}" id="Userforecastgroup"/>
+            <apex:inputHidden value="{!UserAccountOwner}" id="UserAccountOwner"/> <!-- Modified for WR-222852 - capture value of list size-->
+            <apex:inputHidden id="OpportuniytOwner" value="{!Opportunity.OwnerId}"/>
+            <apex:inputHidden id="RadioOwnerSelected" value="{!RadioOwnerSelected}"/>
+            
+            <apex:inputHidden id="OnTab" value="{!SelectedTab}"/>
+            <apex:pageBlock id="pageblk">
+            
+                <apex:pageBlockButtons >
+                    <apex:commandButton value="{!$Label.Add}" action="{!addSalesTeamMember}" reRender="pageblk" oncomplete="setRadio()"/>
+                    <!--<apex:commandButton value="Remove"/>-->
+                    
+                </apex:pageBlockButtons>
+                
+                <apex:pageBlockTable id="SalesTeamTable" value="{!salesTeam}" var="teamMbr">
+                    <apex:column headerValue="{!$Label.Remove}">
+                        <apex:inputCheckbox value="{!teamMbr.selected}"   onclick="checkvalidation()"/>
+                    </apex:column>
+                    <!-- Modified for WR-222852 :added parameter for sendRadio()-->
+                    <apex:column headerValue="{!$Label.Owner}">
+                       <INPUT TYPE="radio" NAME="Salesuser" id="{!teamMbr.opptyTeamMember.UserId}"  value="{!teamMbr.opptyTeamMember.UserId}" onclick="sendRadio('{!teamMbr.opptyTeamMember.UserId}','{!$Component.txtAccess}');" />
+                      <!--   <INPUT TYPE="radio" NAME="Salesuser" id="radioButton"  value="{!teamMbr.opptyTeamMember.UserId}" onclick="sendRadio('{!teamMbr.opptyTeamMember.UserId}','{!$Component.txtAccess}','{!$Component.txtErrorMsg}')"/>-->
+                      
+                     </apex:column>                     
+                                <!-- Modified for WR-222852 End-->
+                    <apex:column >
+                        <apex:facet name="header">
+                       {!$Label.User}</apex:facet>
+                        <apex:inputField value="{!teamMbr.opptyTeamMember.UserId}" required="false"    id="NewUserValue"  onchange="FirstUser(this.value,'{!teamMbr.opptyTeamMember.User.Name}')"/>
+                    </apex:column>
+                         
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:panelGrid >
+                             <span class="helpButton" > 
+                              {!$Label.Role}&nbsp;&nbsp;&nbsp;<img style="background-position: right top"  src="/s.gif"   alt="" class="helpOrb" title="{!$Label.Help_Text_For_Role_on_Sales_Team}" />
+                             </span> 
+                            </apex:panelGrid>
+                        </apex:facet>
+                      
+                        <apex:inputField value="{!teamMbr.opptyTeamMember.TeamMemberRole}" id="TeamMemberRole"  />
+                  </apex:column> 
+                 <!-- Modified for WR-222852 : added Id -->
+                    <apex:column headerValue="{!$Label.Opportunity_Access}">
+                        <!--<apex:inputField value="{!teamMbr.opptyTeamMember.OpportunityAccessLevel}" rendered="{!IF(teamMbr.opptyTeamMember.OpportunityAccessLevel==null,false,true)}"/>
+                        <apex:outputLabel value="Read/Write" rendered="{!IF(teamMbr.opptyTeamMember.OpportunityAccessLevel==null,true,false)}"/>-->
+                        <apex:inputField value="{!teamMbr.detailSplit.Opportunity_Access_Level__c}"  id="txtAccess"/>
+                   
+                    </apex:column>
+                <!-- Modified for WR-222852 -->
+                    <apex:column headerValue="{!$Label.Forecast_Group}">
+                        <apex:outputField value="{!teamMbr.opptyTeamMember.User.Forecast_Group__c}"/>
+                    </apex:column>
+                    
+                    // Added by Srinivas N for WR-151992
+                                        <apex:column headerValue="Owner-Eligible?">
+                        <apex:outputText value="{!teamMbr.Owner_Eligible}" id="ownerEligible"/>
+                    </apex:column>
+                    
+                    // End of WR-151992 change
+                    <apex:column >
+                        <apex:outputLabel value="{!$Label.Inactive}" styleClass="StatusError" rendered="{!IF(LEN(teamMbr.opptyTeamMember.UserId)==0,false,IF(teamMbr.opptyTeamMember.User.IsActive==true,false,true))}"/>
+                    </apex:column>
+                    
+                    <apex:column >
+                        <apex:outputLabel value="{!$Label.Forecast_Group_Changed}" styleClass="StatusError" rendered="{!IF (teamMbr.opptyTeamMember.User.Forecast_Group__c!=teamMbr.detailSplit.Forecast_Group__c,True,False)}"/>
+                    </apex:column>
+                    
+                    
+                    
+                    <!--<apex:column headerValue="IsActive">
+                        <apex:outputLabel value="{!teamMbr.opptyTeamMember.User.IsActive}"/>
+                    </apex:column>
+                    <apex:column headerValue="Forecast Mapping">
+                        <apex:outputLabel value="{!teamMbr.ProductForecast}"/>
+                    </apex:column>-->
+                    
+                </apex:pageBlockTable>
+               
+               <apex:actionFunction action="{!removeSelected}" name="checkvalidation" reRender="TeamSelling" oncomplete="setRadio()"/> 
+             <!-- Modified for WR-222852 -->
+              <apex:outputText value="{!$Label.Transformation_Account_Owner_Message}" escape="false" styleClass="searchMessageFont" />
+
+            </apex:pageBlock>
+        </apex:tab>
+        <apex:tab label="{!$Label.Splits}" name="Split" title="{!$Label.Update_Split_for_my_Forecast_Group}" id="Split" ontabenter="setSeletedTab('Split')">
+            <apex:pageBlock >
+            
+                <apex:pageBlockTable value="{!salesTeam}" var="teamMbr" id="SplitTable">
+                    <apex:column headerValue="{!$Label.User}">
+                        <apex:outputField value="{!teamMbr.detailSplit.OwnerId}"  />
+                    </apex:column>
+                    <apex:column headerValue="{!$Label.Role}">
+                        <apex:outputField value="{!teamMbr.opptyTeamMember.TeamMemberRole}" />
+                    </apex:column>
+                    <apex:column headerValue="{!$Label.Opportunity_Access}">
+                        <apex:outputField value="{!teamMbr.detailSplit.Opportunity_Access_Level__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="{!$Label.Split}">
+                        <apex:inputField value="{!teamMbr.detailSplit.Split__c}" rendered="{!IF(teamMbr.ProductForecast==false,false,true)}"  styleClass="{!IF(teamMbr.splitExceeding,'SplitsBorder','')}" />
+                    </apex:column>
+                    <apex:column headerValue="{!$Label.Forecast_Group}">
+                        <apex:outputfield value="{!teamMbr.detailSplit.Forecast_Group__c}"/>
+                    </apex:column>
+                    <apex:column >
+                    <apex:outputLabel styleClass="ProductforecastError" value="{!$Label.No_Products_for_your_Forecast_Group}" rendered="{!IF(teamMbr.ProductForecast==false,true,false)}"/>
+                    </apex:column>
+                </apex:pageBlockTable>
+                
+              
+            </apex:pageBlock>
+        </apex:tab>
+       </apex:tabPanel>
+    
+      </apex:pageBlockSection>
+            <script>
+                var oppown=document.getElementById('{!Opportunity.OwnerId}').value;
+               // alert('{!$Component.txtErrorMsg}');
+                document.getElementById(oppown).checked=true;
+                var arr=new Array();
+                var diabledUser=document.getElementById('thePage:j_id1:j_id3:TeamSelling:Userforecastgroup').value;
+                arr=diabledUser.split(",");
+                for(i=0;i<arr.length-1;i++){
+                
+                    document.getElementById(arr[i]).disabled=true;
+                }
+            var j=0;
+
+             var table=document.getElementById('thePage:j_id1:j_id3:TeamSelling:pageblk:SalesTeamTable');   
+             if (table.rows && table.rows.length>0)
+              { 
+                 for(var x = 0; x < table.rows.length;x++) 
+                  {
+                  var firstrow = table.rows[x];       
+                  var cell = firstrow.cells[1];   
+                                     for(var y = 0; y < cell.childNodes.length;y++) 
+                      {
+                         if(cell.childNodes[y].type == "radio" && cell.childNodes[y].checked ) 
+                          { 
+                             j=x;
+
+                                                      } 
+                      }
+                   }   
+                                          j=j-1;
+                                          
+                     var rsp = 'thePage:j_id1:j_id3:TeamSelling:pageblk:SalesTeamTable:'+j+':txtAccess';
+                                         document.getElementById(rsp).value='All';
+                                          document.getElementById(rsp).disabled=true;
+     
+                }                    
+    
+            </script>
+        </apex:outputpanel>     
+    </apex:pageBlock>
+         <apex:actionFunction action="{!setAccountTeamMemberRole}" name="AddTeamRole" rerender="TeamSelling" oncomplete="setRadio()"/>
+         <apex:actionFunction action="{!initNewMember}" name="init" rerender="TeamSelling" oncomplete="setRadio()"/>
+         <apex:actionFunction action="{!groupsplits}" name="checkSplitPercentage" rerender="TeamSelling" oncomplete="setRadio()"/>
+    <!--Error Message on insufficient access-->
+     <apex:pageBlock rendered="{!OpptyAccess}">
+        <apex:pageMessages />
+        <apex:pageBlockButtons >
+           <apex:commandButton value="Ok" action="{!cancel}"/>                   
+        </apex:pageBlockButtons>        
+    </apex:pageBlock>  
+    </apex:form>
+    
+     
+    
+</apex:page>

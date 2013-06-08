@@ -1,0 +1,8 @@
+<!-- =======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER           WR/Req      DESCRIPTION 
+ |  07/12/2012      Anand Sharma                    Initial Creation.
+    =====================================================================================================================-->
+<apex:page controller="PRM_PAN_Country_Routing_Controller" action="{!returnToPANORCountryPage}">
+    <apex:pagemessages />
+</apex:page>

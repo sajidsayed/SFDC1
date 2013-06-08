@@ -1,0 +1,26 @@
+<apex:page standardController="User_Assignment__c" extensions="OpportunityAssignController" tabStyle="User_Assignment__c">
+    <apex:form >
+        <apex:pageBlock >
+        <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton value="{!$Label.Assign}" action="{!AssignSalesTeamMember}" rendered="{!showAssignPageButton}"/>
+                <apex:commandButton value="{!$Label.OK}" action="{!UserAssignmentId}" rendered="{!showAssignOkButton}"/>
+            </apex:pageBlockButtons>
+               <apex:panelGroup id="panel" >
+               <apex:pageMessage summary="{!$Label.User_Assigment_Error_Message}" severity="Error" strength="3" id="ErrorMsg"  rendered="{!showErrorMessage}" />
+               <apex:pageMessage summary="{!$Label.User_Assigment_No_Record_Present}" severity="Info" strength="1" id="NoRecord"  rendered="{!ShowNullErrorMessage}" />
+               <apex:pageMessage summary="{!$Label.User_Assigment_No_Record_Selected}" severity="Error" strength="3" id="NoRecordSelected"  rendered="{!ShowNoRecordMessage}" />
+               <apex:pageBlockTable value="{!User_Assignment}" var="user_assignmt" id="table" rendered="{!showAssignPageButton}">
+               <apex:column headerValue="{!$Label.Assign}" >
+                    <!-- This is our selected Boolean property in our wrapper class -->
+                    <apex:inputCheckbox value="{!user_assignmt.IsChecked}"/>
+                    </apex:column>
+                    <apex:column width="30%" headerValue="{!$Label.Team_Member}"> <apex:OutputText id="teamMember" value="{!user_assignmt.AccntTeamMem.User.FirstName} {!user_assignmt.AccntTeamMem.User.LastName}"  style="width:80%;text-align:left;vertical-align:top;"> </apex:OutputText></apex:column>
+                    <apex:column width="30%" headerValue="{!$Label.Team_Role}"> <apex:OutputText id="teamRole" value="{!user_assignmt.AccntTeamMem.TeamMemberRole}"  style="width:80%;text-align:left;vertical-align:top;"> </apex:OutputText></apex:column>
+                    <apex:column width="30%" headerValue="{!$Label.Forecast_Group}"> <apex:OutputText id="forecastGroup" value="{!user_assignmt.AccntTeamMem.User.Forecast_Group__c}"  style="width:80%;text-align:left;vertical-align:top;"> </apex:OutputText></apex:column>
+                
+                </apex:pageBlockTable>
+                </apex:panelGroup>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

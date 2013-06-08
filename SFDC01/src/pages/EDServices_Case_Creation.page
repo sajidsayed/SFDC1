@@ -1,0 +1,122 @@
+<apex:page id="page" controller="EDServices_Controller" showHeader="false" sidebar="false" standardStylesheets="true" action="{!createInstance}">
+    <apex:include pageName="EMC_Header"/><br/>
+    <apex:form id="form">  
+    <apex:messages />
+        <apex:pageBlock title="Education Services Case Creation Form" tabStyle="Case" id="block">
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="SUBMIT" onclick="ValidateEmail();return false;"/>
+                <apex:actionFunction name="afterValidation" action="{!save}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1" id="section">            
+                <apex:inputField value="{!eDServicesContact.First_Name__c}" style="width: 360px; height: 15px" required="true" id="first"/>
+                <apex:inputField value="{!eDServicesContact.Last_Name__c}" style="width: 360px; height: 15px" required="true" id="last"/>
+                <apex:inputField value="{!eDServicesContact.Name}" style="width: 360px; height: 15px" required="true" id="email"/>                 
+                <apex:inputField value="{!eDServicesContact.Company_Name__c}" style="width: 360px; height: 15px" required="true" id="cmpny"/>
+                <apex:inputField value="{!eDServicesContact.Contact_Phone__c}" style="width: 360px; height: 15px"/>
+                <apex:inputField value="{!eDServicesContact.Company_Address__c}" style="width: 360px; height: 15px"/>
+                <apex:inputField value="{!eDServicesContact.City__c}" style="width: 360px; height: 15px"/>
+                <apex:inputField value="{!eDServicesContact.Country__c}" required="true" id="country"/>
+                <apex:inputField value="{!eDServicesContact.Post_Zip_Code__c}" style="width: 360px; height: 15px"/>
+                <apex:inputField value="{!caseRecord.Inquiry_Type__c }" required="true" id="inq"/>
+                <apex:inputField value="{!eDServicesContact.Audience_Type__c}" required="true" id="aud"/>
+                <apex:inputField value="{!eDServicesContact.Preferred_Language__c}" required="true" id="pref"/>
+                <apex:outputLabel value="Please check this box if you have a Powerlink Account"/>
+                <apex:inputField value="{!eDServicesContact.isPowerlink_Account__c}" onclick="unhideLink();" id="checkbox"/>
+                <apex:outputPanel id="panel">
+                <apex:outputLink value="{!$Label.EDServices_Powerlink}" id="link" target="_blank">Please click on this link to create a Powerlink Account*
+                </apex:outputLink>                 
+                <br><br><br><label>*A Powerlink Account is required in order to register for training.</label></br></br></br>
+                </apex:outputPanel>
+
+            
+
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Case Details" columns="1" collapsible="True" id="sec2">
+                <apex:inputField value="{!caseRecord.Subject}" style="width: 360px; height: 15px" required="true" id="sub"/>
+                <apex:inputField value="{!caseRecord.Description}" style="width: 360px; height: 110px" required="true" id="desc"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <script type="text/javascript">
+
+            function ValidateEmail()  
+            { 
+                var inputText = document.getElementById('{!$Component.block.section.email}').value;
+                var first = document.getElementById('{!$Component.block.section.first}').value;
+                var last = document.getElementById('{!$Component.block.section.last}').value;
+                var cmpny = document.getElementById('{!$Component.block.section.cmpny}').value;
+                var country = document.getElementById('{!$Component.block.section.country}').value;
+                var inq = document.getElementById('{!$Component.block.section.inq}').value;
+                var aud = document.getElementById('{!$Component.block.section.aud}').value;
+                var pref = document.getElementById('{!$Component.block.section.pref}').value;
+                var sub = document.getElementById('{!$Component.block.sec2.sub}').value;
+                var desc = document.getElementById('{!$Component.block.sec2.desc}').value;
+                var allFill = true;
+                var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
+                
+                if(inputText.match(mailformat))  
+                {  
+                if(first=='' || last=='' || cmpny=='' || country=='' || inq=='' || aud=='' || pref=='' || sub=='' || desc==''){
+                    
+                    allFill = false;
+                    alert("Please populate all mandatory fields (marked in red)"); 
+                }
+                if(allFill==true){
+                    afterValidation();
+                }
+                }  
+                else  
+                {  
+                alert("Please enter a valid email address");                   
+                }           
+              }
+            </script> 
+         <apex:pageBlock title="Upload Attachments" >    
+            <apex:repeat value="{!newAttachments}" var="newAtt" >
+                <apex:pageBlockSection columns="3">                   
+                   <apex:pageBlockSectionItem >
+                       <apex:outputLabel value="File"/>                                                                                                   
+                       <apex:inputFile value="{!newAtt.body}" filename="{!newAtt.name}"/> 
+                          
+                    </apex:pageBlockSectionItem> 
+                           
+                    <apex:pageBlockSectionItem >                     
+                       <apex:outputLabel value="Description"/>                      
+                       <apex:inputText value="{!newAtt.Description}"/>
+                    </apex:pageBlockSectionItem>                   
+                </apex:pageBlockSection>
+            </apex:repeat>
+            <!--<apex:commandButton value="Add More" action="{!addMore}"/>-->
+                                 
+       </apex:pageBlock>  
+       
+       <script type="text/javascript">
+
+         
+
+
+
+        /*window.onLoad = hideLink();
+
+        function hideLink(){            
+            alert(document.getElementById('{!$Component.block.section.checkbox}').checked); 
+        }*/
+        function unhideLink(){
+            var flag = document.getElementById('{!$Component.block.section.checkbox}').checked;
+
+            //alert(flag);
+            if(flag){
+                document.getElementById('{!$Component.block.section.panel}').style.display = 'none'; 
+                
+            }
+            else {
+                document.getElementById('{!$Component.block.section.panel}').style.display = 'block';
+            }
+        }
+
+
+        
+
+    </script>
+    </apex:form>
+    <apex:include pageName="EMC_Footer"/><br/> 
+</apex:page>

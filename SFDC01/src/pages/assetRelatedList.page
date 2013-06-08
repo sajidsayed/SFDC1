@@ -1,0 +1,19 @@
+<apex:page standardController="Opportunity" extensions="DetailPageAsset" tabStyle="Asset__c">
+<style>
+.fewerMore { display: none;}
+</style>
+<apex:form >
+ <apex:pageMessages />
+ 
+<apex:pageblock id="CustomList" title="Related Assets"  >
+   <apex:pageBlockTable value="{!oppz}" var="o" rendered="{!NOT(ISNULL(oppz))}">
+        <apex:column value="{!o.Name}"/>
+        <apex:column value="{!o.Product_Name_Vendor__c}"/>
+        <apex:column value="{!o.Total_Raw_Capacity_GB__c}"/>
+       <apex:column value="{!o.Configuration_Details__c}"></apex:column>
+       <apex:column value="{!o.Swap_Value__c}"/>
+   </apex:pageBlockTable>
+   <apex:outputLabel value="No records to display" rendered="{!(ISNULL(oppz))}" styleClass="noRowsHeader"></apex:outputLabel>
+ </apex:pageblock>
+</apex:form>
+</apex:page>

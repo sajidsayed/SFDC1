@@ -1,0 +1,39 @@
+<!-- =======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER           WR/Req      DESCRIPTION 
+ |  07/12/2010      Karthik Shivprakash             Initial Creation.
+ |  22/01/2011      Ashwini Gowda                   This component is used for display of Velocity Specialities.
+ |  20-Jul-2012     Anand Sharma                Distributor profile ID, the Revenue fields will be displayed as blank to that user profile  
+    =====================================================================================================================-->
+
+<apex:component controller="PRM_VPP_VelocityComponentController">
+    <apex:stylesheet value="{!URLFOR($Resource.mystyle4, 'mystyle4/mystyle2/css/PRM_VPP_Scorecard_CSS.css')}"/> 
+    
+    <apex:attribute name="SpecialityList" description="List of Speciality Rules" 
+    type="Velocity_Rule_Results__c[]" required="true" assignTo="{!SpecialityList}"/>
+    
+    <apex:attribute name="SpecialityStatus" description="Speciality Status" 
+    type="String" required="true" assignTo="{!SpecialityStatus}"/>
+    
+    <apex:attribute name="RevenueVisibility" description="Revenue Visibility Status" 
+    type="Boolean" required="false" assignTo="{!isRevenueVisible}"/>
+    
+    <apex:dataTable value="{!SpecialityList}" var="s" width="100%" styleClass="rt7Style" cellspacing="0"> 
+        <apex:column width="20%" headerValue="{!$Label.Bucket}" headerClass="cellBucketStyle" styleClass="rt3Style" Style="text-align :left" >
+            <apex:outputText value="{!s.Speciality_RuleID__r.Bucket__c}"/>
+        </apex:column>   
+        <apex:column width="40%" headerValue="{!$Label.Cert_Accred_Revenue}" headerClass="cellBucketStyle" styleClass="rt3Style" Style="text-align :left">
+            <apex:outputText value="{!s.Speciality_RuleID__r.Display_Name__c}"/>
+        </apex:column>  
+        <apex:column width="20%"  headerValue="{!$Label.Required}" headerClass="cellBucketStyle" styleClass="rt3Style" Style="text-align :center">
+           <apex:outputText value="{!s.Speciality_RuleID__r.Required__c}" rendered="{!IF(s.Required_Value_Type__c == 'USD', false, true)}"/>
+           <apex:outputText value="{0,number, $#,###,###}" Style="text-align :center" rendered="{!IF(AND(s.Required_Value_Type__c == 'USD',isRevenueVisible), true,false)}">
+                <apex:param value="{!value(s.Speciality_RuleID__r.Required__c)}"/>
+           </apex:outputText>           
+        </apex:column>  
+        <apex:column width="20%" headerValue="{!$Label.Actual}" headerClass="cellBucketStyle" styleClass="{!IF(s.Status__c=='Achieved','rt1Style', 
+            IF(SpecialityStatus=='Deployed','rt2Style','rt3Style' ))}">
+            <apex:outputText value="{!s.Current__c}" rendered="{!IF(s.Required_Value_Type__c != 'USD', true,IF(isRevenueVisible,true, false))}"/>
+        </apex:column>
+    </apex:dataTable>     
+</apex:component>

@@ -1,0 +1,13 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req      DESCRIPTION 
+ |  30/06/2011      Anand Sharma    			  This Page will allow to redirect to Non Portal 
+                                                  Deal Registration Form.
+ ======================================================================================================================== -->
+<apex:page showheader="false" sidebar="false">
+	<apex:include pageName="EMC_Header"/><br/>
+	<apex:form >  	 	
+  		<apex:outputText value="{!$Label.DealReg_ReRoutePowerLinkMessage}" escape="false"></apex:outputText>
+  	</apex:form>  	
+  	<apex:include pageName="EMC_Footer"/>
+</apex:page>

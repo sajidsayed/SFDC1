@@ -1,0 +1,48 @@
+<apex:page showHeader="false">
+<!-- debug info -->
+<!--
+<apex:pageBlock title="Cloud9 Central">
+    <div id="LoadMessage"></div>
+    <p>Hello {!$User.FirstName} | username={!$User.Username} ({!$User.FirstName}) | user_id={!$User.Id}
+        | partner_url={!$Api.Partner_Server_URL_140} | session={!$Api.Session_ID}
+        | site={!$Site.CurrentSiteUrl} | <a href="#" onClick="/home/home.jsp" target="_parent">Back</a> </p>
+    <apex:commandLink value="<- Back to home" onclick="window.top.location='/home/home.jsp';return false;"/>
+</apex:pageBlock>
+-->
+<!-- QE Environment
+    <apex:iframe src="http://qe-app2.engr.cloud9analytics.com:8080/CentralApplication/index.jsp?sso={!$Api.Session_ID}&url={!$Api.Partner_Server_URL_120}" scrolling="false" id="c9iframe" title="Cloud9 Central" />
+-->
+<!-- 2012-09-14 Updated package to use v12 instead of v14; latest lib used in code is v21
+-->
+    <apex:iframe src="https://central.cloud9analytics.com/CentralApplication/index.jsp?sso={!$Api.Session_ID}&url={!$Api.Partner_Server_URL_120}&u={!$User.Username}&rurl={!$Site.Domain}" scrolling="false" id="c9iframe" title="Cloud9 Central" />
+    <script language="javascript" type="text/javascript">
+    window.onload = function() {
+        document.getElementById('c9iframe').style.height = getHeight()+'px';
+        n = navigator;
+        nua = n.userAgent;
+        saf = ( nua.indexOf( 'Safari' ) != -1 );
+        if(saf)
+            window.location = "https://central.cloud9analytics.com/CentralApplication/index.jsp?sso={!$Api.Session_ID}&url={!$Api.Partner_Server_URL_120}";
+    };
+    window.onresize = function() {
+        document.getElementById('c9iframe').style.height = getHeight()+'px';
+    };
+    function getHeight() {
+      var myWidth = 0, myHeight = 0;
+      if( typeof( window.innerWidth ) == 'number' ) {
+        //Non-IE
+        myWidth = window.innerWidth;
+        myHeight = window.innerHeight;
+      } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+        //IE 6+ in 'standards compliant mode'
+        myWidth = document.documentElement.clientWidth;
+        myHeight = document.documentElement.clientHeight;
+      } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+        //IE 4 compatible
+        myWidth = document.body.clientWidth;
+        myHeight = document.body.clientHeight;
+      }
+      return myHeight;
+    }
+    </script>
+</apex:page>

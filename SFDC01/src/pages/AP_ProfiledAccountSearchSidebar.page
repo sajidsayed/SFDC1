@@ -1,0 +1,67 @@
+<apex:page id="myPage" standardController="Account" extensions="AP_ProfiledAccountSearch" sidebar="false"  showHeader="false" standardStylesheets="false" >
+<script>
+     function redirectToSearchResult()  
+     {
+       var checkSearchData=document.getElementById('{!$Component.myPage:theForm:mypageId:searchBlock:searchBlockItem:searchAccount}').value;
+       
+       if(checkSearchData=='')
+       {
+       alert('Enter Account Name in Search all Accounts Component');
+       }
+       if(checkSearchData!='')
+       {
+          
+        while (checkSearchData.indexOf("&") != -1)
+        {
+            checkSearchData = checkSearchData.replace("&","%26");
+        }
+
+        while (checkSearchData.indexOf("#") != -1)
+        {
+            checkSearchData = checkSearchData.replace("#","%23");
+        }
+
+        while (checkSearchData.indexOf("+") != -1)
+        {
+            checkSearchData = checkSearchData.replace("+","%2B");
+        }
+
+       var datavalue='?Name='+checkSearchData;
+       window.parent.location.href='/apex/AP_ProfiledAccountSearchResult'+datavalue;
+       // alert('you have entered' + '' + checkSearchData );
+       }
+
+     }
+    //Used for Enter key
+   function noenter(ev)  {
+       if(window.event){
+            key = window.event.keyCode; //IE
+         } else{
+         key = ev.which; //firefox
+        // alert(key);
+         }
+    if(key == 13 || window.event.keycode == 13) {
+       var ele=document.getElementById('myPage:theForm:mypageId:searchBlock:searchBlockItem:search');
+       // alert(ele);
+        ele.click();
+        return false;
+     } else{
+        return true;
+     }
+  }
+
+</script>
+<apex:form id="theForm" style="width:100%;color:#222222" >
+
+    <apex:pageBlock mode="edit" id="mypageId" >
+             <apex:pageBlockSection id="searchBlock" columns="1">
+            <apex:pageBlockSectionItem id="searchBlockItem">
+                <apex:inputText id="searchAccount" style="width:100%;color:#222222" title="Account Search" value="{!searchData}" onkeypress="return noenter(event)"/>
+                  <!-- <apex:commandButton action="{!showValue}" id="search" value="Go" onclick="window.parent.location.href='/apex/searchResultPage?Name={!searchData}'"/> -->
+              <!--  <apex:commandButton id="search" action="{!searchButton}" value="Go!" oncomplete="window.parent.location.href='/apex/AP_ProfiledAccountSearchResult?Name={!searchData}'"/> -->
+                   <apex:commandButton id="search" value="Go!" oncomplete="redirectToSearchResult()"/>
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+      </apex:pageBlock>
+</apex:form>
+</apex:page>

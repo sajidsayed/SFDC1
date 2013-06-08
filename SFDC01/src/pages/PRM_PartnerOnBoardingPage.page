@@ -1,0 +1,172 @@
+<!--  ==================================================================================================================+
+
+ |  HISTORY  |                                                                           
+
+ |  DATE          DEVELOPER      WR        DESCRIPTION                               
+
+ |  ====          =========      ==        =========== 
+
+ |  28/03/2011     Arif      Req#162077    This page is used to be shown as site page for creating Partner On Boarding record.
+ 
+ |  17/05/2012     Arif      192906        Changed 'EMC Sponsoring Distributor' to add help text on it.        
+ |  17/08/2012     Ganesh    197660        Added new RMSA Agreement link                                       
+ +==================================================================================================================**/ 
+-->
+<apex:page standardController="Partner_Onboarding__c" id="OnBoardingPage" extensions="PRM_PartnerOnboardingExtensionController" showHeader="false" sidebar="false" language="{!lang}" standardStylesheets="true" >
+    <html> 
+    <apex:include pageName="EMC_Header"/><br/>
+    <!--script type="text/javascript">
+        function validate(){
+            var emcSponsoringDisti = document.getElementById('field');
+            if(emcSponsoringDisti == null || emcSponsoringDisti == ''){
+                alert('Kindly Populate the value for EMC Sponsoring Distributor field');
+                return false;
+            }
+            else{
+                return true;
+            }             
+        }
+    </script-->        
+    <apex:form >
+    <table align="right">
+        <tr>
+            <td>
+                 <apex:selectList value="{!lang}" size="1">
+                    <apex:selectOptions value="{!items}"/>
+                 </apex:selectList>
+             </td>
+             <td>
+                 <apex:commandButton value="Change Language" action="{!chnageLang}" />
+             </td>    
+         </tr>
+      </table>   
+     </apex:form>
+     
+    <apex:form >
+     
+        
+        <apex:pageBlock title="{!$Label.EMC_Authorized_Reseller_Application}" tabStyle="Partner_Onboarding__c" >              
+         <apex:pageMessages />   
+            <apex:pageBlockButtons location="bottom">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton action="{!save}" value="SUBMIT"/>
+               <!-- <apex:commandButton onclick="closeMe()" value="CANCEL"/>  -->
+                   
+            </apex:pageBlockButtons>
+             <p class="labelCol" style="text-align: left;"><b>{!$Label.POB_Verbiage1}</b> {!$Label.POB_Verbiage}</p>
+             <apex:pageBlockSection columns="1" collapsible="false">
+                  <!--apex:outputLabel value="{!$Label.POB_Verbiage}" styleClass="labelCol"/--> 
+                 <apex:inputField value="{!Partner_Onboarding__c.Region_you_are_applying_for__c}" id="Region" required="true"/>
+                 <apex:pageBlockSectionItem >
+                     <apex:outputpanel >
+                        <!-- <apex:outputLabel value="{!$Label.EMC_Sponsoring_Distributor1}" for="field" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;">  -->
+                        <apex:outputLabel value="{!$Label.EMC_Sponsoring_Distributor1}" for="field" styleClass="helpButtonOn">
+                            <apex:image url="/s.gif" styleClass="helpOrb" title="{!$Label.Help_Text}" style="margin-right:2px"/>                                              
+                     </apex:outputLabel>
+                     </apex:outputpanel>
+                     <apex:outputpanel >
+                        <div class="requiredInput">                      
+                            <div class="requiredBlock"></div>   
+                            <apex:inputText value="{!EMCSponsoringDistributor}" id="field" styleClass="requiredInput"/>
+                        </div>
+                     </apex:outputpanel>                     
+                 </apex:pageBlockSectionItem>    
+             </apex:pageBlockSection> 
+          
+             <apex:pageBlockSection title="{!$Label.Your_Contact_Information}" columns="2" collapsible="false">
+               
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.Your_Contact_Information}" var="f">
+                 <apex:inputField value="{!Partner_Onboarding__c[f]}"/>               
+                 </apex:repeat>   
+                 
+             </apex:pageBlockSection>
+                           
+             <apex:pageBlockSection title="{!$Label.Company_Information}" columns="2" collapsible="false">
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.Company_Information}" var="f">
+                 <apex:inputField value="{!Partner_Onboarding__c[f]}"/>               
+                 </apex:repeat>
+                 <apex:inputField value="{!Partner_Onboarding__c.Country__c}" required="true"/>
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.Company_Information_1}" var="f">
+                 <apex:inputField value="{!Partner_Onboarding__c[f]}"/>               
+                 </apex:repeat>
+             </apex:pageBlockSection> 
+             <apex:pageBlockSection title="{!$Label.Business_Focus1}" columns="2" collapsible="false">
+             <!--  
+                 <apex:outputText />    
+                 <apex:outputText /> 
+                 <apex:outputText value="{!$label.Primary_EMC_Business_Line_Interest}" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;"/><br/>
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.Business_Focus}" var="f">
+                 <apex:inputField value="{!Partner_Onboarding__c[f]}"/>               
+                 </apex:repeat><br/><br/>
+                 <apex:outputText value="{!$label.Vertical_Market_Specialization}" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;"/><br/>
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.Vertical_Market_Specialization}" var="f">
+                 <apex:inputField value="{!Partner_Onboarding__c[f]}"/>               
+                 </apex:repeat> -->
+                 <apex:inputField value="{!Partner_Onboarding__c.Primary_EMC_Business_Line_Interest__c}" required="true"/>
+                 <apex:inputField value="{!Partner_Onboarding__c.Vertical_Market_Specialization__c}" required="true"/>
+             </apex:pageBlockSection>  
+             <apex:pageBlockSection title="{!$Label.Application_Environments}" columns="1" collapsible="false">
+             <!--  
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.Application_Environments}" var="f">
+                 <apex:inputText value="{!Partner_Onboarding__c[f]}"/>               
+                 </apex:repeat>
+                 -->
+                  <apex:inputField value="{!Partner_Onboarding__c.Application_Environments__c}" required="true"/>
+             </apex:pageBlockSection><br/><br/>
+             <apex:pageBlockSection columns="1">
+                <apex:inputField value="{!Partner_Onboarding__c.Company_Overview_1000_characters_max__c}" required="true" id="CompanyOverview"/>
+             </apex:pageBlockSection>
+             <apex:pageBlockSection title="{!$Label.Key_Company_Contacts}" columns="2" collapsible="false" id="KeyCompanyContacts">
+                 <apex:outputText value="{!$Label.Primary_Business_Contact_for_EMC}" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;"/>
+                 <apex:outputText />
+        
+               <!-- taking this out as of now - this functionlity is working properly.
+                  <apex:commandButton action="{!primaryContactAction}" value="{!caption}"  immediate="true"  reRender="KeyCompanyContacts"/>
+                <apex:outputText /> -->
+                 
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.Primary_Business_Contact_for_EMC}" var="f" id="PrimaryBusiness" >
+                 <apex:inputField value="{!Partner_Onboarding__c[f]}"  />       
+                <!-- rendered="{!NOT(POB.I_will_be_the_primary_business_contact_f__c)}" -->
+                 </apex:repeat>
+                 <br/>
+                 <apex:outputText />
+                 <apex:outputText value="{!$Label.President_CEO}" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;"/>
+                 <apex:outputText />
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.President_CEO}" var="f">
+                 <apex:inputField value="{!Partner_Onboarding__c[f]}" />               
+                 </apex:repeat><br/>       
+                 <apex:outputText />
+                 <apex:outputText value="{!$Label.Sales_Contact}" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;"/>
+                 <apex:outputText />
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.Sales_Contact}" var="f">
+                 <apex:inputField value="{!Partner_Onboarding__c[f]}"/>               
+                 </apex:repeat><br/>
+                 <apex:outputText />
+                 <apex:outputText value="{!$Label.Marketing_Contact}" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;"/>
+                 <apex:outputText />
+                 <apex:repeat value="{!$ObjectType.Partner_Onboarding__c.FieldSets.Marketing_Contact}" var="f">
+                 <apex:inputField value="{!Partner_Onboarding__c[f]}"/>               
+                 </apex:repeat>
+             </apex:pageBlockSection><br/><br/>
+             <center><apex:outputText value="{!$Label.Reseller_Marketing_Support_Agreement}" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;"/></center><br/>
+             <table width="70%"  border="0" cellspacing="0" cellpadding="0" align="center">
+             <tr>
+                 <td align="center"><iframe src="/PartnerOnBoarding/POB_Reseller_Marketing_Support_Agreement" width="100%" height="150"></iframe></td>
+                <!-- <td align="center"><iframe src="http://emc.sfdc01.cs3.force.com/PartnerOnBoarding/POB_Reseller_Marketing_Support_Agreement" width="100%" height="150"></iframe></td> -->
+                 <!--<td align="center"><iframe src="http://info.emc.com/Partner/Reseller_Mktg_Support_Agreement.htm" width="100%" height="150"></iframe></td>-->
+            </tr>
+            </table><br/>
+            <center>
+                <apex:outputLabel value="{!$Label.I_Accept}" for="I" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;"/>
+                &nbsp;&nbsp;<apex:inputField value="{!Partner_Onboarding__c.I_Accept__c}" id="I"/>
+            </center>   
+                                
+          </apex:pageBlock>  
+     
+                           
+     </apex:form>
+  <apex:include pageName="EMC_Footer"/>
+  </html>
+</apex:page>

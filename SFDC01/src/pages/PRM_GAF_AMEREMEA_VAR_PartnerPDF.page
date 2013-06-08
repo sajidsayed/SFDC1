@@ -1,0 +1,216 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |          
+ | 20 Feb 2013     Krishna Pydavula 209736      To Render the "Governance & Archive" and "Isilon" tables based on old and new record types.                                        
+========================================================================================================================-->
+<apex:page standardController="GAF__c" extensions="PRM_GAF_VF_Controller" renderAS="PDF">
+<html>
+    <head>
+        <style>         
+            body { 
+                font-family: Arial Unicode MS; 
+                font-size: 8.0pt;
+                color: windowtext;                  
+            }
+            @page { 
+                margin-left: 2cm;
+                margin-right: 2cm;
+                margin-top: 2cm;
+                margin-bottom: 2cm;
+                
+                size:portrait;                                                       
+                @bottom-right { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                    content: "Page " counter(page) " of " counter(pages);                    
+                }
+                @bottom-left { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                   <!-- content: "Channel Plan : {!SFDC_Channel_Account_Plan__c.Name}"; -->                
+                } 
+                                                   
+            }
+           div { page-break-after: auto; }
+           h5{
+                counter-increment: chapter;
+                counter-increment: section;
+           }
+           ul.b {list-style-type:solid circle;font-size: 12.0pt;font-weight:bold; }
+           ul.c {list-style-type:none;font-size: 12.0pt;font-weight:bold; }
+           ol.digitListCls {list-style-type:decimal;}
+           
+           p.padding {padding-left:0.8cm;} 
+           p.paddingSecornd {padding-left:1.2cm;} 
+           
+           
+        </style>
+    </head>
+    <body>  
+        <div>
+            <hr width="100%"/>
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="50%" align="left" ><apex:image id="theImage" value="{!$Resource.EMCLogo}" width="148px" height="56px" /></td>
+                </tr>
+            </table>            
+            <hr width="100%"/>
+            <h3>EMC Velocity Program Goal Acknowledgment Form</h3>
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Partner Name</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Partner_Name__r.Name}"/></td>
+                    <td width="20%" align="right"><u>Partner Theater</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Partner_Theater__c}"/></td>
+                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Partner Type</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Partner_Type__c}"/></td>
+                    <td width="20%" align="right"><u>GAF Start Date</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Start_Date__c}"/></td> 
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right" ><u>Velocity Tier</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Velocty_Srvce_Providr_Tier__c}"/></td>
+                    <td width="20%" align="right"><u>GAF End Date</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_End_Date__c}"/></td>
+                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Partner GAF Approver</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Partner_GAF_Approver__r.Name}"/></td>
+                    <td width="20%" align="right"><u>GAF Submission Date</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Submission_Date__c}"/></td> 
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right" ><u>GAF Submitted By</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.GAF_Submitted_By__r.Name}"/></td>
+                    <td width="20%" align="right"><u>GAF Approval Date</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Approval_Date__c}"/></td>
+                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>GAF Contact Name</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Contact_Name__c}"/></td>
+                    <td width="20%" align="right"><u>Year</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Year__c}"/></td> 
+                </tr>
+        <tr valign="top">
+                    <td width="20%" align="right" ><u>GAF Contact Email</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.GAF_Contact_Email__c}"/></td>
+                    <td width="20%" align="right"><u>GAF Status</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.GAF_Status__c}"/></td>
+                    
+                </tr>
+  
+            </table>
+            <hr width="100%"/>
+            <h3>Rebate Amounts</h3>         
+            <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right" ><u>Q1 Total Rebate</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Q1_Total_Rebate_Direct_VAR__c}"/></td>
+                    <td width="20%" align="right"><u>Q3 Total Rebate</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Q3_Total_Rebate_Direct_VAR__c}"/></td>
+                </tr>
+                <tr valign="top">
+            <td width="20%" align="right"  ><u>Q2 Total Rebate</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Q2_Total_Rebate_Direct_VAR__c}"/></td>
+            <td width="20%" align="right"><u>Q4 Total Rebate</u></td>
+                    <td width="25%"><apex:outputField value="{!gaf.Q4_Total_Rebate_Direct_VAR__c}"/></td>                    
+                </tr>
+                <tr valign="top">
+                    <td width="20%" align="right"><u>Total Rebate</u></td>
+                    <td width="35%"><apex:outputField value="{!gaf.Tot_Rebt_Drct_VAR__c}"/></td>                    
+                </tr>
+           </table>
+        <hr width="100%"/>
+        <h3>Your Velocity Performance Goals are displayed below:</h3>
+        <table class="list" rules="all" columns="6" border="1" Frame="Box" width="100%">            
+                <tr class="headerRow">
+                    
+                    <td><u>Specialty</u></td>
+                    <td>Q1</td>
+                    <td>Q2</td>
+                    <td>Q3</td>
+                    <td>Q4</td>
+                    <td>Total</td>
+                    
+                </tr>
+            <tr>
+            <td>
+            BRS
+            </td> 
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q1__c}"/></td>
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.BRS_GAF_Goal_Total__c}"/></td>          
+            </tr>
+             <tr>
+            <td>
+                Consolidate
+            </td>
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q1__c}"/></td>
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.Cnsld_GAF_Goal_Tot__c}"/></td>           
+            </tr>
+             <tr>
+            <td >
+                Advanced Consolidate
+            </td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q1__c}"/></td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.Advcd_Cnsld_GAF_Goal_Tot__c}"/></td>             
+            </tr>
+            <apex:outputtext rendered="{!IF((GAFrecordtype==GAFAmerDirectAndVAROld || GAFrecordtype==GAFAmerDirectDistiApprovedOld || GAFrecordtype==GAFEMEADirectAndVAROld || GAFrecordtype==GAFEMEADirectVARApprovedOld),true,false)}">
+             <tr>
+            <td>
+                Governance and Archive
+            </td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q1__c}"/></td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.Gvr_Arv_GAF_Goal_Tot__c}"/></td>             
+            </tr>
+            </apex:outputtext>
+             <apex:outputtext rendered="{!IF((GAFrecordtype==GAFAmerDirectAndVAR || GAFrecordtype==GAFAmerDirectDistiApproved || GAFrecordtype==GAFEMEADirectAndVAR || GAFrecordtype==GAFEMEADirectVARApproved),true,false)}">
+           <tr> 
+            <td>
+               Isilon
+            </td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q1__c}"/></td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q2__c}"/></td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q3__c}"/></td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Q4__c}"/></td>
+            <td><apex:outputField value="{!gaf.Isilon_GAF_Goal_Total__c}"/></td>             
+            </tr>
+           </apex:outputtext> 
+            
+        </table>
+        <br></br>
+        <hr width="100%"/>
+        <h3>Partner GAF Disclaimer</h3>     
+            <table width="100%" border="0" cellpadding="1px" cellspacing="0">
+                <tr valign="top">
+                    <td width="20%" align="right"></td>
+                    <li>
+                    <td width="80%"><apex:outputField value="{!gaf.GAF_Disclaimer__c}"/></td></li>
+                </tr>
+            <tr valign="top">
+                    <td width="20%" align="right"></td>
+                    <li>
+                    <td width="80%"><apex:outputField value="{!gaf.GAF_Disclaimer_Details__c}"/></td></li>
+                </tr>
+    </table>
+    </div>            
+    </body>
+</html> 
+</apex:page>

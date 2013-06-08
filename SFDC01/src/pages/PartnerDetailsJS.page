@@ -1,0 +1,152 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" contentType="text/javascript">
+
+ var PartnerLocationMapController = Class.create({
+	initialize: function(mapDivFieldID,locationJSONDataFieldID){
+		this.locationJSONDataFieldID = locationJSONDataFieldID;
+		this.map = new GMap2($(mapDivFieldID));
+	},
+	updateMap: function(){
+		this.map.clearOverlays();
+		this.pointLookup = new Hash();
+		this.locationLookup = new Hash();
+		//alert('before locations');
+		var locations = $F(this.locationJSONDataFieldID).evalJSON().locations;
+		//alert('after locations');
+		var bounds = new GLatLngBounds();
+		var points = [];
+		var point;
+		locations.each(function(location){
+			point = new GLatLng(location.latitude, location.longitude);
+			point.serialNumber = location.serialNumber;
+			points.push(point);
+			bounds.extend(point);
+			this.locationLookup.set(location.serialNumber,location);
+		}.bind(this));
+		
+		
+		this.map.setCenter(bounds.getCenter());
+		this.map.setZoom(this.map.getBoundsZoomLevel(bounds)-1);
+		this.map.addControl(new GLargeMapControl());
+		points.each(function(point){
+			var marker = new GMarker(point);
+			this.pointLookup.set(point.serialNumber,marker);
+			this.map.addOverlay(marker);
+		}.bind(this));
+	},
+	
+	addLocation:function(locationNumber){
+		//alert('add location!Serial Number' + locationNumber);
+		this.map.clearOverlays();
+		this.pointLookup = new Hash();
+		this.locationLookup = new Hash();
+		var locations = $F(this.locationJSONDataFieldID).evalJSON().locations;
+		var bounds = new GLatLngBounds();
+		var points = [];
+		var point;
+		locations.each(function(location){
+		if(location.serialNumber==locationNumber){
+			point = new GLatLng(location.latitude, location.longitude);
+			point.serialNumber = location.serialNumber;
+			
+			//point.id = location.id;
+			//point.recordNumber = location.recordNumber;
+			point.name = location.name;
+			point.city = location.city;
+			point.street = location.street;
+			point.state = location.state;
+			point.country = location.country;
+			point.postalCode= location.postalCode;
+			
+			points.push(point);
+			bounds.extend(point);
+			
+			var marker = new GMarker(point);
+			//alert('point :' + point.serialNumber);
+			marker.title=point.name;
+			GEvent.addListener(marker,"click", function(point) {
+				this.openInfoWindowHtml('<b>'+ point.serialNumber  + '-</b> '+ 
+										'<b> ' + point.name + '</b><br/>' + 
+										(Object.isUndefined(point.street) || (point.street==null) || point.street.blank() ?'': point.street + ', ') + 
+										(Object.isUndefined(point.city) || (point.city==null) || point.city.blank() ?'': point.city + ', ') + 
+										(Object.isUndefined(point.state) || (point.state==null) || point.state.blank() ?' ': point.state + '  ') + 
+										(Object.isUndefined(point.postalCode) || (point.postalCode==null) || point.postalCode.blank() ?'': point.postalCode ) + 
+										'<br/>' + 
+										point.country);
+				 
+      			});
+			this.pointLookup.set(point.id,marker);
+			this.map.addOverlay(marker);
+			
+				
+			this.locationLookup.set(location.serialNumber,location);
+			}
+		}.bind(this));
+		
+		
+		this.map.setCenter(bounds.getCenter());
+		this.map.setZoom(this.map.getBoundsZoomLevel(bounds)-1);
+		this.map.addControl(new GLargeMapControl());
+		/*points.each(function(point){
+			var marker = new GMarker(point);
+			this.pointLookup.set(point.serialNumber,marker);
+			this.map.addOverlay(marker);
+		}.bind(this));
+		*/
+		
+	}
+	
+	,showLocation: function(locationNumber){
+		
+		this.addLocation(locationNumber)
+	//	console.log(locationNumber);
+	//	var location = this.locationLookup.get(locationNumber);
+		
+	//	console.log(location);
+	//	this.pointLookup.get(locationNumber).openInfoWindowHtml('<b>' + location.name + '</b><br/>' 
+	//		+ location.street + ', ' + location.city + ', ' + location.state + '  ' + location.postalCode + '<br/>' + location.country);
+	
+	}
+});
+
+var controller;
+function updateMap(locationNumber){
+	if(!Object.isUndefined(controller)){
+		//controller.updateMap();
+		alert('updateMap -> locNum ' + locationNumber );
+		controller.showLocation(locationNumber);
+	}	
+}
+
+function showLocation(locationNumber){
+	//alert('showLocation -> argument :' + locationNumber + ' controller:' + controller);
+	//if(!Object.isUndefined(controller)){
+		controller = new PartnerLocationMapController('map_canvas','Page:Form:LocationData');
+		controller.showLocation(locationNumber);
+	//}	
+}
+
+
+function initializeController() {
+	if($('map_canvas')){
+        try{
+	        controller = new PartnerLocationMapController('map_canvas','Page:Form:LocationData');
+	        showLocation(1);
+        }catch(err){
+            alert('Failed to load Google Maps.  If you\'re using Internet Explorer, please ensure the permission \'Display mixed content\' is set to \'Enable\'.');
+        }
+	}
+}
+
+document.observe('dom:loaded', function() {
+	initializeController();
+}, false);
+
+function confirmDeletion(locId){
+    var r=confirm("{!JSENCODE($Label.are_you_sure_to_delete_the_partner_locat)}");
+	if (r==true){
+  		deleteLocation(locId);
+  	} else {
+  		
+  	}
+}
+</apex:page>

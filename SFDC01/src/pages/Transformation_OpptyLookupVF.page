@@ -1,0 +1,73 @@
+<apex:page Controller="Transformation_LinkAssetsController" showHeader="false" sidebar="false">
+    <apex:form >  
+        <apex:actionFunction name="clearList" action="{!clearData}" reRender="searchResults"/>
+        <apex:pageBlock title="Lookup" >
+            <apex:pageBlockSection columns="1" >
+                <apex:pageBlockSectionItem >
+                    <apex:panelgrid columns="4">
+                        <apex:inputText value="{!strInputCode}" Id="searchBoxId"/>
+                        <apex:commandButton value=" Go! " action="{!SearchMasterData}" style="width:50px"/>                                  
+                    </apex:panelgrid>
+                </apex:pageBlockSectionItem>
+                <apex:outputLabel value="You can use '*' as a wildcard next to other characters to improve your search results."/>
+                <br/>                               
+                    <apex:outputLink value="#" id="theLink" onClick="clearList();" rendered="{!showClearList}">Clear Search List</apex:outputLink>
+
+                
+                <apex:outputLabel value="Search Results" styleClass="labelCol" />
+                <apex:pageMessages id="errMsg"/>
+                <apex:outputpanel layout="block" style="overflow:auto;width:100%;height:500px" >
+                <apex:pageBlockTable value="{!list_OpptyDataResults}" var="oneRow" title="Search Results" id="searchResults">
+                    <apex:column headerValue="Opportunity Name">                        
+                        <apex:outputLink value="#"  onclick="GoBackToParent('{!oneRow.Id}','{!oneRow.Name}');">{!oneRow.Name}</apex:outputLink>                             
+                    </apex:column>
+                    
+                   <apex:column headerValue="Account Name">
+                        <apex:outputField value="{!oneRow.Account_Name1__c}" />                    
+                    </apex:column> 
+                   
+                    <apex:column headerValue="Forecast status">
+                        <apex:outputField value="{!oneRow.stageName}" />                    
+                    </apex:column>
+
+                     <apex:column headerValue="Close date">
+                        <apex:outputField value="{!oneRow.Opportunity_Closed_Date__c}" />                    
+                    </apex:column>                  
+                    
+                    <apex:column headerValue="Forecast amount">
+                        <apex:outputField value="{!oneRow.BRS_Total_Forecast_Amount__c}" />                    
+                    </apex:column>   
+                    
+                    <apex:column headerValue="Quote amount">
+                        <apex:outputField value="{!oneRow.Quote_Amount__c}" />                    
+                    </apex:column>  
+
+                    <apex:column headerValue="Opportunity number">
+                        <apex:outputField value="{!oneRow.Quote_Amount__c}" />                    
+                    </apex:column>
+                    
+                </apex:pageBlockTable>
+              </apex:outputpanel>
+            </apex:pageBlockSection>
+             
+        </apex:pageBlock>
+        
+        
+        
+        <script>
+            function GoBackToParent(recId, recName)
+            {
+
+               top.window.opener.lookupPick('oAssetId:oAssetFormId','oAssetId:oAssetFormId:oAssetBlockId:oAssetPageBlockSectionItemId:opptyId_lkid'
+               ,'oAssetId:oAssetFormId:oAssetBlockId:oAssetPageBlockSectionItemId:opptyId','',recId,recName,'null','');
+               
+              
+                window.top.close() ;              
+            }
+            function ClearList()
+            {
+              alert('hii');
+            }
+        </script>
+    </apex:form>  
+</apex:page>

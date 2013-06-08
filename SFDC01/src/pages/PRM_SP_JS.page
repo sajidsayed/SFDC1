@@ -1,0 +1,189 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" contentType="text/javascript" >
+jQuery.noConflict();
+
+function hideBusySendLeadsDialog(){
+    jQuery('#sendleadsdialog').dialog('close');
+    jQuery('#sendleadsDetaildialog').dialog('open');
+}
+
+function showBusySendLeadsDialog(){
+    jQuery('#sendleadsdialog').dialog('open');
+    SendLeads();
+} 
+
+function showLeadReqValdnError(){
+    jQuery('#LeadReqFieldErrorDialog').dialog('open');
+}
+
+function showRequiredValdnError(){
+    jQuery('#RequiredErrorDialog').dialog('open');
+}  
+
+function showBusyDialog(title,body){
+  jQuery('#searchdialog').dialog('open');
+  triggerSearch();
+}
+
+function showProcessingDialog(title,body){
+  jQuery('#processingdialog').dialog('open');
+  
+}
+function hideProcessingDialog(title,body){
+  jQuery('#processingdialog').dialog('close');
+  
+}
+
+function hideBusyDialog(){
+    jQuery('#searchdialog').dialog("close"); 
+}
+    
+  
+function CheckBoxValidnGenLeadBtn(maxcount){
+ var n = jQuery("input:checked").length;
+          if( n == 0 || n > maxcount ){  
+           jQuery('#validnDialog').dialog("open"); 
+           }else{
+           showProcessingDialog();
+           openleadform();
+           }
+           
+}  
+
+    
+function CheckBoxValidation(maxcount){
+  var n = jQuery("input:checked").length;
+          if( n > maxcount ){  
+           jQuery('#validnDialog').dialog("open"); 
+           }
+  
+}
+    
+jQuery(document).ready(function(){
+
+   jQuery('#searchdialog').dialog({
+        show: 'Scale',
+        hide: 'Scale',
+        autoOpen: false,
+        closeOnEscape: false,
+        draggable: false,
+        dialogClass: 'dialog_style',
+        height: 100,
+        minHeight: 100,
+        modal: true,
+        resizable: false,
+        position: 'top',
+        open: function(event, ui) { jQuery(".ui-dialog-titlebar-close").hide(); }
+    });
+    
+    jQuery('#processingdialog').dialog({
+        show: 'Scale',
+        hide: 'Scale',
+        autoOpen: false,
+        closeOnEscape: false,
+        draggable: false,
+        dialogClass: 'dialog_style',
+        height: 100,
+        minHeight: 100,
+        modal: true,
+        resizable: false,
+        position: 'top',
+        open: function(event, ui) { jQuery(".ui-dialog-titlebar-close").hide(); }
+    });
+  
+    jQuery( "#validnDialog" ).dialog({
+        show: 'explode',
+        hide: 'explode',
+        autoOpen: false,
+        closeOnEscape: false,
+        draggable: false,
+        dialogClass: 'dialog_style',
+        height: 200,
+        minHeight: 100,
+        width: 340,
+        minwidth: 100,
+        modal: true,
+        resizable: false,
+        position: 'top',
+        open: function(event, ui) { jQuery(".ui-dialog-titlebar-close").hide(); },
+        buttons: { "Ok": function() { jQuery(this).dialog("close");  }}
+        
+     });
+  
+    jQuery( "#RequiredErrorDialog" ).dialog({
+        show: 'explode',
+        hide: 'explode',
+        autoOpen: false,
+        closeOnEscape: false,
+        draggable: false,
+        dialogClass: 'dialog_style',
+        height: 200,
+        minHeight: 100,
+        width: 340,
+        minwidth: 100,
+        modal: true,
+        resizable: false,
+        position: 'top',
+        open: function(event, ui) { jQuery(".ui-dialog-titlebar-close").hide(); },
+        buttons: { "Ok": function() { jQuery(this).dialog("close");  }}
+       
+        
+     }); 
+     
+     
+     jQuery( "#LeadReqFieldErrorDialog" ).dialog({
+        show: 'explode',
+        hide: 'explode',
+        autoOpen: false,
+        closeOnEscape: false,
+        draggable: false,
+        dialogClass: 'dialog_style',
+        height: 175,
+        minHeight: 100,
+        width: 320,
+        minwidth: 100,
+        modal: true,
+        resizable: false,
+        position: 'top',
+        open: function(event, ui) { jQuery(".ui-dialog-titlebar-close").hide(); },
+        buttons: { "Ok": function() { jQuery(this).dialog("close");  }}
+        
+     });
+     
+     jQuery('#sendleadsdialog').dialog({
+        show: 'Scale',
+        hide: 'Scale',
+        autoOpen: false,
+        closeOnEscape: false,
+        draggable: false,
+        dialogClass: 'dialog_style',
+        height: 100,
+        minHeight: 100,
+        modal: true,
+        resizable: false,
+        position: 'top',
+         stack: false,
+        open: function(event, ui) { jQuery(".ui-dialog-titlebar-close").hide(); }
+    });
+    
+    jQuery('#sendleadsDetaildialog').dialog({
+        show: 'explode',
+        hide: 'explode',
+        autoOpen: false,
+        closeOnEscape: false,
+        draggable: false,
+        dialogClass: 'dialog_style',
+        height: 175,
+        minHeight: 100,
+        width: 320,
+        minwidth: 100,
+        modal: true,
+        resizable: false,
+        position: 'top',
+        open: function(event, ui) { jQuery(".ui-dialog-titlebar-close").hide(); },
+        buttons: { "Ok": function() { window.parent.location.href = window.parent.location.href; 
+        jQuery(this).dialog("close");  }}
+    });
+    
+});
+
+</apex:page>

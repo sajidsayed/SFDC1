@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <content>manageAccountAssociation</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <content>manageAccountAssociation</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Use to create a sharing relationship between two accounts</description>
+    <enableActivities>false</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Account_Role__c</fullName>
+        <deprecated>false</deprecated>
+        <description>An optional description of the account relationship</description>
+        <externalId>false</externalId>
+        <label>Account Role</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Distributor</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Profiled Account</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Distribution VAR</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Account__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The account where the association originates</description>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Associations</relationshipLabel>
+        <relationshipName>Associations</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>true</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Associated_Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The account which the originating account is making the association with</description>
+        <externalId>false</externalId>
+        <label>Associated Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Associated Accounts</relationshipLabel>
+        <relationshipName>Associated_Accounts</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Primary__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Indicates if the associated account is a preferred partner. 
+Other than reporting this helps when creating record associations more easily as the preferred partner can be added with one button press</description>
+        <externalId>false</externalId>
+        <label>Preferred</label>
+        <type>Checkbox</type>
+    </fields>
+    <label>Account Association</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>Account_Role__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>A-{0000}</displayFormat>
+        <label>Association ID</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Account Associations</pluralLabel>
+    <searchLayouts>
+        <lookupDialogsAdditionalFields>Account__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Associated_Account__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Account_Role__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Primary__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Account__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Associated_Account__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Account_Role__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Primary__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Account__c</searchFilterFields>
+        <searchFilterFields>Associated_Account__c</searchFilterFields>
+        <searchFilterFields>Account_Role__c</searchFilterFields>
+        <searchFilterFields>Primary__c</searchFilterFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Associated_Account_is_required</fullName>
+        <active>true</active>
+        <description>User should not be able to add a blank association</description>
+        <errorConditionFormula>ISNULL( Associated_Account__c )</errorConditionFormula>
+        <errorMessage>Associated Account is required</errorMessage>
+    </validationRules>
+</CustomObject>

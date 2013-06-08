@@ -1,0 +1,48 @@
+<apex:page controller="APPR_MTV.PartnerUserLookupController" action="{!initLookupPage}" >
+    <body class="lookupTab  LookupSearchFrame" style="margin: 10px;">
+        <apex:sectionHeader title="User Lookup" /><br/>
+       <apex:form id="newOwnerForm" >
+        <apex:outputPanel id="searchLayout" layout="block">
+            <apex:messages layout="list" style="color:red;" />
+            <apex:outputPanel id="resultSets" layout="block" rendered="{!NOT(error)}">
+                   	<apex:inputHidden id="selectedUserId" value="{!selectedUserId}" /> 
+                    <apex:Pageblock >
+                     <apex:pageBlockButtons >
+                	<apex:commandButton action="{!save}" value="Save" />
+                	<apex:commandButton action="{!cancel}" value="Cancel" />
+                    </apex:pageBlockButtons>
+                        <apex:pageBlockTable value="{!results}" var="Users"> 
+							<apex:column headerValue="Select">
+                            <input type="radio" name="userRadio" onclick="javascript: getElementById('{!$component.selectedUserId}').value = '{!Users.id}';" />
+							</apex:column>
+                            <apex:column headerValue="{!$ObjectType.User.fields.Name.label}">{!Users.name}</apex:column>
+                          <!--  <apex:column headerValue="Role" value="{!Users.UserRole.Name}" />
+                            <apex:column headerValue="Profile" value="{!Users.Profile.Name}" />  -->
+                            <apex:column headerValue="{!$ObjectType.User.fields.Email.label}" value="{!Users.Email}" />
+                            <apex:column headerValue="Company" value="{!Users.Contact.Account.Name}" />
+                        </apex:pageBlockTable>
+                        <apex:outputLabel rendered="{!NOT(hasResults)}">
+                            <p>No matches found.</p>
+                        </apex:outputLabel>
+                    </apex:Pageblock>
+            </apex:outputPanel>
+			<apex:outputPanel rendered="{!(error)}">
+				<apex:pageMessage summary="{!errorMessage}" severity="error" strength="3" /><br></br>
+				<apex:commandButton action="{!cancel}" immediate="true" value="OK"/> 
+			</apex:outputPanel>
+            <script type="text/javascript">
+            function redirect(OppID,UsrID,UsrName)
+            {
+                if(UsrID.length>15)
+                {
+                    var userid = UsrID.substring(0,15);
+                }
+                var url = "/"+OppID+"/a?cancelURL=%2F"+OppID+"&id="+OppID+"&ids="+OppID+"&retURL=%2F"+OppID+"&save_new_url=%2F"+OppID+"%2Fa%3FretURL%3D%252F"+OppID+"&newOwn_mlktp=005&newOwn_lkid="+userid+"&newOwn_lkold="+UsrName+"&newOwn_lktp=StandardUserLookup&newOwn_lspf=0&newOwn_mod=0&newOwn="+UsrName+"&save=+Save+";
+                window.opener.location.href = url;
+                window.close();
+            }
+            </script>
+        </apex:outputPanel>
+       </apex:form>
+    </body>
+</apex:page>

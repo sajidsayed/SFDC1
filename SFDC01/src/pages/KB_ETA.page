@@ -1,0 +1,659 @@
+<apex:page standardController="ETA__kav" extensions="KB_Controller" showHeader="false" sidebar="false"  id="langPage" cache="true">
+
+<!--apex:includeScript value="/jslibrary/1351189248000/sfdc/Knowledge.js" /-->   
+    
+<apex:include pageName="KB_EMC_Secure_Header"/>
+
+
+    <style type="text/css">
+    span.averageRatingPanel {display:none !important;}
+    div.starRatingPanel {display:none !important;}
+                 .reAssignView{
+                       font-weight:bold;
+                       visibility : visible;
+                        }
+                    
+                 .menu1 {
+                     visibility : hidden; 
+                     position: absolute;
+                     z-index:4;
+                     left: 72%;
+                 
+                     }
+                .customPopup{
+                background-color: #F0F0F0;
+                border-style: solid;
+                border-width: 2px;
+                padding:10px;
+                position: absolute;
+                           
+                height:120px;
+                left: 16%;
+                width: 300px;
+                top:100px;
+                visibility : hidden;
+                z-index:2;
+                       }
+              .helpClone {
+                    background-color: #F0F0F0;
+                     border-style: groove;
+                     border-width:2px;
+                     visibility : hidden; 
+                     position: absolute;
+                     z-index:2;
+                     
+                     left:19%;
+                     top:30%;
+                     }
+
+
+    </style>
+      <apex:outputPanel rendered="{!hideArticle}">
+        <br/>
+        <center>
+       <B>{!$Label.CSK_PortalMsg}</B>
+        </center>
+
+        </apex:outputPanel>
+
+         <apex:outputPanel id="artCont" rendered="{!showArticle}">
+
+    <div class="hasMotif knowledgeTab popup ext-gecko ext-gecko3"  >
+    
+
+           <apex:outputPanel layout="block" styleClass="articleRendererHeader">
+                <apex:sectionHeader title="{!articleHelper.Title}" />
+            </apex:outputPanel>
+
+            
+            <knowledge:articleRendererToolBar articleId="{! $CurrentPage.parameters.id}" canVote="false"/>
+
+            
+
+          <apex:form >
+           <div align = "right"> 
+        <apex:commandLink value="Rate This Article" onmouseover="linkFrame();"   />
+        </div>
+
+        
+          </apex:form> 
+
+         
+
+
+
+
+          <apex:outputPanel onmouseover="enabbleFrame();" onmouseout="diableFrame();" id="thePanel" styleclass="menu1">
+         <div align = "right">
+            <apex:iframe title="Test"  width="410px" height="150px" scrolling="false" frameborder="true" src="/apex/KB_ArticleRating?articleNo={!ETA__kav.ArticleNumber}&orgCreate={!ETA__kav.CreatedById}&artTitle={!ETA__kav.Title}">
+            </apex:iframe>
+            </div>
+            
+        </apex:outputPanel>
+
+ <br/>
+
+            <script type="text/javascript"> 
+
+             function enabbleFrame()
+             {
+              var divTag = document.getElementById("{!$Component.thePanel}");
+             
+              divTag.style.visibility='visible';
+
+              return null;
+               }
+               
+                function linkFrame()
+                     {
+                      var divTag = document.getElementById("{!$Component.thePanel}");
+                      if(divTag.style.visibility=='visible'){
+                 divTag.style.visibility='hidden';
+
+              }
+              else{
+                   divTag.style.visibility='visible';
+
+
+              }
+                     
+                      return null;
+               }
+               
+               
+             function diableFrame()
+             {
+              var divTag = document.getElementById("{!$Component.thePanel}");
+              divTag.style.visibility='hidden';
+              return null;
+               }
+
+            </script>
+
+
+        <apex:form >
+         <apex:inputHidden id="testing" value="{!ETA__kav.id} "/>
+        <apex:commandButton value="Clone" onmouseover="enableHelp('in');" onmouseout="enableHelp('out');"  style="width:240px" onclick="openPopup('open');" onComplete="openPopup('cancel');" rendered="{!renderClone}">
+        </apex:commandButton>
+
+        <apex:outputPanel id="helpClone" styleclass="helpClone">
+        <ol>
+        {!$Label.CSK_CloneHelpText1}<br/>
+         {!$Label.CSK_CloneHelpText2}
+        &nbsp;&nbsp;&nbsp;<li type="round">{!$Label.CSK_CloneHelpText3}</li>
+        &nbsp;&nbsp;&nbsp;<li type="round"> {!$Label.CSK_CloneHelpText4}</li>
+        </ol>
+
+        </apex:outputPanel>
+
+          
+
+        
+
+         <script type="text/javascript"> 
+
+            function enableHelp(opp)
+             {
+                
+                var divTag = document.getElementById("{!$Component.helpClone}");
+                if(opp=='in'){
+            
+              divTag.style.visibility='visible';
+              return null;
+                }
+                else{
+                      divTag.style.visibility='hidden';
+                       return null;
+                }
+               }
+        
+     function openPopup(buttonValue)
+     {
+         var helpTag = document.getElementById("{!$Component.helpClone}");
+          helpTag.style.visibility='hidden';
+
+        if(buttonValue=='open'){
+      var divTag = document.getElementById("{!$Component.popupId}");
+      divTag.style.visibility='visible';
+        }
+       }
+
+       function cancelPopup()
+     {
+      var divTag = document.getElementById("{!$Component.popupId}");
+      divTag.style.visibility='hidden';
+      return false;
+    
+       }
+
+               
+                var url;
+                var execute=true;
+
+    function saveArticle(){
+                var inputTitle = document.getElementById("{!$Component.title}").value;
+                var orgArticle = document.getElementById("{!$Component.testing}").value;
+                
+               Visualforce.remoting.Manager.invokeAction(
+               '{!$RemoteAction.KB_Controller.insertArticle}',
+               inputTitle,orgArticle,
+                   function(result,event){
+                   url = result;
+
+                    if(!event.status){
+                        execute = false;
+                    
+                          if(inputTitle.length>0)
+                             alert('{!$Label.CSK_CloneAlertDuplicateTtitle}');
+                        else
+                              alert('{!$Label.CSK_CloneAlertTitleBlank}');
+
+                    }
+                    else{
+                           var divTag = document.getElementById("{!$Component.popupId}");
+                            divTag.style.visibility='hidden';
+                            window.parent.location.replace(url);
+
+                    }
+
+                               
+                  
+                 },{escape:false}); 
+
+              
+               
+         
+                return null;
+                
+                }
+    function openVf(){
+        if(execute==false){
+                 document.getElementById("{!$Component.title}").value = '';
+                 execute = true;
+        }
+    }
+
+    </script>
+
+
+                <apex:outputPanel id="popupId" styleclass="customPopup"  rendered="{!renderClone}" >
+                
+                  <apex:outputLabel >
+                  <B>
+                  New Article
+                  </B>
+                  </apex:outputLabel>
+                  <table>
+                 
+                  <tr>
+                   <td>
+                  <br/>
+                  <apex:outputText value="Enter The Title: " />
+                  <apex:inputText id="title" value="{!inputTitle}" style="width:200px" size="25" />
+                    </td>
+                   </tr>
+                  
+                  </table>
+                  <br/>
+                 <center>
+                  <apex:commandButton value="OK" onclick="saveArticle();" oncomplete="openVf();"   />
+                  &nbsp;&nbsp;
+                  <apex:commandButton value="Cancel" onClick="cancelPopup();return false;" oncomplete="cancelPopup();return false;"/>
+                  </center>
+                 
+
+                 </apex:outputPanel>
+
+                 <apex:outputPanel id="dummyPanel">
+
+                 </apex:outputPanel>
+        </apex:form>
+
+       
+            <apex:form >
+           <apex:pageBlock rendered="{!!articleHelper.hasMultipleSections}" title="{!articleHelper.sections[0].label}">
+                <div class="knowledgeTOCRenderer-body">
+                    <apex:repeat value="{!articleHelper.sections[0].fields}" var="field">
+                        <apex:pageBlockSection columns="1">
+                            <apex:outputField value="{!field.value}" />
+                         </apex:pageBlockSection>
+                    </apex:repeat>
+                </div>
+            </apex:pageBlock>
+
+            <apex:outputPanel layout="block" rendered="{!articleHelper.hasMultipleSections}">
+                <div id="knowledgeTOCRenderer" class="knowledgeTOCRenderer" style="height: 600px;" >
+                <!-- This Section is For TOC Left Side Bar -->
+                    <apex:variable var="sectionIndex" value="{!0}">
+                        <div id="menuKB" class="knowledgeTOCRendererSections">
+                        
+                            <apex:repeat value="{!articleHelper.sections}" var="section">
+                                <div sectionIndex="{!sectionIndex}" class="knowledgeTOCRendererSection">{!section.label}</div>
+                                                          
+
+                                <apex:variable var="sectionIndex" value="{!sectionIndex + 1}"/>
+                            </apex:repeat>
+                        </div>
+                    </apex:variable>  
+
+                    <!-- TOC Left Side Bar Ends Here-->
+        
+                <!-- This Section is For TOC Right Side Table -->
+
+                    <div id="knowledgeTOCRendererContent" class="knowledgeTOCRendererContent">
+                        <apex:variable var="sectionIndex" value="{!0}">
+                            <apex:repeat value="{!articleHelper.sections}" var="section">
+                                <apex:variable var="isFirstField" value="true" />
+                              
+                                <div sectionIndex="{!sectionIndex}" class="sectionName">
+                                    <table><tr><td><!-- table is needed due to some resizing issue on IE7 -->
+                                    <apex:outputpanel rendered="{!section.label<>'SR Linking'}">
+                                      <font color="white">{!section.label}</font>
+                                      </apex:outputpanel>
+                                      <apex:outputpanel id="srSectionHead" rendered="{!section.label=='SR Linking'}">
+                                      <font color="white">{!section.label} : {!noOfSRs} of {!totalSR}</font>
+                                      </apex:outputpanel>
+                                    </td></tr></table>
+                                </div>
+                               
+                                   
+                              
+                                <div class="sectionContent">
+                                   <table>
+                                  <apex:outputPanel rendered="{!IF(AND(section.label=='Article Metadata',t3Name<>null),True,False)}">
+                                             <tr style="border-top:1px solid #E8E8E8;">
+                                            <td class="fieldName">
+                                               <apex:outputLabel value="T3 Product" />
+                                           </td>
+                                            <td class="fieldValue">
+
+                                             <apex:outputText value="{!t3Name}" />
+                                            
+                                            </td>
+                                            </tr>
+
+                                            </apex:outputPanel> 
+                                   <apex:repeat value="{!section.fields}" var="field">
+
+                                         <apex:outputPanel rendered="{!field.value!=null}">
+                                            <tr>
+                                                <td colspan="2"><div class="fieldSeparator"><!-- this comment is a IE fix --></div></td>
+                                            </tr>
+                                       
+                                        <apex:variable var="isFirstField" value="false" />
+                                       <tr style="width:30px">
+                                          
+                                           <td class="fieldName">
+                                               <apex:outputLabel value="{!field.label}" />
+                                           </td>
+                                           
+                                           <td class="fieldValue sfdc_richtext">
+                                          
+                                             <apex:outputField value="{!ETA__kav.Requested_Publish_Date__c}" rendered="{!field.label=='Requested Publish Date'}"/>
+                                                <apex:outputField value="{!ETA__kav.Next_Review_Date__c}" rendered="{!field.label=='Next Review Date'}"/>
+                                               <apex:outputField value="{!ETA__kav.Last_Approved_Date_Time__c}" rendered="{!field.label=='Last Approved Date Time'}"/>
+                                               <apex:outputText value="{!field.value}" escape="false" rendered="{!IF(AND(field.label<> 'Requested Publish Date',field.label<>'Next Review Date',field.label<>'Last Approved Date Time'), True, False)}"/>
+
+                                            </td>
+                                        
+                                            
+                                                                          
+                                       </tr>
+                                        </apex:outputPanel>
+
+                                     
+
+                                   </apex:repeat>  
+                                           <apex:outputPanel rendered="{!IF(AND(section.label=='Article Metadata',bugObj.Bug_Tracking_Number__c<>null),True,False)}">
+                                             <tr style="border-top:1px solid #E8E8E8;">
+                                            <td class="fieldName">
+                                               <apex:outputLabel value="Bug Tracking Number" />
+                                           </td>
+                                            <td class="fieldValue">
+                                            <apex:outputLink value="{!$Label.KB_Bug_URL}" >
+                        {!bugObj.Bug_Tracking_Number__c}
+                      </apex:outputLink>
+                                            
+                                            
+                                            </td>
+                                            </tr>
+
+                                            </apex:outputPanel>  
+
+                                            
+
+
+                        
+                    
+                                   </table>
+
+                            <!-- This Section is for SR Linking--->
+                        <apex:outputPanel rendered="{!section.label=='SR Linking'}">
+
+                                    
+                      <apex:pageBlock id="theBlock">
+                    
+                     
+                  
+                     <apex:outputText id="noSR" value="There are no SRs Linked To This Article" styleclass="reAssignView" rendered="{!renderLinkSection}" /><br/>   
+                      <apex:outputText id="outText" value="{!outText}" styleclass="reAssignView" rendered="{!renderreAssign}" />
+                      
+                    <apex:pageBlockTable style="border-width:2px" value="{!lstLink}" rendered="{!renderLinkTab}" var="lstLnk" id="customPageBlockTable"> 
+                        
+                          <apex:column title="Action" style="border-width:2px" width="10%" rendered="{!isPortal}">
+                          
+                          <apex:facet name="header"><center>Action</center></apex:facet>
+                           <apex:commandLink value="Edit" action="{!editSR}">
+                           <apex:param name="selectedId" value="{!lstLnk.id}"/>
+                            </apex:commandLink>
+
+                           </apex:column>
+
+                      <apex:column title="SR Number" style="border-width:2px" width="10%">
+                         <apex:facet name="header"><center>SR Number </center></apex:facet>
+                          <apex:outputText value="{!lstLnk.SR_Number__c}" />
+                         </apex:column>
+
+                         <apex:column value="{!lstLnk.Linked__c}" width="10%" style="text-align:center;border-width:2px">
+                          <apex:facet name="header"> <center> Linked </center></apex:facet>
+                         </apex:column>
+                         
+                        
+                        <apex:column style="text-align:center;border-width:2px" width="10%" value="{!lstLnk.Article_Solved_My_Problem__c}">
+                             <apex:facet name="header"><center>Solved My Problem</center></apex:facet>
+                         </apex:column>
+                         
+                        
+
+                          <apex:column style="border-width:2px" width="15%" value="{!lstLnk.Linking_User__c}">
+                             <apex:facet name="header"> <center> Linking User </center></apex:facet>
+                         </apex:column>
+
+                          <apex:column style="border-width:2px" width="15%" value="{!lstLnk.Linked_Date_Time__c}" >
+                             <apex:facet name="header"> <center> Linked Date / Time </center></apex:facet>
+                         </apex:column>
+
+
+              
+
+                           
+                    </apex:pageBlockTable>
+                
+                    <br/>
+                    <br/>
+
+                <!-- Linkung Section -->
+                    <apex:outputpanel rendered="{!isPortal}">
+                  
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+                    <apex:commandButton value="Link" action="{!saveSR}" onComplete="clearValues('new');" reRender="customPageBlockTable,theBlock,srSectionHead"/>
+                    &nbsp;&nbsp;&nbsp;
+                    
+                    <apex:outputLabel value="SR Number:"  />
+                    <apex:inputField id="srNumber" value="{!linkingObj.SR_Number__c}" style="width:150px" />
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <!--    <apex:inputField id="linked" value="{!linkingObj.Linked__c}"/>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                     <apex:outputLabel value="Solved My Problem"  />
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+                      <apex:inputField id="solved" value="{!linkingObj.Article_Solved_My_Problem__c}"/>
+                       <apex:inputHidden id="duplicate" value="{!dupSR}"/>
+                        <apex:inputHidden id="reArt" value="{!reAssign}"/>
+                         <apex:inputHidden id="reassingArt" value="{!reassignedArticle}"/>
+
+
+
+                       <apex:pageMessages rendered="{!dupSR}" />
+                        <br/>
+                         &nbsp;&nbsp;&nbsp;&nbsp;
+             <apex:outputPanel rendered="{!isKCS}">
+                      <apex:commandButton value="Reassign All Linked SR" action="{!reassingArticle}" onComplete="clearValues('link');" reRender="theBlock,srSectionHead" />
+                       &nbsp;&nbsp;&nbsp;&nbsp;
+                      
+                    <apex:outputText value="Enter The Article Number: "/>
+                        <apex:inputText id="linkArticle" value="{!linkingObj.Article_Number__c}"/>
+                    <apex:pageMessages rendered="{!reAssign}"/>
+            </apex:outputPanel>
+                       <script type="text/javascript"> 
+                             function clearValues(Opp)
+                             {
+                                 var dup = document.getElementById("{!$Component.duplicate}").value;
+                                 var reAs = document.getElementById("{!$Component.reArt}").value;
+                                 var artNo = document.getElementById("{!$Component.reassingArt}").value;
+                                 if(Opp=='new' && dup=='false' ){
+                                 document.getElementById("{!$Component.srNumber}").value = '';
+                                // document.getElementById("{!$Component.linked}").checked = true;
+                                 document.getElementById("{!$Component.solved}").checked = false;
+                                       // alert('im inside'+reAs);
+                                    if(reAs=='false')
+                                       // alert('im inside');
+                                         document.getElementById("{!$Component.linkArticle}").value = '';
+
+                                 }
+                                 else if (Opp=='link' && reAs=='false'){
+                                     document.getElementById("{!$Component.linkArticle}").value = '';
+                                    // alert('SR Is Successfully Linked To Article : '+artNo);
+                                     var divTag1 = document.getElementById("{!$Component.noSR}");
+                                      divTag1.style.visibility='hidden';
+
+                                    setTimeout("Func1()", 5000);
+                                    //alert('hi');
+
+                                     if(dup=='false'){
+                                           document.getElementById("{!$Component.srNumber}").value = '';
+                                           document.getElementById("{!$Component.solved}").checked = false;
+                                     }
+
+                          
+                                 }
+                                
+                             }
+
+                            
+                       function Func1(){
+
+                                   var divTag = document.getElementById("{!$Component.outText}");
+                                 
+                                   //alert(divTag);
+                                  divTag.style.visibility='hidden';
+
+                                  var divTag2 = document.getElementById("{!$Component.noSR}");
+                                  divTag2.style.visibility='visible';
+                                  return null;
+
+                             }
+
+                    
+                    
+
+                     </script>
+                     </apex:outputpanel>
+                        </apex:pageBlock> 
+
+
+                                   </apex:outputPanel>
+
+                <!-- This Section is Used for Attachment -->
+            
+                  
+                    <apex:outputPanel rendered="{!section.label=='Attachments'}">
+
+                     <div class="sectionContent">
+                     <table>
+
+                    <tr style="border-bottom:1px solid #E8E8E8;">
+                      <td class="fieldName">
+                    <label style="font-size:11px;font-family:arial;">{!$Label.CSK_Attachment}</label>
+                    </td>
+                      <td>
+                    <apex:outputLink value="{!URLFOR($Action.ETA__kav.FileFieldDownload, 
+                    ETA__kav.id, ['field'=$ObjectType.ETA__kav.fields.Attachment1__Body__s.name])}">{!ETA__kav.Attachment1__Name__s}</apex:outputLink> 
+                    
+                    </td>
+                    </tr>
+
+                
+
+                  <tr style="border-bottom:1px solid #E8E8E8;">
+                      <td class="fieldName">
+                    <label style="font-size:11px;font-family:arial;">{!$Label.CSK_Attachment}</label>
+                    </td>
+                      <td>
+                    <apex:outputLink value="{!URLFOR($Action.ETA__kav.FileFieldDownload, 
+                    ETA__kav.id, ['field'=$ObjectType.ETA__kav.fields.Attachment2__Body__s.name])}">{!ETA__kav.Attachment2__Name__s}</apex:outputLink> 
+                    <br/>
+                    </td>
+                    </tr>
+                    
+                    <tr style="border-bottom:1px solid #E8E8E8;">
+                      <td class="fieldName">
+                    <label style="font-size:11px;font-family:arial;">{!$Label.CSK_Attachment}</label>
+                    </td>
+                      <td>
+                     <apex:outputLink value="{!URLFOR($Action.ETA__kav.FileFieldDownload, 
+                    ETA__kav.id, ['field'=$ObjectType.ETA__kav.fields.Attachment3__Body__s.name])}">{!ETA__kav.Attachment3__Name__s}</apex:outputLink> 
+                    </td>
+                    </tr>
+
+                    <apex:outputPanel rendered="{!showAttachInternal}" >
+                   <tr style="border-bottom:1px solid #E8E8E8;">
+                    <td class="fieldName">
+                  
+                     <label style="font-size:11px;font-family:arial;">{!$Label.CSK_Attachment_EMC_Employee}&nbsp;&nbsp;</label>
+                     </td>
+                      <td>
+                     <apex:outputLink value="{!URLFOR($Action.ETA__kav.FileFieldDownload, 
+                    ETA__kav.id, ['field'=$ObjectType.ETA__kav.fields.Attachment_Internal1__Body__s.name])}">{!ETA__kav.Attachment_Internal1__Name__s}</apex:outputLink> 
+                    </td>
+                    </tr>
+                    
+
+                      <tr style="border-bottom:1px solid #E8E8E8;">
+                    <td class="fieldName">
+                  
+                     <label style="font-size:11px;font-family:arial;">{!$Label.CSK_Attachment_EMC_Employee}&nbsp;&nbsp;</label>
+                     </td>
+                      <td>
+                     <apex:outputLink value="{!URLFOR($Action.ETA__kav.FileFieldDownload, 
+                    ETA__kav.id, ['field'=$ObjectType.ETA__kav.fields.Attachment_Restricted__Body__s.name])}">{!ETA__kav.Attachment_Restricted__Name__s}</apex:outputLink> 
+                    </td>
+                    </tr>
+                    </apex:outputPanel>
+                    </table>
+                    </div>
+                   
+
+                    </apex:outputPanel>
+
+                    <!-- This Section is Used For Legal Information -->
+
+                    <apex:outputPanel rendered="{!section.label=='Legal Information'}">
+                            
+                           <b><apex:outputText value="{!$Label.CSK_ETAInternalLegalText0}" rendered="{!IF(isInternal==true,True,False)}"/></b>
+                           &nbsp;<apex:outputText value="{!$Label.CSK_ETAInternalLegalText}" rendered="{!IF(isInternal==true,True,False)}"/>
+
+                           &nbsp;<apex:outputLink style="color:blue;" target="_blank" value="http://one.emc.com/clearspace/docs/DOC-26063" rendered="{!IF(isInternal==true,True,False)}">{!$Label.CSK_ETAInternalLegalText2}</apex:outputLink>
+
+                           &nbsp;<apex:outputText value="{!$Label.CSK_ETAInternalLegalText1}" rendered="{!IF(isInternal==true,True,False)}"/>
+
+                           <br><br><apex:outputText value="{!$Label.CSK_ETAExternalLegalText}" /></br></br>
+                           
+                    </apex:outputPanel>
+                                </div>    
+                                <apex:variable var="sectionIndex" value="{!sectionIndex + 1}"/>
+                            </apex:repeat>
+                        </apex:variable>
+                    </div>  
+                </div>    
+            </apex:outputPanel>
+          </apex:form>
+        </div>   
+        
+             </apex:outputPanel>
+
+        <script type="text/javascript" src="/jslibrary/1351189248000/sfdc/Knowledge.js" />        
+
+        <script>
+            DesktopContext.pageTitle = "{!JSENCODE("Solution")}: {!JSENCODE(articleHelper.Title)}";
+            document.title = "{!JSENCODE("Solution")}: {!JSENCODE(articleHelper.Title)}";
+
+            Ext.onReady(function() {
+                var propertiesPanel = Ext.query('*[id={!$Component.articleRendererToolbar}] *[id $= :extPanel]')[0];
+                if ({!articleHelper.hasMultipleSections}) {
+                    var renderer = new TOCDetailRenderer({elemId:"knowledgeTOCRenderer", height:-110, contentId:'knowledgeTOCRendererContent'});
+                    if (propertiesPanel) {
+                        Ext.ComponentMgr.get(propertiesPanel.id).addListener('beforeExpand', function() {
+                           renderer.height = -190;
+                           renderer.resize();
+                        });
+                        Ext.ComponentMgr.get(propertiesPanel.id).addListener('collapse', function() {
+                           renderer.height = -110;
+                           renderer.resize();
+                        });
+                    }
+                    new TOCSectionSelector({menuId:'menuKB', contentId:'knowledgeTOCRendererContent'});
+                }
+            });
+        </script>
+    </apex:page>

@@ -1,0 +1,78 @@
+<!--
+DATE          DEVELOPER                WR       DESCRIPTION                               
+
+====          =========                ==       =========== 
+27/7/2010    Karthik Shivprakash     Defect#17  Modified the reRender in the next and previous link when account is refreshed.
+
+-->
+
+<apex:page StandardController="Account" recordSetvar="accounts" action="{!goToPage}" extensions="PRM_IncludeAccountGrouping" >
+  
+  <apex:form id="theForm">
+  <apex:pageBlock title="{!$Label.Include_Title}">
+   <apex:pageMessages />
+    <apex:panelGrid columns="3">
+      <apex:outputLabel value="{!$Label.View}"/>
+      <apex:selectList value="{!filterId}" size="1">      
+        <apex:selectOptions value="{!listviewoptions}"/>
+      </apex:selectList>
+       <apex:commandButton action="{!getAccount}" value="Go" status="counterStatus" reRender="Accountlist,linkbtns"/>
+        <apex:commandLink action="{!editView}" value="{!$Label.Edit}"/>
+         <apex:commandLink action="{!createView}" value="{!$Label.Create_New_View}"/><br/>
+         <apex:commandLink action="{!selectAll}" value="{!$Label.Select_All}" rendered="{!selectRender}"/>
+         <apex:commandLink action="{!deSelectAll}" value="{!$Label.Deselect_All}" rendered="{!selectRender}"/>
+          <apex:actionStatus startText=" Processing the stuff " id="counterStatus">
+            <apex:facet name="start" ><br/>Processing...
+              <img src="/apexpages/devmode/img/saveStatus.gif" />
+            </apex:facet>
+          </apex:actionStatus>
+    </apex:panelGrid>
+    <apex:pageBlockSection >
+        <apex:pageBlockTable value="{!accounts}"  var="acc" id="Accountlist">
+    
+    <apex:column headerValue="{!$Label.Select}">
+        <apex:inputField value="{!acc.Selected__c}"/>
+    </apex:column>
+    <apex:column headerValue="{!$Label.Account_Name1}">
+        <apex:outputField value="{!acc.Name}"/>
+    </apex:column>
+    <apex:column headerValue="{!$Label.Partner_Type}">
+        <apex:outputField value="{!acc.Partner_Type__c}"/>
+    </apex:column>
+    <apex:column headerValue="{!$Label.BillingCity}">
+        <apex:outputField value="{!acc.BillingCity}"/>
+    </apex:column>
+   <apex:column headerValue="{!$Label.IsProfiled_Account}">
+        <apex:outputField value="{!acc.PROFILED_ACCOUNT_FLAG__c}"/>
+    </apex:column>
+    <apex:column headerValue="{!$Label.Billing_Country}">
+        <apex:outputField value="{!acc.BillingCountry}"/>
+    </apex:column>
+    <apex:column headerValue="{!$Label.Global_DUNS_Entity}">
+        <apex:outputField value="{!acc.Global_DUNS_Entity__c}"/>
+    </apex:column>
+    <apex:column headerValue="{!$Label.Site_DUNS_Entity}">
+        <apex:outputField value="{!acc.Site_DUNS_Entity__c}"/>
+    </apex:column>
+    <apex:column headerValue="{!$Label.Grouping_Name}">
+        <apex:outputField value="{!acc.Grouping__c}"/>
+    </apex:column>
+    <apex:column headerValue="{!$Label.Master_Grouping}">
+        <apex:outputField value="{!acc.Master_Grouping__c}"/>
+    </apex:column>    
+    </apex:pageBlockTable>
+     
+    </apex:pageBlockSection>
+    <apex:pageBlockButtons dir="RTL">
+    <center>
+      <apex:commandButton action="{!cancel}" value="{!$Label.EMC_Cancel}"/>
+      <apex:commandButton action="{!include}" value="{!$Label.Include}"></apex:commandbutton>
+    </center>
+   </apex:pageBlockButtons> 
+   <apex:pageBlockSection id="linkbtns" columns="2" dir="LTR">
+     <apex:commandLink action="{!previousPage}" value="{!$Label.EMC_Previous}" rendered="{!hasPrevious}"/>
+     <apex:commandLink action="{!nextPage}" value="{!$Label.Next}" rendered="{!hasNext}"/>
+   </apex:pageBlockSection>
+  </apex:pageBlock>
+   </apex:form> 
+</apex:page>

@@ -1,0 +1,34 @@
+<!-- 
+Author:     Sunil Arora
+Created on: 29-Dec-2009
+Description: This page displays the standard event related to the Briefing Event
+Modified by: Devi Prasad Bal
+Modified on: 05-April-2010
+Reason: Modified based on further inputs from the business
+-->
+
+
+<apex:page standardController="EBC_Briefing_Event__c" extensions="EBC_ShowEvents" tabStyle="EBC_Briefing_Event__c"> 
+    <apex:form >    
+        <apex:pageBlock id="detail" >
+            <apex:pageBlockTable value="{!Events}" var="a" id="rows" rendered="{!NOT(ISNULL(Events))}" >
+                <!-- <apex:column headerValue="Subject" value="{!a.Subject}"/> -->
+
+                <apex:column >
+                    <apex:facet name="header">Subject</apex:facet>
+                    <apex:outputLink value="/{!a.Id}" target="_blank">
+                        {!a.Subject}
+                    </apex:outputLink> 
+                </apex:column>
+
+                <apex:column >
+                    <apex:facet name="header">Due Date</apex:facet>
+                    <apex:outputField value="{!a.ActivityDateTime}"/> 
+                </apex:column>
+
+                <apex:column headerValue="Type" value="{!a.Type}"/>
+            </apex:pageBlockTable>
+            <apex:outputText style="font-size:15" value="{!errMsg}" />
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

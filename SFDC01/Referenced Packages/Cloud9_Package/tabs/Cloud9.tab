@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Cloud9 Salesforce Tab</description>
+    <icon>C9_Resources/C9_Logo_small.gif</icon>
+    <label>Cloud9</label>
+    <mobileReady>false</mobileReady>
+    <motif>Custom270: TV Widescreen</motif>
+    <page>C9sfdcPage</page>
+</CustomTab>

@@ -1,0 +1,150 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req                        DESCRIPTION 
+ |  16/12/2011      Anand Sharma                                   This Page will allow Partners to search partner SE.
+ |  23/04/2012		Anil Sure		  188166     					Added Data Warehouse and Citrix fields in Excel as per May Release
+ ========================================================================================================================-->
+<apex:page controller="PRM_PartnerSESearchController" contenttype="application/vnd.ms-excel" cache="true">
+<html>
+    <head>
+        <style>         
+            body { 
+                font-family: Arial Unicode MS; 
+                font-size: 8.0pt;
+                color: windowtext;                  
+            }
+            @page { 
+                margin-left: 2cm;
+                margin-right: 2cm;
+                margin-top: 2cm;
+                margin-bottom: 2cm;
+                 
+                size:portrait;                                                       
+                @bottom-right { 
+                    font-family: Arial Unicode MS; 
+                    font-size: 8.0pt;
+                    content: "Page " counter(page) " of " counter(pages);                    
+                }
+                @bottom-left { 
+                    font-family: Arial Unicode MS;  
+                    font-size: 8.0pt;
+                    content: "Partner SE Details";                 
+                } 
+                                                   
+            }
+           div { page-break-after: always; }
+           h5{
+                counter-increment: chapter;
+                counter-increment: section;
+           }
+           ul.b {list-style-type:solid circle;font-size: 12.0pt;font-weight:bold; }
+           ul.c {list-style-type:none;font-size: 12.0pt;font-weight:bold; }
+           ol.digitListCls {list-style-type:decimal;}
+           
+           p.padding {padding-left:0.8cm;} 
+           p.paddingSecornd {padding-left:1.2cm;} 
+           
+           
+        </style>
+    </head>
+    <div>
+        <table width="100%" border="0" cellpadding="4px" cellspacing="0">
+            <tr valign="top"> 
+                <td style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Partner_Account} </b></td>
+                <td style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.of_SE_s_for_Partner}</b></td>
+                <td style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Partner_SE}</b></td>
+                <td style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Area}</b></td>
+                <td style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.District}</b></td>
+                <td style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Phone}</b></td>
+                <td style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Email}</b></td>
+                <td style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Office_Location}</b></td>
+                <td style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Leverage_Factor}</b></td>
+
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Theater}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Country}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.District_Manager}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.BRS_Avamar_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.BRS_Data_Domain_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.BRS_Networker_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.IP_Networking_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Isilon_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Replication_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.RSA_Security_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Symmetrix_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Unified_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.VCE_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.VMware_Skill}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Average_Skill_Rating}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.BRS_Avamar_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.BRS_Data_Domain_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.BRS_Networker_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.IP_Networking_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Isilon_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Replication_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.RSA_Security_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Symmetrix_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Unified_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.VCE_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.VMware_Sales}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Average_Technical_Sales_Acumen_Rating}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Oracle}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.SAP}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.SQL}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.VCE}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.VMware}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Citrix}</b></td>
+                <td   style='border: thin solid black; background: #103F7A; color: White;'><b>{!$Label.Data_Warehouse}</b></td>
+                
+            </tr> 
+            <apex:repeat value="{!lstPartnerSearchresult}" var="partnerData">
+            <tr>                
+                <td   style='border: thin solid black;'><apex:outputText value="{!partnerData.AccountName}"/></td>
+                <td  style='border: thin solid black;' ><apex:outputText value="{!partnerData.NumberOfContacts}"/></td>
+                <td style='border: thin solid black;' ><apex:outputText value="{!partnerData.ContactName}"/></td>
+                <td  style='border: thin solid black;'><apex:outputText value="{!partnerData.Area}"/></td>
+                <td  style='border: thin solid black;' ><apex:outputText value="{!partnerData.DistrictName}"/></td>
+                <td  style='border: thin solid black;' ><apex:outputField value="{!partnerData.PartnerSE.Phone}"/></td>
+                <td  style='border: thin solid black;' ><apex:outputField value="{!partnerData.PartnerSE.Email}"/></td>
+                <td  style='border: thin solid black;' ><apex:outputField value="{!partnerData.PartnerSE.Office_Location__c}"/></td>
+                <td  style='border: thin solid black;' ><apex:outputField value="{!partnerData.PartnerSE.Partner_Leverage_Factor__c}" rendered="{!ISBLANK(partnerData.AccountName)}"/></td>
+                
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.Theater}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.Country}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.DistrictManager}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.BRS_Avamar_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.BRS_Data_Domain_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.BRS_Networker_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.IP_Networking_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Isilon_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Replication_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.RSA_Security_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Symmetrix_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Unified_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.VCE_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.VMware_Skill__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Partner_SE_Overall_Skill_Rating__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.BRS_Avamar_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.BRS_Data_Domain_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.BRS_Networker_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.IP_Networking_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Isilon_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Replication_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.RSA_Security_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Symmetrix_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Unified_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.VCE_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.VMware_Sales__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Partner_SE_Overall_Sales_Acumen_Rating__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Oracle_App_Competence__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.SAP_App_Competence__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.SQL_App_Competence__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.VCE_App_Competence__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.VMware_App_Competence__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Citrix_App_Competence__c}"/></td>
+                <td   style='border: thin solid black;' ><apex:outputText value="{!partnerData.PartnerSESkillRating.Data_Warehouse_App_Competence__c}"/></td>
+                </tr> 
+            </apex:repeat> 
+        </table>
+    </div>
+</html>
+</apex:page>

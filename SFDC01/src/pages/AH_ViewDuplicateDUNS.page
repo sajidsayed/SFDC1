@@ -1,0 +1,57 @@
+<apex:page tabStyle="Account" Controller="AH_Ctlr_ViewDuplicateDUNS">
+
+ <apex:pageBlock title="{!$Label.AH_Duplicate_DUNS_TA_Header}">
+
+        <apex:pageBlockTable value="{!MyDupes}" var="acct">
+
+            <apex:column headerValue="{!$ObjectType.account.fields.name.label}">
+
+                <apex:outputLink value="/{!acct.Id}">{!acct.Name}</apex:outputLink>
+
+            </apex:column>
+
+            <apex:column value="{!acct.Party_ID__c}"/>
+
+            <apex:column value="{!acct.Party_Number__c}"/>  
+
+            <apex:column value="{!acct.EMC_Classification__c}"/>
+
+            <apex:column value="{!acct.BillingStreet}"/>  
+
+            <apex:column value="{!acct.BillingCity}"/> 
+
+            <apex:column value="{!acct.BillingState}"/> 
+
+            <apex:column value="{!acct.BillingPostalCode}"/> 
+
+        </apex:pageBlockTable> 
+
+    </apex:pageBlock> 
+
+    
+
+    <apex:pageBlock title="{!$Label.AH_Duplicate_DUNS_Non_TA_Header}">
+
+        <apex:pageBlockTable value="{!HiddenDupes}" var="acct">
+
+            <apex:column value="{!acct.Name}"/> 
+
+            <apex:column value="{!acct.Party_ID__c}"/> 
+
+            <apex:column value="{!acct.Party_Number__c}"/>             
+
+            <apex:column value="{!acct.EMC_Classification__c}"/> 
+
+            <apex:column value="{!acct.BillingStreet}"/>  
+
+            <apex:column value="{!acct.BillingCity}"/> 
+
+            <apex:column value="{!acct.BillingState}"/> 
+
+            <apex:column value="{!acct.BillingPostalCode}"/>             
+
+        </apex:pageBlockTable> 
+
+    </apex:pageBlock>     
+
+</apex:page>

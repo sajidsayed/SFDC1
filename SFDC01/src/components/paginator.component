@@ -1,0 +1,48 @@
+<apex:component >
+<!-- Begin Default Content REMOVE THIS   -->
+<apex:attribute name="pageManager" type="PageManager" assignTo="{!pageManager}" required="true" description="A PageManager object for this Paginator"/>
+<apex:attribute name="reRenderComponent" type="string" assignTo="{!reRenderComponent}" required="true" description="Component Ids to reRender"/>
+<apex:attribute name="statusComponent" type="string" assignTo="{!statusComponent}" required="true" description="Status component"/>
+<apex:attribute name="onComplete" type="string" assignTo="{!onComplete}" required="false" description="a javascript fired on the completion"/>
+<table width="100%" cellspacing="2px">
+    <tr>
+        <td style="width: 35%;">
+        </td>
+        <td id="pageCell" style="white-space: nowrap">
+            <apex:outputPanel id="pagingPan">
+                <apex:panelGrid id="pageMainGrid" columns="1" width="100%">
+                    <apex:panelGrid id="pageSubGrid" columns="12" style="white-space:nowrap;">
+                        <apex:outputText rendered="{!pageManager.page == 0}" value="{! $Label.PaginatorFirst}"/>
+                        <apex:commandLink id="firstPageLink" rendered="{!0 < pageManager.page}" rerender="{!reRenderComponent}" status="{!statusComponent}" oncomplete="{!onComplete}">
+                            {! $Label.PaginatorFirst}
+                            <apex:param assignTo="{!pageManager.page}" name="page" value="0"/>
+                        </apex:commandLink>&nbsp;|&nbsp;
+                        <apex:outputText rendered="{!pageManager.page == 0}" value="{! $Label.PaginatorPrevious}"/>
+                        <apex:commandLink id="prevPageLink" rendered="{!0 < pageManager.page}" rerender="{!reRenderComponent}" status="{!statusComponent}" oncomplete="{!onComplete}">
+				            {! $Label.PaginatorPrevious}
+				            <apex:param assignTo="{!pageManager.page}" name="page" value="{!pageManager.page - 1}"/>
+				        </apex:commandLink>&nbsp;|&nbsp;
+                        <apex:outputPanel layout="block" style="white-space:nowrap;"><b>{! $Label.PaginatorGoToPage}</b></apex:outputPanel>&nbsp;
+                        <apex:selectList id="pageSel" size="1" value="{!pageManager.page}">
+                            <apex:actionSupport event="onchange" rerender="{!reRenderComponent}" status="{!statusComponent}" oncomplete="{!onComplete}"/>
+                            <apex:selectOptions value="{!pageManager.pageOptions}"/>
+                        </apex:selectList>&nbsp;|&nbsp;                        
+                        <apex:outputText rendered="{!pageManager.page == pageManager.pageList.size-1}" value="{! $Label.PaginatorNext}" />
+                        <apex:commandLink id="nextPageLink" rendered="{!pageManager.page < pageManager.pageList.size-1}" rerender="{!reRenderComponent}" status="{!statusComponent}" oncomplete="{!onComplete}">
+                            {! $Label.PaginatorNext}
+                            <apex:param assignTo="{!pageManager.page}" name="page" value="{!pageManager.page + 1}"/>
+                        </apex:commandLink>&nbsp;|&nbsp;
+                        <apex:outputText rendered="{!pageManager.page == pageManager.pageList.size-1}" value="{! $Label.PaginatorLast}"/>
+                        <apex:commandLink id="lastPageLink" rendered="{!pageManager.page < pageManager.pageList.size-1}" rerender="{!reRenderComponent}" status="{!statusComponent}" oncomplete="{!onComplete}">
+                            {! $Label.PaginatorLast}
+                            <apex:param assignTo="{!pageManager.page}" name="page" value="{!pageManager.pageList.size - 1}"/>
+                        </apex:commandLink>
+                    </apex:panelGrid>
+                </apex:panelGrid>
+            </apex:outputPanel>
+        </td>
+        <td style="width: 35%;"></td>
+    </tr>       
+</table>
+<!-- End Default Content REMOVE THIS -->
+</apex:component>

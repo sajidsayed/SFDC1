@@ -1,0 +1,104 @@
+<!--
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER   WR/DEFECT           DESCRIPTION                               
+ |  ====       =========   =========           =========== 
+ |    
+    23-Apr-10   Arif       Defect-655,652,653  Updated the page title in each 5 pages, displayed based on the selection -->
+
+
+<apex:page standardController="Opportunity" recordSetvar="unused" extensions="MassUpdateSimpleController" id="page">
+  
+  <!-- for this page to work with a specific custom object, change standController="entityname" to custom object api name  
+    For example, if custom object name is Warehouse__c, change first part of the first line to standardController="warehouse__c" -->
+  
+  <apex:includeScript value="{!$Resource.UtilJS}" />
+  <apex:form id="wizard">
+ 
+  <apex:sectionHeader title="Mass Update Wizard" subtitle="{!title}"/>
+      <apex:pageBlock id="step1" mode="edit" rendered="{!step='1'}">
+            <apex:pagemessages escape="false"></apex:pagemessages>
+            <apex:pageBlockSection >
+            <apex:pageBlockTable var="a" value="{!selected}" rendered="{!Flag1}">
+                <apex:column value="{!a.Name}"/>
+                <apex:column value="{!a.Account.Name}"/>
+                <apex:column value="{!a.Amount}"/>
+                <apex:column value="{!a.Quote_Amount__c}"/>
+                <apex:column value="{!a.CloseDate}"/>
+                <apex:column value="{!a.StageName}"/>
+            </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            <apex:panelGrid columns="2">
+            </apex:panelGrid>
+          <apex:pageBlockButtons >
+              <apex:commandButton action="{!cancel}" value="Previous" rendered="{!previousFlag}"/>
+              <apex:commandButton action="{!step2}" value="Next" rendered="{!cancelFlag}"/>
+              <apex:commandButton action="{!showOk}" value="{!$Label.OK}" rendered="{!okFlag}"/>
+          </apex:pageBlockButtons>
+      </apex:pageBlock> 
+  
+      <apex:pageBlock id="field" mode="edit" rendered="{!step='2'}">
+          <apex:pagemessages escape="false"></apex:pagemessages>
+          <apex:selectList id="pickList" size="1" value="{!fieldName}">
+              <apex:selectOptions value="{!fieldTypeOptions}"/>
+          </apex:selectList>
+          <apex:pageBlockButtons >
+              <apex:commandButton action="{!step3}" value="Next"/>
+              <apex:commandButton action="{!cancel}" value="Cancel" onclick="return confirmCancel()" immediate="true" style="margin-left: 2em"/>
+          </apex:pageBlockButtons>
+      </apex:pageBlock> 
+  
+      <apex:pageBlock id="step3" mode="edit" rendered="{!step='3'}">
+         <apex:pagemessages escape="false"></apex:pagemessages>
+         <apex:inputText rendered="{!fieldType='CURRENCY'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='DATE'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='DATETIME'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='TEXT'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='NUMBER'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='COMBOBOX'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='DOUBLE'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='EMAIL'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='ID'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='INTEGER'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='PERCENT'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='MULTIPICKLIST'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='PHONE'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='STRING'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='REFERENCE'}" value="{!valueToUpdate}" />
+         <apex:inputText rendered="{!fieldType='BASE64'}" value="{!valueToUpdate}" />
+         <apex:inputTextArea rendered="{!fieldType='TEXTAREA'}" rows="15" cols="100" value="{!valueToUpdate}" />
+         <apex:inputCheckBox rendered="{!fieldType='BOOLEAN'}" value="{!valueToUpdate}" />
+         <apex:selectList rendered="{!fieldType='PICKLIST'}" value="{!valueToUpdate}" size="1">
+         <apex:selectOptions value="{!picklistvalues}"/>
+         </apex:selectList>
+             <apex:pageBlockButtons >
+              <apex:commandButton action="{!step2}" value="Previous"/>
+              <apex:commandButton action="{!step4}" value="Next"/>
+              <apex:commandButton action="{!cancel}" value="Cancel" onclick="return confirmCancel()" immediate="true" style="margin-left: 2em"/>
+             </apex:pageBlockButtons>
+      </apex:pageBlock> 
+      
+      <apex:pageBlock id="step4" rendered="{!step='4'}">
+          <apex:pagemessages escape="false"></apex:pagemessages>
+          <apex:pageBlockButtons >
+              <apex:commandButton action="{!step3}" value="Previous"/>
+              <apex:commandButton action="{!step5}" value="Update"/>
+              <apex:commandButton action="{!cancel}" value="Cancel" onclick="return confirmCancel()" immediate="true" style="margin-left: 2em"/>
+          </apex:pageBlockButtons>
+      </apex:pageBlock> 
+      
+      
+      <apex:pageBlock id="step5" mode="edit" rendered="{!step='5'}">
+          <apex:pagemessages escape="false"></apex:pagemessages>
+              <apex:pageBlockTable var="a" value="{!selected}" rendered="{!Flag}">
+                <apex:column value="{!a.Name}"/>
+                <apex:column value="{!a.Account.Name}"/>
+                <apex:column headervalue="Updated field" value="{!fieldName}"/>
+              </apex:pageBlockTable>   
+             <apex:pageBlockButtons >             
+              <apex:commandButton action="{!cancel}" value="Done"/>
+          </apex:pageBlockButtons>
+      </apex:pageBlock> 
+      
+  </apex:form>
+</apex:page>

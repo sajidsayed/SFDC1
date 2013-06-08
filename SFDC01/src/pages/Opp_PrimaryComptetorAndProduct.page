@@ -1,0 +1,64 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req                    DESCRIPTION 
+ |  27/03/2012    Anand Sharma                                  This is used to display Competitive Summary 
+ ========================================================================================================================-->
+
+<apex:page id="leadPage" standardController="Opportunity" extensions="Opp_PrimaryComptetorAndProduct" tabStyle="Opportunity" rendered="{!isUpdated}">
+    <script language="JavaScript">
+        function validateDocument(){            
+            var documentURLValue = document.getElementById('{!$Component.leadPage.leadForm.documentURL}').value;
+            if(documentURLValue != null && documentURLValue != ''){
+                return true;
+            }else{
+                return false;
+            } 
+        } 
+    </script>
+     
+    <apex:form id="leadForm">
+    <apex:outputPanel id="errorMessage">
+          <apex:inputHidden id="successFlag" value="{!isUpdated}"/>   
+          <apex:inputHidden id="documentURL" value="{!strDocumentUrl}"/>          
+    </apex:outputPanel>
+    
+    <div id="ep" class="bDetailBlock bPageBlock secondaryPalette">
+    <div class="pbBody">
+    <div class="pbSubsection">
+        <table class="detailList" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td class="labelCol">
+                    <apex:outputText value="{!$Label.Competitive_Summary}" title="{!$Label.Competitive_Summary_Help_Text}" rendered="{!isUpdated}">
+                        
+                    </apex:outputText>
+                    <apex:outputpanel styleclass="helpButton">
+                        <apex:image styleclass="helpOrb" style="background-position: right top; width: 15px; height: 35px; padding-right: 2px; padding-bottom: 2px;" alt="" value="/s.gif" title="{!$Label.Competitive_Summary_Help_Text}" />
+                    </apex:outputpanel>
+                </td>
+                <td id="00NS000000175PM_ilecell" class="dataCol col02 inlineEditWrite">                    
+                    <apex:outputLink title="{!$Label.Competitive_Summary_Help_Text}"  target="_blank" value="{!strDocumentUrl}" id="theLink" onclick="return validateDocument();" ><b>{!Opportunity.Competitive_Summary_Mapping__r.Name}</b></apex:outputLink>
+                </td>
+            </tr>
+        </table>
+    </div>
+    </div>
+    </div>
+    
+  </apex:form>
+  <script>     
+      window.onload=function resize(){
+      
+         //alert('1');
+         var successFlagValue = document.getElementById('{!$Component.leadPage.leadForm.successFlag}').value;
+         var documentURLValue = document.getElementById('{!$Component.leadPage.leadForm.documentURL}').value;
+         //alert(successFlagValue);
+         if(successFlagValue =='true'){
+            //window.parent.location.href = documentURLValue ; 
+         }
+                         
+      }    
+      
+            
+   </script>
+   
+</apex:page>

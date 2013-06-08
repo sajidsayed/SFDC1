@@ -1,0 +1,1 @@
+https://os4crm.onesource.com/AI/AIRouter.aspx?Form=accountmashup&RecName={!Lead.Name}&RecId={!Lead.Id}&RecType=Lead&KeyId={!Lead.OSKeyID__c}&OrgId={!Organization.Id}&UserId={!User.Id}&ServerURL={!API.Partner_Server_URL_150}&SessionId={!User.Session_ID}&CRM=Salesforce

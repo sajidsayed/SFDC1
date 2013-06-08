@@ -1,0 +1,104 @@
+<apex:page controller="EBC_TopicPresenterLookup" sidebar="false" showHeader="false">
+    <script language="JavaScript">
+        function setParentValues(Name,topic,Id)
+        {
+           window.parent.opener.document.getElementById('j_id0:formParent:pBlock:Information:Topic_Presenter:childValues').value=Name+'';
+           window.parent.opener.document.getElementById('j_id0:formParent:topicPresenterid').value=Id;
+           window.parent.close();
+           
+        }
+    </script>
+  <style>
+    .container{
+        overflow:auto;
+        height:500px;
+    }
+</style>
+  <apex:form id="formChild">
+   <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1181680187000/Theme2/default/common.css"></link>
+    <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1182928755000/Theme2/00D500000007vPf/005500000011iFC/dCustom.css"></link>
+    <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1210726271000/Theme2/default/elements.css"></link>
+    <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1210726271000/Theme2/default/common.css"></link>
+    <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/13.0/1186006102000/Theme2/default/rlHovers.css"></link>
+    <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/18.0/sprites/1264712396000/Theme2/dStandard.css"></link>
+    <link type="text/css" rel="stylesheet" media="handheld,print,projection,screen,tty,tv" href="/sCSS/18.0/sprites/1264712396000/Theme2/00DQ00000008rrT/005Q0000000E904/dCustom0.css"></link>
+    
+  
+ 
+                <div class="lookup" >
+                            <div class="bPageTitle">
+                                <div class="ptBody secondaryPalette">
+                                        <div class="content">
+                                        <img class="pageTitleIcon" title="" alt="" src="/s.gif"/>
+                                            <h1>Lookup</h1>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            
+                            
+                            
+                            
+                
+                            
+  <apex:outPutText >Topic&nbsp;&nbsp;</apex:outPutText>
+   <apex:inputText value="{!searchTopicName}" /> OR &nbsp;&nbsp;
+   <apex:outPutText >Presenter&nbsp;&nbsp;</apex:outPutText>
+   <apex:inputText value="{!PresenterName}" /> OR &nbsp;&nbsp;
+   <apex:outPutText >Location&nbsp;&nbsp;</apex:outPutText>
+   <apex:inputText value="{!location}" /> OR &nbsp;&nbsp;
+   <apex:outPutText >Area of Expertise&nbsp;&nbsp;</apex:outPutText>
+   <apex:inputText value="{!areaOfExpertise}" />
+   <apex:commandButton value="Go" action="{!doSearch}" rerender="rows" status="status"/><br/>
+
+
+
+
+   <br/>You can use "*" as a wildcard next to other characters to improve your search results. For example, "ad*" returns all records with a word in one of the searched fields that begins with "ad".
+     <apex:outputPanel layout="block" styleclass="container" >
+      <apex:pageBlock >
+      <apex:pageBlockTable value="{!tp}" var="a" id="rows" >
+      <apex:column >
+            <apex:facet name="header">Presenter</apex:facet>
+                <a href='javascript:setParentValues("{!a.Name}","{!a.Topic__c}","{!a.Id}")'>{!a.Presenter__r.Name}</a>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">Topic</apex:facet>
+                    <apex:outPutText value="{!a.Topic__r.Name}"></apex:outPutText>                    
+      </apex:column>
+
+<!-- Devi: Modified for WR#165071 to add new columnns -->     
+     
+      <apex:column >
+          <apex:facet name="header">EBC Name</apex:facet>
+                    <apex:outPutField value="{!a.EBC_Name__c}"></apex:outPutField>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">EBC Title</apex:facet>
+                    <apex:outPutField value="{!a.EBC_Title__c}"></apex:outPutField>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">Organization</apex:facet>
+                    <apex:outPutField value="{!a.Organization__c}"></apex:outPutField>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">Discussion Leader Location</apex:facet>
+                    <apex:outPutField value="{!a.Discussion_Leader_Location__c}"></apex:outPutField>
+      </apex:column>
+      <apex:column >
+          <apex:facet name="header">Discussion Leader Area of Expertise</apex:facet>
+                    <apex:outPutField value="{!a.Discussion_Leader_Area_of_Expertise__c}"></apex:outPutField>
+      </apex:column>                        
+
+<!-- Devi: End of WR#165071 -->    
+      
+      <apex:column >
+          <apex:facet name="header">Is Certified</apex:facet>
+                    <apex:outPutField value="{!a.IsCertified__c}"></apex:outPutField>
+      </apex:column>
+      </apex:pageBlockTable>
+      </apex:pageBlock>
+      </apex:outputPanel>
+      Copyright © 2000-2009 salesforce.com, inc. All rights reserved.
+  </apex:form>
+</apex:page>

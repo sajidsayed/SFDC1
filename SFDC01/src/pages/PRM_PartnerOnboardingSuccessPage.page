@@ -1,0 +1,32 @@
+<!--  ==================================================================================================================+
+
+ |  HISTORY  |                                                                           
+
+ |  DATE          DEVELOPER      WR        DESCRIPTION                               
+
+ |  ====          =========      ==        =========== 
+
+ |  28/03/2011     Arif      Req#162077    This page is used to be shown when the Partner On Boarding record successfully saved 
+                                           from site page
+ |  21/04/2011     Anil Sure               Added OutputLables for EMEA,APJ,Americas Contacts
+            
+ +==================================================================================================================**/ 
+-->                                
+
+<apex:page standardController="Partner_Onboarding__c" extensions="PRM_PartnerOnboardingExtensionController" language="{!lang}" showheader="false" sidebar="false">
+    <apex:include pageName="EMC_Header"/><br/>
+    <html>
+        <center>
+        <b>{!$Label.Success_Message_Partner_On_Boarding}</b><br/><br/>
+        <b>{!$Label.Application_ID}</b>
+        <b><apex:outputLabel value="{!ApplicationID}"></apex:outputLabel></b>
+        </center><br/>
+        <center>
+        <h3>Contacts:</h3>
+        <b>{!$Label.Americas}</b>: <apex:outputLink value="mailto:NA_VAR_Application@emc.com"> NA_VAR_Application@emc.com</apex:outputLink><br/>
+        <b>{!$Label.APJ}</b>: <apex:outputLink value="mailto:psc-apj@emc.com"> psc-apj@emc.com</apex:outputLink><br/>
+        <b>{!$Label.EMEA}</b>: <apex:outputLink value="mailto:psc_emea_contract_management@emc.com"> psc_emea_contract_management@emc.com</apex:outputLink><br/>       
+        </center>        
+    </html>     
+    <apex:include pageName="EMC_Footer"/>
+</apex:page>

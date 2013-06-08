@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>USER_ID</field>
+    </columns>
+    <columns>
+        <field>USERNAME</field>
+    </columns>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>EMAIL</field>
+    </columns>
+    <description>A list of all active users in the Salesforce organization. Used for advanced customer support only.</description>
+    <format>Tabular</format>
+    <name>OneSource - All Active Users</name>
+    <params>
+        <name>active</name>
+        <value>active</value>
+    </params>
+    <reportType>User</reportType>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>LAST_LOGIN</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

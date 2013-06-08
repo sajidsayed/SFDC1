@@ -1,0 +1,604 @@
+<apex:page controller="KB_T3PickerScreenController">
+        <style type="text/css">
+        .outPanel{
+                    background-color:#F8F8F8;
+                    height:355px
+        }
+            #optionContainer{
+                background-color:#FFFFFF;
+                overflow:scroll;
+                height:250px;
+                 width:93%;
+                border:1px solid #c1c1c1;
+                position:fixed:
+
+            }
+            #middleBox{
+                background-color:#FFFFFF;
+               overflow:scroll;
+                height:250px;
+                 width:93%;
+                border:1px solid #c1c1c1;
+                position:fixed:
+            }
+            #middleBox1{
+                height:20px;
+                 width:95%;
+                float:left;
+
+            }
+            #lastBox{
+                background-color:#FFFFFF;
+                overflow:scroll;
+                height:250px;
+                float:left;
+                 width:93%;
+                border:1px solid #c1c1c1;
+                position:fixed:
+            }
+            .containers{
+                width:25%;
+                float:left;
+                 overflow:hidden;
+                margin-left:10px;
+            }
+            .containers1{
+                width:9%;
+
+                float:left;
+            }
+            .products{
+                width:100%;
+                padding:5px 5px;
+            }
+            .products:hover{
+                cursor:pointer;
+            }
+            .children{
+                width:75%;
+                padding:5px 5px;
+            }
+            .children:hover{
+                cursor:pointer;
+            }
+            .selectProd{
+                width:75%;
+                padding:5px 5px;
+            }
+            .selectProd:hover{
+                cursor:pointer;
+            }
+
+
+            
+            .prodParentId{
+                display:none;
+            }
+             .prodParentName{
+                display:none;
+            }
+            .addedChildren{
+                width:75%;
+                padding:5px 5px;
+            }
+            .allNamesClass{
+                display:none;
+            }
+             .allProductClass{
+                display:none;
+            }
+            .allDescriptionsClass{
+                display:none;
+            }
+            
+            body .bPageBlock, body #bodyCell .bResource .secondaryPalette, 
+            body .secondaryPalette.bPageBlock, body .individualPalette .secondaryPalette.bPageBlock, 
+            body .bodyDiv .genericTable, body .genericPageBlockTable, body .bodyDiv .bSubBlock, 
+            body .bComponentBlock .bPageBlock, body .bMyDashboard .bPageBlock, body.rlHoverFrame .bPageBlock, 
+            body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.bPageBlock, 
+            body.popupTab .secondaryPalette.bPageBlock, body.UserTagStatsPage .secondaryPalette.bPageBlock {
+               
+                position:relative;
+            }
+            .topLabels{
+              
+                font-size: 18px;
+                padding: 0px 0px 15px 0px;
+            }
+            .addedChildren:hover{
+                cursor:pointer;
+            }
+        </style>
+
+          <apex:form id="myForm" > 
+           <apex:inputHidden id="inpHidden" value="{!description}" />
+           <apex:inputHidden id="inpHidden1" value="{!t3ID}" />
+           <apex:inputHidden id="inpHidden2" value="{!prod}" />
+        <script type="text/javascript">
+                var decriptionfromArt ='';
+                var t3Name ='';
+                var prod = '';
+                var allNames = '';
+                var allDescriptions = '';
+                var allProducts = '';
+        window.onload = doStuff;
+               
+                function doStuff() {
+                    decriptionfromArt =  document.getElementById('j_id0:myForm:inpHidden').value;
+                    t3Name = document.getElementById('j_id0:myForm:inpHidden1').value;
+                    prod = document.getElementById('j_id0:myForm:inpHidden2').value;
+
+                    var mySplitResult = prod.split(',');
+                      for(i = 0; i <(mySplitResult.length)-1; i++){
+                            var sss = mySplitResult[i].split('-');
+                            
+                           var newAddition = document.createElement('div');
+                        newAddition.className='addedChildren';
+                        newAddition.innerHTML = sss[1];
+                        
+                        newAddition.setAttribute('selected' , 'false');
+                        newAddition.setAttribute('t3name' , sss[0]);
+        
+                        allNames = allNames + sss[0] + ', ';
+                        //alert('allNames->'+allNames);
+                        allDescriptions =  allDescriptions + sss[1]+', ' ;
+                        //alert('allDescriptions---->'+allDescriptions)
+                        allProducts = allProducts + sss[2]+ ', ';
+                        //alert('allProducts---->'+allProducts);
+                        
+                        document.getElementById('lastBox').appendChild(newAddition);
+                        
+
+                      }
+
+                     var children = getElementsByClassName('children');
+                     for(i = 0 ; i < children.length ; i++){
+
+                            children[i].innerHTML = '';
+
+
+                     }
+                
+                }
+
+            
+        if(document.addEventListener){
+                
+                    document.addEventListener('load',initialize(),false);
+                
+            }
+            else if(document.attachEvent){
+            
+                document.attachEvent('onload',initialize());
+            }
+            
+            
+            
+            function initialize(){
+                
+               var newAddition =  document.getElementById('j_id0:myForm:inpHidden').value;
+             //  alert(document.getElementById('lastBox'));
+            //   document.getElementById('lastBox').appendChild(newAddition);
+                      
+                if(document.addEventListener){
+                    
+                    
+                document.addEventListener('keyup',function(e){keyups(e);});
+                document.addEventListener('click',function(e){clicks(e);});
+
+            }
+            else if(document.attachEvent){
+        
+                document.attachEvent('onkeyup',function(e){keyups(e);});
+                
+                document.attachEvent('onclick',function(e){clicks(e);});
+                
+            }
+               
+            }
+            
+            function keyups(e){
+                 var obj = e.srcElement ? e.srcElement : e.target;
+                 
+                 switch(obj.id){
+                     case 'searchFilter': 
+                         filterDown(obj.value);
+                         break;
+                 }
+            }
+            function clicks(e){
+                
+
+                var obj = e.srcElement ? e.srcElement : e.target;
+              
+                switch(obj.className){
+                    case 'products':
+                        //alert('im inside 123');
+                        currentObject(obj);
+                        break;
+                    case 'children':
+                        //alert('im inside 456');
+
+                        currentObject(obj);
+                        break;
+                    case 'btn addChildrenButton' :
+                        addChildren();
+                        break;
+                    case 'btn finish' :
+                        finishUpdateArticle('finish');
+                        break;
+                     case 'btn qSave' :
+        
+                        finishUpdateArticle('quicksave');
+                        break;
+                    case 'addedChildren' : 
+                        selectRemoveChildren(obj);
+                        break;
+                    case 'btn removeSelected' :
+                        removeChildren();
+                        break;
+                }
+            }
+            
+            var parentProduct;
+
+             function getElementsByClassName(className) {
+           // alert('im inside getElementsByClassName');
+                if (document.getElementsByClassName) { 
+                    // alert('im inside if getElementsByClassName' +document.getElementsByClassName(className));
+                  return document.getElementsByClassName(className); 
+                 
+                  }
+                else { 
+                //  alert('im inside else getElementsByClassName' +document.querySelectorAll('.' + className));
+                return document.querySelectorAll('.' + className); 
+                } 
+                }
+            
+            function currentObject(obj){
+
+                
+               // var results = document.getElementsByClassName(obj.className);
+                var results = getElementsByClassName(obj.className);
+                //alert('1234-->'+results);
+                 if(obj.className == 'products'){
+                        
+                    for(i = 0 ; i < results.length ; i++){
+                        results[i].style.background="none";
+                    }
+                    var thisValue = obj.getAttribute('rId');
+                    var parName = obj.getAttribute('recName');
+                    //alert('parName----->'+parName);
+                
+                    obj.style.background="lightblue";
+                    parentProduct = obj;
+                   
+                    getElementsByClassName('prodParentId')[0].value=thisValue;
+                    getElementsByClassName('prodParentName')[0].value=parName;
+
+                    showChildren();
+                }else{
+                    if(obj.getAttribute('selected') == 'true'){
+                        obj.style.background="none";
+                        obj.setAttribute('selected' , 'false');
+                    }else{
+                        obj.style.background="lightblue";
+                        obj.setAttribute('selected' , 'true');
+                    }
+                }
+            }
+            
+           
+
+            
+            function addChildren(){
+                //allDescriptions = decriptionfromArt;
+                //allNames=t3Name;
+                //allProducts = prod;
+
+                
+                
+                if(allDescriptions.length>0){
+                    allDescriptions = allDescriptions+',';
+
+                }
+                if(allNames.length>0){
+                    allNames = allNames+',';
+
+                }
+
+                if(allProducts.length>0){
+                    allProducts = allProducts+',';
+
+                }
+                //alert('inside Add children--->'+allProducts);
+                var limitOneExecution = 0;
+                
+                var children = getElementsByClassName('children');
+                for(i = 0 ; i < children.length ; i++){
+                
+                    if(children[i].getAttribute('selected') == 'true'){
+                        
+                        var newAddition = document.createElement('div');
+                        newAddition.className='addedChildren';
+                        newAddition.innerHTML = parentProduct.getAttribute('recName')+' '+ children[i].innerHTML;
+                        
+                        newAddition.setAttribute('selected' , 'false');
+                        newAddition.setAttribute('t3name' , children[i].getAttribute('t3name'));
+        
+                        allNames = allNames + children[i].getAttribute('t3name') + ', ';
+                        allDescriptions = allDescriptions +  parentProduct.getAttribute('recName')+' '+children[i].innerHTML + ', ';
+                         allProducts = allProducts+children[i].innerHTML + ', ';
+                        document.getElementById('lastBox').appendChild(newAddition);
+                        //alert('allProducts111--->'+allProducts);
+                        //alert('allNames111--->'+allNames);
+
+                        
+                        limitOneExecution = 1;
+                    }
+                    
+                }
+
+                if(children.length == 0 || limitOneExecution==0){
+                    var newAddition = document.createElement('div');
+                        newAddition.className='addedChildren';
+                        newAddition.innerHTML = parentProduct.innerHTML;
+                        newAddition.setAttribute('selected' , 'false');
+                        allNames = allNames + parentProduct.getAttribute('rId') + ', ';
+                        allDescriptions = allDescriptions + parentProduct.innerHTML + ', ';
+                        document.getElementById('lastBox').appendChild(newAddition);
+                        allProducts = allProducts+parentProduct.innerHTML;
+                        //alert('allProducts--->'+allProducts);
+                        //alert('allNames--->'+allNames);
+
+                }
+            }
+            
+            function removeChildren(){
+                var children = getElementsByClassName('addedChildren');
+                for(i = 0 ; i < children.length ; i++){
+                    if(children[i].getAttribute('selected') == 'true'){
+                        var description = children[i].innerHTML;
+                        var name = children[i].getAttribute('t3Name') + ',';
+                        var product = children[i].getAttribute('verName') + ',';
+                        //alert('name---->'+name);
+                        allDescriptions = allDescriptions.replace(description,"");
+                        allNames = allNames.replace(name , "");  
+                        allProducts = allProducts.replace(product , "");  
+                    }
+                }
+                for(i = children.length - 1 ; i >= 0 ; i--){
+                    if(children[i].getAttribute('selected') == 'true'){
+                        children[i].parentNode.removeChild(children[i]);
+                    }
+                }
+            }
+            
+            function selectRemoveChildren(obj){
+                if(obj.getAttribute('selected') == 'true'){
+                    obj.style.background = 'none';
+                    obj.setAttribute('selected' , 'false');
+                }
+                else{
+                    obj.style.background = 'lightblue';
+                    obj.setAttribute('selected' , 'true');
+                }
+            }
+            
+            function finishUpdateArticle(operation){
+                var names = getElementsByClassName('allNamesClass');
+                var descriptions = getElementsByClassName('allDescriptionsClass');
+                var products = getElementsByClassName('allProductClass');
+            
+
+                
+                    names[0].value = allNames;
+                    descriptions[0].value = allDescriptions;
+                    products[0].value = allProducts;
+                        //alert('inside finish'+products[0].value);
+                
+                if(operation=='finish'){
+                    updateArticle();
+                }
+                else
+                    quickSaveArticle();
+            }
+            
+            function filterDown(input){
+                var results = getElementsByClassName("products");
+                for(i = 0 ; i < results.length ; i++){
+                    var searches = results[i].innerHTML.toLowerCase();
+                    if(searches.search(input) == -1){
+                        results[i].style.display='none';
+                    }
+                    if(searches.search(input) != -1){
+                        results[i].style.display='block';
+                    }
+                }
+            }
+        </script>
+        <apex:outputpanel rendered="{!noDraft}">
+
+            <center>
+            <B>
+            There is no Draft Version of this Article Available
+             </B>
+            </center>
+       
+
+        </apex:outputpanel>
+         <apex:outputpanel rendered="{!noDraft==false}">
+        <div style="font-size:18px; font-weight:bold; padding:10px 0px;">
+            <span style="color:#4A4A56;">Article Number-</span>{!sObj['ArticleNumber']}
+           </div>
+        
+             
+        <apex:pageblock title="Product Selector">      
+           <apex:outputpanel layout="block" styleclass="outPanel">
+                <apex:actionFunction action="{!updateArticle}" name="updateArticle"/>
+                <apex:actionFunction action="{!quickSaveArticle}" name="quickSaveArticle"/>
+
+                <apex:actionFunction action="{!showChildren}" name="showChildren" reRender="childrenList"/>
+                <apex:inputText styleClass="prodParentId" value="{!parentRecordId}"/>
+                <apex:inputText styleClass="prodParentName" value="{!parentName}"/>
+                <apex:inputText styleClass="allNamesClass" value="{!allNames}"/>
+                <apex:inputText styleClass="allProductClass" value="{!allProducts}"/>
+                <apex:inputText styleClass="allDescriptionsClass" value="{!allDescriptions}"/>
+            
+                <div>
+                <div class="containers">
+                    <center class="topLabels">Products</center>
+                    <div style="height:25px;color:#222;font-weight:bold;">Quick Search: </div><input type="text" id="searchFilter" style="left: 105px; position: absolute; top: 80px;width:10%"/>
+                    <div id="optionContainer">
+                        <apex:repeat value="{!fppsSelects}" var="f">
+                            <div class="products" rId="{!f.T3_ID__c}" recName="{!f.Name}">{!f.Name}</div>
+                        </apex:repeat>
+                        <apex:repeat value="{!fppsSelects2}" var="f">
+                            <div class="products" rId="{!f.T3_ID__c}" recName="{!f.Name}">{!f.Name}</div>
+                        </apex:repeat>
+                    </div>
+                </div>
+                <div class="containers">
+                    <center class="topLabels">Versions</center>
+                    <apex:outputPanel id="childrenList">
+                    <span style="font-weight:bold;color:red">&nbsp;&nbsp;{!NoVers}</span>
+                        <div id="middleBox">           
+                            <apex:repeat value="{!childRecords}" var="c">
+                                <div class="children" t3name="{!c.T3_ID__c}" verName="{!c.Name}">{!c.Name}</div>
+                            </apex:repeat>
+                        </div>
+                    </apex:outputPanel>
+                </div>
+
+                <div class="containers1">
+                   <div id="middleBox1">    
+                    <br/>
+                     <br/>
+                      <br/><br/><br/><br/><br/><br/><br/><br/>
+                    &nbsp;&nbsp;<div class="btn addChildrenButton" style="width:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add&nbsp;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    <br/>
+                     <br/>
+                   
+                    &nbsp;&nbsp;<div class="btn removeSelected" style="width:10%">&nbsp;&nbsp;&lt;&nbsp;Remove&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+
+                    
+                </div>
+
+
+                 <div class="containers">
+                 <center class="topLabels">Selected Products</center> <br/>
+                 
+
+                    <div id="lastBox" class="selectProd">
+                    </div>
+               
+                </div>
+            </div>
+
+                
+         
+          </apex:outputpanel>
+          <apex:outputpanel >
+            <center>
+            <div class="btn finish">Update and Exit</div>
+            
+             <div class="btn qSave">Quick Save</div>
+             </center>
+
+          </apex:outputpanel>
+           
+            
+              
+              <table >
+            <tr>
+              <td>
+              <apex:outputText value="T3 Product (Displayed)"  style="font-weight:bold" /> 
+              </td>
+             <td> 
+                <apex:outputText value="{!displayedProduct}" /> 
+              </td>
+                </tr>
+                  <tr> 
+              <td>
+              <apex:outputLabel value="T3 Categories " style="font-weight:bold"/> 
+              </td>
+                <td>
+             <apex:outputField value="{!sObj['T3_Categories__c']}"/>
+             </td>
+              </tr>
+              <tr>
+              <td>
+              <apex:outputText value="T3 Product "  style="font-weight:bold" /> 
+              </td>
+               <td> 
+              <apex:outputField value="{!sObj['T3_Product__c']}"/>
+              </td>
+              </tr>
+              <tr>
+              <td>
+              <apex:outputText value="EMC Internal Application"  style="font-weight:bold" /> 
+              </td>
+               <td> 
+               <apex:inputField value="{!sObj['EMC_Internal_Application__c']}" />
+              </td>
+
+              </tr>
+              </table>
+               
+            
+            
+
+              </apex:pageblock>
+
+             
+        
+    <apex:pageblock title="Article Metadata Fields"  >
+
+             <apex:pageBlockSection columns="2">
+                      <apex:inputField value="{!sObj['Application_Server__c']}"/>
+                      <apex:inputField value="{!sObj['Web_Server__c']}"/>
+                      <apex:inputField value="{!sObj['Client_User_Interface__c']}"/>
+                      <apex:inputField value="{!sObj['Host_Bus_Adapter__c']}"/>
+                      <apex:inputField value="{!sObj['Database__c']}"/>
+                       &nbsp;
+                      <apex:inputField value="{!sObj['Connectivity_Type__c']}"/>
+                      <apex:inputField value="{!sObj['Server__c']}"/>
+                      <apex:inputField value="{!sObj['Operating_System__c']}"/>
+                      <apex:inputField value="{!sObj['Issue_Fixed_In__c']}"/>
+                      <apex:inputField value="{!sObj['Keywords__c']}"/>
+                      <apex:inputField value="{!sObj['Error_Code__c']}"/>
+                      <apex:inputField value="{!sObj['Primus_Webtop_solution_ID__c']}"/>
+                      <apex:inputField value="{!sObj['RCA_Status__c']}"/>
+                      <apex:inputField value="{!sObj['Bug_Tracking_Number__c']}"/>
+                     <!-- <apex:inputField value="{!sObj['RCA_Cause__c']}"/> -->
+                      <apex:inputField value="{!sObj['Shared__c']}"/>
+                      <apex:inputField value="{!sObj['Parent_Solution__c']}"/>
+                     <apex:inputField value="{!sObj['Requested_Publish_Date__c']}"/> 
+                        <apex:inputField value="{!sObj['Next_Review_Date__c']}"/>
+                      <apex:OutputField value="{!sObj['Cloned_From_Article_Number__c']}"/>
+                      <apex:inputField value="{!sObj['External_Source__c']}"/>
+                      <apex:inputField value="{!sObj['Category__c']}"/>
+                      <apex:inputField value="{!sObj['Related_Articles__c']}"/>
+                       <apex:inputField value="{!sObj['Subject__c']}" style="height:50px"/>
+                     <apex:inputField value="{!sObj['Firmware__c']}" style="height:50px"/>
+                     <apex:inputField value="{!sObj['Priority__c']}"/>
+                     <apex:inputField value="{!sObj['Hardware_Platform__c']}" style="height:25px"/>
+                     <apex:inputField value="{!sObj['Software__c']}" style="height:25px"/>
+
+                    
+             </apex:pageBlockSection>
+
+             <center>
+            <div class="btn finish">Update and Exit</div>
+              <div class="btn qSave">Quick Save</div>
+            </center>
+       
+    </apex:pageblock>
+
+     </apex:outputpanel>
+    
+
+            </apex:form>
+       
+    </apex:page>

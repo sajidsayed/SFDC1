@@ -1,0 +1,71 @@
+<!-- 
+Author:     Devi Prasad Bal
+Created on: 29-Dec-2009
+Description: This page allows to create new invitees.
+Modified on: 04-Mar-2010
+Reason: Modified based on further inputs from the business
+Modified on: 17-May-2013 by Emmanuel Cruz
+Reason: Modified based on add a new button and modify functions
+-->
+<apex:page controller="EBC_Other_Invitees" showHeader="true"
+    tabStyle="Contact" title="Add Other Invitees">
+
+    <apex:form >
+
+            <apex:PageBlock id="OtherInvitees" title="Add Other Invitees">
+            
+            <apex:outputPanel id="theMessages">
+                <apex:pageMessages />
+            </apex:outputPanel>
+            
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="Add" id="btnSave" />
+                <apex:commandButton action="{!saveAndAddMore}" value="Save and Add More" id="btnSaveAndAddMore"/>
+                <apex:commandButton action="{!cancel}" value="Cancel" id="btnCancel"/>
+            </apex:pageBlockButtons>
+            <br></br>
+            <b>&nbsp;<apex:outputLabel id="lblBriefingEvent" value="Briefing Event: " /><apex:commandLink id="txtBriefingEvent" value="{!briefingEvent.Name}" action="{!cancel}" /></b>
+            <br></br>
+            
+            <apex:pageBlockTable value="{!records}" var="r" id="rows" >
+            
+                <apex:column >
+                    <apex:facet name="header">{!$Label.First_Name}</apex:facet>
+                    <apex:inputText id="attendeefirstname" value="{!r.AttendeeFirstName}" />
+                </apex:column>
+                
+                <apex:column >
+                    <apex:facet name="header">{!$Label.Last_Name}</apex:facet>
+                    <apex:inputText id="attendeelastname" value="{!r.AttendeeLastName}" />
+                </apex:column>
+                
+                <apex:column >
+                    <apex:facet name="header">{!$Label.Email}</apex:facet>
+                    <apex:inputText id="email" value="{!r.Email}" />
+                </apex:column>
+                
+                <apex:column >
+                    <apex:facet name="header">{!$Label.EBC_Title}</apex:facet>
+                    <apex:inputText id="title" value="{!r.Title}" />
+                </apex:column>
+                
+                <apex:column >
+                    <apex:facet name="header">{!$Label.Customer_Notes}</apex:facet>
+                    <apex:inputTextarea id="notes" value="{!r.Notes}" />
+                </apex:column>
+                
+                <apex:column >
+                    <apex:facet name="header">{!$Label.Company}</apex:facet>
+                    <apex:inputText id="company" value="{!r.Company}" />
+                </apex:column>
+                
+                <apex:column >
+                    <apex:facet name="header"> </apex:facet>
+                    <b><apex:outputText style="color: #FF0000; font-size:15" value="{!r.Err}" /> </b>
+                </apex:column>
+            
+            </apex:pageBlockTable> 
+
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

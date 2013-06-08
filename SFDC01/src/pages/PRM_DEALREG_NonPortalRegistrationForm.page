@@ -1,0 +1,239 @@
+<!-- ======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER         WR/Req      DESCRIPTION 
+ |  11/04/2011      Ashwini Gowda     2450,2429   This Page will allow Partners to fill in the details for Non Portal 
+                                                  Deal Registration Form.
+    26/10/2011      Arif              177286      Removed attribute for pre sales section fields which make them required. 
+    1 Dec 2011      Arif              WR#178756   Made Department/Project Name field mandatory. 
+    23Jul 2012      Ganesh            WR#196848   Commented some fields 
+    26Dec 2012      Krishna Pydavula  WR#209732   Added two fields	
+ ======================================================================================================================== -->
+<apex:page standardController="Registration_Product__c" extensions="PRM_DEALREG_NonPortalRegistrationCntrler" language="{!lang}" showheader="false" sidebar="false" tabStyle="Lead" id="mypage1" action="{!redirectToPowerlink}">
+    <apex:include pageName="EMC_Header"/> <br/>
+    <apex:pageMessages /> 
+    <apex:message rendered="{!showDealRegForm}" title="Error">{!$Label.DealReg_Accessiblity_Error_Message }</apex:message>
+     <apex:form rendered="{!showDealRegForm}" >        
+        <table align="right">
+        <tr>
+            <td>  
+                 <apex:selectList value="{!lang}" size="1">
+                    <apex:selectOptions value="{!items}"/> 
+                 </apex:selectList>
+             </td>
+             <td>
+                 <apex:commandButton value="Change Language" action="{!changeLang}" />
+             </td>    
+         </tr>
+      </table>
+        </apex:form>  
+        <apex:form id="myform1">    
+        <apex:pageBlock id="block">         
+            
+            <apex:pageBlockSection title="{!$Label.Expedite_the_approval_process}" id="test" 
+                rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), true, false)}"
+                columns="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), 1,2)}">
+                <!--  CUSTOM SEARCH LOOKUP FIELD -->          
+                <apex:inputField value="{!leadRecord.DealReg_Related_Account_lookup__c}" >
+                   <img src="/s.gif" class="lookupIcon" onmouseout="this.className='lookupIcon';" alt="RelatedAccount Lookup (New Window)" onmouseover="this.className='lookupIconOn';" 
+                   onclick = "javascript:window.open('{!$Site.CurrentSiteUrl}apex/PRM_DEALREG_CustomSearch','_blank','height=600,width=800,modal=yes,alwaysRaised=yes,scrollbars=yes,status=yes')"  />
+                 </apex:inputField> 
+                <apex:outputLabel id="lblBlank" value="" />
+            </apex:pageBlockSection> 
+            <apex:pageBlockSection title="{!$Label.Deal_Description}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), true, false)}">
+                <apex:outputField value="{!leadRecord.DealReg_Deal_Description__c}" />
+                <apex:outputField value="{!leadRecord.DealReg_Deal_Registration_Justification__c}" />
+                <apex:outputField value="{!leadRecord.CurrencyIsoCode}" />         
+                <apex:outputField value="{!leadRecord.DealReg_Expected_Deal_Value__c}" />
+                <apex:outputField value="{!leadRecord.Partner__c}" />
+                <apex:outputField value="{!leadRecord.DealReg_Expected_Close_Date__c}" />
+                <apex:outputField value="{!leadRecord.Tier_2_Partner__c}"/> 
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Customer_Contact}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), true, false)}">
+                <apex:outputField value="{!leadRecord.FirstName}"/>
+                <apex:outputField value="{!leadRecord.Email}"  />                
+                <apex:outputField value="{!leadRecord.LastName}"  /> 
+                <apex:outputField value="{!leadRecord.Phone}"  />
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Partner_Sales_Contact}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), true, false)}">
+                <apex:outputField value="{!leadRecord.DealReg_Partner_Contact_First_Name__c}"  />
+                <apex:outputField value="{!leadRecord.DealReg_Partner_E_Mail_Address__c}"  />
+                <apex:outputField value="{!leadRecord.DealReg_Partner_Contact_Last_Name__c}"  />
+                <apex:outputField value="{!leadRecord.DealReg_Partner_Phone_Number__c}"  />
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Additional_Notification_Contact}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), true, false)}">            
+                <apex:outputField value="{!leadRecord.DealReg_Additional_Contact_Name__c}"/>
+                <apex:outputField value="{!leadRecord.DealReg_Additional_Contact_Email_Address__c}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Deal_Information}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), true, false)}">
+                <apex:outputField value="{!leadRecord.DealReg_Competitive_Products_Considered__c}"/>
+                <apex:outputField value="{!leadRecord.DealReg_Competitive_Vendor__c}"/>
+                <apex:outputField value="{!leadRecord.DealReg_Existing_Solution__c}"/>   
+                <apex:outputField value="{!leadRecord.DealReg_Service_Delivery__c}"/> 
+               <!-- <apex:outputField value="{!leadRecord.DealReg_Registered_Oppty_w_VMWare__c}"/> -->  
+                <apex:outputField value="{!leadRecord.DealReg_Is_it_a_VCE_Deal__c}"/>         
+                <apex:outputField value="{!leadRecord.DealReg_Department_Project_Name__c}"/>
+              <!--  <apex:outputField value="{!leadRecord.DealReg_VCE_Registration_Number__c}"/>  -->                
+                <apex:outputField value="{!leadRecord.DealReg_Application__c}"/> 
+                <apex:outputField value="{!leadRecord.DealReg_Project_Scope__c}"/>                              
+                <apex:outputField value="{!leadRecord.DealReg_Is_Vmware_related_solution__c}"/>
+                   <apex:outputField value="{!leadRecord.Is_this_a_Hosting_Opportunity__c}"/>
+                 <apex:outputField value="{!leadRecord.Who_is_the_End_User__c}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Pre_Sales_Engineer_Information}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), true, false)}">
+                <apex:outputField value="{!leadRecord.DealReg_Pre_Sales_Engineer_Name__c}"/>             
+                <apex:outputField value="{!leadRecord.DealReg_Is_Pre_Sales_Engineer_Accredited__c}"/>
+                <apex:outputField value="{!leadRecord.DealReg_Pre_Sales_Engineer_Phone__c}"/>
+                <apex:outputField value="{!leadRecord.DealReg_Pre_Sales_Engineer_Email__c}"/>
+               <!-- <apex:outputField value="{!leadRecord.DeaIReg_Pre_Sales_Eng_EMCTA_Certified__c}"/>  --> 
+              <!-- <apex:outputField value="{!leadRecord.DealReg_EMCTA_Certified_Email__c}"/> -->  
+            </apex:pageBlockSection>
+            
+            
+            <apex:pageBlockSection title="{!$Label.Expedite_the_approval_process}" id="test1" 
+                rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"
+                columns="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), 1,2)}">
+                 <!--  CUSTOM SEARCH LOOKUP FIELD -->          
+                 <apex:inputField value="{!leadRecord.DealReg_Related_Account_lookup__c}" >
+                   <img src="/s.gif" class="lookupIcon" onmouseout="this.className='lookupIcon';" alt="RelatedAccount Lookup (New Window)" onmouseover="this.className='lookupIconOn';" 
+                   onclick = "javascript:window.open('{!$Site.CurrentSiteUrl}apex/PRM_DEALREG_CustomSearch','_blank','height=600,width=800,modal=yes,alwaysRaised=yes,scrollbars=yes,status=yes')"  />
+                 </apex:inputField> 
+                <apex:outputLabel id="lblBlank" value="" />
+                 
+                <apex:outputField value="{!leadRecord.company}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:outputField value="{!leadRecord.Company_Local__c}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>               
+                
+                <!-- <apex:outputText value="{!leadRecord.DealReg_Address_Local__c}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/> -->               
+                <apex:outputField value="{!leadRecord.Related_Account__r.Address__c}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}">
+                    <apex:outputText value="{!selectedAccountAddress}" escape="false"/>
+                </apex:outputField> 
+                <apex:outputField value="{!leadRecord.DealReg_Address_Local__c}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}">
+                    <apex:outputText value="{!selectedAccountAddressLocal}" escape="false" />
+                </apex:outputField>              
+                <apex:inputField value="{!leadRecord.Website}" />
+            </apex:pageBlockSection> 
+            <apex:pageBlockSection title="{!$Label.Deal_Description}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}">
+                <apex:inputField value="{!leadRecord.DealReg_Deal_Description__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Deal_Registration_Justification__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.CurrencyIsoCode}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>              
+                <apex:inputField value="{!leadRecord.DealReg_Expected_Deal_Value__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.Partner__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Expected_Close_Date__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.Tier_2_Partner__c}"/>               
+                
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Customer_Contact}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}">
+                <apex:inputField value="{!leadRecord.FirstName}"/>
+                <apex:inputField value="{!leadRecord.Email}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>                
+                <apex:inputField value="{!leadRecord.LastName}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/> 
+                <apex:inputField value="{!leadRecord.Phone}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Partner_Sales_Contact}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}">
+                <apex:inputField value="{!leadRecord.DealReg_Partner_Contact_First_Name__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Partner_E_Mail_Address__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Partner_Contact_Last_Name__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Partner_Phone_Number__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Additional_Notification_Contact}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}">            
+                <apex:inputField value="{!leadRecord.DealReg_Additional_Contact_Name__c}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Additional_Contact_Email_Address__c}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Deal_Submitter}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}">            
+                <apex:inputField value="{!leadRecord.DealReg_Deal_Submitter_Name__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Deal_Submitter_Rep_Email__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Deal_Submitter_Rep_Phone__c}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Deal_Information}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}">
+                <apex:inputField value="{!leadRecord.DealReg_Competitive_Products_Considered__c}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Competitive_Vendor__c}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Existing_Solution__c}"/>   
+                <apex:inputField value="{!leadRecord.DealReg_Service_Delivery__c}"/> 
+               <!-- <apex:inputField value="{!leadRecord.DealReg_Registered_Oppty_w_VMWare__c}"/>  --> 
+                <apex:inputField value="{!leadRecord.DealReg_Is_it_a_VCE_Deal__c}"/>         
+                <apex:inputField value="{!leadRecord.DealReg_Department_Project_Name__c}" required="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}"/>
+               <!-- <apex:inputField value="{!leadRecord.DealReg_VCE_Registration_Number__c}"/>  -->                
+                <apex:inputField value="{!leadRecord.DealReg_Application__c}"/> 
+                <apex:inputField value="{!leadRecord.DealReg_Project_Scope__c}"/>                              
+                <apex:inputField value="{!leadRecord.DealReg_Is_Vmware_related_solution__c}"/>
+                 <apex:inputField value="{!leadRecord.Is_this_a_Hosting_Opportunity__c}"/>
+                <apex:inputField value="{!leadRecord.Who_is_the_End_User__c}"/>
+                
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Pre_Sales_Engineer_Information}" rendered="{! IF(AND (ISBLANK(leadRecord.DealReg_Related_Account_lookup__c), ISBLANK(selectedAccountName) ), false, true)}">
+                <apex:inputField value="{!leadRecord.DealReg_Pre_Sales_Engineer_Name__c}"/>             
+                <apex:inputField value="{!leadRecord.DealReg_Is_Pre_Sales_Engineer_Accredited__c}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Pre_Sales_Engineer_Phone__c}"/>
+                <apex:inputField value="{!leadRecord.DealReg_Pre_Sales_Engineer_Email__c}"/>
+               <!-- <apex:inputField value="{!leadRecord.DeaIReg_Pre_Sales_Eng_EMCTA_Certified__c}"/> -->  
+              <!-- <apex:inputField value="{!leadRecord.DealReg_EMCTA_Certified_Email__c}"/> -->  
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.Selected_Registration_Products}" id="result1" columns="1" rendered="{!lstRegistrationProduct.size >0}">
+              <!--  <apex:commandButton value="Submit" action="{!saveLeadAndProducts}" /> -->
+               <apex:pageBlockTable value="{!lstRegistrationProduct}" var="result" >
+                   <apex:column style="text-align: center; font-weight: bold;">                       
+                       <apex:commandLink title="Remove Product" value="{!$Label.Remove}" action="{!updateProduct}" reRender="block" status="statusProduct">
+                           <apex:param assignTo="{!productId}" name="test" value="{!result.Id}"/>
+                       </apex:commandLink>  
+                   </apex:column>
+                   <apex:column value="{!result.Partner_Product_Catalogue__r.name}"/> 
+                   <!-- <apex:column value="{!result.Deal_Registration__c}"/> --> 
+                   <apex:column value="{!result.Partner_Product_Catalogue__r.Product__c}"/>
+                  <!-- <apex:column value="{!result.Product_c}"/>-->
+               </apex:pageBlockTable>
+           </apex:pageBlockSection> 
+           
+            <apex:pageBlock id="blockSubmit">
+                <apex:commandButton action="{!addProductsOnLead}" value="{!$Label.Add_Products}"/> 
+                <!-- <apex:commandButton action="{!fetchProductNames}" value="Sort"/>    -->
+            </apex:pageBlock>
+            
+            <apex:pageBlockButtons >
+                <!-- <apex:commandButton action="{!save}" value="Save"/>-->
+                <apex:commandButton value="{!$Label.SubmitForApproval}" action="{!saveLeadAndProducts}" rendered="{!lstRegistrationProduct.size > 0}"/> 
+                <!-- <apex:commandButton action="{!cancel}" value="Cancel"/> -->
+                <!-- <apex:commandButton action="{!saveProducts}" value="Save Products"/>-->
+                
+            </apex:pageBlockButtons>           
+        </apex:pageBlock> 
+        <apex:inputHidden id="recordid" value="{!selectedrecord}"/>
+  
+        <apex:inputHidden id="selectedStreet" value="{!selectedStreet}"/>
+        <apex:inputHidden id="selectedCity" value="{!selectedCity}"/>
+        <apex:inputHidden id="selectedState" value="{!selectedState}"/>
+        <apex:inputHidden id="selectedZipCode" value="{!selectedZipCode}"/>
+        <apex:inputHidden id="selectedCountry" value="{!selectedCountry}"/>
+        <apex:inputHidden id="selectedAccountName" value="{!selectedAccountName}"/>
+          
+        <apex:actionFunction name="populateAction"  action="{!populateValues}" rerender="block" />
+        <apex:actionFunction name="populateAdds"  action="{!populateAccountInfo}" rerender="block" />
+    </apex:form> 
+    
+   <script type="text/javascript">
+   
+        //window.onload=function resize(){
+        //alert('hello');
+        //    var check = document.getElementById("mypage1:myform1:block:test:MyCheckbox");
+            //check.disabled=true;              
+        //} 
+    function CallAlert(successflagApp)
+    {
+       // alert("This is parent window's alert function.");
+       // alert(successflagApp);
+        document.getElementById('{!$Component.mypage1.myform1.recordid}').value = successflagApp;
+         populateAction();
+       // alert('After populateAction');
+    } 
+    function CallAddress(hiddenStreet,hiddenCity,hiddenState,hiddenZipCode,hiddenCountry,hiddenAccountName)
+    {
+      //alert('CallAddress');
+      document.getElementById('{!$Component.mypage1.myform1.selectedStreet}').value = hiddenStreet;
+      document.getElementById('{!$Component.mypage1.myform1.selectedCity}').value = hiddenCity;
+      document.getElementById('{!$Component.mypage1.myform1.selectedState}').value = hiddenState;
+      document.getElementById('{!$Component.mypage1.myform1.selectedZipCode}').value = hiddenZipCode;
+      document.getElementById('{!$Component.mypage1.myform1.selectedCountry}').value = hiddenCountry;
+      document.getElementById('{!$Component.mypage1.myform1.selectedAccountName}').value = hiddenAccountName ;
+      populateAdds();
+      //alert('End callAddress');
+    }
+   </script>    
+    <apex:include pageName="EMC_Footer"/>
+</apex:page>

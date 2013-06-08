@@ -1,0 +1,22 @@
+<!--
+    HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER     DESCRIPTION                               
+ |  ====       =========     =========== 
+ |   
+    22-Apr-10  Karthik       The <center> is removed for the alignment of the columns. 
+    11-Jul-10  Shipra       Added Label.History_Records_Count on page block section
+	25-May-10  Srinivas		 Changed version to 21 for mass reassignment pagination WR-163052	
+	-->
+<apex:page Controller="MassOppReassignmentlog" wizard="true">
+   <apex:form >
+        <apex:commandButton action="{!Back}" value="{!$Label.Back}"/>
+   </apex:form>
+    <apex:pageBlock title="Mass Reassignment Log Result" id="page">    
+         <apex:pageBlockSection title="{!$Label.History_Records_Count}" collapsible="false"/>
+         <apex:ListViews type="Mass_Opp_Reassignment_log__c"/>
+    </apex:pageBlock>
+  <apex:form >
+        <apex:commandButton action="{!Back}" value="{!$Label.Back}"/>
+  </apex:form>
+</apex:page>

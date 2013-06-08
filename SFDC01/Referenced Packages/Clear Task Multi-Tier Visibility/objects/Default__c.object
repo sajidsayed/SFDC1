@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <customSettingsVisibility>Public</customSettingsVisibility>
+    <description>This setting defines the case and opportunity access levels when account shares are created.</description>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Case_Access_Level__c</fullName>
+        <deprecated>false</deprecated>
+        <description>This field defines the access level on case.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Use one of the three values: &apos;None&apos; for no access, &apos;Read&apos; for read only access and &apos;Edit&apos; for read/write access</inlineHelpText>
+        <label>Case Access Level</label>
+        <length>4</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Is_Customer_Portal_Enabled__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>This field should be set to true if the org has Customer portal enabled</description>
+        <externalId>false</externalId>
+        <label>Is Customer Portal Enabled</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_Partner_Portal_Enabled__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>This field needs to be checked if Partner Portal is enabled in the org</description>
+        <externalId>false</externalId>
+        <label>Deprecated: Is Partner Portal Enabled</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Opportunity_Access_Level__c</fullName>
+        <deprecated>false</deprecated>
+        <description>This field defines the access level on Opportunities on that account</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Use one of the following three values: &apos;None&apos; for no access, &apos;Read&apos; for read only access and &apos;Edit&apos; for read/write access.</inlineHelpText>
+        <label>Opportunity Access Level</label>
+        <length>4</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Account Share Settings</label>
+</CustomObject>

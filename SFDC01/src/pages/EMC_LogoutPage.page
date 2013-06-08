@@ -1,0 +1,34 @@
+<apex:page showHeader="false" sidebar="false">
+    <head><title>salesforce.com</title>
+        <link rel="stylesheet" type="text/css" href="/css/security_page.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="/css/glowInput.css" media="screen"/>
+        <style type="text/css">
+            body {background: #ffffff;}
+            #header {background-color: #0e9ecf;border-radius: 10px;-moz-border-radius:10px;-webkit-border-radius:10px;}
+            #headertext, #headertext a {color: #ffffff;}
+            #main-logo {background:transparent url('/img/logo.png') no-repeat scroll left top}
+            #contentwrap, .content{border-radius: 18px;-moz-border-radius:18px;-webkit-border-radius:18px;}
+            #loginpage .content, #contentwrap{background-color: #ecf4f9;}
+            #contentwrap{border: 1px solid #ecf4f9;}
+            #footer, #footer a {color: #cccccc;}
+        </style>
+    </head>
+    <body id="">
+        <div id="pagewrap">
+            <a href="" id="main-logo"></a>
+            <div id="headerwrap">
+                <div id="header"></div>
+            </div><!-- .headerwrap -->
+            <div id="contentwrap">
+                <div id="content" class="content">
+                    <apex:outputText value="{!$Label.ThankYou}" escape="false"></apex:outputText>
+                    
+                </div>
+            </div>
+            <!-- #contentwrap -->
+            <div id="footer">Copyright © 2000-2013 salesforce.com, inc. All rights reserved.</div>
+        <!-- #footer -->
+        </div><!-- #pagewrap -->
+    <!-- Body events -->
+    </body>
+</apex:page>

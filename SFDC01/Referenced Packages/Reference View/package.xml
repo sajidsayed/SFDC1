@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reference View</fullName>
+    <apiAccessLevel>Unrestricted</apiAccessLevel>
+    <namespacePrefix>roi</namespacePrefix>
+    <types>
+        <members>referenceViewController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>ReferenceView</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>ROIConfiguration__c.Frame_Height__c</members>
+        <members>ROIConfiguration__c.Target_Version__c</members>
+        <members>Reference_Nomination__c.Account__c</members>
+        <members>Reference_Nomination__c.Adjudication_Date__c</members>
+        <members>Reference_Nomination__c.Adjudication_Status__c</members>
+        <members>Reference_Nomination__c.Contact__c</members>
+        <members>Reference_Nomination__c.Reject_Reason__c</members>
+        <members>Reference_Request__c.Deadline__c</members>
+        <members>Reference_Request__c.Opportunity__c</members>
+        <members>Reference_Request__c.Request_Date__c</members>
+        <members>Reference_Request__c.Request_Type__c</members>
+        <members>Reference_Request__c.Requester__c</members>
+        <members>Reference_Request__c.Status__c</members>
+        <members>Spotlight_Activity__c.Assets_viewed__c</members>
+        <members>Spotlight_Activity__c.Contact__c</members>
+        <members>Spotlight_Activity__c.Invitee__c</members>
+        <members>Spotlight_Activity__c.Opportunity__c</members>
+        <members>Spotlight_Activity__c.Spotlight_Name__c</members>
+        <members>Spotlight_Activity__c.Visit_Date__c</members>
+        <members>Spotlight_Activity__c.Visited__c</members>
+        <members>Spotlight_Activity__c.ipsID__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>ROIConfiguration__c</members>
+        <members>Reference_Nomination__c</members>
+        <members>Reference_Request__c</members>
+        <members>Spotlight_Activity__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Reference_View</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Reference_Nomination__c-Reference Nomination Layout</members>
+        <members>Reference_Request__c-Reference Request Layout</members>
+        <members>Spotlight_Activity__c-Spotlight Activity Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Reference_Nomination__c.Nominate_as_Reference</members>
+        <members>Reference_Request__c.Find_a_Reference</members>
+        <members>Spotlight_Activity__c.Find_an_Asset</members>
+        <members>Spotlight_Activity__c.Send_A_Spotlight</members>
+        <name>WebLink</name>
+    </types>
+    <version>27.0</version>
+</Package>

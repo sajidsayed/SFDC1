@@ -1,0 +1,62 @@
+<!--  
+    Date        : 20-09-2010 
+    Author      : Anand Sharma
+    Description : This page will be used to display lead with rejection reason.
+    WR/Req      : #780
+    
+    10/09/2010      Prasad                      udpaed the page for return page. 
+-->
+<apex:page id="rejectPage" controller="PRM_LeadAcceptReject" sidebar="false" showHeader="false" >
+    
+    <script>
+        function callthis(){
+            var successflag = document.getElementById('{!$Component.rejectPage.leadform.successFlag}').value;
+            //var homePageFlag = document.getElementById('{!$Component.rejectPage.leadform.successPanel.homePageFlag}').value;
+            //alert('successflag '+successflag);
+             
+            if(successflag=='true'){ 
+
+                alert('{!$Label.Lead_Rejected_Message}');
+                //alert('{!isHomeTabTarget}');
+                if('{!isHomeTabTarget}'=='true'){
+                    window.opener.location.href = '/apex/Lead_Inbox';
+                }else{
+                    window.opener.location.href = '/00Q/o';
+                }
+           /*     if(homePageFlag =='true'){              
+                    window.opener.location.href = '/apex/Lead_Inbox';
+                }else{              
+                                     
+                }
+            */                   
+                
+                
+                window.close();
+            }        
+        } 
+     </script>
+    
+    <apex:form id="leadform" >
+        <apex:outputPanel id="errorMessage">
+            <apex:PageMessages />
+        </apex:outputPanel>
+        <apex:pageBlock id="rejectPageBlock" >
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Ok" action="{!Reject}"  oncomplete="callthis();" rerender="rejectPageBlock,successPanel, errorMessage"/>
+                    
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1" >
+                
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Rejection Reason"/>
+                    <apex:inputField value="{!leadObject.Rejection_Reason__c}"  required="true"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>       
+        <apex:outputPanel id="successPanel">
+            <apex:inputHidden id="successFlag" value="{!isSuccess}"/>
+            <apex:inputHidden id="homePageFlag" value="{!isHomeTabTarget}"/>
+            <apex:inputHidden id="msgRejectLead" value="{!msgLeadRejection}"/>
+        </apex:outputPanel>     
+    </apex:form>
+</apex:page>

@@ -1,0 +1,14 @@
+<apex:page standardController="Case" extensions="Presales_RecordTypeListController" showHeader="true" sidebar="true" standardStylesheets="true" action="{!checkParentCase}">
+<apex:form >
+     <apex:pageBlock title="Select Case Type" tabStyle="Case">
+     <!--<apex:inputField value="{!Case.Record_Type_Hidden__c}"/>-->
+     <c:Presales_SelectRecordType value="{!value}"sObjectType="Case"></c:Presales_SelectRecordType>
+            <apex:pageBlockButtons location="Bottom">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton action="{!createChildCase}" value="NEXT"/>
+            </apex:pageBlockButtons>
+     </apex:pageBlock> 
+</apex:form>
+</apex:page>

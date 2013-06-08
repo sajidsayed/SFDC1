@@ -1,0 +1,26 @@
+<apex:page standardController="EBC_Briefing_Event__c" Extensions="EBC_Impact" showHeader="{!(NotFromSite)}">
+<apex:form >
+<apex:pageBlock >
+<apex:outputPanel id="theMessages">
+                <apex:pageMessages />
+            </apex:outputPanel>
+     <apex:pageBlockButtons >
+        <apex:commandButton action="{!saveRecord}" value="Submit Impact" rendered="{!Not(ImpactSubmitted)}"/> 
+     </apex:pageBlockButtons>
+<apex:pageBlockSection title="Briefing Event" columns="1" collapsible="false">
+<apex:outputfield value="{!objBEvent.Name}" id="Name"/> 
+<apex:outputfield value="{!objBEvent.Start_Date__c}" id="Start_Date__c"/>
+<apex:outputfield value="{!objBEvent.End_Date__c}" id="End_Date__c"/>
+</apex:pageBlockSection>
+<apex:pageblocksection title="Impact Detail" collapsible="false">   
+<apex:inputfield value="{!objBEvent.Did_the_opportunity_Close__c}" id="Did_the_opportunity_Close__c"/> 
+<apex:inputfield value="{!objBEvent.Was_EMC_Jet_Used_to_Transport_Customer__c}" id="Was_EMC_Jet_Used_to_Transport_Customer__c"/>
+<apex:inputfield value="{!objBEvent.Actual__c}" id="Actual__c"/>
+<apex:inputfield value="{!objBEvent.Status_of_Opportunity__c}" id="Status_of_opportunity__c"/> 
+<apex:inputfield value="{!objBEvent.Comments_status_of_opportunity_if_no__c}" id="Comments_status_of_opportunity_if_no__c"/>
+<apex:inputfield value="{!objBEvent.Comments_briefing_impact_the_sale_acco__c}" id="Comments_briefing_impact_the_sale_acco__c"/>
+<apex:inputfield value="{!objBEvent.How_did_the_briefing_impact_the_sale_acc__c}" id="How_did_the_briefing_impact_the_sale_acc__c"/>
+</apex:pageblocksection>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

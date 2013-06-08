@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPageWebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <availability>online</availability>
+    <description>Splash page for first-time users of OneSource tab.</description>
+    <displayType>link</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>475</height>
+    <linkType>url</linkType>
+    <masterLabel>OneSource Splash Page</masterLabel>
+    <openType>noSidebar</openType>
+    <protected>false</protected>
+    <url>https://www.onesource.com/crm/salesforce/OS4SFSplash.htm</url>
+</CustomPageWebLink>

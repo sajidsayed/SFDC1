@@ -1,0 +1,21 @@
+<!-- 
+Author:     Devi Prasad Bal
+Created on: 24-Jun-2010
+Description: This page is being created to test the appearance of a VF page on sites.
+Modified on: 
+Reason: 
+-->
+
+
+<apex:page controller="EBC_SiteTest" >
+   
+    <apex:form > 
+       <apex:pageBlock title="Feedback Form"> 
+            
+            <apex:pageBlockSection title="Briefing Event">
+                <apex:outputField value="{!objBEvent.Name}" /> 
+            </apex:pageBlockSection>
+       </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

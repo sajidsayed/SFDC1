@@ -1,0 +1,696 @@
+<!-- ========================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER       WR/Req      DESCRIPTION 
+ |  11-04-2011      Anil Sure       #2718       This page will be used to display PDF documentation of Partner OnBoarding 
+                                                And Respective Objective, Open Activity, Activity History .
+ | ========================================================================================================================-->
+<apex:page standardController="Partner_Onboarding__c" extensions="PRM_OnBoardingPDFViewController" showHeader="true" tabStyle="Partner_Onboarding__c"  renderas="pdf" >
+
+<apex:pageBlock mode="detail">
+<apex:pageBlockSection columns="2">
+<apex:outputText value="{!$Label.Appication_Submitted_Date}   {0,date,yyyy/MM/dd  HH:mm:ss z}">
+
+<apex:param value="{!POB.CreatedDate}" />
+ </apex:outputText>
+<!--<apex:outputText></apex:outputText>-->
+<apex:outputText value="{!$Label.Application_ID}    {!POB.Name}"/>
+
+</apex:pageBlockSection> 
+</apex:pageBlock>
+
+<apex:pageBlock title="{!$Label.EMC_Authorized_Reseller_Application}" mode="detail" >        
+      <apex:pageBlockSection columns="2">            
+      </apex:pageBlockSection>
+      <br/>
+      
+     
+      <apex:pageBlockSection columns="2" >
+        <apex:outputField value="{!POB.Region_you_are_applying_for__c}" />
+        <apex:outputField value="{!POB.EMC_Sponsoring_Distributor__c}"/>
+      </apex:pageBlockSection>             
+      <apex:pageBlockSection title="{!$Label.Your_Contact_Information}" columns="2">               
+        <apex:outputField value="{!POB.First_Name__c}" />
+        <apex:outputField value="{!POB.Last_Name__c}"/>
+        <apex:outputField value="{!POB.E_mail_Address__c}" />
+        <apex:outputField value="{!POB.Title__c}"/> 
+        <apex:outputField value="{!POB.Contact_Office_Number__c}" />
+        <apex:outputField value="{!POB.Cell_Number__c}"/> 
+      </apex:pageBlockSection>            
+      <apex:pageBlockSection title="{!$Label.Company_Information}" columns="2">
+        <apex:outputField value="{!POB.Corporate_URL__c}"/>
+        <apex:outputField value="{!POB.Legal_Parent_Company_Name__c}" />
+        <apex:outputField value="{!POB.Country__c}"/>
+        <apex:outputField value="{!POB.Main_Company_Phone_Number__c}"/>
+        <apex:outputField value="{!POB.Address_1__c}"/>
+        <apex:outputField value="{!POB.Address_2__c}" />
+        <apex:outputField value="{!POB.City__c}"/> 
+        <apex:outputField value="{!POB.State__c}" />
+        <apex:outputField value="{!POB.Zip_Postal_Code__c}"/>
+         
+      </apex:pageBlockSection>
+
+      <apex:pageBlockSection title="{!$Label.Partner_Overview}" columns="2">
+            <apex:outputField value="{!POB.Primary_EMC_Business_Line_Interest__c}" />
+            <apex:outputField value="{!POB.Application_Environments__c}"/>
+            <apex:outputField value="{!POB.Vertical_Market_Specialization__c}" />
+            <apex:outputText value="" />
+            <apex:outputField value="{!POB.Company_Overview_1000_characters_max__c}" />
+      </apex:pageBlockSection> 
+      <apex:pageBlockSection title="{!$Label.Primary_Business_Contact}" columns="2">
+        <apex:outputField value="{!POB.Primary_Business_Contact_First_Name__c}" />
+        <apex:outputField value="{!POB.Primary_Business_Contact_Last_Name__c}"/>
+        <apex:outputField value="{!POB.Primary_Business_Contact_Title__c}"/>
+        <apex:outputField value="{!POB.Primary_Business_Contact_E_mail_Address__c}" />         
+        <apex:outputField value="{!POB.Primary_Business_Contact_Phone_Number__c}" />
+        <apex:outputField value="{!POB.Primary_Business_Contact_Cell_Number__c}"/>
+        </apex:pageBlockSection>
+      <apex:pageBlockSection title="{!$Label.President_CEO}" columns="2">
+            <apex:outputField value="{!POB.President_CEO_First_Name__c}" />
+        <apex:outputField value="{!POB.President_CEO_Last_Name__c}"/>
+        <apex:outputField value="{!POB.President_CEO_E_mail_Address__c}" />
+        <apex:outputField value="{!POB.President_CEO_Phone_Number__c}"/> 
+        
+       </apex:pageBlockSection>
+       <apex:pageBlockSection title="{!$Label.Sales_Contact}" columns="2">
+        <apex:outputField value="{!POB.Sales_Contact_First_Name__c}" />
+        <apex:outputField value="{!POB.Sales_Contact_Last_Name__c}"/>
+        <apex:outputField value="{!POB.Sales_Contact_E_mail_Address__c}" />
+        <apex:outputField value="{!POB.Sales_Contact_Phone_Number__c}"/>
+       </apex:pageBlockSection>
+       <apex:pageBlockSection title="{!$Label.Marketing_Contact}" columns="2">
+        <apex:outputField value="{!POB.Marketing_Contact_First_Name__c}" />
+        <apex:outputField value="{!POB.Marketing_Contact_Last_Name__c}"/>
+        <apex:outputField value="{!POB.Marketing_Contact_E_mail_Address__c}" />
+        <apex:outputField value="{!POB.Marketing_Contact_Phone_Number__c}"/>
+       </apex:pageBlockSection>        
+</apex:pageBlock>
+
+<html>
+ <head>      
+    </head>
+  <body>    
+            
+            
+    <br/><br/><br/><br/>
+    
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-family: Arial; font-size: 11px; color: #444444">
+    <tr>
+    <td style="text-align:justify"> <div align="center"><font color="#FF0000"><strong>IMPORTANT – PLEASE READ CAREFULLY</strong></font> </div>
+      <p>The following Reseller Marketing Support Agreement (the “Agreement”) contains the legal agreement between EMC Corporation 
+      (“EMC”) and the organization identified in the Reseller Application (the “Reseller”) in which this Agreement is included, regarding 
+      Reseller’s acceptance as authorized EMC reseller and if applicable, membership and participation in the EMC Velocity Partner Program.  
+      By clicking on the “I Accept” button set forth below you are representing to EMC that you are authorized to bind the Reseller and are 
+      agreeing on behalf of the Reseller that the terms of this Agreement shall govern the relationship of the parties with regard to resale 
+      of EMC products and/or the Velocity Partner Program.  EMC reserves the right to limit acceptance to the Program.  Reseller is not a 
+      member of the Program and this Agreement shall not become binding until EMC, or the EMC subsidiary providing EMC products for use in 
+      the country in which Reseller is located, sends Reseller notice of (i) authorization to resell certain EMC products and (ii) acceptance 
+      to the EMC Velocity Partner Program.  Such notice(s) will be sent to the email address and contact provided by the Reseller in the 
+      Reseller Application. </p>
+
+      <p align="center" style="font-size:15px"><strong>Reseller Marketing Support Agreement</strong></p>
+      <p>EMC Corporation (“EMC”), with a principal place of business at 176 South Street, Hopkinton, MA 01748-9103 the organization 
+      identified in the Reseller Application (the “Reseller”) (the “Reseller”) enter into this Reseller Marketing Support Agreement 
+      (the “Agreement”) as of the date that EMC Corporation, or the EMC subsidiary providing EMC products for the country in which 
+      Reseller is located, notifies Reseller that Reseller has (i) authorization to resell certain EMC products and/or (ii) been 
+      approved for membership in EMC Velocity Partner Program (the “Effective Date”). This Agreement sets forth the terms and 
+      conditions under which EMC may permit Reseller to (i) access information at a certain EMC website(s), (ii) use certain EMC 
+      logo(s), and (iii) obtain certain EMC technical training, all for use solely in connection with EMC products obtained by Reseller 
+      under Reseller’s agreement with the EMC distributor identified on the Reseller Application, or an additional distributor as may 
+      be subsequently agreed by EMC in electronic or hard-copy form (the “Distributor”), all as more specifically described below.
+      </p>
+      <p>ACCORDINGLY, in consideration of the premises and obligations contained herein, it is agreed as follows:</p>
+      <table cellpadding="0" cellspacing="0" style="font-family: Arial; font-size: 11px; color: #444444" width="100%">
+        <tr> 
+          <td align="left" valign="top" width="26"><strong>1.</strong></td>
+          <td align="left" valign="top" width="757"><strong><u>DEFINITIONS</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">1.1</td>
+          <td align="left" valign="top">"<u>Information</u>" means all information 
+            contained on the EMC "Powerlink" website and/or such other website 
+            as EMC may designate from time to time.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">1.2</td>
+
+          <td align="left" valign="top">“<u>Logo</u>” means the EMC logo as may 
+            be designated by EMC at and can be accessed by Reseller via its connection 
+            to the applicable EMC website, which website is currently located 
+            at URL: <a href="http://powerlink.emc.com">http://powerlink.emc.com</a>.</td>
+        </tr>
+         <tr> 
+          <td align="left" valign="top">1.3</td>
+          <td align="left" valign="top"> “<u>Reseller Application</u>” means the 
+            completed application form submitted by Reseller and approved by EMC 
+            in connection with Reseller’s authorization as a reseller and/or participation 
+            in the EMC Velocity Partner Program, or the successor thereto, as 
+            designated by EMC.</td>
+
+        </tr>
+        <tr> 
+          <td align="left" valign="top">1.4</td>
+          <td align="left" valign="top">“<u>Territory</u>” means the country(ies) 
+            in which Reseller is authorized by Distributor to market EMC products 
+            as identified in the Reseller Application approved by EMC.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>2.</strong></td>
+
+          <td align="left" valign="top"><strong><u>RESELLER REPRESENTATION</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">2.1</td>
+          <td align="left" valign="top">2.1 Reseller warrants to EMC that, as 
+            of the date Reseller submits the Reseller Application to EMC, Reseller 
+            either has, or is in the process of establishing, an agreement with 
+            Distributor under which Reseller is permitted to obtain EMC products 
+            from such Distributor and remarket such as part of a transaction in 
+            which Reseller also adds incremental value to the EMC products and/or 
+            services in the form of substantial hardware and/or software integration, 
+            networking, installation, systems analysis, systems development or 
+            consulting services; and/or market knowledge of the Territory. Reseller 
+            agrees that EMC may disclose the information on the Reseller Application 
+            and the terms of this Agreement to Distributor.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>3.</strong></td>
+
+          <td align="left" valign="top"><strong><u>RESELLER TRAINING OBLIGATIONS</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">3.1</td>
+          <td align="left" valign="top"><u>Marketing, Sales, and Technical Training</u> 
+            - Reseller shall use good faith and reasonable efforts to conform 
+            to any training obligations required for its reseller status, including 
+            the training requirements set forth in the EMC Velocity Partner Program 
+            (if applicable), currently located at URL: <a href="http://powerlink.emc.com">http://powerlink.emc.com</a>, 
+            as promptly as possible after EMC makes the applicable training available. 
+            The charges associated with this training shall be identified by EMC 
+            in advance. Reseller shall also be responsible for its transportation 
+            and living expenses associated with the attendance of Reseller’s representatives 
+            at such training. Enrollment and completion of training courses must 
+            be made in accordance with the EMC Velocity Education Program and 
+            the EMC Proven Professional Program available in EMC Powerlink web 
+            site. Non-compliance with the above training and certification requirements 
+            entitles EMC to terminate the Agreement for cause without notice to 
+            Reseller.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">3.2</td>
+          <td align="left" valign="top">Completion of Training – The parties shall 
+            use good faith efforts to complete the Marketing, Sales and Technical 
+            training described above within ninety (90) days after such training 
+            becomes reasonably available form EMC.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">3.3</td>
+          <td align="left" valign="top">Reseller acknowledges that this Agreement 
+            does not authorize Reseller to perform implementation, installation 
+            or support services for any EMC Product.</td>
+        </tr>
+
+        <tr> 
+          <td height="15" align="left" valign="top"><strong>4.</strong></td>
+          <td align="left" valign="top"><strong><u>TERM AND TERMINATION</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">4.1</td>
+          <td align="left" valign="top">This Agreement shall commence upon the 
+            Effective Date and unless terminated in the manner set forth below, 
+            shall remain in effect for as long as Reseller has a then current 
+            product ordering agreement with the Distributor.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">4.2</td>
+          <td align="left" valign="top">The Logo license may be terminated under 
+            the following conditions: (i) by either party effective thirty (30) 
+            calendar days after notice of termination to the other party for breach 
+            of any provision of this Logo license if such breach has not been 
+            cured within such thirty (30) day period, or immediately if no cure 
+            is possible; (ii) by EMC immediately upon notice to Reseller if Reseller 
+            has misrepresented itself or its products in its Reseller Application, 
+            or if at any time the information set forth in the Reseller Application 
+            materially overstates the level or character of Reseller’s then current 
+            business operations or credit profile; (iii) by EMC immediately upon 
+            notice to Reseller if Reseller breaches Section 9.2 above; (iv) by 
+            EMC immediately and automatically without notice of any kind from 
+            EMC in the event Reseller, without the prior written consent of EMC, 
+            (a) merges, is acquired or otherwise undergoes a change in control; 
+            or (b) attempts to assign any of its rights or delegate any of its 
+            obligations hereunder (any action violating the foregoing restriction 
+            on assignment or delegation shall be void); and (v) by either party 
+            for convenience upon sixty (60) days’ written notice to the other 
+            party.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">4.3</td>
+          <td align="left" valign="top">Upon termination of the Logo license, 
+            the license and rights granted hereunder shall terminate completely. 
+            Reseller must discontinue all use of the Logo according to the following 
+            schedule unless EMC has agreed in writing to some other schedule: 
+            (i) Within seventy-two (72) hours on Reseller’s website; (ii) Within 
+            thirty (30) calendar days, or such earlier date as required by court 
+            or judicial order, on all Products, Products packaging, Products documentation, 
+            and related marketing materials, where applicable, on Reseller's premises, 
+            or the premises of Reseller's agents, resellers or distributors, by 
+            covering the Logo with an opaque label or by other methods pre-approved 
+            by EMC in writing. Nothing in this Paragraph 4.3 shall limit EMCs 
+            right to pursue other legal remedies, including immediate court or 
+            judicial relief. </td>
+        </tr>
+
+        <tr> 
+          <td align="left" valign="top">4.4</td>
+          <td align="left" valign="top">Rights and obligations under the Logo 
+            license which by their nature should survive, including, but not limited 
+            to, all rights and obligations in Sections 4.3, 4.4, 6.0 9.5, 9.6, 
+            9.7, 11.0, and 12.0 will remain in effect after termination or expiration 
+            hereof.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">4.5</td>
+          <td align="left" valign="top"> Termination of Website Access – Except 
+            as otherwise provided below, the right to access the website shall 
+            be valid for a term of one (1) year from the Effective Date or until 
+            Reseller’s agreement with Distributor expires or is terminated, which 
+            ever occurs later. Either party shall have the right to either terminate 
+            access to or discontinue access to the Information, at its convenience, 
+            by sending the other written notice thereof. Such notice shall be 
+            effective upon receipt. EMC shall have the right to deny Reseller 
+            or Reseller personnel access to the websites made available hereunder. 
+            Upon any termination, expiration or cancellation of (i) this Agreement, 
+            (ii) the license granted in sub-section 9.1, or (iii) Reseller’s agreement 
+            with Distributor, Reseller shall cease to use Information and shall 
+            promptly return to EMC, at Reseller’s own cost, all tangible copies 
+            of the Information in its possession.</td>
+
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>5.</strong></td>
+          <td align="left" valign="top"><strong> <u>INFORMATION RELATED DISCLAIMER</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">5.1</td>
+          <td align="left" valign="top">EMC PROVIDES ACCESS TO THE EMC WEBSITE 
+            AND INFORMATION ON AN “AS IS” BASIS AND MAKES NO OTHER EXPRESS WARRANTIES, 
+            WRITTEN OR OTHERWISE OF ANY EMC LOGO, OR OTHER INTELLECTUAL PROPERTY 
+            RIGHT LICENSED UNDER OR IN CONNECTION WITH THIS AGREEMENT, AND ALL 
+            OTHER WARRANTIES ARE SPECIFICALLY EXCLUDED INCLUDING, BUT NOT LIMITED 
+            TO THE IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+            PURPOSE, OR NON-INFRINGEMENT, AND ANY WARRANTY ARISING BY STATURE, 
+            OPERATION OF LAW, COURSE OF DEALING OR PERFORMANCE, OR USAGE OF TRADE. 
+            NEITHER PARTY SHALL BE LIABLE TO THE OTHER OR ANY THIRD PARTY FOR 
+            CONSEQUENTIAL, INCIDENTAL, INDIRECT AND/OR SPECIAL DAMAGES FOR ANY 
+            CLAIMS ARISING FROM OR IN ANY WAY CONNECTED WITH THIS AGREEMENT, EVEN 
+            IF THE POSSIBILITY OF SUCH DAMAGES IS, OR SHOULD HAVE BEEN, KNOWN.</td>
+
+        </tr>
+         <tr> 
+          <td align="left" valign="top"><strong>6.</strong></td>
+          <td align="left" valign="top"><strong><u>RESELLER INDEMNITY</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">6.1</td>
+          <td align="left" valign="top">Reseller shall indemnify EMC and hold 
+            EMC harmless against all claims asserted by third party’s against 
+            EMC as a result of Reseller’s failure to comply with its obligations 
+            hereunder or any acts or omissions of Reseller.</td>
+
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>7.</strong></td>
+          <td align="left" valign="top"><strong><u>GENERAL</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">7.1</td>
+          <td align="left" valign="top"><u>Entire Agreement</u> - The terms contained 
+            herein constitute the entire agreement between the parties with respect 
+            to the subject matter hereof and shall supersede all prior communications 
+            and agreements, either oral or written. No modification or amendment 
+            hereto, nor any waiver of any rights herein, shall be effective unless 
+            assented to in writing by both parties. In the event of a conflict 
+            between this Logo License and the product ordering agreement, the 
+            terms of this Logo License shall prevail with regard to the subject 
+            matter contained herein.</td>
+
+        </tr>
+         <tr> 
+          <td align="left" valign="top">7.2</td>
+          <td align="left" valign="top"><u>Assignment</u> - Reseller shall not 
+            assign this Agreement or any of its rights, or delegate any its obligations 
+            hereunder without EMC’ prior written consent, and any such action 
+            in violation of the foregoing shall be void.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">7.3</td>
+
+          <td align="left" valign="top"> <u>Separability and Waiver</u> - If any 
+            provision hereof shall be held illegal or unenforceable, such provision 
+            shall be deemed separable from, and shall in no way affect or impair 
+            the validity or enforceability of, the remaining provisions. The waiver 
+            of any breach or default shall not constitute a waiver of (i) any 
+            other right or remedy hereunder, or (ii) any subsequent breach or 
+            default</td>
+        </tr>
+        
+        <tr> 
+          <td align="left" valign="top">7.4</td>
+          <td align="left" valign="top"> <u>Independent Contractors</u> - Each 
+            party shall act only as an independent contractor and not as an employee, 
+            agent, servant, or representative of the other for all purposes under 
+            this Logo License. Neither party shall have any authority to transact 
+            business or make any commitments or speak on behalf of the other party 
+            unless expressly authorized in writing by an officer of the other 
+            party. Nothing contained herein shall be deemed to constitute either 
+            party as an agent or representative of the other party, or both parties 
+            as joint venturers or partners for any purpose. Neither party shall 
+            be responsible for the acts or omissions of the other party. Reseller 
+            shall not make any statement (or fail to correct any statement) which 
+            indicates that Reseller is an agent or representative of EMC in any 
+            capacity, or that Reseller is authorized by EMC to do more than perform 
+            the ordinary functions of an independent contractor and reseller of 
+            EMC products.</td>
+
+        </tr>
+        <tr> 
+          <td align="left" valign="top">7.5</td>
+          <td align="left" valign="top"><u>Governing Laws</u> -This Agreement 
+            is governed by the laws of the Commonwealth of Massachusetts, excluding 
+            its conflict of law rules and excluding the U.N. Convention on Contracts 
+            for the International Sale of Goods. Reseller hereby consents to jurisdiction 
+            and venue in the state and federal courts sitting in the Commonwealth 
+            of Massachusetts</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">7.6</td>
+
+          <td align="left" valign="top"> <u>Government Regulations</u> - The EMC 
+            products and the technology included therein provided to Reseller 
+            are subject to governmental restrictions on exports from the U.S.; 
+            restrictions on exports from other countries in which such Products 
+            and technology included therein may be produced or located; disclosures 
+            of technology to foreign persons; exports from abroad of derivative 
+            products thereof; and the importation and/or use of such Products 
+            and technology included therein outside of the United States (collectively, 
+            &quot;Export Laws&quot;). Diversion contrary to U.S. law is expressly 
+            prohibited. Reseller shall, at its sole expense, comply with all Export 
+            Laws and EMC export policies made available to Reseller by EMC. Reseller 
+            represents that it is not a Restricted Person, which shall be deemed 
+            to include any person or entity: (1) located in or a national of Cuba, 
+            Iran, North Korea, Sudan, Syria, or any other countries that may, 
+            from time to time, become subject to U.S. export controls for anti-terrorism 
+            reasons or with which U.S. persons are generally prohibited from engaging 
+            in financial transactions; or (2) on any restricted person or entity 
+            list maintained by any U.S. governmental agency. Certain information, 
+            products or technology may be subject to the International Traffic 
+            in Arms Regulations (“ITAR”). This information, products or technology 
+            shall only be exported, transferred or released to foreign nationals 
+            inside or outside the United States in compliance with ITAR.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">7.7</td>
+          <td align="left" valign="top">7.7 Notices – Any notices pertaining to 
+            this Agreement shall be sent to <br/> &nbsp;&nbsp;&nbsp;EMC Corporation<br/> 
+            &nbsp;&nbsp;&nbsp;Office of the General Counsel<br/> &nbsp;&nbsp;&nbsp;176 
+            South Street<br/> &nbsp;&nbsp;&nbsp;Hopkinton, MA 01748<br/> &nbsp;&nbsp;&nbsp;Fax 
+            for legal notices: 508.293.7780<br/> &nbsp;&nbsp;&nbsp;Email for legal 
+            notices: <a href="legalnotices@emc.com">legalnotices@emc.com</a><br/></td>
+
+        </tr>
+        <tr> 
+          <td align="left" valign="top">7.8</td>
+          <td align="left" valign="top"><u>Equitable Relief</u> - Reseller acknowledges 
+            that its breach of Sections 2.0, 8.0, and 9.0 and sub-sections 4.2 
+            and 4.3 may cause EMC irreparable damages which cannot be remedied 
+            in monetary damages in an action at law and that EMC shall be entitled 
+            to seek an injunctive relief.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>8.</strong></td>
+
+          <td align="left" valign="top"><strong><u>ACCESS TO EMC WEBSITE</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">8.1</td>
+          <td align="left" valign="top"><u>Scope and Grant of License</u> – EMC 
+            maintains, from time to time, a website, currently identified as “EMC 
+            Powerlink,” which contains Information pertaining to EMC products 
+            and EMC services. EMC may grant Reseller a limited, non-exclusive, 
+            nontransferable, non-sublicensable right and license, during the period 
+            in which this Agreement is in effect, to access such site and to use 
+            the Information solely in accordance with the provisions of sub-section 
+            8.2 below. All Information shall remain the property of EMC. Except 
+            as expressly stated herein, no other grant of right or license to 
+            use, under any patent, copyright or any other intellectual property 
+            rights is made from EMC to Reseller under this Agreement.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">8.2</td>
+
+          <td align="left" valign="top"> <u>Restriction on Usage</u> - Reseller 
+            shall use the Information obtained through such access only for the 
+            purposes of (i) marketing and delivery of EMC products obtained by 
+            Reseller from Distributor; (ii) development of Reseller services utilizing 
+            EMC products and EMC services; and/or (iii) assisting EMC or Distributor 
+            to sell and/or license EMC products and EMC services. Reseller shall 
+            make no other use thereof and shall use the Information only in a 
+            manner that inures to the benefit of EMC. Reseller shall not use the 
+            Information to engage in deceptive, misleading or unethical practices 
+            that are or might be detrimental to EMC or EMC products. Reseller 
+            shall not make any representations, warranties or guaranties to anyone 
+            with respect to the specifications, features or capabilities of EMC 
+            products of EMC Services that are inconsistent with the Information. 
+            Access to the Information shall be made available only to Reseller 
+            personnel that have completed the training, if any, designated by 
+            EMC; have a “need to know” such Information in order to fulfill the 
+            uses described above and have been assigned the necessary access and 
+            security codes to enable such personnel to use the website. EMC may 
+            change the access and security privileges and codes from time to time 
+            and shall promptly notify Reseller of such changes. Reseller shall 
+            promptly notify EMC of the termination or reassignment of any Reseller 
+            personnel who have been granted access hereunder.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">8.3</td>
+          <td align="left" valign="top"><u>Responsibility</u> – Reseller shall 
+            be fully responsible to EMC for the full compliance of its personnel 
+            with its obligations under this Section 3.0.</td>
+
+        </tr>
+        <tr> 
+          <td align="left" valign="top" colspan="2"><strong><BR/>
+            APPLICABLE UPON ACCEPTANCE IN THE EMC Velocity PARTNER PROGRAM ONLY</strong><BR/> 
+          </td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>9.</strong></td>
+          <td align="left" valign="top"><strong><u>LOGO LICENSE GRANT</u></strong></td>
+
+        </tr>
+        <tr> 
+          <td align="left" valign="top">9.1</td>
+          <td align="left" valign="top">Subject to and expressly conditioned upon 
+            compliance with the terms and conditions of this Agreement, EMC hereby 
+            grants to Reseller a nonexclusive, nontransferable, royalty-free, 
+            personal right to use the Logo, but only in connection with Reseller’s 
+            marketing, advertising, distribution and/or sale, within the Territory, 
+            of the EMC products obtained under the product ordering agreement 
+            with the Distributor, and only in strict accordance with the current 
+            version of the EMC Program Graphic Standards (including usage guidelines), 
+            which are currently located at URL: <a href="http://powerlink.emc.com"> 
+            http://powerlink.emc.com</a>. EMC reserves the right to modify these 
+            standards and guidelines from time to time by posting such at such 
+            website.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">9.2</td>
+
+          <td align="left" valign="top">Reseller may not use or reproduce the 
+            Logo in any manner whatsoever except as expressly permitted under 
+            this Agreement.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">9.3</td>
+          <td align="left" valign="top">EMC may eliminate any country or jurisdiction 
+            from the Territory if EMC reasonably determines that use or continued 
+            use of the Logo may subject EMC or any other party to legal liability 
+            or may jeopardize or impair EMC’s rights in the Logo. Upon written 
+            notice from EMC, Reseller shall cease all use of the Logo in any such 
+            jurisdiction.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">9.4</td>
+
+          <td align="left" valign="top"> EMC reserves the right to amend the Logo 
+            or to replace it with a different logo. Upon notice from EMC, Reseller 
+            shall cease use of the Logo as quickly as reasonably possible.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">9.5</td>
+          <td align="left" valign="top">EMC retains all right, title and interest 
+            in and to the Logo. Except as explicitly granted in this Agreement, 
+            Reseller shall not have any rights in the Logo. Under no circumstances 
+            will anything in this Agreement be construed as granting, by implication, 
+            estoppel or otherwise, a license to any EMC technology or proprietary 
+            right.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">9.6</td>
+
+          <td align="left" valign="top"> Reseller shall not (a) challenge EMC’s 
+            ownership or use of the Logo; (b) attempt to register any portion 
+            of the Logo or any constituent elements; (c) remove, alter or add 
+            to the Logo; or (d) incorporate the Logo or any other EMC trademark 
+            into Reseller’s product names, service names, company names, domain 
+            names, or any other similar designations. Reseller’s use of the Logo 
+            inures to the sole benefit of EMC.</td>
+        </tr>
+        <tr> 
+          <td height="43" align="left" valign="top">9.7</td>
+          <td align="left" valign="top"> If, at any time, Reseller acquires any 
+            rights in, or trademark registrations or applications for the Logo 
+            or any of the EMC trademarks by operation of law or otherwise, Reseller 
+            will immediately and at no expense to EMC assign such rights, registration 
+            or applications to EMC, along with any and all associated goodwill.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">9.8</td>
+
+          <td align="left" valign="top"> Reseller shall indemnify EMC from and 
+            against all loss, cost, damage or expense resulting from Reseller’s 
+            use of the Logo in violation of this Logo License, excluding only 
+            losses resulting from a claim of infringement that is covered by EMC’s 
+            obligations pursuant to Section 13.0 below.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>10.</strong></td>
+          <td align="left" valign="top"><strong><u>QUALITY, INSPECTION AND APPROVAL 
+            OF LOGO</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">10.1</td>
+
+          <td align="left" valign="top"> It is the intent of EMC to periodically 
+            audit Reseller to verify that Reseller is in compliance with the then 
+            current EMC Program Graphic Standards (including usage guidelines) 
+            and this Agreement. EMC shall provide advance notice of an audit for 
+            the Logo (‘Program Audit”). EMC may conduct such Program Audit itself 
+            or may appoint a third party to conduct the Program Audit. EMC shall 
+            pay the cost of the Program Audit. Reseller shall provide all reasonable 
+            assistance necessary for EMC or its designee to perform the Program 
+            Audit. EMC or its designee shall maintain the confidentiality of any 
+            proprietary information so designated by Reseller and disclosed by 
+            Reseller or discovered during the course of the Program Audit, with 
+            the exception of any information directly related to reporting the 
+            results of the Program Audit to EMC. If following such audit, EMC 
+            determines in its sole discretion that Reseller has not met any requirement 
+            of this Agreement, EMC shall notify Reseller of the noncompliance 
+            and Reseller shall immediately cease using the Logo until it remedied 
+            the situation, which EMC shall determine in its sole discretion.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">10.2</td>
+          <td align="left" valign="top"> At EMC’s request, Reseller shall promptly 
+            supply EMC with suitable specimens of Reseller’s use of the Logo.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>11.</strong></td>
+
+          <td align="left" valign="top"> <strong><u>IDENTIFICATION AND USE OF 
+            LOGO</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">11.1</td>
+          <td align="left" valign="top"> Reseller must use the Logo only in the 
+            exact form of approved camera-ready or electronic artwork received 
+            from EMC.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">11.2</td>
+
+          <td align="left" valign="top"> Reseller shall not (i) use the Logo in 
+            a manner that derogates EMC’s reputation or EMC’s rights in the Logo; 
+            and (ii) take any action that will interfere with or diminish EMC’s 
+            rights therein at any time.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>12.</strong></td>
+          <td align="left" valign="top"><strong> <u>LOGO RELATED WARRANTIES AND 
+            DAMAGES</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">12.1</td>
+
+          <td align="left" valign="top"><strong>EMC MAKES NO EXPRESS OR IMPLIED 
+            WARRANTIES WITH REGARD TO THE LOGO OR ANY INTELLECTUAL PROPERTY RIGHT 
+            LICENSED HEREUNDER, AND ALL OTHER WARRANTIES ARE SPECIFICALLY EXCLUDED, 
+            INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTY, OR WARRANTY ARISING 
+            BY STATUTE, OPERATION OF LAW, COURSE OF DEALING, OR PERFORMANCE, OR 
+            USAGE OF TRADE, OR OTHERWISE UNDER OR IN CONNECTION WITH THIS AGREEMENT.</strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">12.2</td>
+          <td align="left" valign="top"><strong> IN NO EVENT SHALL EMC BE LIABLE 
+            FOR ANY CONSEQUENTIAL, INCIDENTAL OR SPECIAL DAMAGES (INCLUDING LOSS 
+            OF BUSINESS OR BUSINESS PROFITS) ARISING FROM OR RELATED TO RESELLER’S 
+            USE OF THE LOGO OR TERMINATION OF THIS LOGO LICENSE, REGARDLESS OF 
+            WHETHER SUCH LIABILITY IS BASED ON BREACH OF CONTRACT, TORT, OR STRICT 
+            LIABILITY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. IN 
+            NO EVENT SHALL EMC BE LIABLE FOR ANY DAMAGES ARISING OUT OF OR IN 
+            CONNECTION WITH RESELLER’S USE OF THE LOGO IN VIOLATION OF THE TERMS 
+            OF THIS AGREEMENT.</strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top"><strong>13.</strong></td>
+
+          <td align="left" valign="top"><strong> <u>INFRINGEMENT OF LOGO</u></strong></td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">13.1</td>
+          <td align="left" valign="top">Reseller shall promptly notify EMC of 
+            any suspected infringement or challenge to the Logo or any constituent 
+            elements.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">13.2</td>
+
+          <td align="left" valign="top">EMC shall, at EMC’s expense, defend Reseller 
+            against any third party claim made against Reseller that the Logo 
+            infringes any trademark rights enforceable in the Territory, and pay 
+            the resulting costs and damages awarded against Reseller by a court 
+            of competent jurisdiction, provided Reseller (i) notifies EMC promptly 
+            in writing of such claim, (ii) grants EMC sole control over the defense 
+            and settlement thereof, and (iii) reasonably cooperates in response 
+            to an EMC request for assistance. Should the Logo become, or in EMC’s 
+            opinion be likely to become the subject of such a claim, EMC shall, 
+            at its option and expense, (a) procure for Reseller the right to continue 
+            use the Logo; (b) replace or modify the Logo to make it non-infringing, 
+            and in which case Reseller shall cease use of the earlier version 
+            of the Logo; or (c) terminate this Logo License. EMC shall not have 
+            any liability for any intellectual property claim based on Reseller’s 
+            use of the Logo after EMC’s notice to Reseller that Reseller shall 
+            cease use of the Logo.</td>
+        </tr>
+        <tr> 
+          <td align="left" valign="top">13.3</td>
+          <td align="left" valign="top"> THIS SECTION 13.0 STATES EMC’S ENTIRE 
+            LIABILITY WITH RESPECT TO ALLEGED INFRINGEMENT CONCERNING THE LOGO 
+            OR ANY OTHER INTELLECTUAL PROPERTY RIGHT.</td>
+        </tr>        
+        </table>
+       </td>
+       </tr>
+       </table>
+        </body>        
+    </html>
+
+
+              
+               <center>
+                <apex:outputLabel value="{!$Label.I_Accept}" for="I" style="font-family (stack): 'Arial','Helvetica',sans-serif;Font being rendered: 'Arial';font-size: 10.9167px;font-weight: bold;font-style: normal;font-variant: normal;color: #333333;"/>
+                &nbsp;&nbsp;<apex:outputField value="{!POB.I_Accept__c}" id="I"/>                
+            </center> 
+              
+           
+
+</apex:page>

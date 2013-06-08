@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <webLinks>
+        <fullName>Change_Owner</fullName>
+        <availability>online</availability>
+        <description>Change owner for parent partner users enables them to transfer opportunities from one account to another</description>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Change Owner</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/APPR_MTV__ChangeOwner?id={!Opportunity.Id}</url>
+    </webLinks>
+</CustomObject>

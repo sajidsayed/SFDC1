@@ -1,0 +1,28 @@
+<!--
+/*=======================================================================================================================+
+
+|  HISTORY  |    
+| DATE          DEVELOPER         WR          	DESCRIPTION                               
+
+| ====          =========         ==          	=========== 
+| 15/5/2011      Ashwini Gowda     ReqtID 043  	Page invoked while providing Rejection reason for Rejecting Deal Reg.
+| 14/10/2011	 Anand Sharma		177295		When a PSC rejects a Deal Registration, they cannot use the standard comments field as 
+												we are asking them to use the custom link to select the rejection Reason
++=======================================================================================================================*/
+-->
+<apex:page standardController="Lead" extensions="PRM_DEALREG_ApprovalRouting"> 
+    <apex:form >
+        <apex:pageBlock title="Reasons For Rejection" >
+        <apex:pageMessages />
+            <apex:pageBlockSection title="Select Reason" columns="3">
+                <apex:inputField value="{!lead.DealReg_Rejection_Reason__c}"/> 
+                <apex:inputField value="{!lead.DealReg_Comments__c}"/>
+                <!-- Added on 14 Oct 2011 for WR#177295 -->
+                <apex:inputField value="{!lead.External_Comments__c}"/>
+                
+            </apex:pageBlockSection>
+            <Center><apex:commandButton action="{!SaveRejection}" style="position:middle;" value="{!$Label.OK}"/>
+            <apex:commandButton action="{!cancel}" style="position:middle;" value="{!$Label.cancel}"/></Center>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

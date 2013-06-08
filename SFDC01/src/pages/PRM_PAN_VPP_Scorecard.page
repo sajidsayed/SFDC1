@@ -1,0 +1,137 @@
+<!-- =======================================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER           WR/Req      DESCRIPTION 
+ |  07/12/2012      Anand Sharma                    Initial Creation.
+    =====================================================================================================================-->
+<apex:page controller="PRM_PAN_VPP_ScorecardController" id="VelocityPANScorecardPage">
+    <apex:stylesheet value="{!URLFOR($Resource.mystyle4, 'mystyle4/mystyle2/css/PRM_VPP_Scorecard_CSS.css')}"/>     
+    <apex:pageMessages />
+    
+    <apex:form id="frmScorecard" title="{!$Label.Pan_Theater_Velocity_Scorecard}">
+        <apex:outputPanel id="pnlScorecardError" Rendered="{!NOT(isRenderScorecard)}">
+            <center><apex:commandButton value="{!$Label.cancel}" action="{!cancelUpdates}"/></center>
+        </apex:outputPanel>
+        <apex:outputPanel id="OutputResult" Style="background-color:#FAFAFA;" Rendered="{!isRenderScorecard}">
+            <table width="100%" Style="background-color:#FAFAFA;">
+                <tr>
+                    <td width="100%" class="cellBucketStyleTopReqs">
+                        <apex:outputText value="{!$Label.Pan_Theater_Velocity_Scorecard}"/ >
+                    </td>
+                </tr>
+                <tr>
+                    <apex:outputPanel id="OutputResult1" >
+                        <table width="100%" >
+                            <tr>
+                                <td width="18%" Style="text-align :left;height:100%;" class="rt3Style">
+                                    <table width="100%" Style="text-align :left;">
+                                        <tr>
+                                			<td width="100%" colspan="2"><b><u><apex:outputText value="{!$Label.Partner_Information}"  style="font-size: 15px;padding-bottom:5px;" /></u></b></td>                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="50%"><b><apex:outputText value="{!$Label.Patner_Name} :" style="padding-top:5px;" / ></b></td>
+                                			<td width="50%">{!objAccount.Name}</td>
+                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="50%"><b><apex:outputText value="{!$Label.Theater} : " style="padding-top:5px;"/ ></b></td>
+                                			<td width="50%">{!objAccount.Theater1__c}</td>
+                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="50%"><b><apex:outputText value="{!$Label.Country} : " style="padding-top:5px;"/ ></b></td>
+                                			<td width="50%">{!objAccount.BillingCountry}</td>
+                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="50%"><b><apex:outputText value="{!$Label.Pan_Theater_Tier} : " style="padding-top:5px;"/ ></b></td>
+                                			<td width="50%">{!DeployedToStatus}</td>
+                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="50%"><b><apex:outputText value="{!$Label.Logical_Block} : " style="padding-top:5px;"/ ></b></td>
+                                			<td width="50%">{!LogicalBlock}</td>                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="100%" colspan="2"><br/></td>                                			                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="100%" colspan="2"><b><u><apex:outputText value="{!$Label.Compliance}" style="font-size: 15px; padding-top:5px;padding-bottom:5px;"/ ></u></b></td>                                			                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="50%"><b><apex:outputText value="{!$Label.Current_Period} : " style="padding-top:5px;"/></b></td>
+                                			<td width="50%">{!$Label.Current_Period_Value}</td>
+                                			
+                               			</tr>
+                                        <tr>
+                                			<td width="50%"><b><apex:outputText value="{!$Label.Requirements_Met} : " style="padding-top:5px;"/ ></b></td>
+                                			<td width="50%">{!ComplianceStatus}</td>
+                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="100%" colspan="2"><br/><br/></td>                                			                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="100%" colspan="2"><b><a id="theLink" name="theLink" target="_blank" href="{!$Label.Click_here_for_Velocity_RequirementsPartner_Information_Value}"><apex:outputText value="{!$Label.Click_here_for_Velocity_RequirementsPartner_Information}" style="color:blue;padding-top:5px;"/ ></a></b></td>                                			                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="100%" colspan="2"><br/><br/></td>                                			                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="50%" ><b><apex:outputText value="{!currentTheater} : "/ ></b></td>
+                                			<td width="50%" style="border:3px solid red;"></td>                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="50%"><b>{!$Label.All_Tier_Requirements_Met}</b></td>
+                                			<td width="50%" style="background-color : #088A08;"></td>                                			
+                               			</tr>
+                               			<tr>
+                                			<td width="50%"><b>{!$Label.Target_Tier_Requirements_Not_Met}</b></td>
+                                			<td width="50%" style="background-color : #F4FA58;" ></td>                                			 
+                               			</tr>
+                                                                              
+                                    </table>    
+                                </td>
+                                <td width="82%" Style="height:100%;">
+                                	<div id="firstDIV" Style="overflow-x: auto;overflow-y: auto;width: 100%;height: 620px;">
+                                    <table width="100%" class="rt3Style" Style="text-align :left;height:100%;">
+                                        <tr>
+                                            <td >
+                                                <apex:outputPanel id="OutputResultPAN"  rendered="{!IF(OR(lstPanContainer.Size > 0,lstLocalContainer.size >0 ), true, false)}">
+                                                    <apex:repeat value="{!lstPanContainer}" var="objPan">
+                                                        <c:PRM_PAN_VPP_ScorecardComponent objPanLogicalContainer="{!objPan}" />  
+                                                    </apex:repeat>
+                                                    <br/>
+                                                    <apex:repeat value="{!lstLocalContainer}" var="objLocal">
+                                                        <c:PRM_PAN_VPP_ScorecardComponent objPanLogicalContainer="{!objLocal}" />  
+                                                    </apex:repeat>  
+                                                    <br/>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel id="OutputResultLOCAL"  >
+                                                    <apex:repeat value="{!lstLogicalContainer}" var="objLogical" rendered="{!IF(OR(lstPanContainer.Size > 0,lstLocalContainer.size >0 ), false, true)}">
+                                                        <c:PRM_PAN_VPP_ScorecardComponent objPanLogicalContainer="{!objLogical}" /> 
+                                                    </apex:repeat>
+                                                </apex:outputPanel>
+                                            </td>                                           
+                                        </tr>                                                                                                               
+                                    </table>  
+                                    </div>    
+                                    <table width="100%" class="rt3Style" Style="text-align :left;">
+                                        <tr>
+                                            <td >                                                                                                
+                                                <apex:outputPanel > 
+                                                    <apex:outputText value="{!$Label.PRM_PAN_Scorecard_HelpText}" escape="false"></apex:outputText> 
+                                                    <apex:outputText value="{!$Label.PRM_PAN_ScoreCard_Help_Text1}" escape="false"></apex:outputText> 
+                                                    <apex:outputText value="{!$Label.PRM_PAN_ScoreCard_Help_Text2}" escape="false"></apex:outputText>
+                                                </apex:outputPanel>  
+                                            </td>                                           
+                                        </tr>                                                                                                               
+                                    </table>                                  
+                                </td>
+                            </tr> 
+                        </table>
+                    </apex:outputPanel>
+                </tr>
+            </table> 
+        </apex:outputPanel>        
+    </apex:form>
+</apex:page>

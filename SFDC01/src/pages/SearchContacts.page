@@ -1,0 +1,65 @@
+<apex:page controller="SendEmail" sidebar="false" showHeader="false">
+   
+    <apex:form >
+           <apex:pageBlock mode="edit" id="block" title="{!$Label.Add_Recipients}">
+             <apex:messages />
+           <apex:pageBlockButtons >
+                <apex:commandButton action="{!addingReciepients}" value="{!$Label.Add_Selected_Recipients}"  />
+                <apex:commandButton action="{!cancel}" value="{!$Label.EMC_Cancel}" />
+        </apex:pageBlockButtons>
+             <apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="searchText" value="{!$Label.Search_Contact_or_Users}"></apex:outputLabel>
+                    <apex:panelGroup >
+                        <table>
+                        <tr>
+                        <td>
+                        <apex:selectList value="{!Contents}" multiselect="false" size="1">
+                            <apex:selectOptions value="{!items}"/>
+                        </apex:selectList>
+                        </td>
+                        <td>
+                            <apex:inputText id="searchText" value="{!searchText}"/>
+                        </td>
+                        <td>   
+                            <apex:commandButton value="{!$Label.Search}" action="{!doSearch}" rerender="block" status="status"/>
+                        </td>
+                        </tr>
+                        <tr>
+                         <td style="font-size:10px;color:red" colspan="4" >   
+                            Your search can return more than 1000 rows. Only the first 1000 are displayed. Please refine search criteria.
+                        </td>
+                        </tr>
+                        </table>
+                    </apex:panelGroup>
+               </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+            <apex:actionStatus id="status" startText="Searching..."/>
+           
+    
+        <apex:pageBlockSection title="{!$Label.EMC_Results}">
+                <apex:dataTable value="{!contactWrap}" var="con" border="0" cellpadding="5" border="0">
+                    
+                     <apex:column title="{!$Label.CheckBox}" width="20">
+                                 
+                          <apex:inputCheckbox value="{!con.checked}"/>
+                  </apex:column>
+                  
+                  <apex:column title="{!$Label.Name}"  width="40">
+                  <apex:facet name="header">Name</apex:facet>
+                          <apex:outputField value="{!con.contact.name}"/>
+                  </apex:column>
+                 
+                  <apex:column title="{!$Label.Email}" width="40">
+                   <apex:facet name="header">Email</apex:facet>
+                          <apex:outputField value="{!con.contact.email}"/>
+                  </apex:column>
+              </apex:dataTable>
+        </apex:pageBlockSection>
+        
+                
+            </apex:pageBlock>                       
+        
+    </apex:form>
+</apex:page>

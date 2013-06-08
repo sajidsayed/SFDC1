@@ -1,0 +1,127 @@
+<apex:page controller="PartnerDetailsController"
+	sidebar="{!LEN($Site.Name)<=0}"  
+	showHeader="false"
+	standardStylesheets="false" id="Page"
+	language="{!preferredLanguageCode}">
+	
+	<html xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{!$Label.titleContactPartner} - {!partnerRecord.name}</title>
+<link href="{!$Page.PartnerFinderCSS}" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.contact_box {
+	width: 550px;
+	padding:0px;
+	margin:0;
+	font: bold 12px "Arial", sans-serif; color:#333333;
+}
+
+.contact_title {
+	width: 535px;
+	padding:10px 0 10px 15px;
+	margin:0;
+	height: 20px;
+	background-color:#e2e2e2;
+	font: bold 14px/22px "Arial", sans-serif; color:#006699;
+}
+<!-- 
+
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+a.ovalbutton{
+background: transparent url('{!$Resource.left_button.png') no-repeat top left;
+display: block;
+float: left;
+font: normal 11px Arial; /* Change 13px as desired */
+line-height: 14px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 24px) */
+height: 24px; /* Height of button background height */
+padding-left: 11px; /* Width of left menu image */
+text-decoration: none;
+}
+
+a:link.ovalbutton, a:visited.ovalbutton, a:active.ovalbutton{
+color: #494949; /*button text color*/
+}
+
+a.ovalbutton span{
+background: transparent url('{!$Resource.right_button.png') no-repeat top right;
+color:#FFFFFF;
+display: block;
+padding: 4px 11px 4px 0; /*Set 11px below to match value of 'padding-left' value above*/
+}
+
+a.ovalbutton:hover{ /* Hover state CSS */
+background-position: top left;
+}
+
+a.ovalbutton:hover span{ /* Hover state CSS */
+background-position: top right;
+}
+
+.buttonwrapper{ /* Container you can use to surround a CSS button to clear float */
+overflow: hidden; /*See: http://www.quirksmode.org/css/clearing.html */
+width: 100%;
+}
+-->
+</style>
+</head>
+
+<body>
+    <!-- DISPLAY PAGE LOAD ERROR IF ONE EXISTS -->
+	<apex:outputPanel rendered="{!errorOccurred}">
+		<apex:variable var="errorMsg" value="{!$Label.msgemptyidparam}" rendered="{!errorCode == EMPTY_ID_PARAM}"/>
+		<apex:variable var="errorMsg" value="{!$Label.msgrecordnotfound}" rendered="{!errorCode == RECORD_NOT_FOUND}"/>
+		<apex:variable var="errorMsg" value="{!$Label.msgaccessdenied}" rendered="{!errorCode == ACCESS_DENIED}"/>
+    	<apex:pageMessage severity="error" strength="2" title="{!errorMsg}"/>
+	</apex:outputPanel>
+	    <!-- OTHERWISE, DISPLAY DETAILS SCREEN -->
+	<apex:outputPanel rendered="{!NOT(errorOccurred)}">
+		<apex:form id="Form">
+		<apex:pageMessages id="Messages"/> 
+		
+		
+		
+		<div class="contact_box">
+
+<div class="contact_title">{!$Label.titleContactPartner2}: {!partnerRecord.name}</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="10">
+   <tr>
+    <td width="23%" align="right" valign="middle">{!$Label.senderFullName}:</td>
+    <td width="77%"><apex:inputText id="senderFullName" value="{!senderEmailFullName}" /></td>
+  </tr>
+    <tr>
+    <td width="23%" align="right" valign="middle">{!$Label.senderEmail}:</td>
+    <td width="77%"><apex:inputText id="senderEmail" value="{!senderEmailAddress}" /></td>
+  </tr>
+  <tr>
+    <td width="23%" align="right" valign="middle">{!$Label.emailSubject}:</td>
+    <td width="77%"><apex:inputText id="EmailSubject" value="{!senderEmailSubject}" /></td>
+  </tr>
+  <tr>
+    <td align="right" valign="top">{!$Label.emailmessage}:</td>
+    <td><apex:inputTextArea id="EmailBody" value="{!senderEmailBody}" cols="45" rows="5" /></td>
+  </tr>
+  <tr>
+    <td align="right" valign="top">&nbsp;</td>
+    <td><div class="buttonwrapper">
+<apex:commandLink styleClass="ovalbutton" action="{!sendContactEmail}"><span>{!$Label.btnsubmit}</span></apex:commandLink>
+<apex:commandLink styleClass="ovalbutton" style="margin-left: 6px" action="{!cancelContactEmail}" ><span>{!$Label.btncancel}</span></apex:commandLink>
+</div> 
+</td>
+  </tr>
+</table>
+
+
+</div>	
+		</apex:form>
+	</apex:outputPanel>
+	</body>
+	</html>
+</apex:page>

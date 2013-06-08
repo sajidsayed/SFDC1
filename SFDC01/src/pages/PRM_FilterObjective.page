@@ -1,0 +1,52 @@
+<!-- ====================================================================================================
+ |  HISTORY 
+ |  DATE            DEVELOPER      WR/Req      DESCRIPTION 
+ |  12/10/2010      Karthik S      1173        This page is used to filter the objectives
+ |                                             on channel accoutn plan.
+ |  23/12/2010      Karthik S      184         Defect to fix the alignment of the filter 
+ |                                             objective fields.
+ ======================================================================================================-->
+
+<apex:page standardController="SFDC_Channel_Account_Plan__c" extensions="PRM_FilterObjective">
+  
+  <style>   
+      .font{
+           font-weight: bolder;
+           }
+  </style>
+  <apex:form > 
+      <apex:pageBlock dir="LTR">
+       
+        <apex:pageBlockSection columns="1" >
+          
+              <apex:pageBlockSectionItem dataStyle="align: left" dir="LTR" labelStyle="align :left">
+                 <apex:outputLabel >Parent Objective Geography</apex:outputLabel> 
+                 <apex:selectList size="1" value="{!Geography}" style="width: 365px;">
+                    <apex:selectOptions value="{!GeographyList}"/>
+                 </apex:selectList>
+              </apex:pageBlockSectionItem>
+        
+             <apex:pageBlockSectionItem dataStyle="align: left" dir="LTR" labelStyle="align :left">
+                   <apex:outputLabel >Parent Objective Region</apex:outputLabel> 
+                  <apex:inputText value="{!ParentObjectiveRegion}"/> 
+             </apex:pageBlockSectionItem>
+              <apex:inputField value="{!Objective.Parent_Objective_Type__c}"/>
+              <apex:inputField value="{!Objective.Objective_Type__c}"/>
+              <apex:inputField value="{!Objective.Segment__c}"/>
+              <apex:inputField value="{!Objective.Solution__c}"/>
+              <apex:inputField value="{!Objective.Vertical__c}"/>
+           </apex:pageBlockSection>
+          
+                 
+       <apex:commandLink action="{!goOnDetailPage}" target="_blank">
+                   <apex:image value="{!$Resource.Go}" style="cursor:pointer;"/>
+                 </apex:commandLink>
+      
+          <apex:pageblockButtons location="bottom">
+                 
+          </apex:pageblockButtons>  
+            
+      
+      </apex:pageblock>
+  </apex:form> 
+</apex:page>

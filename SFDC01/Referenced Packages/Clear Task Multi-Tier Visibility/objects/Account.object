@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Association_Account__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>This custom account field, along with the prevailing user security, determines if the account is available for association with other partner accounts.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Determines if an account is available for selection in creating account associations (assuming the user has visibility to the account)</inlineHelpText>
+        <label>Association Account</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <namedFilters>
+        <fullName>nf_01I80000000Rf1EEAS_00N80000003QVHfEAO</fullName>
+        <active>true</active>
+        <errorMessage>Account selected is not configured to be added to Account Associations</errorMessage>
+        <field>RecordAssociation__c.Associated_Account__c</field>
+        <filterItems>
+            <field>Account.Association_Account__c</field>
+            <operation>equals</operation>
+            <value>TRUE</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Account Association_Associated Account</name>
+    </namedFilters>
+    <webLinks>
+        <fullName>Change_Owner</fullName>
+        <availability>online</availability>
+        <description>Change owner for parent partner users enables them to transfer ownership of Account</description>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Change Owner</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/APPR_MTV__ChangeOwner?id={!Account.Id}</url>
+    </webLinks>
+</CustomObject>

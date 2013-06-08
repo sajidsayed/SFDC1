@@ -1,0 +1,390 @@
+<!--
+Date of implentation : 20th July, 2012
+Implemented by : Vijo Joy
+Work Request : 194417
+This visualforce page has been created, to reduce the number of clicks needed to add/edit/delete sessions and
+session presenters. This visualforce page supersedes the "add session", "copy past agenda", and "add guest presenter/add topic presenter" functions.
+It consists of 2 sections-- The header contains details for the briefing event, while the tabular section provides info
+on the session present in the Briefing Event, with the associated presenters (topic or guest)
+-->
+
+<apex:page standardController="EBC_Briefing_Event__c" id="theAPage" extensions="EBC_AgendaPage" showHeader="false" sidebar="true">
+<style type ="text/css">
+    .presenterStatus{
+        background-color: #F5F4BA;
+        border: solid 1.5px #4DA7E3;
+        border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -webkit-border-radius:5px;
+        width: 600px; height: 40px;
+    }
+    
+    .presenterStatus tr td{border:none !important; border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -webkit-border-radius:5px;}
+</style>
+
+<script>
+    document.onload= function(){ clean(); }
+    window.onload= function(){ clean(); }
+</script>
+<apex:sectionHeader subtitle="Agenda Page"/>
+
+<!-- page stylesheets -->
+<style type="text/css">
+table.list thead tr th{ background:#666666; color:#FFFFFF !important; padding:5px 10px; border-color:#666666 !important; }
+tr.trColor1{ background:#DDDDDD !important; }
+tr.trColor1 td{ 
+  padding:10px 20px 10px 10;
+  vertical-align:top !important;
+  border-left-color:#BBBBBB!important;
+  border-right-color:#FFFFFF !important;
+  border-top-color:#DDDDDD!important;
+  border-bottom-color:#DDDDDD!important;}
+tr.trColor1 td table tr td{border-color:#DDDDDD !important; padding:0;}
+tr.trColor2{ background:#EEEEEE !important; }
+tr.trColor2 td{ 
+  padding:10px 20px 10px 10;
+  vertical-align:top !important;
+  border-left-color:#CCCCCC!important;
+  border-right-color:#FFFFFF !important;
+  border-top-color:#EEEEEE!important;
+  border-bottom-color:#EEEEEE!important;}
+ tr.trColor2 td table tr td{border-color:#EEEEEE !important; padding:0;}
+</style>
+<!-- END -->
+
+<!-- to ensure that javascript always runs-->
+<script type="text/javascript" src="/js/functions.js"></script>
+<script src="/soap/ajax/11.1/connection.js"></script>
+<script src="/soap/ajax/10.0/apex.js"></script>
+<!-- END-->
+
+<!-- script to open the report-->    
+<script>
+function openReport()
+{
+window.open('/00OV0000000Sfmh?pv0={!IF(LEN(BEvent.id)==18,LEFT(BEvent.id,15),BEvent.id)}','','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes, toolbar=no,location=no,status=yes');
+}
+</script>
+<!--END report script-->
+
+<!-- script to close the agenda page-->    
+<script>
+function ConfirmClose()
+{
+var agree =confirm ("Are you sure you want to close?");
+if (agree)
+{
+window.parent.reload();
+window.close();
+}
+else
+{
+return false;
+}
+</script>
+<!--END report script to close the agenda page-->
+
+<style>
+.evenrow{
+backgroundcolor: 99CCFF;
+}
+</style>
+<apex:form id="theform" >
+<apex:pageMessages />
+<apex:actionFunction name="clean" action="{!cleanTopicMessage}" rerender="table_rerender"/>
+<apex:pageBlock id="theblock">
+<!-- buttons at the top-->
+<apex:commandButton action="{!addasession}" value="Add a Session"/>
+<apex:commandButton action="{!savepage}" value="Save"/> 
+<apex:commandButton onclick="javascript: if(confirm('Are you sure?')) {window.parent.close()} else {return false};" value="Cancel" immediate="true"/>
+<apex:commandButton onclick="openReport()" value="View Agenda" reRender="viewagendabtn" id="viewagendabtn"/> 
+<apex:commandButton action="{!$Page.EBC_CopyEvent}?id={!BEvent.id}" value="Copy Past Agenda"/>  
+<!--END-buttons at the top-->
+
+<!-- the below 3 lines are to give space between table and buttons-->
+<apex:pageBlockSection >
+<apex:pageBlockSectionItem />
+</apex:pageBlockSection>
+<!-- END-->
+
+<apex:toolbar height="20px" style="background-color:#f5f5f5;background-image:none" >
+<apex:pageblockSection columns="5">
+
+<apex:pageBlockSectionItem >
+<apex:outputLabel value="Briefing Name"/>
+<apex:outputLink value="/{!BEvent.id}"> {!EBC_Briefing_Event__c.Name}</apex:outputLink>
+</apex:pageBlockSectionItem>
+
+<apex:pageBlockSectionItem >
+<apex:outputLabel value="Start Date" />
+<apex:outputField value="{!BEvent.Start_Date__c}" label="{!EBC_Briefing_Event__c.Start_Date__c}"/>
+</apex:pageBlockSectionItem>
+
+<apex:pageBlockSectionItem >
+<apex:outputLabel value="End Date"/>
+<apex:outputField value="{!BEvent.End_Date__c}"/>
+</apex:pageBlockSectionItem>
+
+<apex:pageBlockSectionItem >
+<apex:outputLabel value="Requestor Name"/>
+<apex:outputField value="{!BEvent.Requestor_Name__c}"/>
+</apex:pageBlockSectionItem>
+
+<apex:pageBlockSectionItem >
+<apex:outputLabel value="Briefing Venue"/>
+<apex:outputField value="{!BEvent.Briefing_Venue__c}"/>
+</apex:pageBlockSectionItem>
+</apex:pageblockSection>
+</apex:toolbar>
+
+<apex:toolbar height="20px" style="background-color:#f5f5f5;background-image:none" id="secndtoolbar" >
+<apex:pageblockSection columns="5">
+<a href="javascript:openIntegration%28%27%2Fservlet%2Fservlet.Integration%3Flid%3D00b70000001KjVq%26eid%3D{!BEvent.id}%26ic%3D1%27%2C%20%27height%3D450%2Cwidth%3D625%2Clocation%3Dno%2Cresizable%3Dyes%2Ctoolbar%3Dno%2Cstatus%3Dno%2Cmenubar%3Dno%2Cscrollbars%3D1%27%2C%201%29" onblur="self.status=' ';return true;" onfocus="self.status='/servlet/servlet.Integration?lid=00b70000001KjVq&eid={!BEvent.id}&ic=1';return true;" onmouseout="self.status=' ';return true;" onmouseover="self.status='/servlet/servlet.Integration?lid=00b70000001KjVq&eid={!BEvent.id}&ic=1';return true;" title="Complete Customer Agenda (New Window)">Complete Customer Agenda</a>&nbsp;&nbsp;
+<a href="javascript:openIntegration%28%27%2Fservlet%2Fservlet.Integration%3Flid%3D00b70000001KjVv%26eid%3D{!BEvent.id}%26ic%3D1%27%2C%20%27height%3D450%2Cwidth%3D625%2Clocation%3Dno%2Cresizable%3Dyes%2Ctoolbar%3Dno%2Cstatus%3Dno%2Cmenubar%3Dno%2Cscrollbars%3D1%27%2C%201%29" onblur="self.status=' ';return true;" onfocus="self.status='/servlet/servlet.Integration?lid=00b70000001KjVv&eid={!BEvent.id}&ic=1';return true;" onmouseout="self.status=' ';return true;" onmouseover="self.status='/servlet/servlet.Integration?lid=00b70000001KjVv&eid={!BEvent.id}&ic=1';return true;" title="Complete Session Leader Agenda (New Window)">Complete Session Leader Agenda</a>&nbsp;&nbsp;
+<a href="javascript:openIntegration%28%27%2Fservlet%2Fservlet.Integration%3Flid%3D00b70000001Kj4Y%26eid%3D{!BEvent.id}%26ic%3D1%27%2C%20%27height%3D450%2Cwidth%3D625%2Clocation%3Dno%2Cresizable%3Dyes%2Ctoolbar%3Dno%2Cstatus%3Dno%2Cmenubar%3Dno%2Cscrollbars%3D1%27%2C%201%29" onblur="self.status=' ';return true;" onfocus="self.status='/servlet/servlet.Integration?lid=00b70000001Kj4Y&eid={!BEvent.id}&ic=1';return true;" onmouseout="self.status=' ';return true;" onmouseover="self.status='/servlet/servlet.Integration?lid=00b70000001Kj4Y&eid={!BEvent.id}&ic=1';return true;" title="Day Customer Agenda (New Window)">Day Customer Agenda</a>&nbsp;&nbsp;
+<a href="javascript:openIntegration%28%27%2Fservlet%2Fservlet.Integration%3Flid%3D00b70000001Kj4c%26eid%3D{!BEvent.id}%26ic%3D1%27%2C%20%27height%3D450%2Cwidth%3D625%2Clocation%3Dno%2Cresizable%3Dyes%2Ctoolbar%3Dno%2Cstatus%3Dno%2Cmenubar%3Dno%2Cscrollbars%3D1%27%2C%201%29" onblur="self.status=' ';return true;" onfocus="self.status='/servlet/servlet.Integration?lid=00b70000001Kj4c&eid={!BEvent.id}&ic=1';return true;" onmouseout="self.status=' ';return true;" onmouseover="self.status='/servlet/servlet.Integration?lid=00b70000001Kj4c&eid={!BEvent.id}&ic=1';return true;" title="Day Session Leader Agenda (New Window)">Day Session Leader Agenda</a>&nbsp;&nbsp;
+
+<apex:pageBlockSectionItem id="AgendaPrintDate" >
+<apex:outputLabel value="Agenda Print Date"/>
+<apex:outputField value="{!BEvent.Agenda_Print_Date__c}"/>
+</apex:pageBlockSectionItem>
+
+<apex:pageBlockSectionItem />
+<apex:pageBlockSectionItem />
+<apex:pageBlockSectionItem />
+<apex:pageBlockSectionItem />
+
+<apex:pageBlockSectionItem id="AgendaStatus" >
+<apex:outputLabel value="Agenda Status"/>
+<apex:outputField value="{!BEvent.Agenda_Status__c}"/>
+</apex:pageBlockSectionItem>
+<apex:inlineEditSupport /> <!-- adding inline edit support to make agenda status and print date editable-->
+</apex:pageblockSection>
+</apex:toolbar>
+</apex:pageBlock>
+
+<apex:pageBlock id="theblockwithtable">
+<apex:outputpanel id="theoppannel">
+<!-- an html table is used, and the wrapper data iterated using the repeat tag-->  
+  <Table class="list" border="0" cellspacing="0" cellpadding="0" id="thetable">
+  <thead>
+  <tr>
+  <th> Action </th>
+  <th> Topic </th>
+  <th> Topic Override </th>
+  <th> Start Date </th>
+  <th> Start Time </th>
+  <th> End Time </th>
+  <th> Presenter 1 </th>
+  <th> Confirmed? </th>
+  <th> Presenter 2 </th>
+  <th> Confirmed? </th>
+  <th> Presenter 3 </th>
+  <th> Confirmed? </th>
+  <th> Presenter 4 </th>
+  <th> Confirmed? </th>
+  <th> Presenter 5 </th>
+  <th> Confirmed? </th> <!--END of all the headings of the table-->
+  </tr>
+  </thead>
+  <apex:variable var="trColor" value="{!1}"/>
+  <apex:repeat id="table_rerender" value="{!Sessionlisttodisplay}" var="BE"> <!-- the repeater-->
+  <tbody>
+  <apex:variable var="trColor" value="{!IF(trColor = 1, '2', '1')}"/>
+  <tr class="trColor{!trColor}"><td colspan="16"></td></tr>
+  <tr class="trColor{!trColor}">
+  <td valign="top" colspan="1"></td>
+  <td valign="top" colspan="15" class="sessionStatus">
+  <apex:variable value="{!IF(LEN(BE.ESession.Status__c)>1 ,'block','none')}" var="status"/>
+  <table cellspacing="0" cellpadding="0" border="0" class="presenterStatus" style="display:{!status}"><tr>
+    <td valign="middle"><img src="{!$Resource.InfoIco}"/></td>
+    <td style="vertical-align:middle !important;"><apex:outputText value="{!BE.ESession.Status__c}"/></td>
+  </tr></table>
+  </td>
+  </tr>
+  <tr class="trColor{!trColor}" align="center"> 
+  <td valing="top" rowspan="2">
+  <apex:commandLink value="delete" onclick="return confirm('Are you sure?');" action="{!doDelete}" immediate="true">
+  <apex:param value="{!BE.ESession.id}" name="deletedId"/>
+  </apex:commandLink>
+  </td>
+  <td valing="top">
+  <apex:inputField value="{!BE.ESession.Topic__c}" id="topicfield" required="true"/>
+  </td>
+  <td valing="top"> 
+  <apex:inputField value="{!BE.ESession.Topic_Override__c}"/>
+  </td>
+  <td valing="top"> 
+  <apex:inputField value="{!BE.ESession.Session_Start_Date__c}"/>
+  </td>
+  <td valing="top" style="white-space: nowrap">
+  
+  <!-- time picklist-->
+          <apex:actionRegion >
+          <apex:selectList id="StartHours" value="{!BE.StartHours}" size="1">
+          <apex:selectOptions value="{!HourOptions}" />
+          </apex:selectList>
+          
+          <apex:selectList id="StartMinutes" value="{!BE.StartMinutes}" size="1">
+          <apex:selectOptions value="{!MinuteOptions}"/>
+          </apex:selectList>
+          </apex:actionRegion>
+  </td>
+  <td valing="top" rowspan="2" style="white-space: nowrap">
+    <apex:actionRegion >
+          <apex:selectList id="EndHours" value="{!BE.EndHours}" size="1">
+          <apex:selectOptions value="{!HourOptions}" />
+          </apex:selectList>
+          
+          <apex:selectList id="EndMinutes" value="{!BE.EndMinutes}" size="1">
+          <apex:selectOptions value="{!MinuteOptions}" />
+          </apex:selectList>
+          </apex:actionRegion>
+  </td>
+  
+  <td valing="top" rowspan="2" style="white-space: nowrap">
+         
+         <!-- to capture the presenter information from the presenter lookup window. Note that the information uses js-->
+          <apex:inputHidden value="{!BE.Presenter1.Topic_Presenters__c}" id="topicpresenterid1"/>
+          <apex:inputHidden value="{!BE.Presenter1.Guest_Presenter__c}" id="isguestpresenter1"/>
+          <apex:inputHidden value="{!BE.Presenter1.Guest_Presenter_First_Name__c}" id="guestfirstname1"/>
+          <apex:inputHidden value="{!BE.Presenter1.Guest_Presenter_Last_Name__c}" id="guestlastname1"/>
+          <apex:inputHidden value="{!BE.Presenter1.Guest_Presenter_EBC_Title__c}" id="guesttitle1"/>
+          <apex:inputHidden value="{!BE.Presenter1.Guest_Presenter_Email__c}" id="guestemail1"/>
+          <apex:inputHidden value="{!BE.Presenter1.Guest_Company__c}" id="guestcompany1"/>
+   <table cellspacing="0" cellpadding="0" border="0">
+   <tr><td><apex:inputText id="Presenter1"  value="{!BE.Presenter1.Presenter_EBC_Name__c}" /></td>
+   <td><apex:commandButton onclick="javascript: var h =document.getElementById('{!$Component.theblockwithtable.table_rerender.topicfield}').value; var i =document.getElementById('{!$Component.Presenter1}').value;window.open('/apex/EBC_PresenterLookup?Topic='+h+'&EBCname='+i+'&componentid={!$Component.Presenter1}&topicpresenterid={!$Component.topicpresenterid1}&isguestpresenter={!$Component.isguestpresenter1}&guestfirstname={!$Component.guestfirstname1}&guestlastname={!$Component.guestlastname1}&guesttitle={!$Component.guesttitle1}&guestemail={!$Component.guestemail1}&guestcompany={!$Component.guestcompany1}&presenterid={!BE.Presenter1.id}','','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes, toolbar=no,location=no,status=yes');" image="{!URLFOR($Resource.lookupicon)}" reRender="actionregionp1"/></td></tr></table>
+  </td>
+  
+  <td valing="top" rowspan="2">
+          <apex:actionRegion id="actionregionp1" >
+          <apex:selectList id="confirmOptionsP1" value="{!BE.Presenter1.Is_the_Presenter_Confirmed__c}" size="1">
+          <apex:selectOptions value="{!confirmoptions}" />
+          </apex:selectList>
+          </apex:actionregion>
+
+  </td>
+    <td valing="top" rowspan="2" style="white-space: nowrap">
+        
+          <apex:inputHidden value="{!BE.Presenter2.Topic_Presenters__c}" id="topicpresenterid2"/>
+          <apex:inputHidden value="{!BE.Presenter2.Guest_Presenter__c}" id="isguestpresenter2"/>
+          <apex:inputHidden value="{!BE.Presenter2.Guest_Presenter_First_Name__c}" id="guestfirstname2"/>
+          <apex:inputHidden value="{!BE.Presenter2.Guest_Presenter_Last_Name__c}" id="guestlastname2"/>
+          <apex:inputHidden value="{!BE.Presenter2.Guest_Presenter_EBC_Title__c}" id="guesttitle2"/>
+          <apex:inputHidden value="{!BE.Presenter2.Guest_Presenter_Email__c}" id="guestemail2"/>
+          <apex:inputHidden value="{!BE.Presenter2.Guest_Company__c}" id="guestcompany2"/>
+       
+   <table cellspacing="0" cellpadding="0" border="0">
+   <tr><td><apex:inputText id="Presenter2"  value="{!BE.Presenter2.Presenter_EBC_Name__c}"/></td>
+   <td><apex:commandButton onclick="javascript: var h =document.getElementById('{!$Component.theblockwithtable.table_rerender.topicfield}').value; var i =document.getElementById('{!$Component.Presenter2}').value;window.open('/apex/EBC_PresenterLookup?Topic='+h+'&EBCname='+i+'&componentid={!$Component.Presenter2}&topicpresenterid={!$Component.topicpresenterid2}&isguestpresenter={!$Component.isguestpresenter2}&guestfirstname={!$Component.guestfirstname2}&guestlastname={!$Component.guestlastname2}&guesttitle={!$Component.guesttitle2}&guestemail={!$Component.guestemail2}&guestcompany={!$Component.guestcompany2}&presenterid={!BE.Presenter2.id}','','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes, toolbar=no,location=no,status=yes');" image="{!URLFOR($Resource.lookupicon)}" reRender="actionregionp2"/></td></tr></table>
+  </td>
+  <td valing="top" rowspan="2">
+          <apex:actionRegion id="actionregionp2">
+          <apex:selectList id="confirmOptionsP2" value="{!BE.Presenter2.Is_the_Presenter_Confirmed__c}" size="1">
+          <apex:selectOptions value="{!confirmoptions}" />
+          </apex:selectList>
+          </apex:actionregion>
+ 
+  </td>
+    <td valing="top" rowspan="2" style="white-space: nowrap">
+    <apex:actionRegion id="regionp3"  >
+          
+          <apex:inputHidden value="{!BE.Presenter3.Topic_Presenters__c}" id="topicpresenterid3"/>
+          <apex:inputHidden value="{!BE.Presenter3.Guest_Presenter__c}" id="isguestpresenter3"/>
+          <apex:inputHidden value="{!BE.Presenter3.Guest_Presenter_First_Name__c}" id="guestfirstname3"/>
+          <apex:inputHidden value="{!BE.Presenter3.Guest_Presenter_Last_Name__c}" id="guestlastname3"/>
+          <apex:inputHidden value="{!BE.Presenter3.Guest_Presenter_EBC_Title__c}" id="guesttitle3"/>
+          <apex:inputHidden value="{!BE.Presenter3.Guest_Presenter_Email__c}" id="guestemail3"/>
+          <apex:inputHidden value="{!BE.Presenter3.Guest_Company__c}" id="guestcompany3"/>
+          
+   <table cellspacing="0" cellpadding="0" border="0">
+   <tr><td><apex:inputText id="Presenter3"  value="{!BE.Presenter3.Presenter_EBC_Name__c}"/></td>
+   <td><apex:commandButton onclick="javascript: var h =document.getElementById('{!$Component.theblockwithtable.table_rerender.topicfield}').value; var i =document.getElementById('{!$Component.Presenter3}').value;window.open('/apex/EBC_PresenterLookup?Topic='+h+'&EBCname='+i+'&componentid={!$Component.Presenter3}&topicpresenterid={!$Component.topicpresenterid3}&isguestpresenter={!$Component.isguestpresenter3}&guestfirstname={!$Component.guestfirstname3}&guestlastname={!$Component.guestlastname3}&guesttitle={!$Component.guesttitle3}&guestemail={!$Component.guestemail3}&guestcompany={!$Component.guestcompany3}&presenterid={!BE.Presenter3.id}','','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes, toolbar=no,location=no,status=yes');" image="{!URLFOR($Resource.lookupicon)}" reRender="actionregionp3"/></td></tr></table>
+    </apex:actionregion>
+  </td>
+  <td valing="top" rowspan="2">
+          <apex:actionRegion id="actionregionp3">
+          <apex:selectList id="confirmOptionsP3" value="{!BE.Presenter3.Is_the_Presenter_Confirmed__c}" size="1">
+          <apex:selectOptions value="{!confirmoptions}" />
+          </apex:selectList>
+
+      </apex:actionregion>
+  </td>
+    <td valing="top" rowspan="2" style="white-space: nowrap">
+         
+          <apex:inputHidden value="{!BE.Presenter4.Topic_Presenters__c}" id="topicpresenterid4"/>
+          <apex:inputHidden value="{!BE.Presenter4.Guest_Presenter__c}" id="isguestpresenter4"/>
+          <apex:inputHidden value="{!BE.Presenter4.Guest_Presenter_First_Name__c}" id="guestfirstname4"/>
+          <apex:inputHidden value="{!BE.Presenter4.Guest_Presenter_Last_Name__c}" id="guestlastname4"/>
+          <apex:inputHidden value="{!BE.Presenter4.Guest_Presenter_EBC_Title__c}" id="guesttitle4"/>
+          <apex:inputHidden value="{!BE.Presenter4.Guest_Presenter_Email__c}" id="guestemail4"/>
+          <apex:inputHidden value="{!BE.Presenter4.Guest_Company__c}" id="guestcompany4"/>
+          
+   <table cellspacing="0" cellpadding="0" border="0">
+   <tr><td><apex:inputText id="Presenter4"  value="{!BE.Presenter4.Presenter_EBC_Name__c}"/></td>
+   <td rowspan="2"><apex:commandButton onclick="javascript: var h =document.getElementById('{!$Component.theblockwithtable.table_rerender.topicfield}').value; var i =document.getElementById('{!$Component.Presenter4}').value;window.open('/apex/EBC_PresenterLookup?Topic='+h+'&EBCname='+i+'&componentid={!$Component.Presenter4}&topicpresenterid={!$Component.topicpresenterid4}&isguestpresenter={!$Component.isguestpresenter4}&guestfirstname={!$Component.guestfirstname4}&guestlastname={!$Component.guestlastname4}&guesttitle={!$Component.guesttitle4}&guestemail={!$Component.guestemail4}&guestcompany={!$Component.guestcompany4}&presenterid={!BE.Presenter4.id}','','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes, toolbar=no,location=no,status=yes');" image="{!URLFOR($Resource.lookupicon)}" reRender="actionregionp4"/></td></tr></table>
+  </td>
+  <td valing="top" rowspan="2">
+          <apex:actionRegion id="actionregionp4" >
+          <apex:selectList id="confirmOptionsP4" value="{!BE.Presenter4.Is_the_Presenter_Confirmed__c}" size="1">
+          <apex:selectOptions value="{!confirmoptions}" />
+          </apex:selectList>
+          </apex:actionregion>
+
+  </td>
+    <td valing="top" rowspan="2" style="white-space: nowrap">
+          
+          <apex:inputHidden value="{!BE.Presenter5.Topic_Presenters__c}" id="topicpresenterid5"/>
+          <apex:inputHidden value="{!BE.Presenter5.Guest_Presenter__c}" id="isguestpresenter5"/>
+          <apex:inputHidden value="{!BE.Presenter5.Guest_Presenter_First_Name__c}" id="guestfirstname5"/>
+          <apex:inputHidden value="{!BE.Presenter5.Guest_Presenter_Last_Name__c}" id="guestlastname5"/>
+          <apex:inputHidden value="{!BE.Presenter5.Guest_Presenter_EBC_Title__c}" id="guesttitle5"/>
+          <apex:inputHidden value="{!BE.Presenter5.Guest_Presenter_Email__c}" id="guestemail5"/>
+          <apex:inputHidden value="{!BE.Presenter5.Guest_Company__c}" id="guestcompany5"/>
+          
+   <table cellspacing="0" cellpadding="0" border="0">
+   <tr><td><apex:inputText id="Presenter5"  value="{!BE.Presenter5.Presenter_EBC_Name__c}"/></td>
+   <td><apex:commandButton onclick="javascript: var h =document.getElementById('{!$Component.theblockwithtable.table_rerender.topicfield}').value; var i =document.getElementById('{!$Component.Presenter5}').value;window.open('/apex/EBC_PresenterLookup?Topic='+h+'&EBCname='+i+'&componentid={!$Component.Presenter5}&topicpresenterid={!$Component.topicpresenterid5}&isguestpresenter={!$Component.isguestpresenter5}&guestfirstname={!$Component.guestfirstname5}&guestlastname={!$Component.guestlastname5}&guesttitle={!$Component.guesttitle5}&guestemail={!$Component.guestemail5}&guestcompany={!$Component.guestcompany5}&presenterid={!BE.Presenter5.id}','','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes, toolbar=no,location=no,status=yes');" image="{!URLFOR($Resource.lookupicon)}" reRender="actionregionp5"/></td></tr></table>
+  </td>
+  <td valing="top" rowspan="2">
+          <apex:actionRegion id="actionregionp5">
+          <apex:selectList id="confirmOptionsP5" value="{!BE.Presenter5.Is_the_Presenter_Confirmed__c}" size="1">
+          <apex:selectOptions value="{!confirmoptions}" />
+          </apex:selectList>
+          </apex:actionregion>
+
+  </td>
+  </tr>
+  
+  <tr class="trColor{!trColor}">
+  <td valign="top" colspan="2">  Requestor Notes:&nbsp;
+  <apex:inputField value="{!BE.ESession.Requester_Notes__c}"/>
+  </td>
+  <td valign="top" colspan="2"> Advisor Notes:&nbsp;
+  <apex:inputField value="{!BE.ESession.Briefing_Advisor_Notes__c}"/>
+  </td>
+  </tr>
+  <tr class="trColor{!trColor}"><td colspan="16"></td></tr>
+  </tbody>
+  </apex:repeat> <!-- END OF THE REPEAT TAG-->
+ 
+ </Table><!-- END OF TABLE-->
+ 
+</apex:outputpanel>
+
+<!-- the below 3 lines are to give space between table and buttons-->
+<apex:pageBlockSection >
+<apex:pageBlockSectionItem />
+</apex:pageBlockSection>
+<!-- END-->
+
+<!-- buttons in the lower half of the page-->
+<apex:commandButton action="{!addasession}" value="Add a Session"/>
+<apex:commandButton action="{!savepage}" value="Save"/> 
+<apex:commandButton onclick="return confirm('Are you sure?');" action="{!cancel}" value="Cancel" immediate="true"/>
+<apex:commandButton onclick="openReport()" value="View Agenda" reRender="viewagendabtn" id="viewagendabtn"/> 
+<apex:commandButton action="{!$Page.EBC_CopyEvent}?id={!BEvent.id}" value="Copy Past Agenda"/>
+<!-- END of the buttons section-->
+
+</apex:pageBlock>
+</apex:form>
+</apex:page>

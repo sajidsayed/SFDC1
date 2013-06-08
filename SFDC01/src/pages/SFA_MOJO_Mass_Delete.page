@@ -1,0 +1,81 @@
+<!--/*===========================================================================+
+ |  HISTORY                                                                  
+ |                                                                           
+ |  DATE       DEVELOPER   WR/DEFECT    DESCRIPTION                               
+ |  ====       =========   =========    =========== 
+ | 21-SEP-12   Avinash K    MOJO        Initial Creation. Page displays the result messages after a Mass Delete is 
+                                        performed on Assets
+ |+========================================================================================================================*/-->
+<apex:page standardController="Asset__c" extensions="SFA_MOJO_MassDeleteAssetController" recordSetVar="selectedAssets" 
+sidebar="false" action="{!DeleteAssets}">
+
+    
+    <br/>
+
+    <apex:outputLink style="font-size:14px" value="{!$CurrentPage.parameters.retURL}">
+        Back to Assets List
+    </apex:outputLink>
+    
+    <br/><br/>
+
+    <!-- Page Block that shows the result of the Mass Delete Operation on selected Assets-->
+    <apex:pageBlock title="Asset Mass Delete Results">
+
+        <apex:outputtext rendered="{!lstDeletedAssetNames.size == 1}" style="font-weight:bold" 
+            value="Following ({!intSuccessCount}) Asset was Deleted successfully"/>
+        <apex:outputtext rendered="{!lstDeletedAssetNames.size > 1}" style="font-weight:bold" 
+            value="Following ({!intSuccessCount}) Assets were Deleted successfully"/>
+        
+        <br/>
+
+        <!-- Page Block Table that lists successfully deleted Assets with its Asset Name -->
+        <apex:pageBlockTable rendered="{!lstDeletedAssetNames.size > 0}" value="{!lstDeletedAssetCustomName}" var="asset">
+            <apex:column headerValue="Custom Asset Name" value="{!asset}"/> 
+        </apex:pageBlockTable>
+
+
+        <br/><br/>
+        <apex:pagemessages />
+
+        <br/>
+        <apex:outputtext rendered="{!lstErroneousAssets.size == 1}" style="font-weight:bold" 
+            value="Following ({!intFailureCountDeletionCriteria + intFailureCountDMLError}) Asset could not be Deleted"/>
+        <apex:outputtext rendered="{!lstErroneousAssets.size > 1}" style="font-weight:bold" 
+            value="Following ({!intFailureCountDeletionCriteria + intFailureCountDMLError}) Assets could not be Deleted"/>
+        <br/>
+        
+
+        <!-- Page Block Table that lists Assets which could not be deleted due to some error with its Asset Name, Disposition Status
+        and Related Opportunity -->
+        <apex:pageBlockTable rendered="{!lstErroneousAssets.size > 0}" value="{!lstErroneousAssets}" var="errorasset">
+
+            <apex:column headerValue="Custom Asset Name">
+                <apex:outputLink value="/{!errorasset.id}"> 
+                    {!errorasset.Custom_Asset_Name__c}
+                </apex:outputLink>
+            </apex:column> 
+            
+            <apex:column headerValue="Asset Name">
+                <apex:outputLink value="/{!errorasset.id}"> 
+                    {!errorasset.name}
+                </apex:outputLink>
+            </apex:column> 
+
+            <apex:column headerValue="Asset Disposition Status" value="{!errorasset.Disposition_Status__c}" />
+
+            <!-- <apex:column headerValue="Related Opportunity">
+                <apex:outputLink value="/{!errorasset.Related_Opportunity__c}"> 
+                    {!errorasset.Related_Opportunity__r.Name}
+                </apex:outputLink>
+            </apex:column> -->
+
+        </apex:pageBlockTable> 
+
+    </apex:pageBlock> 
+
+    <br/>
+    <apex:outputLink style="font-size:14px" value="{!$CurrentPage.parameters.retURL}">
+        Back to Assets List
+    </apex:outputLink>
+
+</apex:page>

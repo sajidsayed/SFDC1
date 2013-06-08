@@ -1,0 +1,109 @@
+<apex:page standardController="EBC_Briefing_Event__c">
+<apex:form >
+  <table cellspacing="4" align="center" style="font-weight:bold; text-align:center">
+  
+      <tr>
+          <td></td>
+          <td>Rep Requested</td>
+          <td>Advisor Suggested</td>
+          <td>Not Relevant</td><td>Timing</td>
+      </tr>
+      
+      <tr>
+          <td>
+              VCE
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.VCE_Rep_Requested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.VCE_Advisor_Suggested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.VCE_Not_Relevant__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.VCE_Timing__c}"/>
+          </td>
+      </tr>
+      
+      
+      <tr>
+          <td>
+              SAP
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.SAP_Rep_Requested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.SAP_Advisor_Suggested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.SAP_Not_Relevant__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.SAP_Timing__c}"/>
+          </td>
+      </tr>
+      
+      
+      <tr>
+          <td>
+              SRM
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.SRM_Rep_Requested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.SRM_Advisor_Suggested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.SRM_Not_Relevant__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.SRM_Timing__c}"/>
+          </td>
+      </tr>
+      
+      
+      <tr>
+          <td>
+              Flash-Fast
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.Flash_Fast_Rep_Requested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.Flash_Fast_Advisor_Suggested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.Flash_Fast_Not_Relevant__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.Flash_Fast_Timing__c}"/>
+          </td>    
+      </tr>
+          <td>
+              Other
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.Other_Rep_Requested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.Other_Advisor_Suggested__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.Other_Not_Relevant__c}"/>
+          </td>
+          <td>
+              <apex:inputField value="{!EBC_Briefing_Event__c.Other_Timing__c}"/>
+          </td> 
+      <tr>
+          
+      </tr>
+  </table>
+  <center>
+  <apex:commandButton action="{!save}" value="Save Priorities"/>
+  </center>
+  </apex:form>
+</apex:page>

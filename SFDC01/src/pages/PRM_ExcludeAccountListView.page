@@ -1,0 +1,58 @@
+<apex:page showHeader="true" controller="PRM_ExcludeAccountFromGrouping" tabStyle="Account">
+    <apex:form >
+        <apex:pageBlock title="{!$Label.Exclude_Title}" id="pblock_id">
+        <apex:pageMessages />
+     <apex:commandLink Action="{!selectAll}" value="{!$Label.Select_All}"/>&nbsp;&nbsp;
+     <apex:commandLink Action="{!deSelectAll}" value="{!$Label.Deselect_All}"/>
+        <apex:pageblockTable value="{!AccountDetails}" var="acc" border="0" id="pbtable">
+         
+        <apex:column headerValue="{!$Label.Select}">
+            <apex:inputCheckbox value="{!acc.checked}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Account_Name1}">
+                <apex:outputText value="{!acc.accountRec.Name}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.BillingCity}">
+            <apex:outputField value="{!acc.accountRec.BillingCity}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.BillingState}">
+            <apex:outputField value="{!acc.accountRec.BillingState}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Billing_Country}">
+            <apex:outputField value="{!acc.accountRec.BillingCountry}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.IsProfiled_Account}">
+            <apex:outputField value="{!acc.accountRec.PROFILED_ACCOUNT_FLAG__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Global_DUNS_Entity}">
+            <apex:outputField value="{!acc.accountRec.Global_DUNS_Entity__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Site_DUNS_Entity}">
+                <apex:outputText value="{!acc.accountRec.Site_DUNS_Entity__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Grouping_Name}">
+            <apex:outputText value="{!acc.accountRec.Grouping__r.name}"/>
+        </apex:column>
+        <apex:column headerValue="{!$Label.Master_Grouping}">
+            <apex:outputText value="{!acc.accountRec.Master_Grouping__r.name}"/>
+        </apex:column>
+        </apex:pageblockTable>
+
+        <!-- Paging -->
+       <apex:outputPanel id="pagingPanel" rendered="{!(NOT(AccountDetails.size == 0))}">
+           <c:paginator reRenderComponent="pblock_id" statusComponent="sortStatus" pageManager="{!objPageManager}" id="bottom_paginator1"/>                                                 
+       </apex:outputPanel>
+       <apex:outputPanel id="OP_Panel" > 
+	       <apex:actionStatus id="sortStatus" startText="Loading........">
+    	   </apex:actionStatus>
+        </apex:outputPanel>        
+               
+        <apex:pageBlockButtons >
+          <center>
+             <apex:commandButton value="{!$Label.Exclude}" action="{!exclude}"/>
+             <apex:commandButton value="{!$Label.EMC_Cancel}" action="{!cancel}"/>
+          </center>
+        </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
