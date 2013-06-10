@@ -21,6 +21,7 @@
     	configFromEnv.app_url = "<%= app_url %>";
         configFromEnv.sessionId = "{!$API.session_Id}";
 	</script>
+	
         
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -28,8 +29,9 @@
 
     <script src="{!URLFOR($Resource.MobileSample_Resources_Angular, 'resources/js/forcetk.js')}"></script>
     <script src="{!URLFOR($Resource.MobileSample_Resources_Angular, 'resources/js/angular-force.js')}"></script>
-    <script src="{!URLFOR($Resource.MobileSample_Resources_Angular, 'init.js')}"></script>
-    <script src="{!URLFOR($Resource.MobileSample_Resources_Angular, 'app.js')}"></script>
+    <script src="http://localhost:3000/init.js"></script>
+	<script src="http://localhost:3000/app.js"></script>
+
     
 
 </head>

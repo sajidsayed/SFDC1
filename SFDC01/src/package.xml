@@ -15,8 +15,11 @@
         <members>MobileSample_AngularDetail</members>
         <members>MobileSample_AngularEdit</members>
         <members>MobileSample_AngularHome</members>
+        <members>MobileSample_AngularHome1</members>
         <members>MobileSample_AngularIndex</members>
+        <members>MobileSample_AngularIndex1</members>
         <members>MobileSample_AngularList</members>
+        <members>MobileSample_AngularList1</members>
         <members>MobileSample_AngularLogin</members>
         <members>MobileSample_AngularView</members>
         <members>MobileSample_jQueryMobile</members>
