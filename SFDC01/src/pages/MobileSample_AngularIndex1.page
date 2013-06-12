@@ -28,7 +28,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js"></script>
 
     <script src="{!URLFOR($Resource.MobileSample_Resources_Angular, 'resources/js/forcetk.js')}"></script>
-    <script src="{!URLFOR($Resource.MobileSample_Resources_Angular, 'resources/js/angular-force.js')}"></script>
+    <script src="http://localhost:3000/angular-force.js"></script>
     <script src="http://localhost:3000/init.js"></script>
 	<script src="http://localhost:3000/app.js"></script>
 

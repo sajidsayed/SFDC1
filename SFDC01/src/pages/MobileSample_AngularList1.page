@@ -8,9 +8,9 @@
     <div class="hidden-phone">
         <div style="float: left">
             <div style="margin-bottom: 10px;">
-                <input type="text" ng-model="searchTerm" class="search-query" placeholder="Search1" />
+                <input type="text" ng-model="searchTerm" class="search-query" placeholder="Search" />
 
-                <p class="btn btn-primary" ng-click="doSearchAccount(searchString)">Go</p>
+                <p class="btn btn-primary" ng-click="doSearch(searchString)">Go</p>
             </div>
         </div>
 
@@ -27,18 +27,18 @@
                 <th>NameLocal</th>
                 <th class='hidden-phone'>BillingAddress</th>
                 <th>Phone</th>
-                <th class='hidden-phone'>RecordType</th>
+                <th class='hidden-phone'>Party Number</th>
             </tr>
             </thead>
             <tbody>
 
             <tr ng-repeat="account in accounts">
                 <td class='hidden-phone'>{{account.Id}}</td>
-                <td><a href="#/view/{{account.Id}}">{{account.Name}}</a></td>
+                <td><a href="#/viewaccountdetail/{{account.Id}}">{{account.Name}}</a></td>
                 <td>{{Account.NameLocal}}</td>
-                <td class='hidden-phone'>{{account.BillingAddress}}</td>
+                <td class='hidden-phone'>{{account.Address__c}}</td>
                 <td>{{account.Phone}}</td>
-                <td class='hidden-phone'>{{account.RecordType}}</td>
+                <td class='hidden-phone'>{{account.Party_Number__c}}</td>
             </tr>
             </tbody>
         </table>
