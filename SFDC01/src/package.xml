@@ -22,6 +22,7 @@
         <members>MobileSample_AngularList1</members>
         <members>MobileSample_AngularLogin</members>
         <members>MobileSample_AngularView</members>
+        <members>MobileSample_AngularView1</members>
         <members>MobileSample_jQueryMobile</members>
         <name>ApexPage</name>
     </types>

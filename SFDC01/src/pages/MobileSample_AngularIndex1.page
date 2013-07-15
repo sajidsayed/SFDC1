@@ -30,7 +30,8 @@
     <script src="{!URLFOR($Resource.MobileSample_Resources_Angular, 'resources/js/forcetk.js')}"></script>
     <script src="http://localhost:3000/angular-force.js"></script>
     <script src="http://localhost:3000/init.js"></script>
-	<script src="http://localhost:3000/app.js"></script>
+    <script src="http://localhost:3000/app.js"></script>
+	<script src="http://localhost:3000/AccountControler.js"></script>
 
     
 
@@ -39,7 +40,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="#">Salesforce Contacts Sajid</a>
+            <a class="brand" href="#">EMC</a>
         </div>
     </div>
 </div>

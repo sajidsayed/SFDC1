@@ -12,8 +12,6 @@
             text-align: center;
         }
     </style>
-
-
 	<script type="text/javascript">
     	//Get configuration from environment variables (via heroku or localhost env)
     	var configFromEnv = {};
